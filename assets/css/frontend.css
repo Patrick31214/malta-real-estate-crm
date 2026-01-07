@@ -1,0 +1,290 @@
+/**
+ * Frontend Styles for Malta Real Estate CRM
+ */
+
+/* Property Listing */
+.malta-re-property-listing {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px 0;
+}
+
+.malta-re-property-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.malta-re-property-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.malta-re-property-card .property-image {
+    height: 200px;
+    background: #f5f5f5;
+    position: relative;
+}
+
+.malta-re-property-card .featured-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ff9800;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.malta-re-property-card .property-content {
+    padding: 20px;
+}
+
+.malta-re-property-card .property-title {
+    margin: 0 0 10px 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+.malta-re-property-card .property-price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2271b1;
+    margin: 0 0 10px 0;
+}
+
+.malta-re-property-card .property-location {
+    color: #666;
+    margin: 0 0 15px 0;
+}
+
+.malta-re-property-card .property-details {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+    padding: 15px 0;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.malta-re-property-card .property-details span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #666;
+}
+
+.malta-re-property-card .property-type {
+    display: inline-block;
+    background: #f0f0f0;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    color: #666;
+    margin-top: 10px;
+}
+
+/* Property Search */
+.malta-re-property-search {
+    background: #f8f9fa;
+    padding: 40px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.malta-re-property-search .search-title {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.malta-re-property-search .property-search-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.malta-re-property-search .search-field {
+    width: 100%;
+}
+
+.malta-re-property-search input,
+.malta-re-property-search select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.malta-re-property-search .search-button {
+    background: #2271b1;
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+.malta-re-property-search .search-button:hover {
+    background: #135e96;
+}
+
+/* Contact Form */
+.malta-re-contact-form {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.malta-re-contact-form .form-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.malta-re-contact-form .form-field {
+    margin-bottom: 20px;
+}
+
+.malta-re-contact-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #333;
+}
+
+.malta-re-contact-form input,
+.malta-re-contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.malta-re-contact-form .submit-button {
+    width: 100%;
+    background: #2271b1;
+    color: #fff;
+    border: none;
+    padding: 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+.malta-re-contact-form .submit-button:hover {
+    background: #135e96;
+}
+
+/* Agent Profile */
+.malta-re-agent-profile {
+    display: flex;
+    gap: 30px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.malta-re-agent-profile .agent-photo {
+    flex-shrink: 0;
+}
+
+.malta-re-agent-profile .agent-photo img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.malta-re-agent-profile .agent-info {
+    flex-grow: 1;
+}
+
+.malta-re-agent-profile .agent-name {
+    margin: 0 0 5px 0;
+    font-size: 28px;
+}
+
+.malta-re-agent-profile .agent-specialization {
+    color: #666;
+    margin: 0 0 20px 0;
+}
+
+.malta-re-agent-profile .agent-bio {
+    margin: 20px 0;
+    line-height: 1.6;
+}
+
+.malta-re-agent-profile .agent-contact {
+    margin: 20px 0;
+}
+
+.malta-re-agent-profile .agent-contact p {
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.malta-re-agent-profile .agent-stats {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.malta-re-agent-profile .stat {
+    text-align: center;
+}
+
+.malta-re-agent-profile .stat-value {
+    display: block;
+    font-size: 32px;
+    font-weight: 700;
+    color: #2271b1;
+}
+
+.malta-re-agent-profile .stat-label {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .malta-re-property-listing {
+        grid-template-columns: 1fr;
+    }
+    
+    .malta-re-property-search .property-search-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .malta-re-agent-profile {
+        flex-direction: column;
+    }
+    
+    .malta-re-agent-profile .agent-photo img {
+        width: 150px;
+        height: 150px;
+    }
+}

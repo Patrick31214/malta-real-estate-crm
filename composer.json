@@ -1,0 +1,20 @@
+{
+  "name": "malta-real-estate/crm",
+  "description": "A secure, scalable private CRM system for real estate agents and property owners in Malta, integrated with WordPress Elementor Pro",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Malta Real Estate",
+      "email": "info@maltarealestate.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "MaltaRealEstate\\CRM\\": "includes/"
+    }
+  }
+}

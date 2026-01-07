@@ -1,0 +1,19 @@
+{
+  "name": "malta-real-estate-crm",
+  "version": "1.0.0",
+  "description": "A secure, scalable private CRM system for real estate agents and property owners in Malta",
+  "main": "assets/js/admin.js",
+  "scripts": {
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "keywords": [
+    "wordpress",
+    "crm",
+    "real-estate",
+    "malta",
+    "elementor"
+  ],
+  "author": "Malta Real Estate",
+  "license": "GPL-2.0-or-later",
+  "devDependencies": {}
+}

@@ -1,0 +1,102 @@
+/**
+ * Admin Styles for Malta Real Estate CRM
+ */
+
+.malta-re-crm-admin {
+    padding: 20px;
+}
+
+/* Dashboard Stats */
+.malta-re-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.malta-re-stats .stat-box {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.malta-re-stats .stat-box h3 {
+    font-size: 36px;
+    margin: 0 0 10px 0;
+    color: #2271b1;
+}
+
+.malta-re-stats .stat-box p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+}
+
+/* Quick Actions */
+.malta-re-quick-actions {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.malta-re-quick-actions h2 {
+    margin-top: 0;
+}
+
+.malta-re-quick-actions .action-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* Tables */
+.malta-re-crm-admin table.wp-list-table {
+    margin-top: 20px;
+}
+
+.malta-re-crm-admin table.wp-list-table th {
+    font-weight: 600;
+}
+
+.malta-re-crm-admin table.wp-list-table td {
+    vertical-align: middle;
+}
+
+.malta-re-crm-admin .button-small {
+    padding: 4px 8px;
+    font-size: 12px;
+    height: auto;
+    line-height: 1.5;
+}
+
+/* Forms */
+.malta-re-crm-admin .form-table th {
+    padding: 20px 10px 20px 0;
+}
+
+.malta-re-crm-admin .form-table td {
+    padding: 15px 10px;
+}
+
+.malta-re-crm-admin .form-table input[type="text"],
+.malta-re-crm-admin .form-table input[type="number"],
+.malta-re-crm-admin .form-table select {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Responsive */
+@media screen and (max-width: 782px) {
+    .malta-re-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .malta-re-quick-actions .action-buttons {
+        flex-direction: column;
+    }
+}
