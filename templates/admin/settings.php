@@ -26,8 +26,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                 <td>
                     <select id="malta_re_crm_currency" name="malta_re_crm_currency">
                         <option value="EUR" <?php selected( get_option( 'malta_re_crm_currency', 'EUR' ), 'EUR' ); ?>>EUR (€)</option>
-                        <option value="USD" <?php selected( get_option( 'malta_re_crm_currency' ), 'USD' ); ?>>USD ($)</option>
-                        <option value="GBP" <?php selected( get_option( 'malta_re_crm_currency' ), 'GBP' ); ?>>GBP (£)</option>
+                        <option value="USD" <?php selected( get_option( 'malta_re_crm_currency', 'EUR' ), 'USD' ); ?>>USD ($)</option>
+                        <option value="GBP" <?php selected( get_option( 'malta_re_crm_currency', 'EUR' ), 'GBP' ); ?>>GBP (£)</option>
                     </select>
                 </td>
             </tr>
