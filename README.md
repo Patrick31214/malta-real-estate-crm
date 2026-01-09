@@ -7,6 +7,9 @@ A secure, scalable private CRM system for real estate agents and property owners
 - **JWT-based Authentication**: Secure authentication system with access and refresh tokens
 - **User Management**: Role-based access control (Admin, Agent, User)
 - **PostgreSQL Database**: Robust data persistence with Sequelize ORM
+- **Complete CRM Schema**: Properties, Owners, Agents, Inquiries, Updates, Contact Logs
+- **Database Migrations**: Version-controlled schema with Sequelize migrations
+- **Test Data Seeders**: Pre-populated sample data for development
 - **RESTful API**: Clean and organized API endpoints
 - **MVC Architecture**: Well-structured codebase following best practices
 
@@ -61,7 +64,7 @@ Before running this application, ensure you have:
    CLIENT_URL=http://localhost:3000
    ```
 
-4. **Create PostgreSQL database**
+4. **Create PostgreSQL database and run migrations**
    ```bash
    # Login to PostgreSQL
    psql -U postgres
@@ -72,6 +75,20 @@ Before running this application, ensure you have:
    # Exit
    \q
    ```
+
+5. **Run database migrations**
+   ```bash
+   npm run db:migrate
+   ```
+   
+   This will create all necessary tables with proper relationships and indexes.
+
+6. **Seed the database with test data (optional)**
+   ```bash
+   npm run db:seed
+   ```
+   
+   This populates the database with sample data for development. Default password for all test users is `Password123!`
 
 ## Running the Application
 
@@ -88,6 +105,13 @@ npm start
 The server will start on `http://localhost:5000` (or the port specified in your `.env` file).
 
 ## API Endpoints
+
+### Database Management
+
+- **Migrate Database** - `npm run db:migrate` - Run all pending migrations
+- **Seed Database** - `npm run db:seed` - Populate with test data
+- **Reset Database** - `npm run db:reset` - Reset and reseed entire database
+- See [DATABASE.md](DATABASE.md) for complete database documentation
 
 ### Health Check
 - **GET** `/health` - Check server status
@@ -184,21 +208,33 @@ The server will start on `http://localhost:5000` (or the port specified in your 
 malta-real-estate-crm/
 ├── src/
 │   ├── config/
-│   │   └── database.js          # Database configuration
+│   │   ├── database.js          # Database configuration (Sequelize)
+│   │   └── config.js             # Environment-based config for CLI
 │   ├── controllers/
 │   │   └── authController.js    # Authentication logic
 │   ├── middleware/
 │   │   └── auth.js               # Authentication & authorization middleware
 │   ├── models/
-│   │   └── User.js               # User model
+│   │   ├── index.js              # Models index with relationships
+│   │   ├── User.js               # User model
+│   │   ├── Owner.js              # Property owner model
+│   │   ├── Agent.js              # Real estate agent model
+│   │   ├── Property.js           # Property listing model
+│   │   ├── Inquiry.js            # Customer inquiry model
+│   │   ├── PropertyUpdateQueue.js # Property update queue model
+│   │   └── AutomatedContactLog.js # Contact log model
+│   ├── migrations/               # Database migration files
+│   ├── seeders/                  # Database seeder files
 │   ├── routes/
 │   │   └── auth.js               # Authentication routes
 │   ├── utils/
 │   │   └── jwt.js                # JWT utility functions
 │   └── server.js                 # Application entry point
 ├── .env.example                  # Environment variables template
+├── .sequelizerc                  # Sequelize CLI configuration
 ├── .gitignore                    # Git ignore file
 ├── package.json                  # Project dependencies
+├── DATABASE.md                   # Database schema documentation
 └── README.md                     # Project documentation
 ```
 
@@ -236,7 +272,46 @@ malta-real-estate-crm/
 
 1. Create model file in `src/models/`
 2. Define schema using Sequelize
-3. Import in controllers as needed
+3. Add relationships in `src/models/index.js`
+4. Create corresponding migration file
+5. Run migration: `npm run db:migrate`
+
+## Database Schema
+
+The application includes a comprehensive database schema for managing real estate operations:
+
+- **Properties**: Property listings with full details (type, location, price, features, etc.)
+- **Owners**: Property owners and landlords
+- **Agents**: Real estate agents with profiles and specializations
+- **Inquiries**: Customer inquiries and viewing requests
+- **Property Updates Queue**: Scheduled property updates and changes
+- **Automated Contact Logs**: Email, SMS, and notification tracking
+
+For complete database documentation, see [DATABASE.md](DATABASE.md).
+
+### Database Commands
+
+```bash
+# Run migrations
+npm run db:migrate
+
+# Rollback last migration
+npm run db:migrate:undo
+
+# Seed database with test data
+npm run db:seed
+
+# Reset entire database
+npm run db:reset
+```
+
+### Test Data
+
+After running seeders, you can login with:
+- **Email**: admin@maltarealestate.com
+- **Password**: Password123!
+
+See DATABASE.md for all test accounts.
 
 ## License
 
