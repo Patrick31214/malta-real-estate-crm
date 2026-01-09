@@ -313,6 +313,84 @@ malta-real-estate-crm/
 
 ## Development
 
+### API Testing Examples
+
+Here are some examples of how to test the authentication API using cURL:
+
+#### Register a new user
+```bash
+curl -X POST http://localhost:5000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "SecurePass123",
+    "firstName": "John",
+    "lastName": "Doe",
+    "role": "owner"
+  }'
+```
+
+#### Login
+```bash
+curl -X POST http://localhost:5000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "SecurePass123"
+  }'
+```
+
+#### Request password reset
+```bash
+curl -X POST http://localhost:5000/api/auth/forgot-password \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com"
+  }'
+```
+
+#### Reset password
+```bash
+curl -X POST http://localhost:5000/api/auth/reset-password \
+  -H "Content-Type: application/json" \
+  -d '{
+    "token": "YOUR_RESET_TOKEN",
+    "newPassword": "NewSecurePass456"
+  }'
+```
+
+#### Verify email
+```bash
+curl -X POST http://localhost:5000/api/auth/verify \
+  -H "Content-Type: application/json" \
+  -d '{
+    "token": "YOUR_VERIFICATION_TOKEN"
+  }'
+```
+
+#### Access protected route
+```bash
+curl -X GET http://localhost:5000/api/protected-route \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+```
+
+### Running Tests
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+```
+
+The test suite includes:
+- 37 comprehensive unit tests
+- Authentication endpoint tests
+- RBAC middleware tests
+- Permission mapping tests
+- SQLite in-memory database for fast test execution
+
 ### Using RBAC Middleware
 
 The authentication system provides two types of authorization middleware:
