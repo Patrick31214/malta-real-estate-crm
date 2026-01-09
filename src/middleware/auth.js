@@ -1,6 +1,35 @@
 const { verifyAccessToken } = require('../utils/jwt');
 const User = require('../models/User');
 
+// Define role-based permissions
+const ROLE_PERMISSIONS = {
+  admin: [
+    'users:read', 'users:write', 'users:delete',
+    'properties:read', 'properties:write', 'properties:delete',
+    'agents:read', 'agents:write', 'agents:delete',
+    'system:configure'
+  ],
+  agent: [
+    'properties:read', 'properties:write',
+    'clients:read', 'clients:write',
+    'leads:read', 'leads:write'
+  ],
+  owner: [
+    'properties:read',
+    'profile:read', 'profile:write'
+  ],
+  system: [
+    'system:read', 'system:write', 'system:execute'
+  ]
+};
+
+/**
+ * Get permissions for a given role
+ */
+const getPermissionsForRole = (role) => {
+  return ROLE_PERMISSIONS[role] || [];
+};
+
 /**
  * Middleware to authenticate requests using JWT
  */
@@ -42,7 +71,8 @@ const authenticate = async (req, res, next) => {
     req.user = {
       userId: user.id,
       email: user.email,
-      role: user.role
+      role: user.role,
+      permissions: getPermissionsForRole(user.role)
     };
 
     next();
@@ -78,4 +108,32 @@ const authorize = (...roles) => {
   };
 };
 
-module.exports = { authenticate, authorize };
+/**
+ * Middleware to check if user has required permissions
+ */
+const checkPermission = (...permissions) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication required.'
+      });
+    }
+
+    const userPermissions = req.user.permissions || [];
+    const hasPermission = permissions.every(permission => 
+      userPermissions.includes(permission)
+    );
+
+    if (!hasPermission) {
+      return res.status(403).json({
+        success: false,
+        message: 'Insufficient permissions to access this resource.'
+      });
+    }
+
+    next();
+  };
+};
+
+module.exports = { authenticate, authorize, checkPermission, getPermissionsForRole };
