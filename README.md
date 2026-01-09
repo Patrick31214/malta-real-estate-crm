@@ -5,7 +5,10 @@ A secure, scalable private CRM system for real estate agents and property owners
 ## Features
 
 - **JWT-based Authentication**: Secure authentication system with access and refresh tokens
-- **User Management**: Role-based access control (Admin, Agent, User)
+- **Role-Based Access Control (RBAC)**: Fine-grained permissions for Admin, Agent, Owner, and System roles
+- **Email Verification**: Secure email verification flow with short-lived tokens
+- **Password Recovery**: Forgot password and reset password functionality
+- **User Management**: Complete user lifecycle management
 - **PostgreSQL Database**: Robust data persistence with Sequelize ORM
 - **RESTful API**: Clean and organized API endpoints
 - **MVC Architecture**: Well-structured codebase following best practices
@@ -178,6 +181,57 @@ The server will start on `http://localhost:5000` (or the port specified in your 
   }
   ```
 
+#### Forgot Password
+- **POST** `/api/auth/forgot-password`
+- **Body**:
+  ```json
+  {
+    "email": "user@example.com"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "success": true,
+    "message": "If the email exists, a password reset link has been sent."
+  }
+  ```
+- **Note**: In production, the reset token should be sent via email. For development, it's included in the response.
+
+#### Reset Password
+- **POST** `/api/auth/reset-password`
+- **Body**:
+  ```json
+  {
+    "token": "reset_token_from_email",
+    "newPassword": "newSecurePassword123"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "success": true,
+    "message": "Password reset successfully."
+  }
+  ```
+
+#### Verify Email
+- **POST** `/api/auth/verify`
+- **Body**:
+  ```json
+  {
+    "token": "verification_token_from_email"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "success": true,
+    "message": "Email verified successfully."
+  }
+  ```
+- **Note**: In production, the verification token should be sent via email. For development, it's included in the registration response.
+
 ## Project Structure
 
 ```
@@ -204,27 +258,88 @@ malta-real-estate-crm/
 
 ## Authentication Flow
 
-1. **Register/Login**: User provides credentials and receives access token (short-lived) and refresh token (long-lived)
+### Registration and Email Verification Flow
+1. **Register**: User provides credentials and receives access token, refresh token, and email verification token
+2. **Email Verification**: User clicks verification link (or uses token) to verify email address
+3. **Access Protected Routes**: Include access token in Authorization header: `Bearer <access_token>`
+
+### Login Flow
+1. **Login**: User provides credentials and receives access token (short-lived, 15 min) and refresh token (long-lived, 7 days)
 2. **Access Protected Routes**: Include access token in Authorization header: `Bearer <access_token>`
 3. **Token Refresh**: When access token expires, use refresh token to get new tokens
 4. **Logout**: Invalidate refresh token on server
 
+### Password Recovery Flow
+1. **Forgot Password**: User provides email and receives password reset token (1 hour expiration)
+2. **Reset Password**: User provides reset token and new password
+3. **Login**: User can now login with new password
+
 ## Security Features
 
 - **Password Hashing**: Using bcryptjs with salt rounds
-- **JWT Tokens**: Separate access and refresh tokens
+- **JWT Tokens**: Separate access and refresh tokens with different expiration times
+- **Short-lived Special Tokens**: 
+  - Email verification tokens (24 hours)
+  - Password reset tokens (1 hour)
 - **Token Validation**: Middleware to protect routes
-- **Role-Based Access**: Authorization middleware for different user roles
+- **Role-Based Access Control (RBAC)**: Authorization middleware for different user roles
+- **Permission-Based Access**: Fine-grained permission checks for specific actions
 - **Input Validation**: Request validation for all endpoints
 - **Secure Headers**: CORS and security best practices
+- **Email Verification**: Ensures users own their email addresses
+- **Password Reset Security**: Time-limited tokens prevent unauthorized access
 
-## User Roles
+## User Roles and Permissions
 
-- **admin**: Full system access
-- **agent**: Real estate agent access
-- **user**: Basic user access (property owners, clients)
+### Admin
+- Full system access
+- Permissions: `users:*`, `properties:*`, `agents:*`, `system:configure`
+- Can manage all users, properties, and system configuration
+
+### Agent
+- Real estate agent access
+- Permissions: `properties:read/write`, `clients:read/write`, `leads:read/write`
+- Can manage properties, clients, and leads
+
+### Owner
+- Property owner/client access
+- Permissions: `properties:read`, `profile:read/write`
+- Can view properties and manage own profile
+
+### System
+- System/service account access
+- Permissions: `system:read/write/execute`
+- For automated processes and integrations
 
 ## Development
+
+### Using RBAC Middleware
+
+The authentication system provides two types of authorization middleware:
+
+#### Role-Based Authorization
+Restrict access to specific roles:
+```javascript
+const { authenticate, authorize } = require('./middleware/auth');
+
+// Only admins can access
+router.get('/admin/users', authenticate, authorize('admin'), controller);
+
+// Admins and agents can access
+router.get('/properties', authenticate, authorize('admin', 'agent'), controller);
+```
+
+#### Permission-Based Authorization
+Restrict access to specific permissions:
+```javascript
+const { authenticate, checkPermission } = require('./middleware/auth');
+
+// Require specific permission
+router.post('/properties', authenticate, checkPermission('properties:write'), controller);
+
+// Require multiple permissions
+router.delete('/users/:id', authenticate, checkPermission('users:delete', 'users:write'), controller);
+```
 
 ### Adding New Routes
 
