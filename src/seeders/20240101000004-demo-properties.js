@@ -364,7 +364,7 @@ module.exports = {
         latitude: 35.8889,
         longitude: 14.5225,
         features: ['historic', 'potential', 'UCA'],
-        images: [],
+        images: ['https://via.placeholder.com/800x611'],
         video_url: null,
         virtual_tour_url: null,
         energy_rating: 'exempt',
