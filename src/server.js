@@ -5,6 +5,10 @@ require('dotenv').config();
 
 const { connectDB } = require('./config/database');
 const authRoutes = require('./routes/auth');
+const propertyRoutes = require('./routes/properties');
+const ownerRoutes = require('./routes/owners');
+const agentRoutes = require('./routes/agents');
+const inquiryRoutes = require('./routes/inquiries');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,6 +24,10 @@ app.use(cookieParser());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/properties', propertyRoutes);
+app.use('/api/owners', ownerRoutes);
+app.use('/api/agents', agentRoutes);
+app.use('/api/inquiries', inquiryRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
