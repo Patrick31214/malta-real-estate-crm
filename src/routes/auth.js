@@ -4,7 +4,10 @@ const {
   register,
   login,
   refresh,
-  logout
+  logout,
+  forgotPassword,
+  resetPassword,
+  verifyEmail
 } = require('../controllers/authController');
 const { authenticate } = require('../middleware/auth');
 
@@ -35,5 +38,26 @@ router.post('/refresh', refresh);
  * @access  Public
  */
 router.post('/logout', logout);
+
+/**
+ * @route   POST /api/auth/forgot-password
+ * @desc    Request password reset
+ * @access  Public
+ */
+router.post('/forgot-password', forgotPassword);
+
+/**
+ * @route   POST /api/auth/reset-password
+ * @desc    Reset password with token
+ * @access  Public
+ */
+router.post('/reset-password', resetPassword);
+
+/**
+ * @route   POST /api/auth/verify
+ * @desc    Verify email address
+ * @access  Public
+ */
+router.post('/verify', verifyEmail);
 
 module.exports = router;

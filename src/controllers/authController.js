@@ -2,7 +2,11 @@ const User = require('../models/User');
 const {
   generateAccessToken,
   generateRefreshToken,
-  verifyRefreshToken
+  verifyRefreshToken,
+  generateEmailVerificationToken,
+  generatePasswordResetToken,
+  verifyEmailVerificationToken,
+  verifyPasswordResetToken
 } = require('../utils/jwt');
 
 /**
@@ -36,8 +40,14 @@ const register = async (req, res) => {
       password,
       firstName,
       lastName,
-      role: role || 'user'
+      role: role || 'owner'
     });
+
+    // Generate email verification token
+    const verificationToken = generateEmailVerificationToken(user.id, user.email);
+    user.emailVerificationToken = verificationToken;
+    user.emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+    await user.save();
 
     // Generate tokens
     const accessToken = generateAccessToken(user.id, user.email, user.role);
@@ -47,13 +57,17 @@ const register = async (req, res) => {
     user.refreshToken = refreshToken;
     await user.save();
 
+    // TODO: Send verification email
+    // For now, return token in response (in production, send via email)
     res.status(201).json({
       success: true,
-      message: 'User registered successfully.',
+      message: 'User registered successfully. Please verify your email.',
       data: {
         user: user.toJSON(),
         accessToken,
-        refreshToken
+        refreshToken,
+        // Remove this in production - token should only be sent via email
+        verificationToken: verificationToken
       }
     });
   } catch (error) {
@@ -247,9 +261,193 @@ const logout = async (req, res) => {
   }
 };
 
+/**
+ * Request password reset
+ * POST /api/auth/forgot-password
+ */
+const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email is required.'
+      });
+    }
+
+    // Find user by email
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      // Don't reveal if user exists or not for security
+      return res.status(200).json({
+        success: true,
+        message: 'If the email exists, a password reset link has been sent.'
+      });
+    }
+
+    // Generate password reset token
+    const resetToken = generatePasswordResetToken(user.id, user.email);
+    
+    // Save token to database with expiration
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+    await user.save();
+
+    // TODO: Send email with reset link
+    // For now, return token in response (in production, send via email)
+    res.status(200).json({
+      success: true,
+      message: 'If the email exists, a password reset link has been sent.',
+      // Remove this in production - token should only be sent via email
+      resetToken: resetToken
+    });
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error processing password reset request.',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * Reset password
+ * POST /api/auth/reset-password
+ */
+const resetPassword = async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+
+    if (!token || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: 'Token and new password are required.'
+      });
+    }
+
+    // Validate password strength
+    if (newPassword.length < 8) {
+      return res.status(400).json({
+        success: false,
+        message: 'Password must be at least 8 characters long.'
+      });
+    }
+
+    // Verify token
+    const decoded = verifyPasswordResetToken(token);
+    if (!decoded) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired reset token.'
+      });
+    }
+
+    // Find user and verify token matches
+    const user = await User.findByPk(decoded.userId);
+    if (!user || user.resetPasswordToken !== token) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired reset token.'
+      });
+    }
+
+    // Check if token has expired
+    if (user.resetPasswordExpires < new Date()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Reset token has expired.'
+      });
+    }
+
+    // Update password
+    user.password = newPassword;
+    user.resetPasswordToken = null;
+    user.resetPasswordExpires = null;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Password reset successfully.'
+    });
+  } catch (error) {
+    console.error('Reset password error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error resetting password.',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * Verify email
+ * POST /api/auth/verify
+ */
+const verifyEmail = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    if (!token) {
+      return res.status(400).json({
+        success: false,
+        message: 'Verification token is required.'
+      });
+    }
+
+    // Verify token
+    const decoded = verifyEmailVerificationToken(token);
+    if (!decoded) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired verification token.'
+      });
+    }
+
+    // Find user and verify token matches
+    const user = await User.findByPk(decoded.userId);
+    if (!user || user.emailVerificationToken !== token) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired verification token.'
+      });
+    }
+
+    // Check if token has expired
+    if (user.emailVerificationExpires < new Date()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Verification token has expired.'
+      });
+    }
+
+    // Update user as verified
+    user.isEmailVerified = true;
+    user.emailVerificationToken = null;
+    user.emailVerificationExpires = null;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Email verified successfully.'
+    });
+  } catch (error) {
+    console.error('Email verification error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error verifying email.',
+      error: error.message
+    });
+  }
+};
+
 module.exports = {
   register,
   login,
   refresh,
-  logout
+  logout,
+  forgotPassword,
+  resetPassword,
+  verifyEmail
 };
