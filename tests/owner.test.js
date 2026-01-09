@@ -37,6 +37,7 @@ describe('Owner Endpoints', () => {
     await Owner.destroy({ where: { email: 'updatedowner@test.com' } });
     await User.destroy({ where: { email: 'admin-owner-test@test.com' } });
     await User.destroy({ where: { email: 'agent-owner-test@test.com' } });
+    // Close database connection
     await sequelize.close();
   });
 

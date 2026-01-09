@@ -58,7 +58,6 @@ describe('Property Endpoints', () => {
     await Owner.destroy({ where: { email: 'propertyowner@test.com' } });
     await User.destroy({ where: { email: 'admin-property-test@test.com' } });
     await User.destroy({ where: { email: 'agent-property-test@test.com' } });
-    await sequelize.close();
   });
 
   describe('POST /api/properties', () => {

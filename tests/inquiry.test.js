@@ -70,7 +70,6 @@ describe('Inquiry Endpoints', () => {
     await Owner.destroy({ where: { email: 'inquiryowner@test.com' } });
     await User.destroy({ where: { email: 'admin-inquiry-test@test.com' } });
     await User.destroy({ where: { email: 'agent-inquiry-test@test.com' } });
-    await sequelize.close();
   });
 
   describe('POST /api/inquiries', () => {

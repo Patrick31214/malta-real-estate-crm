@@ -39,7 +39,6 @@ describe('Agent Endpoints', () => {
     await Agent.destroy({ where: { licenseNumber: 'UPDATED123' } });
     await User.destroy({ where: { email: 'admin-agent-test@test.com' } });
     await User.destroy({ where: { email: 'testagentuser@test.com' } });
-    await sequelize.close();
   });
 
   describe('POST /api/agents', () => {
