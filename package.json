@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --coverage --detectOpenHandles --forceExit",
+    "test:watch": "jest --watch",
     "db:migrate": "sequelize-cli db:migrate",
     "db:migrate:undo": "sequelize-cli db:migrate:undo",
     "db:migrate:undo:all": "sequelize-cli db:migrate:undo:all",
@@ -14,6 +15,14 @@
     "db:seed:undo": "sequelize-cli db:seed:undo",
     "db:seed:undo:all": "sequelize-cli db:seed:undo:all",
     "db:reset": "npm run db:migrate:undo:all && npm run db:migrate && npm run db:seed"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/src/migrations/",
+      "/src/seeders/"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -30,7 +39,9 @@
     "sequelize": "^6.37.7"
   },
   "devDependencies": {
+    "jest": "^30.2.0",
     "nodemon": "^3.1.11",
-    "sequelize-cli": "^6.6.5"
+    "sequelize-cli": "^6.6.5",
+    "supertest": "^7.2.2"
   }
 }
