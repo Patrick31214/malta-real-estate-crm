@@ -26,10 +26,14 @@
     "@types/jest": "^30.0.0",
     "jest": "^30.2.0",
     "nodemon": "^3.1.11",
+    "sqlite3": "^5.1.7",
     "supertest": "^7.2.2"
   },
   "jest": {
     "testEnvironment": "node",
+    "setupFiles": [
+      "./jest.setup.js"
+    ],
     "coveragePathIgnorePatterns": [
       "/node_modules/"
     ],
