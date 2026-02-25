@@ -1,0 +1,121 @@
+const API_BASE = '/api';
+
+// Store tokens in localStorage
+const getAccessToken = () => localStorage.getItem('accessToken');
+const setTokens = (access, refresh) => {
+  localStorage.setItem('accessToken', access);
+  localStorage.setItem('refreshToken', refresh);
+};
+const clearTokens = () => {
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  localStorage.removeItem('user');
+};
+
+// Core fetch wrapper
+async function request(path, options = {}) {
+  const token = getAccessToken();
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...options.headers
+  };
+
+  const res = await fetch(`${API_BASE}${path}`, {
+    ...options,
+    headers
+  });
+
+  if (res.status === 401) {
+    // Try to refresh token
+    const refreshed = await tryRefreshToken();
+    if (refreshed) {
+      // Retry original request
+      const retryHeaders = {
+        ...headers,
+        Authorization: `Bearer ${getAccessToken()}`
+      };
+      const retryRes = await fetch(`${API_BASE}${path}`, { ...options, headers: retryHeaders });
+      return retryRes.json();
+    } else {
+      clearTokens();
+      window.location.href = '/login';
+      throw new Error('Session expired');
+    }
+  }
+
+  return res.json();
+}
+
+async function tryRefreshToken() {
+  const refreshToken = localStorage.getItem('refreshToken');
+  if (!refreshToken) return false;
+  try {
+    const res = await fetch(`${API_BASE}/auth/refresh`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refreshToken })
+    });
+    const data = await res.json();
+    if (data.success) {
+      setTokens(data.data.accessToken, data.data.refreshToken);
+      return true;
+    }
+    return false;
+  } catch {
+    return false;
+  }
+}
+
+// Auth
+export const auth = {
+  login: (email, password) =>
+    request('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) }),
+
+  register: (data) =>
+    request('/auth/register', { method: 'POST', body: JSON.stringify(data) }),
+
+  logout: () => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    clearTokens();
+    return request('/auth/logout', { method: 'POST', body: JSON.stringify({ refreshToken }) });
+  },
+
+  setTokens,
+  clearTokens,
+
+  getUser: () => {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+  },
+
+  setUser: (user) => localStorage.setItem('user', JSON.stringify(user)),
+
+  isAuthenticated: () => !!getAccessToken()
+};
+
+// Properties
+export const properties = {
+  getAll: (params = {}) => {
+    const qs = new URLSearchParams(params).toString();
+    return request(`/properties${qs ? '?' + qs : ''}`);
+  },
+  getOne: (id) => request(`/properties/${id}`),
+  create: (data) => request('/properties', { method: 'POST', body: JSON.stringify(data) }),
+  update: (id, data) => request(`/properties/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  delete: (id) => request(`/properties/${id}`, { method: 'DELETE' })
+};
+
+// Owners
+export const owners = {
+  getAll: (params = {}) => {
+    const qs = new URLSearchParams(params).toString();
+    return request(`/owners${qs ? '?' + qs : ''}`);
+  },
+  getOne: (id) => request(`/owners/${id}`),
+  create: (data) => request('/owners', { method: 'POST', body: JSON.stringify(data) }),
+  update: (id, data) => request(`/owners/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  delete: (id) => request(`/owners/${id}`, { method: 'DELETE' })
+};
+
+export default { auth, properties, owners };

@@ -1,0 +1,83 @@
+.owners-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.owner-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.owner-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.owner-name {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.owner-note {
+  font-size: 11px;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+.result-count {
+  font-size: 13px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.table-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.action-btns {
+  display: flex;
+  gap: 6px;
+}
+
+.pagination {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  padding: 8px;
+}
+
+.page-btn {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: white;
+  color: var(--text-medium);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.page-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.page-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
