@@ -68,18 +68,26 @@ if not exist ".env" (
 )
 echo.
 
-REM ── Ready ─────────────────────────────────────────────────────────────────
+REM ── Ready - show frontend instructions BEFORE starting the backend ─────────
 echo ============================================================
-echo   Setup complete!  How to start the CRM:
-echo ============================================================
-echo.
-echo   BACKEND  (run in THIS window):
-echo     npm run dev
-echo.
-echo   FRONTEND (open a NEW Command Prompt window, cd here, then):
-echo     npm run client:dev
-echo.
-echo   Then open your browser at:  http://localhost:3000
+echo   ACTION REQUIRED - Open a SECOND Command Prompt window NOW:
 echo ============================================================
 echo.
-pause
+echo   1. Press Win+R, type cmd, press Enter
+echo   2. In the new window, paste these two commands:
+echo.
+echo        cd /d "%CD%"
+echo        npm run client:dev
+echo.
+echo   3. Wait for: "VITE ready  -  Local: http://localhost:3000/"
+echo   4. Open your browser at:   http://localhost:3000
+echo ============================================================
+echo.
+echo   This window will now start the BACKEND server.
+echo   Press Ctrl+C here at any time to stop the backend.
+echo.
+echo   Starting backend...
+echo.
+
+REM ── Start the backend server (keeps this window running) ──────────────────
+call npm run dev

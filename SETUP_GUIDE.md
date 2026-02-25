@@ -335,26 +335,28 @@ Write down your email and password — you'll use these to log in. ✅
 
 ## 7. Run the CRM on Your Computer
 
-You need **two Command Prompt windows open at the same time**.
+**Easiest option — just double-click `start-windows.bat`** in the project folder. It installs everything, shows you the command to open the frontend in a second window, then starts the backend server automatically. Skip to step 7c below.
 
-### Window 1 — Start the backend server
+If you prefer to start things manually, follow 7a and 7b.
 
-In your first Command Prompt (inside the project folder):
+### 7a — Start the backend server (Window 1)
+
+In a Command Prompt **inside the project folder**:
 
 ```
+cd %USERPROFILE%\malta-crm\malta-real-estate-crm
 npm run dev
 ```
 
 You should see:
 ```
 ✓ PostgreSQL database connection established successfully.
-✓ Database models synchronized.
 ✓ Server is running on port 3001
 ```
 
 **Leave this window running.** Don't close it.
 
-### Window 2 — Start the frontend
+### 7b — Start the frontend (Window 2)
 
 Open a **second** Command Prompt:
 1. Press `Win + R`, type `cmd`, press Enter
@@ -376,7 +378,7 @@ You should see:
 
 **Leave this window running too.**
 
-### Open the CRM in your browser
+### 7c — Open the CRM in your browser
 
 Open your web browser and go to:
 
@@ -534,7 +536,9 @@ Repeat for each agent, changing the email, name, and password each time.
 
 ### Starting the CRM on your computer
 
-Open **two** Command Prompt windows and run:
+**Quickest way:** double-click **`start-windows.bat`** inside the `malta-real-estate-crm` folder. It starts the backend and shows you the frontend command.
+
+Or manually — open **two** Command Prompt windows:
 
 **Window 1** (backend):
 ```
