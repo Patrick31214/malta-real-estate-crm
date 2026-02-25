@@ -335,9 +335,15 @@ Write down your email and password — you'll use these to log in. ✅
 
 ## 7. Run the CRM on Your Computer
 
-**Easiest option — just double-click `start-windows.bat`** in the project folder. It installs dependencies, automatically **opens the frontend in a new window**, and **starts the backend in the current window**. No extra steps needed.
+**Easiest option — just double-click `start-windows.bat`** in the project folder.
 
-> 💡 To get the latest code before running, open a Command Prompt in the project folder and run `git pull` first.
+What it does automatically:
+1. Pulls the latest code from GitHub
+2. Calls `run-crm.bat` which installs dependencies and starts both servers
+
+> ⚠️ **First-time note:** If you had an older version of `start-windows.bat`, the very first double-click may show errors and close — this is normal. Just **double-click it a second time** and it will work correctly.
+
+After both windows are running, open **http://localhost:3000** in your browser.
 
 If you prefer to start things manually, follow 7a and 7b.
 
