@@ -19,16 +19,13 @@ if not exist "package.json" (
     exit /b 1
 )
 
-echo [1/4] Pulling latest code from GitHub...
-git checkout -- package-lock.json 2>nul
-git pull
-echo.
+REM To get the latest code, open a separate Command Prompt and run: git pull
 
-echo [2/4] Installing backend dependencies...
+echo [1/3] Installing backend dependencies...
 call npm install
 echo.
 
-echo [3/4] Installing frontend dependencies...
+echo [2/3] Installing frontend dependencies...
 if exist "client\package.json" (
     cd client
     call npm install
@@ -39,7 +36,7 @@ if exist "client\package.json" (
 )
 echo.
 
-echo [4/4] Checking configuration file...
+echo [3/3] Checking configuration file...
 if not exist ".env" (
     if exist ".env.example" (
         copy .env.example .env
@@ -57,8 +54,8 @@ if not exist ".env" (
 )
 echo.
 
-echo Opening frontend in a new window...
-start "Malta CRM - Frontend (http://localhost:3000)" /D "%~dp0" cmd /k npm run client:dev
+echo Opening frontend in a new window (http://localhost:3000)...
+start "Malta CRM - Frontend" /D "%~dp0" cmd /k npm run client:dev
 echo.
 echo Starting backend - press Ctrl+C in this window to stop...
 echo.
