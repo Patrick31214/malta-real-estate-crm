@@ -2,6 +2,28 @@
 
 A secure, scalable private CRM system for real estate agents and property owners in Malta, integrated with WordPress Elementor Pro.
 
+## 🚀 Quick Start Guides
+
+**New to the system? Choose the guide that fits you:**
+
+- **📘 [LAPTOP_SETUP_GUIDE.md](LAPTOP_SETUP_GUIDE.md)** - Complete beginner-friendly setup guide
+  - Step-by-step instructions for Windows, Mac, and Linux
+  - PostgreSQL installation and configuration
+  - Detailed troubleshooting section
+  
+- **⚡ [QUICK_START.md](QUICK_START.md)** - Essential commands only
+  - Copy-paste ready commands for each OS
+  - Quick reference for daily use
+  
+- **✅ [SETUP_CHECKLIST.md](SETUP_CHECKLIST.md)** - Interactive checklist
+  - Track your progress step-by-step
+  - Verification checkboxes
+  - Space for your notes
+
+- **🔄 [RESTART_GUIDE.md](RESTART_GUIDE.md)** - For when you need to restart the system
+  - API examples and test credentials
+  - System status verification
+
 ## Features
 
 - **JWT-based Authentication**: Secure authentication system with access and refresh tokens
