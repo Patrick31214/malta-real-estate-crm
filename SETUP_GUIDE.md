@@ -133,6 +133,14 @@ git pull
 
 This downloads any updates (including new scripts like `client:install`). If you got an error like **"Missing script: client:install"**, running `git pull` will fix it.
 
+> **If `git pull` says "local changes to the following files would be overwritten":**
+>
+> This happens when you already ran `npm install`, which modifies `package-lock.json`. Discard that change, then pull again:
+> ```
+> git checkout -- package-lock.json
+> git pull
+> ```
+
 ---
 
 ## 3. Set Up the Database
@@ -242,6 +250,14 @@ cd %USERPROFILE%\Desktop\malta-real-estate-crm
 ```
 git pull
 ```
+
+> **If `git pull` says "local changes to the following files would be overwritten":**
+>
+> Running `npm install` earlier modified `package-lock.json`. Discard that local change, then pull again:
+> ```
+> git checkout -- package-lock.json
+> git pull
+> ```
 
 **Install backend dependencies:**
 ```
@@ -570,6 +586,20 @@ cd client
 npm install
 cd ..
 ```
+
+---
+
+### ❌ `git pull` says "local changes would be overwritten by merge"
+
+Running `npm install` modifies `package-lock.json`. Git refuses to pull because it would overwrite that file.
+
+**Fix — discard the lock file change and pull again:**
+```
+git checkout -- package-lock.json
+git pull
+```
+
+This is safe — `package-lock.json` will be replaced by the correct version from GitHub.
 
 ---
 
