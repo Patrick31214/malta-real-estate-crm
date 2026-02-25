@@ -2,13 +2,30 @@
 
 A secure, scalable private CRM system for real estate agents and property owners in Malta, integrated with WordPress Elementor Pro.
 
+## 🚨 HAVING PROBLEMS RIGHT NOW?
+
+- **🆘 [FIX_NOW.txt](FIX_NOW.txt)** - ⚠️ **URGENT: Can't connect to PostgreSQL? Read this first!**
+  - Fixes "connection timeout expired" in pgAdmin
+  - Fixes "service name is invalid" errors
+  - Fixes "wrong directory" npm errors
+  - **5-minute emergency fix!**
+
+- **🚨 [EMERGENCY_FIX.md](EMERGENCY_FIX.md)** - Complete troubleshooting for immediate problems
+  - Port confusion (5000 vs 5432) explained
+  - PostgreSQL 18 service name issues
+  - Step-by-step recovery guide
+  - Directory navigation help
+
+- **🔧 [POSTGRESQL_18_SETUP.md](POSTGRESQL_18_SETUP.md)** - Special guide for PostgreSQL 18 users
+  - Finding your PostgreSQL 18 service
+  - Port configuration (5432 vs 5433)
+  - pgAdmin setup for version 18
+
 ## 🚀 Quick Start Guides
 
 **New to the system? Choose the guide that fits you:**
 
-- **🪟 [WINDOWS_STARTUP_GUIDE.md](WINDOWS_STARTUP_GUIDE.md)** - ⚠️ **START HERE if you're getting database connection errors on Windows!**
-  - Fixes "Unable to connect to database" errors
-  - Step-by-step PostgreSQL startup on Windows
+- **🪟 [WINDOWS_STARTUP_GUIDE.md](WINDOWS_STARTUP_GUIDE.md)** - Step-by-step PostgreSQL startup on Windows
   - Daily startup procedure
   - Complete troubleshooting for Windows users
 

@@ -1,0 +1,105 @@
+═══════════════════════════════════════════════════════════════
+🚨 URGENT FIX FOR YOUR CURRENT PROBLEM 🚨
+═══════════════════════════════════════════════════════════════
+
+YOU'RE TRYING TO CONNECT pgAdmin TO THE WRONG PORT!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+THE PROBLEM:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+You're trying to connect pgAdmin 4 to port 5000 ← WRONG!
+Port 5000 is the APPLICATION, not the DATABASE!
+
+PostgreSQL runs on:
+  - Port 5432 (if first installation)
+  - Port 5433 (if you have PostgreSQL 18 and another version)
+
+═══════════════════════════════════════════════════════════════
+SOLUTION - DO THIS RIGHT NOW:
+═══════════════════════════════════════════════════════════════
+
+STEP 1: Find PostgreSQL Service Name
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Open Administrator Command Prompt and run:
+
+    sc query | findstr /i "postgres"
+
+Write down the exact service name you see.
+Common names: postgresql-x64-18, postgresql-18, PostgreSQL-18
+
+
+STEP 2: Start PostgreSQL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Use YOUR service name from Step 1:
+
+    net start postgresql-x64-18
+
+(Replace postgresql-x64-18 with YOUR actual service name)
+
+
+STEP 3: Fix pgAdmin Connection
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+In pgAdmin 4:
+1. Right-click your server → Properties
+2. Go to "Connection" tab
+3. Change Port from 5000 to 5432
+4. Click Save
+5. Try connecting
+
+If 5432 doesn't work, try 5433 (PostgreSQL 18 often uses 5433)
+
+
+STEP 4: Navigate to Project Directory
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+You're currently in C:\Windows\system32 ← WRONG DIRECTORY!
+
+Open a NEW Command Prompt (not Administrator) and run:
+
+    cd C:\Users\USER\malta-crm\malta-real-estate-crm
+
+
+STEP 5: Start the Application
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    npm start
+
+
+═══════════════════════════════════════════════════════════════
+UNDERSTANDING THE PORTS:
+═══════════════════════════════════════════════════════════════
+
+Port 5432/5433 = PostgreSQL Database
+  ↑ Connect pgAdmin HERE
+
+Port 5000 = Malta CRM Application  
+  ↑ Connect Browser HERE
+
+DON'T MIX THEM UP!
+
+═══════════════════════════════════════════════════════════════
+VERIFICATION:
+═══════════════════════════════════════════════════════════════
+
+✓ PostgreSQL running?
+    sc query postgresql-x64-18
+
+✓ pgAdmin connected?
+    Should connect without timeout on port 5432 or 5433
+
+✓ In correct directory?
+    Should see package.json when you run: dir
+
+✓ Application running?
+    Browser should show response at http://localhost:5000
+
+═══════════════════════════════════════════════════════════════
+
+🔴 IF STILL STUCK: Open EMERGENCY_FIX.md for complete details!
+
+═══════════════════════════════════════════════════════════════
