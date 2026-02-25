@@ -9,6 +9,7 @@
     "client:install": "cd client && npm install",
     "client:dev": "cd client && npm run dev",
     "client:build": "cd client && npm run build",
+    "setup:admin": "node scripts/create-admin.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:migrate": "sequelize-cli db:migrate",
     "db:migrate:undo": "sequelize-cli db:migrate:undo",
