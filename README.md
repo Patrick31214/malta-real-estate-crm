@@ -6,6 +6,12 @@ A secure, scalable private CRM system for real estate agents and property owners
 
 **New to the system? Choose the guide that fits you:**
 
+- **🪟 [WINDOWS_STARTUP_GUIDE.md](WINDOWS_STARTUP_GUIDE.md)** - ⚠️ **START HERE if you're getting database connection errors on Windows!**
+  - Fixes "Unable to connect to database" errors
+  - Step-by-step PostgreSQL startup on Windows
+  - Daily startup procedure
+  - Complete troubleshooting for Windows users
+
 - **📘 [LAPTOP_SETUP_GUIDE.md](LAPTOP_SETUP_GUIDE.md)** - Complete beginner-friendly setup guide
   - Step-by-step instructions for Windows, Mac, and Linux
   - PostgreSQL installation and configuration
@@ -23,6 +29,20 @@ A secure, scalable private CRM system for real estate agents and property owners
 - **🔄 [RESTART_GUIDE.md](RESTART_GUIDE.md)** - For when you need to restart the system
   - API examples and test credentials
   - System status verification
+
+### 🎯 Quick Windows Startup (One-Click)
+
+If you're on Windows, you can use the automated startup script:
+
+```cmd
+start-windows.bat
+```
+
+This will automatically:
+1. Start PostgreSQL service
+2. Pull latest code updates
+3. Install dependencies
+4. Start the server
 
 ## Features
 
