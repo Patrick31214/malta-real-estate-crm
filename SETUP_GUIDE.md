@@ -95,11 +95,13 @@ psql --version
 
 ## 2. Download the Project Code
 
-Open a Command Prompt and choose a folder where you want to keep the project. For example, to put it in a folder on your Desktop:
+Open a Command Prompt and navigate to where you want to keep the project. For example:
 
 ```
-cd %USERPROFILE%\Desktop
+cd %USERPROFILE%\malta-crm
 ```
+
+> If that folder doesn't exist yet, create it first: `mkdir %USERPROFILE%\malta-crm && cd %USERPROFILE%\malta-crm`
 
 Then run:
 
@@ -238,16 +240,24 @@ JWT_REFRESH_SECRET=b5e2d8a1c4f7e0d3c6b9e2d5c8b1a4f7e0d3c6b9a2f5e8d1c4b7a0f3e6d9c
 
 ## 5. Install Project Dependencies
 
-Make sure you are inside the project folder in your Command Prompt. If you're not sure, run:
+> ⚠️ **Run every command below from inside the `malta-real-estate-crm` folder.**
+> If you're not sure where you are, paste this into your Command Prompt first:
+> ```
+> cd %USERPROFILE%\malta-crm\malta-real-estate-crm
+> ```
+> You should see `package.json` when you run `dir`.
 
-```
-cd %USERPROFILE%\Desktop\malta-real-estate-crm
-```
+**Easiest option — double-click the startup script:**
 
-(Adjust the path if you cloned it somewhere else.)
+If you just want to install everything and get started, double-click **`start-windows.bat`** in the project folder. It will handle the rest and tell you what to do next.
+
+Otherwise, continue manually below.
+
+---
 
 **First, get the latest code updates:**
 ```
+cd %USERPROFILE%\malta-crm\malta-real-estate-crm
 git pull
 ```
 
@@ -350,9 +360,8 @@ Open a **second** Command Prompt:
 1. Press `Win + R`, type `cmd`, press Enter
 2. Navigate to the project folder:
    ```
-   cd %USERPROFILE%\Desktop\malta-real-estate-crm
+   cd %USERPROFILE%\malta-crm\malta-real-estate-crm
    ```
-   (adjust path if needed)
 3. Run:
    ```
    npm run client:dev
@@ -529,13 +538,13 @@ Open **two** Command Prompt windows and run:
 
 **Window 1** (backend):
 ```
-cd %USERPROFILE%\Desktop\malta-real-estate-crm
+cd %USERPROFILE%\malta-crm\malta-real-estate-crm
 npm run dev
 ```
 
 **Window 2** (frontend):
 ```
-cd %USERPROFILE%\Desktop\malta-real-estate-crm
+cd %USERPROFILE%\malta-crm\malta-real-estate-crm
 npm run client:dev
 ```
 
