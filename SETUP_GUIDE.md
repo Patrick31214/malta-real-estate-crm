@@ -131,7 +131,7 @@ If you already ran `git clone` before, your copy of the code may be outdated. Al
 git pull
 ```
 
-This downloads any updates (including new scripts like `client:install`). If you got an error like **"Missing script: client:install"**, running `git pull` will fix it.
+This downloads any updates. After pulling, run `npm install` and then install the frontend dependencies with the steps in Section 5.
 
 > **If `git pull` says "local changes to the following files would be overwritten":**
 >
@@ -268,17 +268,12 @@ You'll see a lot of text — that's normal. Wait for it to finish.
 
 **Install frontend dependencies:**
 ```
-npm run client:install
+cd client
+npm install
+cd ..
 ```
 
-> **If you see "Missing script: client:install"** — you need the latest code first. Run `git pull` and then try again.
->
-> **Manual fallback** (works even without git pull):
-> ```
-> cd client
-> npm install
-> cd ..
-> ```
+> **Shortcut (if available):** `npm run client:install` does the same thing.
 
 Wait for both installs to finish. ✅
 
@@ -574,13 +569,7 @@ Then open **http://localhost:3000** in your browser.
 
 ### ❌ "Missing script: client:install"
 
-Your code is outdated. Run:
-```
-git pull
-```
-Then try `npm run client:install` again.
-
-**Manual alternative (no git pull needed):**
+This script may not exist on your current branch. Use the direct command instead — it always works:
 ```
 cd client
 npm install
