@@ -1,6 +1,8 @@
 # 🏖️ Malta Real Estate CRM — Complete Setup Guide
 
-> **Who this guide is for:** Someone setting up this CRM for the first time — no programming experience needed. Follow every step in order and you'll have a running system that you and your agents can access.
+> **Who this guide is for:** Someone setting up this CRM for the first time on **Windows** — no programming experience needed. Follow every step in order and you'll have a running system that you and your agents can access.
+>
+> Mac/Linux commands are shown where they differ.
 
 ---
 
@@ -41,44 +43,49 @@ You need three pieces of software on your computer. Install them in this order.
 
 1. Go to **https://nodejs.org/**
 2. Click the **LTS** button (the one that says "Recommended for most users")
-3. Run the installer and click Next through all the steps
-4. When done, open a terminal (see below) and type:
+3. Run the installer — click **Next** through all the steps, leave all defaults
+4. When done, open a **Command Prompt** (press `Win + R`, type `cmd`, press Enter) and type:
    ```
    node --version
    ```
-   You should see something like `v20.11.0`. If you do, ✅ Node.js is installed.
-
-> **How to open a terminal:**
-> - **Windows:** Press `Win + R`, type `cmd`, press Enter
-> - **Mac:** Press `Cmd + Space`, type `Terminal`, press Enter
-> - **Linux:** Right-click desktop → "Open Terminal"
+   You should see something like `v20.11.0`. ✅
 
 ---
 
 ### 1.2 — PostgreSQL (the database)
 
-1. Go to **https://www.postgresql.org/download/**
-2. Click your operating system
-3. Download and run the installer
-4. During installation you will be asked to **set a password for the postgres user** — write this down, you'll need it later
-5. Leave the port as **5432** (the default)
-6. Finish the installation
+1. Go to **https://www.postgresql.org/download/windows/**
+2. Click **"Download the installer"** (from EDB)
+3. Download the latest version and run it
+4. During installation:
+   - When asked for a **password** — write it down, you'll need it later. Use something you'll remember, e.g. `postgres123`
+   - Leave the port as **5432**
+   - Leave everything else as default
+5. Finish the installation
 
-To verify, open a terminal and type:
+To verify, open a **new** Command Prompt and type:
 ```
 psql --version
 ```
-You should see something like `psql (PostgreSQL) 16.x`. ✅
 
-> **Windows users:** If `psql` is not found, you need to add it to your PATH. Look for "PostgreSQL 16\bin" in your Program Files and add it to the system PATH, or just search "pgAdmin" in your Start menu — that's a visual tool that comes with PostgreSQL.
+> **If `psql` is not found on Windows:** The PostgreSQL folder is not in your PATH yet.
+>
+> **Quick fix:**
+> 1. Press `Win`, search for **"Edit the system environment variables"**, open it
+> 2. Click **"Environment Variables..."**
+> 3. Under **"System variables"**, find **Path**, click **Edit**
+> 4. Click **New** and add: `C:\Program Files\PostgreSQL\16\bin`
+>    (replace `16` with your installed version number)
+> 5. Click OK everywhere, then **close and reopen** your Command Prompt
+> 6. Try `psql --version` again
 
 ---
 
 ### 1.3 — Git (to download the project)
 
-1. Go to **https://git-scm.com/downloads**
-2. Download and install for your operating system
-3. Verify:
+1. Go to **https://git-scm.com/download/win**
+2. Download and run the installer — click Next through all steps, leave all defaults
+3. Open a **new** Command Prompt and verify:
    ```
    git --version
    ```
@@ -88,21 +95,43 @@ You should see something like `psql (PostgreSQL) 16.x`. ✅
 
 ## 2. Download the Project Code
 
-Open a terminal and run these two commands one at a time:
+Open a Command Prompt and choose a folder where you want to keep the project. For example, to put it in a folder on your Desktop:
 
-```bash
+```
+cd %USERPROFILE%\Desktop
+```
+
+Then run:
+
+```
 git clone https://github.com/Patrick31214/malta-real-estate-crm.git
 ```
 
-```bash
+Wait for it to finish, then enter the project folder:
+
+```
 cd malta-real-estate-crm
 ```
 
-After running these, your terminal should now show the project folder name. You can verify by running:
-```bash
-ls
+To confirm you're in the right place, run:
+
 ```
+dir
+```
+
+> ⚠️ **Windows note:** Use `dir` (not `ls`) to list files. `ls` is a Mac/Linux command.
+
 You should see files like `package.json`, `README.md`, `.env.example`, etc. ✅
+
+### ⚡ If you already cloned the project earlier — get the latest version first!
+
+If you already ran `git clone` before, your copy of the code may be outdated. Always run this from inside the project folder before starting:
+
+```
+git pull
+```
+
+This downloads any updates (including new scripts like `client:install`). If you got an error like **"Missing script: client:install"**, running `git pull` will fix it.
 
 ---
 
@@ -110,24 +139,23 @@ You should see files like `package.json`, `README.md`, `.env.example`, etc. ✅
 
 ### 3.1 — Create the database
 
-**On Windows (using Command Prompt):**
-```cmd
+In your Command Prompt (still in the project folder), run:
+
+```
 psql -U postgres -c "CREATE DATABASE malta_crm;"
 ```
-Enter your PostgreSQL password when prompted.
 
-**On Mac/Linux:**
-```bash
-psql -U postgres -c "CREATE DATABASE malta_crm;"
+You'll be asked for your PostgreSQL password (the one you wrote down in Step 1.2). Type it and press Enter — **you won't see the characters as you type, that's normal**.
+
+You should see:
 ```
-If that doesn't work on Linux, try:
-```bash
-sudo -u postgres psql -c "CREATE DATABASE malta_crm;"
+CREATE DATABASE
 ```
+✅
 
-You should see `CREATE DATABASE`. ✅
+> **If it says "psql is not recognized":** Go back to Step 1.2 and add PostgreSQL to your PATH.
 
-> If you get an error like "role postgres does not exist", your PostgreSQL user might have a different name. Try replacing `postgres` with your computer username.
+> **If it says "FATAL: role postgres does not exist":** During installation your PostgreSQL user might have been named differently. Check pgAdmin (installed with PostgreSQL) to see the username.
 
 ---
 
@@ -135,21 +163,25 @@ You should see `CREATE DATABASE`. ✅
 
 ### 4.1 — Create your configuration file
 
-The project needs a `.env` file that contains your database password and security keys.
+In your Command Prompt (inside the project folder), run:
 
-**On Windows (Command Prompt):**
-```cmd
+**Windows:**
+```
 copy .env.example .env
 ```
 
-**On Mac/Linux:**
-```bash
+**Mac/Linux:**
+```
 cp .env.example .env
 ```
 
 ### 4.2 — Edit the configuration file
 
-Open the `.env` file with a text editor (Notepad on Windows, TextEdit on Mac, or VS Code if installed).
+Open the `.env` file in Notepad:
+
+```
+notepad .env
+```
 
 You'll see:
 
@@ -171,65 +203,88 @@ JWT_REFRESH_EXPIRE=7d
 CLIENT_URL=http://localhost:3000
 ```
 
-**Make these changes:**
+**Make these three changes:**
 
-1. Replace `your_password_here` with the PostgreSQL password you set during installation.
+**Change 1:** Replace `your_password_here` with your PostgreSQL password from Step 1.2.
 
-2. Replace **both** JWT secret lines with long random strings. The easiest way is to run this command in your terminal:
-   ```bash
-   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-   ```
-   Run it **twice** to get two different strings (one for each secret).
+**Change 2 & 3:** Replace the two JWT secret lines with long random strings.  
+Run this command in your Command Prompt to generate one:
+```
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+Run it **twice** and copy each result into `JWT_SECRET` and `JWT_REFRESH_SECRET`.
 
-   Example of what it should look like after editing:
-   ```
-   JWT_SECRET=a3f9d2e8c1b4a7f0e5d2c8b1a4f7e0d3c6b9a2f5e8d1c4b7a0f3e6d9c2b5a8f1
-   JWT_REFRESH_SECRET=b5e2d8a1c4f7e0d3c6b9a2f5e8d1c4b7a0f3e6d9c2b5a8f1e4d7c0b3a6f9e2d5
-   ```
+Example of what it should look like after editing:
+```
+DB_PASSWORD=postgres123
 
-3. Save the file.
+JWT_SECRET=a3f9d2e8c1b4a7f0e5d2c8b1a4f7e0d3c6b9a2f5e8d1c4b7a0f3e6d9c2b5a8f1
+JWT_REFRESH_SECRET=b5e2d8a1c4f7e0d3c6b9e2d5c8b1a4f7e0d3c6b9a2f5e8d1c4b7a0f3e6d9c2b5
+```
 
-> ⚠️ **Never share your `.env` file with anyone and never upload it to GitHub.** It contains your passwords and security keys.
+**Save the file:** Press `Ctrl + S`, then close Notepad.
+
+> ⚠️ Never share your `.env` file with anyone. It contains your passwords and security keys.
 
 ---
 
 ## 5. Install Project Dependencies
 
-Still in the project folder in your terminal, run:
+Make sure you are inside the project folder in your Command Prompt. If you're not sure, run:
 
-```bash
+```
+cd %USERPROFILE%\Desktop\malta-real-estate-crm
+```
+
+(Adjust the path if you cloned it somewhere else.)
+
+**First, get the latest code updates:**
+```
+git pull
+```
+
+**Install backend dependencies:**
+```
 npm install
 ```
 
-This downloads all the code libraries the project needs. It will take 1–2 minutes. You'll see a lot of text scrolling — that's normal.
+You'll see a lot of text — that's normal. Wait for it to finish.
 
-Then install the frontend dependencies:
-
-```bash
+**Install frontend dependencies:**
+```
 npm run client:install
 ```
 
-Wait for both to finish. ✅
+> **If you see "Missing script: client:install"** — you need the latest code first. Run `git pull` and then try again.
+>
+> **Manual fallback** (works even without git pull):
+> ```
+> cd client
+> npm install
+> cd ..
+> ```
+
+Wait for both installs to finish. ✅
 
 ---
 
 ## 6. Create Your Admin Account
 
-This is a one-time setup step that creates your personal admin account.
+This is a one-time step that creates your personal admin login.
 
-Make sure your database is running (PostgreSQL starts automatically on most computers), then run:
+Make sure your Command Prompt is in the project folder, then run:
 
-```bash
+```
 npm run setup:admin
 ```
 
 You will be asked for:
 - Your first name
-- Your last name  
+- Your last name
 - Your email address ← **this is your login email**
 - A password ← **at least 8 characters**
 
-Example session:
+Example:
 ```
 ================================================
   🏖️  Malta Real Estate CRM — Admin Setup
@@ -253,15 +308,19 @@ Choose a password (min 8 chars): ••••••••••
 
 Write down your email and password — you'll use these to log in. ✅
 
+> **If you see a database connection error:** Make sure PostgreSQL is running. Go to Step 11 (Troubleshooting) → "Cannot connect to database".
+
 ---
 
 ## 7. Run the CRM on Your Computer
 
-You need **two terminal windows open at the same time** — one for the backend server, one for the frontend.
+You need **two Command Prompt windows open at the same time**.
 
-### Terminal 1 — Start the backend server
+### Window 1 — Start the backend server
 
-```bash
+In your first Command Prompt (inside the project folder):
+
+```
 npm run dev
 ```
 
@@ -272,15 +331,21 @@ You should see:
 ✓ Server is running on port 3001
 ```
 
-**Leave this terminal running.** Don't close it.
+**Leave this window running.** Don't close it.
 
-### Terminal 2 — Start the frontend (open a second terminal window)
+### Window 2 — Start the frontend
 
-Navigate back to the project folder first, then:
-
-```bash
-npm run client:dev
-```
+Open a **second** Command Prompt:
+1. Press `Win + R`, type `cmd`, press Enter
+2. Navigate to the project folder:
+   ```
+   cd %USERPROFILE%\Desktop\malta-real-estate-crm
+   ```
+   (adjust path if needed)
+3. Run:
+   ```
+   npm run client:dev
+   ```
 
 You should see:
 ```
@@ -289,11 +354,13 @@ You should see:
   ➜  Local:   http://localhost:3000/
 ```
 
-**Leave this terminal running too.**
+**Leave this window running too.**
 
 ### Open the CRM in your browser
 
-Go to: **http://localhost:3000**
+Open your web browser and go to:
+
+**http://localhost:3000**
 
 You should see the login page. Log in with the email and password you created in Step 6. ✅
 
@@ -301,179 +368,145 @@ You should see the login page. Log in with the email and password you created in
 
 ---
 
-## 8. Deploy Online (so agents can access it)
+## 8. Deploy Online (so agents can access it from anywhere)
 
-"Deploying online" means putting the CRM on a server on the internet so you and your agents can access it from any computer, anywhere, not just your own machine.
+"Deploying online" means putting the CRM on a server so you and your agents can access it from any computer, not just yours.
 
-We'll use **Railway.app** — it's free to start, requires no credit card, and is the easiest option for beginners.
+We'll use **Railway.app** — free to start, no credit card needed.
 
-### 8.1 — Create a Railway account
+### 8.1 — Create accounts
 
-1. Go to **https://railway.app/**
-2. Click **"Start a New Project"**
-3. Sign up with your GitHub account (if you don't have one, create one free at https://github.com)
+1. Create a free GitHub account at **https://github.com** (if you don't have one)
+2. Go to **https://railway.app/** and sign up with your GitHub account
 
-### 8.2 — Push your code to GitHub
+### 8.2 — Fork the repository to your own GitHub
 
-If the code is already on GitHub (which it is, since you cloned it), skip to 8.3.
+So Railway can deploy YOUR version of the code:
 
-If you made changes and want to save them:
-```bash
-git add .
-git commit -m "My configuration"
-git push
-```
+1. Go to **https://github.com/Patrick31214/malta-real-estate-crm**
+2. Click the **"Fork"** button (top-right of the page)
+3. Click **"Create fork"**
 
-### 8.3 — Deploy the Backend on Railway
+Now you have your own copy at `https://github.com/YOUR-USERNAME/malta-real-estate-crm`.
 
-1. In Railway, click **"New Project"**
-2. Click **"Deploy from GitHub repo"**
-3. Select **`malta-real-estate-crm`**
-4. Railway will detect it's a Node.js app
+### 8.3 — Deploy on Railway
 
-Now add the environment variables (same as your `.env` file):
+1. Go to **https://railway.app/dashboard**
+2. Click **"New Project"** → **"Deploy from GitHub repo"**
+3. Select your forked repo (`YOUR-USERNAME/malta-real-estate-crm`)
+4. Railway will start deploying automatically
 
-1. Click on your deployed service
+### 8.4 — Add a Database
+
+1. In your Railway project, click **"+ New"** → **"Database"** → **"Add PostgreSQL"**
+2. Railway creates the database automatically
+
+### 8.5 — Set Environment Variables
+
+1. Click on your **backend service** (not the database)
 2. Go to the **"Variables"** tab
-3. Add each variable from your `.env` file:
+3. Add these one by one (click **"+ New Variable"** for each):
 
    | Variable | Value |
    |----------|-------|
    | `NODE_ENV` | `production` |
    | `PORT` | `3001` |
-   | `DB_HOST` | *(see Step 8.4)* |
-   | `DB_PORT` | `5432` |
-   | `DB_NAME` | `malta_crm` |
-   | `DB_USER` | *(see Step 8.4)* |
-   | `DB_PASSWORD` | *(see Step 8.4)* |
-   | `JWT_SECRET` | *(same as your .env)* |
-   | `JWT_REFRESH_SECRET` | *(same as your .env)* |
+   | `JWT_SECRET` | *(same value as in your `.env` file)* |
+   | `JWT_REFRESH_SECRET` | *(same value as in your `.env` file)* |
    | `JWT_EXPIRE` | `15m` |
    | `JWT_REFRESH_EXPIRE` | `7d` |
-   | `CLIENT_URL` | *(your frontend URL — set this after deploying frontend)* |
 
-### 8.4 — Add a PostgreSQL Database on Railway
+4. Now click on the **PostgreSQL database** you added, go to its **"Variables"** tab, and copy these into your backend service variables:
+   - `PGHOST` → copy value and paste as `DB_HOST`
+   - `PGPORT` → copy value and paste as `DB_PORT`
+   - `PGDATABASE` → copy value and paste as `DB_NAME`
+   - `PGUSER` → copy value and paste as `DB_USER`
+   - `PGPASSWORD` → copy value and paste as `DB_PASSWORD`
 
-1. In your Railway project, click **"New"** → **"Database"** → **"PostgreSQL"**
-2. Railway creates a managed PostgreSQL database automatically
-3. Click on the database, go to **"Variables"**
-4. Copy these values and use them in your backend's variables:
-   - `PGHOST` → use as `DB_HOST`
-   - `PGPORT` → use as `DB_PORT`
-   - `PGDATABASE` → use as `DB_NAME`
-   - `PGUSER` → use as `DB_USER`
-   - `PGPASSWORD` → use as `DB_PASSWORD`
+5. Set `CLIENT_URL` to your Railway backend URL (found on the **"Settings"** tab of your service)
 
-### 8.5 — Run Migrations on the Online Database
+### 8.6 — Run Database Migrations Online
 
-After the backend deploys, you need to set up the database tables. In Railway:
+1. In Railway, click on your backend service
+2. Click the **"Deploy"** tab → find **"Custom Start Command"**
+3. Change it to:
+   ```
+   npm run db:migrate && npm start
+   ```
+4. Click **Save** — Railway will redeploy with migrations running first
 
-1. Click on your backend service
-2. Go to **"Settings"** → **"Deploy"**
-3. Add a **"Start Command"**: `npm run db:migrate && npm start`
+### 8.7 — Build and Serve the Frontend
 
-Or alternatively, go to the Railway shell and run:
-```bash
-npm run db:migrate
+The backend already serves the built frontend in production. Run this in your local Command Prompt:
+
 ```
-
-### 8.6 — Deploy the Frontend on Railway (or Netlify)
-
-**Option A — Serve frontend from the backend (simplest)**
-
-The backend already serves the built frontend in production mode. Just run:
-
-```bash
 npm run client:build
 ```
 
-This creates a `client/dist` folder. Commit and push it:
-```bash
-git add client/dist
+This creates a `client\dist` folder. Then push it to GitHub:
+
+```
+git add .
 git commit -m "Add built frontend"
 git push
 ```
 
-Railway will automatically redeploy. Your entire CRM (frontend + backend) will be at the Railway URL shown on your dashboard.
+> **First time pushing?** You'll need to configure git with your GitHub credentials.  
+> Run these (replace with your info):
+> ```
+> git config --global user.email "you@example.com"
+> git config --global user.name "Your Name"
+> ```
+> Then push will ask for your GitHub username and password (use a Personal Access Token as password — create one at https://github.com/settings/tokens).
 
-**Option B — Deploy frontend separately on Netlify (recommended for speed)**
+Railway detects the push and redeploys automatically. Your CRM is now live at the Railway URL! ✅
 
-1. Go to **https://www.netlify.com/** and sign up (free)
-2. Click **"Add new site"** → **"Import an existing project"**
-3. Connect GitHub, select `malta-real-estate-crm`
-4. Set:
-   - **Base directory:** `client`
-   - **Build command:** `npm run build`
-   - **Publish directory:** `client/dist`
-5. Add an environment variable:
-   - `VITE_API_URL` = your Railway backend URL (e.g., `https://malta-crm-production.up.railway.app`)
-6. Deploy
+### 8.8 — Create your admin account on the live server
 
-After deploying, go back to Railway and update `CLIENT_URL` to your Netlify URL.
+Once Railway is running, use the URL shown in your Railway dashboard (looks like `https://something.up.railway.app`) and open Postman or your browser to:
 
-### 8.7 — Create your online admin account
-
-Once your backend is online, run this from your local machine (updating the URL):
-
-```bash
-curl -X POST https://YOUR-RAILWAY-URL/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"email":"patrick@youragency.mt","password":"YourPassword","firstName":"Patrick","lastName":"Borg","role":"admin"}'
-```
-
-Or you can use Postman:
+In Postman:
 - **POST** `https://YOUR-RAILWAY-URL/api/auth/register`
-- Body: `{ "email": "...", "password": "...", "firstName": "...", "lastName": "...", "role": "admin" }`
+- Body (JSON):
+  ```json
+  {
+    "email": "patrick@youragency.mt",
+    "password": "YourPassword123",
+    "firstName": "Patrick",
+    "lastName": "Borg",
+    "role": "admin"
+  }
+  ```
 
 ---
 
 ## 9. Add Agent Accounts
 
-Once you're logged into the CRM as admin, you can add accounts for your agents directly through the API. Future versions will include an in-app "Users" management page, but for now use one of these two methods:
+Use **Postman** (free download from https://www.postman.com/downloads/) to create accounts for your agents:
 
-### Method A — Using the CRM's register endpoint (from the terminal)
-
-For each agent, run this command (replace the values):
-
-```bash
-curl -X POST http://localhost:3001/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "agent@youragency.mt",
-    "password": "AgentPassword123",
-    "firstName": "Maria",
-    "lastName": "Borg",
-    "role": "agent"
-  }'
-```
-
-For the **online version**, replace `http://localhost:3001` with your Railway URL.
-
-### Method B — Using Postman (visual tool, no command line needed)
-
-1. Download Postman free from **https://www.postman.com/downloads/**
+1. Open Postman
 2. Create a new request:
    - Method: **POST**
-   - URL: `http://localhost:3001/api/auth/register` (or your Railway URL)
-   - Go to **Body** → **raw** → **JSON**
-   - Paste:
-     ```json
-     {
-       "email": "agent@youragency.mt",
-       "password": "AgentPassword123",
-       "firstName": "Maria",
-       "lastName": "Borg",
-       "role": "agent"
-     }
-     ```
-3. Click **Send**
+   - URL: `http://localhost:3001/api/auth/register` (local) or your Railway URL (online)
+3. Click **Body** → **raw** → change dropdown from "Text" to **JSON**
+4. Paste:
+   ```json
+   {
+     "email": "maria@youragency.mt",
+     "password": "AgentPassword123",
+     "firstName": "Maria",
+     "lastName": "Borg",
+     "role": "agent"
+   }
+   ```
+5. Click **Send**
 
-### Sharing access with agents
+Repeat for each agent, changing the email, name, and password each time.
 
-Once an account is created, share with your agent:
-- The CRM URL (e.g., `https://your-crm.netlify.app` or Railway URL)
+**Share with each agent:**
+- The CRM URL
 - Their email
-- Their password (tell them to change it after first login — currently done by logging out and registering again with the same email won't work; they need to keep the password you give them)
+- Their password
 
 ---
 
@@ -481,94 +514,127 @@ Once an account is created, share with your agent:
 
 ### Starting the CRM on your computer
 
-Every time you want to use the CRM on your own machine, open **two terminals** and run:
+Open **two** Command Prompt windows and run:
 
-**Terminal 1:**
-```bash
-cd malta-real-estate-crm
+**Window 1** (backend):
+```
+cd %USERPROFILE%\Desktop\malta-real-estate-crm
 npm run dev
 ```
 
-**Terminal 2:**
-```bash
-cd malta-real-estate-crm
+**Window 2** (frontend):
+```
+cd %USERPROFILE%\Desktop\malta-real-estate-crm
 npm run client:dev
 ```
 
-Then go to **http://localhost:3000** in your browser.
+Then open **http://localhost:3000** in your browser.
 
 ### What you can do in the CRM
 
-| Feature | Where |
-|---------|-------|
-| Add/view/edit/delete properties | Properties page |
-| Add/view/edit/delete owners | Owners page |
-| See a summary of everything | Dashboard |
-| Log out | Bottom-left of sidebar |
+| Feature | How |
+|---------|-----|
+| View all properties | Click "Properties" in sidebar |
+| Add a new property | Properties → "Add Property" |
+| View all owners | Click "Owners" in sidebar |
+| Add a new owner | Owners → "Add Owner" |
+| See a summary | Click "Dashboard" |
+| Log out | Bottom of sidebar |
 
-### Adding data
+### Tips
 
-1. **Add an owner first** — every property must have an owner. Go to Owners → click "Add Owner"
-2. **Then add the property** — go to Properties → click "Add Property" — choose the owner from the dropdown
+- **Add an owner before adding a property** — properties need to be linked to an owner
+- **To update the code later**, run `git pull` then restart both servers
 
 ---
 
 ## 11. Troubleshooting
 
-### ❌ "Cannot connect to database"
+### ❌ `ls` is not recognized
 
-**Cause:** PostgreSQL is not running, or the password in `.env` is wrong.
-
-**Fix:**
-- Windows: Search "Services" in Start menu, find "postgresql-x64-16" and click Start
-- Mac: Run `brew services start postgresql@16`
-- Linux: Run `sudo systemctl start postgresql`
-- Double-check `DB_PASSWORD` in your `.env` matches your PostgreSQL password
+`ls` is a Mac/Linux command. On Windows, use `dir` instead.
 
 ---
 
-### ❌ "Port 3001 already in use"
+### ❌ "Missing script: client:install"
 
-**Cause:** Another program is using port 3001.
+Your code is outdated. Run:
+```
+git pull
+```
+Then try `npm run client:install` again.
 
-**Fix:** Change `PORT=3001` to `PORT=3002` in your `.env` file. Then also update `vite.config.js` to proxy to the same port.
+**Manual alternative (no git pull needed):**
+```
+cd client
+npm install
+cd ..
+```
 
 ---
 
-### ❌ The browser shows a blank page or can't connect
+### ❌ Cannot connect to database
 
-**Cause:** The backend or frontend server isn't running.
+PostgreSQL may not be running.
 
-**Fix:** Make sure both terminals are running (`npm run dev` and `npm run client:dev`). If a terminal shows an error, read the error message — it usually tells you exactly what's wrong.
+**Fix on Windows:**
+1. Press `Win`, search for **"Services"**
+2. Scroll down to find **"postgresql-x64-16"** (or similar)
+3. Right-click → **Start**
+
+Also double-check your `.env` file has the right `DB_PASSWORD`.
+
+---
+
+### ❌ Port 3001 already in use
+
+**Fix:** Change `PORT=3001` to `PORT=3002` in your `.env` file. Then open `client\vite.config.js` and change `3001` to `3002` in the proxy section.
+
+---
+
+### ❌ Browser shows a blank page or "can't connect"
+
+Both servers need to be running at the same time:
+- Window 1 running `npm run dev`
+- Window 2 running `npm run client:dev`
+
+If one of them shows an error, read it — it usually says exactly what's wrong.
 
 ---
 
 ### ❌ "module not found" or install errors
 
-**Fix:**
-```bash
-rm -rf node_modules
+**Fix on Windows:**
+```
+rmdir /s /q node_modules
 npm install
-npm run client:install
+cd client
+rmdir /s /q node_modules
+npm install
+cd ..
 ```
 
 ---
 
 ### ❌ I forgot my admin password
 
-**Fix:** Run the admin setup script again with a different email to create a second admin:
-```bash
+Run the setup script again with a different email to create a second admin:
+```
 npm run setup:admin
 ```
 
 ---
 
+### ❌ psql is not recognized
+
+PostgreSQL is not in your PATH. Follow the fix in Step 1.2 (add `C:\Program Files\PostgreSQL\16\bin` to your system PATH).
+
+---
+
 ### ❌ The database says "relation does not exist"
 
-**Cause:** Migrations haven't been run.
-
-**Fix:**
-```bash
+Migrations haven't run yet:
+```
 npm run db:migrate
 ```
 
@@ -576,20 +642,20 @@ npm run db:migrate
 
 ## 🎉 You're Done!
 
-Your Malta Real Estate CRM is now:
-- Running locally at **http://localhost:3000**
-- (After Step 8) Available online for your agents
+**Quick reference:**
 
-**Quick reference — commands you'll use regularly:**
-
-| What | Command |
-|------|---------|
+| What to do | Command |
+|-----------|---------|
+| Get latest code updates | `git pull` |
 | Start backend | `npm run dev` |
 | Start frontend | `npm run client:dev` |
+| Install/update backend packages | `npm install` |
+| Install/update frontend packages | `npm run client:install` |
 | Create admin account | `npm run setup:admin` |
 | Update database structure | `npm run db:migrate` |
-| Reset database (⚠️ deletes all data) | `npm run db:reset` |
+| Build for production | `npm run client:build` |
 
 ---
 
-*For technical questions, open an issue at https://github.com/Patrick31214/malta-real-estate-crm/issues*
+*For questions, open an issue at https://github.com/Patrick31214/malta-real-estate-crm/issues*
+
