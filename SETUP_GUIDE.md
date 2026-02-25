@@ -335,7 +335,7 @@ Write down your email and password — you'll use these to log in. ✅
 
 ## 7. Run the CRM on Your Computer
 
-**Easiest option — just double-click `start-windows.bat`** in the project folder. It installs everything, shows you the command to open the frontend in a second window, then starts the backend server automatically. Skip to step 7c below.
+**Easiest option — just double-click `start-windows.bat`** in the project folder. It pulls the latest code, installs dependencies, and then automatically **opens the frontend in a new window** and **starts the backend in the current window**. No extra steps needed.
 
 If you prefer to start things manually, follow 7a and 7b.
 
