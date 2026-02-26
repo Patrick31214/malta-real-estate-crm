@@ -274,6 +274,31 @@ if %ERRORLEVEL% NEQ 0 (
 echo   [OK] PostgreSQL is running on port 5432.
 echo.
 
+REM  Create the CRM database if it does not exist yet.
+REM  This is safe to run on every start — it is a no-op when the DB already exists.
+echo   Verifying CRM database...
+node scripts/create-database.js
+if %ERRORLEVEL% NEQ 0 (
+    echo.
+    echo   [X] Could not create or verify the CRM database.
+    echo.
+    echo   This almost always means the DB_PASSWORD in .env is wrong.
+    echo.
+    echo   HOW TO FIX:
+    echo     1. Open ".env" in Notepad.
+    echo     2. Find this line:  DB_PASSWORD=
+    echo        Make sure the value after the = sign is EXACTLY the password
+    echo        you chose when you installed PostgreSQL.
+    echo     3. Also check:  DB_USER=postgres  (keep this unchanged).
+    echo     4. Save ".env" and double-click this file again.
+    echo.
+    echo   If you have forgotten your PostgreSQL password:
+    echo     See STEP-BY-STEP.txt under "COMMON PROBLEMS" for reset instructions.
+    echo.
+    exit /b 1
+)
+echo.
+
 REM  /k keeps the server window open even if the server crashes,
 REM  so you can read any error messages.
 REM  NODE_ENV=production tells the server to serve the React pages we just built.

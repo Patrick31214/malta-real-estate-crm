@@ -467,7 +467,25 @@ COMMON PROBLEMS
         → wrong DB_PASSWORD in .env
         "Unable to connect to the database: connect ECONNREFUSED 127.0.0.1:5432"
         → PostgreSQL service is not running
+        "Could not create/verify the database: password authentication failed"
+        → wrong DB_PASSWORD in .env (caught BEFORE the server starts)
       Read the message and follow STEP A or STEP B above.
+
+  PROBLEM: Setup says "[X] Could not create or verify the CRM database"
+  SOLUTION: This new check runs before the server starts to create the
+            'malta_crm' database automatically.  If it fails, the most
+            common cause is a wrong DB_PASSWORD.
+
+    1. Open ".env" in Notepad.
+    2. Find the line:  DB_PASSWORD=
+       The value after = must be EXACTLY the password you chose when
+       you installed PostgreSQL.  It is case-sensitive.
+    3. Also check:  DB_USER=postgres  (leave this as "postgres").
+    4. Save the file and double-click start-windows.bat again.
+
+    FORGOTTEN YOUR PostgreSQL PASSWORD?
+    You can reset it via pgAdmin (the purple elephant icon in your
+    Start Menu), or reinstall PostgreSQL (your data will be lost).
 
   PROBLEM: Browser shows 'This site can't be reached' or connection refused
   SOLUTION: Wait 30 seconds after double-clicking start-windows.bat,
