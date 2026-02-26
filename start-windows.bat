@@ -34,7 +34,7 @@ echo.
 echo [3/3] Checking configuration file...
 if not exist ".env" (
     if exist ".env.example" (
-        copy .env.example .env
+        copy .env.example .env >nul
         echo [OK] Created .env from .env.example.
         echo.
         echo  IMPORTANT: Open .env in Notepad and fill in your DB_PASSWORD
@@ -49,10 +49,23 @@ if not exist ".env" (
 )
 echo.
 
-echo Opening frontend in a new window (http://localhost:3000)...
-start "Malta CRM - Frontend" /D "%~dp0" cmd /k npm run client:dev
+if exist "client\package.json" (
+    echo Opening frontend in a new window (http://localhost:3000) and backend at http://localhost:3001...
+    start "Malta CRM - Frontend" /D "%~dp0" cmd /k npm run client:dev
+    echo.
+)
+
+echo ============================================================
+echo   CRM backend is starting...
 echo.
-echo Starting backend - press Ctrl+C in this window to stop...
+echo   Open your browser and go to:
+echo       http://localhost:3001
 echo.
+echo   To STOP: press Ctrl+C in this window.
+echo ============================================================
+echo.
+
+start http://localhost:3001
+
 call npm run dev
 

@@ -117,21 +117,23 @@ STEP 2 - START THE CRM  (do this EVERY TIME you want to use it)
   5. A black window opens and installs things automatically.
      This can take 1-3 minutes the first time. Just wait.
 
-  6. When it is ready you will see:
-        Opening frontend in a new window (http://localhost:3000)...
-        Starting backend - press Ctrl+C in this window to stop...
+  6. When it is ready you will see messages like:
+        CRM backend is starting...
+        Open your browser and go to: http://localhost:3001
+        Server is running on port 3001
 
-  7. Open your browser (Chrome, Edge, or Firefox) and go to:
-        http://localhost:3000
+     Your browser will open automatically.  If it does not, open it
+     yourself and go to:
+        http://localhost:3001
 
 
 ================================================================
 STEP 3 - STOPPING THE CRM
 ================================================================
 
-  1. Click on the black window that says 'Starting backend...'
+  1. Click on the black Command Prompt window running the CRM.
   2. Press Ctrl+C (hold Ctrl and press C at the same time).
-  3. Close the other black window (the frontend one) by clicking the X.
+  3. When asked 'Terminate batch job (Y/N)?', type  Y  and press ENTER.
 
 
 ================================================================
@@ -161,7 +163,7 @@ COMMON PROBLEMS
 
   PROBLEM: Browser shows 'This site can't be reached' or connection refused
   SOLUTION: Wait 30 seconds after double-clicking start-windows.bat,
-            then try http://localhost:3000 again.
+            then try http://localhost:3001 again.
 
 
 ================================================================
