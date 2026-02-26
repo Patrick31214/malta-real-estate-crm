@@ -1,0 +1,97 @@
+MALTA CRM - HOW TO START (STEP BY STEP)
+=========================================
+
+Do these steps IN ORDER, one at a time.
+
+
+================================================================
+STEP 1 - GET THE LATEST VERSION (do this ONCE, the first time)
+================================================================
+
+  1. You should have this folder open in Windows Explorer.
+     The address bar at the top shows something like:
+        C:\Users\YourName\malta-crm\malta-real-estate-crm
+     (YourName is YOUR Windows username, for example: Patrick, Admin, John, etc.)
+
+  2. Look at the TOP of the Explorer window.
+     You will see the folder path in a white bar.
+     CLICK on that white bar with the path (it will go blue/selected).
+
+  3. While that bar is selected (blue), type:  cmd
+     (just the three letters c-m-d)
+     Then press ENTER.
+
+  4. A BLACK window opens (Command Prompt).
+     You will see something like:  C:\Users\YourName\malta-crm\malta-real-estate-crm>
+
+  5. In that black window, type:  git pull
+     Then press ENTER.
+     Wait until it finishes (you will see 'Already up to date.' or a list of files).
+
+  6. Type:  exit
+     Then press ENTER. The black window closes.
+
+
+================================================================
+STEP 2 - START THE CRM (do this EVERY TIME you want to use it)
+================================================================
+
+  1. In Windows Explorer, find the file:  START-CRM.bat
+     (It is in the same folder as this file.)
+
+  2. DOUBLE-CLICK on  START-CRM.bat
+
+  3. A black window opens. You will see it installing things.
+     This can take 1-3 minutes the first time. Just wait.
+
+  4. When it is ready, it will say:
+        Opening frontend in a new window (http://localhost:3000)...
+        Starting backend - press Ctrl+C in this window to stop...
+
+  5. Your browser may open automatically. If not, open your browser
+     (Chrome, Edge, or Firefox) and go to:  http://localhost:3000
+
+
+================================================================
+STEP 3 - STOPPING THE CRM
+================================================================
+
+  1. Click on the black window that says 'Starting backend...'
+  2. Press Ctrl+C (hold Ctrl and press C at the same time).
+  3. Close the other black window (the frontend one) by clicking the X.
+
+
+================================================================
+COMMON PROBLEMS
+================================================================
+
+  PROBLEM: 'npm' is not recognized
+  SOLUTION: Install Node.js. Go to https://nodejs.org/
+            Download the version labelled 'LTS - Recommended For Most Users'.
+            Run the installer and click Next until it finishes.
+            After installing, close and re-open Windows Explorer, then try again.
+
+  PROBLEM: 'git' is not recognized
+  SOLUTION: Install Git. Go to https://git-scm.com/download/win
+            Click 'Download for Windows', run the installer, click Next everywhere.
+
+  PROBLEM: The black window closes immediately / shows an error
+  SOLUTION: Make sure you double-clicked START-CRM.bat from INSIDE the folder:
+               C:\Users\YourName\malta-crm\malta-real-estate-crm
+            (This folder must contain a file called package.json)
+
+  PROBLEM: Browser shows 'This site can't be reached' or connection refused
+  SOLUTION: Wait 30 seconds after double-clicking START-CRM.bat,
+            then try http://localhost:3000 again.
+
+
+================================================================
+NEED TO UPDATE TO A NEW VERSION?
+================================================================
+
+  1. Follow STEP 1 again (open CMD, type: git pull, press ENTER).
+  2. Then follow STEP 2 again (double-click START-CRM.bat).
+
+=========================================
+End of instructions
+=========================================
