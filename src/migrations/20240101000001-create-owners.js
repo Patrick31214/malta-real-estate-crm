@@ -1,5 +1,7 @@
 'use strict';
 
+const { addIndexIfNotExists } = require('./helpers');
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('owners', {
@@ -74,11 +76,11 @@ module.exports = {
     });
 
     // Add indexes
-    await queryInterface.addIndex('owners', ['email'], {
+    await addIndexIfNotExists(queryInterface, 'owners', ['email'], {
       name: 'owners_email_idx',
       unique: true
     });
-    await queryInterface.addIndex('owners', ['is_active'], {
+    await addIndexIfNotExists(queryInterface, 'owners', ['is_active'], {
       name: 'owners_is_active_idx'
     });
   },

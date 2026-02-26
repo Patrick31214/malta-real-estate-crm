@@ -1,0 +1,27 @@
+.app-header {
+  height: var(--header-height);
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.header-badge {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-medium);
+  background: var(--bg-page);
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}

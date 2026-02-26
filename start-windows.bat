@@ -1,20 +1,17 @@
 @echo off
 REM ============================================================================
-REM  Malta Real Estate CRM - Windows Launcher
-REM  Double-click this file to set up and start the CRM.
+REM  Malta Real Estate CRM - Windows Setup & Launcher
+REM  Double-click this file to install, build, and start the CRM.
 REM ============================================================================
 
 REM ── Outer wrapper: guarantees this window NEVER closes without a pause ───────
-REM    call :main runs all setup inside a subroutine.
-REM    If :main exits with an error code, the message below is shown.
-REM    If :main exits normally, the CRM is running and we just pause here.
-
 call :main
 if %ERRORLEVEL% NEQ 0 (
     echo.
     echo ============================================================
     echo   [!]  Something went wrong.
     echo   Read the MESSAGES ABOVE to see what needs to be fixed.
+    echo   Then double-click this file again.
     echo ============================================================
 )
 echo.
@@ -23,165 +20,37 @@ pause >nul
 exit /b
 
 REM ============================================================================
-REM  :main  -  All setup and launch logic lives here.
-REM            "exit /b 1" returns to the outer wrapper (never closes the window)
-REM            "exit /b 0" returns to the outer wrapper (success)
+REM  :main  -  All setup and launch logic.
 REM ============================================================================
 :main
 
-REM Move to the folder where this script lives so relative paths work correctly.
 cd /d "%~dp0"
 
 echo.
 echo ============================================================
-echo   Malta Real Estate CRM - Windows Launcher
-echo ============================================================
-echo.
-echo   This script will:
-echo     1. Check that Node.js and npm are installed
-echo     2. Create your config file (.env) on first run
-echo     3. Install all required packages
-echo     4. Build the CRM pages (first time: takes 2-3 min)
-echo     5. Start the CRM server in a dedicated window
-echo.
-echo   IMPORTANT: If a check fails, READ THIS WINDOW - it will
-echo   tell you exactly what to install and how to fix it.
-echo.
+echo   Malta Real Estate CRM - Windows Setup ^& Launcher
 echo ============================================================
 echo.
 
-REM ── Safety check: make sure we are in the right folder ───────────────────────
+REM ── Safety: make sure we are in the correct folder ──────────────────────────
 if not exist "package.json" (
     echo   [X] ERROR: package.json not found in:
     echo       %CD%
     echo.
-    echo   This usually means one of two things:
-    echo.
-    echo   1. You are running the script from INSIDE a ZIP archive.
-    echo      ZIP archives look like folders but they are NOT extracted.
-    echo      HOW TO FIX:
-    echo        a. Right-click the ZIP file and choose "Extract All"
-    echo        b. Open the EXTRACTED folder
-    echo        c. Double-click quick-start.bat again
-    echo.
-    echo   2. You moved quick-start.bat out of the project folder.
-    echo      HOW TO FIX:
-    echo        a. Find the malta-real-estate-crm folder
-    echo        b. Double-click quick-start.bat from INSIDE that folder
-    echo.
-    exit /b 1
-)
-
-REM ── CHECK 1: Node.js ──────────────────────────────────────────────────────────
-echo [CHECK 1/3] Node.js...
-where node >nul 2>nul
-if %ERRORLEVEL% NEQ 0 (
-    echo.
-    echo   [X] Node.js is NOT installed on this computer.
-    echo.
-    echo   Node.js is the program that runs the CRM server.
-    echo   Without it, nothing will work.
+    echo   This usually means you are running the script from inside
+    echo   a ZIP archive without extracting it first.
     echo.
     echo   HOW TO FIX:
-    echo     1. Open your browser and go to:  https://nodejs.org/
-    echo     2. Click the big green "LTS" button and download it.
-    echo     3. Run the installer - click Next on everything.
-    echo     4. When it finishes, RESTART your computer.
-    echo     5. Then double-click this file again.
-    echo.
-    exit /b 1
-)
-for /f "tokens=*" %%V in ('node --version 2^>nul') do echo   [OK] Node.js %%V
-
-REM ── CHECK 2: npm ──────────────────────────────────────────────────────────────
-echo [CHECK 2/3] npm...
-where npm >nul 2>nul
-if %ERRORLEVEL% NEQ 0 (
-    echo.
-    echo   [X] npm is NOT found.
-    echo.
-    echo   npm is installed together with Node.js.
-    echo   If npm is missing, Node.js was not installed correctly.
-    echo.
-    echo   HOW TO FIX:
-    echo     1. Go to https://nodejs.org/ and reinstall Node.js (LTS version).
-    echo     2. RESTART your computer.
-    echo     3. Double-click this file again.
-    echo.
-    exit /b 1
-)
-for /f "tokens=*" %%V in ('npm --version 2^>nul') do echo   [OK] npm %%V
-
-REM ── CHECK 3: Configuration file (.env) ───────────────────────────────────────
-echo [CHECK 3/3] Configuration file (.env)...
-if not exist ".env" (
-    if exist ".env.example" (
-        copy .env.example .env >nul
-        echo   [OK] Created .env from template.
-        echo.
-        echo ============================================================
-        echo   ACTION NEEDED before you can use the CRM:
-        echo.
-        echo   Open the file ".env" in Notepad and fill in:
-        echo.
-        echo     DB_PASSWORD=        ^<-- your PostgreSQL password
-        echo     JWT_SECRET=         ^<-- replace placeholder with any
-        echo     JWT_REFRESH_SECRET= ^<-- long random text (both lines)
-        echo.
-        echo   After saving .env, double-click this file again.
-        echo ============================================================
-        echo.
-        exit /b 1
-    ) else (
-        echo   [X] No .env or .env.example file found.
-        echo       Make sure you are running this from inside the
-        echo       malta-real-estate-crm folder.
-        exit /b 1
-    )
-)
-echo   [OK] .env file exists.
-
-REM Block if DB_PASSWORD is still the placeholder (server will crash without this).
-findstr /C:"DB_PASSWORD=your_password_here" .env >nul 2>nul
-if %ERRORLEVEL% EQU 0 (
-    echo.
-    echo   [X] DB_PASSWORD in .env is still the placeholder value.
-    echo.
-    echo   The CRM server needs this to connect to its database.
-    echo   Without a correct password the server will crash immediately.
-    echo.
-    echo   HOW TO FIX:
-    echo     1. Open the file ".env" in Notepad.
-    echo     2. Find this line:   DB_PASSWORD=your_password_here
-    echo     3. Replace  your_password_here  with your PostgreSQL password.
-    echo        Example:  DB_PASSWORD=MyPostgresPass123
-    echo     4. If you do not know your PostgreSQL password or have not
-    echo        installed PostgreSQL yet, see STEP-BY-STEP.txt.
-    echo     5. Save .env and double-click this file again.
+    echo     1. Right-click the ZIP file and choose "Extract All"
+    echo     2. Open the EXTRACTED malta-real-estate-crm folder
+    echo     3. Double-click start-windows.bat again
     echo.
     exit /b 1
 )
 
-REM Warn about placeholder JWT secrets (non-fatal - user may have configured already)
-findstr /C:"JWT_SECRET=your_super_secret" .env >nul 2>nul
-if %ERRORLEVEL% EQU 0 (
-    echo.
-    echo   [!] WARNING: Your .env still has placeholder JWT secrets.
-    echo       The CRM will start, but you should replace them:
-    echo         1. Open ".env" in Notepad
-    echo         2. Replace JWT_SECRET= and JWT_REFRESH_SECRET= values
-    echo            with any long random text.
-    echo.
-)
-echo.
-
-REM ── STEP 1: Install backend packages ─────────────────────────────────────────
-echo ============================================================
-echo   Checks passed - installing and launching the CRM...
-echo ============================================================
-echo.
-echo [STEP 1/3] Installing backend packages...
-echo   (This may take a minute on first run - please wait)
+REM ── STEP 1: Install backend packages ────────────────────────────────────────
+echo [1/4] Installing backend packages...
+echo   (first run may take a minute - please wait)
 echo.
 call npm install
 if %ERRORLEVEL% NEQ 0 (
@@ -189,17 +58,82 @@ if %ERRORLEVEL% NEQ 0 (
     echo   [X] npm install failed.
     echo.
     echo   Common causes:
-    echo     - No internet connection.  Connect and try again.
-    echo     - Antivirus blocking npm.  Try disabling it temporarily.
-    echo     - Node.js needs updating.  Get latest LTS from nodejs.org
+    echo     - No internet connection.
+    echo     - Node.js not installed.  Download from: https://nodejs.org/
+    echo     - Antivirus blocking npm. Try disabling it temporarily.
     echo.
     exit /b 1
 )
 echo   [OK] Backend packages installed.
 echo.
 
-REM ── STEP 2: Build the React CRM interface ────────────────────────────────────
-echo [STEP 2/3] Building the CRM interface...
+REM ── STEP 2: Configuration file (.env) ───────────────────────────────────────
+echo [2/4] Checking configuration file...
+if not exist ".env" (
+    if exist ".env.example" (
+        copy .env.example .env >nul
+        echo   [OK] Created .env from template.
+        echo.
+        echo ============================================================
+        echo   ACTION NEEDED:
+        echo.
+        echo   Open the file ".env" in Notepad and fill in:
+        echo.
+        echo     DB_PASSWORD=        ^<-- your PostgreSQL password
+        echo     JWT_SECRET=         ^<-- replace with any long random text
+        echo     JWT_REFRESH_SECRET= ^<-- replace with any long random text
+        echo.
+        echo   Save the file, then double-click start-windows.bat again.
+        echo ============================================================
+        echo.
+        exit /b 1
+    ) else (
+        echo   [X] No .env file found and no .env.example template either.
+        echo       Make sure you are running this from inside the
+        echo       malta-real-estate-crm folder.
+        exit /b 1
+    )
+) else (
+    echo   [OK] .env file exists.
+
+    REM Check for the unchanged DB_PASSWORD placeholder.
+    findstr /C:"DB_PASSWORD=your_password_here" .env >nul 2>nul
+    if %ERRORLEVEL% EQU 0 (
+        echo.
+        echo   [X] DB_PASSWORD in .env is still the placeholder value.
+        echo.
+        echo   The CRM server needs this to connect to its database.
+        echo   Without a correct password the server will crash immediately.
+        echo.
+        echo   HOW TO FIX:
+        echo     1. Open the file ".env" in Notepad.
+        echo     2. Find this line:   DB_PASSWORD=your_password_here
+        echo     3. Replace  your_password_here  with your PostgreSQL password.
+        echo        Example:  DB_PASSWORD=MyPostgresPass123
+        echo     4. If you do not know your PostgreSQL password or have not
+        echo        installed PostgreSQL yet, see STEP-BY-STEP.txt.
+        echo     5. Save .env and double-click this file again.
+        echo.
+        exit /b 1
+    )
+
+    REM Warn about unchanged JWT secrets (non-fatal - CRM works but is less secure).
+    findstr /C:"JWT_SECRET=your_super_secret" .env >nul 2>nul
+    if %ERRORLEVEL% EQU 0 (
+        echo.
+        echo   [!] WARNING: JWT_SECRET in .env is still the placeholder value.
+        echo       The CRM will start but anyone who reads this file could
+        echo       forge login tokens.  Please change it before real use:
+        echo         Open .env in Notepad and replace the JWT_SECRET= value
+        echo         with any long random text (e.g. 32+ random characters).
+        echo       Also replace JWT_REFRESH_SECRET= with different random text.
+        echo.
+    )
+)
+echo.
+
+REM ── STEP 3: Build the React CRM interface ───────────────────────────────────
+echo [3/4] Building the CRM interface...
 if exist "client\package.json" (
     if not exist "client\node_modules" (
         echo   First-time setup: installing interface packages...
@@ -225,21 +159,20 @@ if exist "client\package.json" (
         echo.
         echo   Common causes:
         echo     - Node.js too old (v16+ required).  Check: node --version
-        echo     - Disk space low (need ~500 MB free).
-        echo     - Try: delete the client\node_modules folder and run again.
+        echo     - Not enough disk space (need ~500 MB free).
+        echo     - Try: delete client\node_modules and run again.
         echo.
         exit /b 1
     )
     echo   [OK] CRM interface built.
 ) else (
     echo   [SKIP] client\package.json not found.
-    echo          The CRM server will start but the browser pages may not load.
     echo          Re-download the full project ZIP if this is unexpected.
 )
 echo.
 
-REM ── STEP 3: Check PostgreSQL, then start the CRM server ─────────────────────
-echo [STEP 3/3] Checking PostgreSQL and starting the CRM server...
+REM ── STEP 4: Check PostgreSQL, then start the CRM server ─────────────────────
+echo [4/4] Checking PostgreSQL and launching CRM server...
 echo.
 
 REM  Read DB_PORT from .env so the check uses the same port as the application.
@@ -250,6 +183,7 @@ for /f "usebackq tokens=*" %%V in (`powershell -NoProfile -Command ^
 if not defined DB_PORT set DB_PORT=5432
 
 REM  Test whether PostgreSQL is listening on the configured port.
+REM  We use PowerShell TcpClient because it is available on all modern Windows.
 powershell -NoProfile -Command ^
   "try { $c=New-Object Net.Sockets.TcpClient; $c.Connect('127.0.0.1',%DB_PORT%); $c.Close(); exit 0 } catch { exit 1 }" ^
   >nul 2>nul
@@ -312,12 +246,11 @@ if %ERRORLEVEL% NEQ 0 (
 )
 echo.
 
-REM  /k keeps the server window open even if the server crashes,
-REM  so you can read any error messages.
+REM  /k keeps the server window open so you can read errors if the server stops.
 REM  NODE_ENV=production tells the server to serve the React pages we just built.
 start "Malta CRM Server - DO NOT CLOSE" /D "%CD%" cmd /k "set NODE_ENV=production && npm start"
 
-REM  Open the browser after 8 seconds - gives the server time to connect to
+REM  Open the browser after 8 seconds - enough time for Node.js to connect to
 REM  PostgreSQL and start listening on port 3001.
 start "" /b powershell -WindowStyle Hidden -NoProfile -Command "Start-Sleep 8; Start-Process 'http://localhost:3001'"
 
@@ -346,13 +279,13 @@ echo   Default login (if you loaded the sample data):
 echo        Email:    admin@maltarealestate.com
 echo        Password: Password123!
 echo.
-echo   Browser did not open? Enter this in your browser:
+echo   Browser did not open? Type this in your browser:
 echo        http://localhost:3001
 echo.
 echo ============================================================
 echo.
-echo   This SETUP window is no longer needed.
-echo   The CRM keeps running in the other window.
+echo   Press any key to close THIS setup window.
+echo   (The CRM keeps running in the "Malta CRM Server" window.)
 echo.
 
 exit /b 0

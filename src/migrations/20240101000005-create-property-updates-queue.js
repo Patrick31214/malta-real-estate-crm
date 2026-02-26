@@ -1,5 +1,7 @@
 'use strict';
 
+const { addIndexIfNotExists } = require('./helpers');
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('property_updates_queue', {
@@ -118,22 +120,22 @@ module.exports = {
     });
 
     // Add indexes
-    await queryInterface.addIndex('property_updates_queue', ['property_id'], {
+    await addIndexIfNotExists(queryInterface, 'property_updates_queue', ['property_id'], {
       name: 'property_updates_queue_property_id_idx'
     });
-    await queryInterface.addIndex('property_updates_queue', ['status'], {
+    await addIndexIfNotExists(queryInterface, 'property_updates_queue', ['status'], {
       name: 'property_updates_queue_status_idx'
     });
-    await queryInterface.addIndex('property_updates_queue', ['update_type'], {
+    await addIndexIfNotExists(queryInterface, 'property_updates_queue', ['update_type'], {
       name: 'property_updates_queue_update_type_idx'
     });
-    await queryInterface.addIndex('property_updates_queue', ['scheduled_for'], {
+    await addIndexIfNotExists(queryInterface, 'property_updates_queue', ['scheduled_for'], {
       name: 'property_updates_queue_scheduled_for_idx'
     });
-    await queryInterface.addIndex('property_updates_queue', ['priority'], {
+    await addIndexIfNotExists(queryInterface, 'property_updates_queue', ['priority'], {
       name: 'property_updates_queue_priority_idx'
     });
-    await queryInterface.addIndex('property_updates_queue', ['created_at'], {
+    await addIndexIfNotExists(queryInterface, 'property_updates_queue', ['created_at'], {
       name: 'property_updates_queue_created_at_idx'
     });
   },

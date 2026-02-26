@@ -1,5 +1,7 @@
 'use strict';
 
+const { addIndexIfNotExists } = require('./helpers');
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('inquiries', {
@@ -134,25 +136,25 @@ module.exports = {
     });
 
     // Add indexes
-    await queryInterface.addIndex('inquiries', ['property_id'], {
+    await addIndexIfNotExists(queryInterface, 'inquiries', ['property_id'], {
       name: 'inquiries_property_id_idx'
     });
-    await queryInterface.addIndex('inquiries', ['agent_id'], {
+    await addIndexIfNotExists(queryInterface, 'inquiries', ['agent_id'], {
       name: 'inquiries_agent_id_idx'
     });
-    await queryInterface.addIndex('inquiries', ['client_email'], {
+    await addIndexIfNotExists(queryInterface, 'inquiries', ['client_email'], {
       name: 'inquiries_client_email_idx'
     });
-    await queryInterface.addIndex('inquiries', ['status'], {
+    await addIndexIfNotExists(queryInterface, 'inquiries', ['status'], {
       name: 'inquiries_status_idx'
     });
-    await queryInterface.addIndex('inquiries', ['inquiry_type'], {
+    await addIndexIfNotExists(queryInterface, 'inquiries', ['inquiry_type'], {
       name: 'inquiries_inquiry_type_idx'
     });
-    await queryInterface.addIndex('inquiries', ['priority'], {
+    await addIndexIfNotExists(queryInterface, 'inquiries', ['priority'], {
       name: 'inquiries_priority_idx'
     });
-    await queryInterface.addIndex('inquiries', ['created_at'], {
+    await addIndexIfNotExists(queryInterface, 'inquiries', ['created_at'], {
       name: 'inquiries_created_at_idx'
     });
   },

@@ -1,5 +1,7 @@
 'use strict';
 
+const { addIndexIfNotExists } = require('./helpers');
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('automated_contact_logs', {
@@ -160,31 +162,31 @@ module.exports = {
     });
 
     // Add indexes
-    await queryInterface.addIndex('automated_contact_logs', ['property_id'], {
+    await addIndexIfNotExists(queryInterface, 'automated_contact_logs', ['property_id'], {
       name: 'automated_contact_logs_property_id_idx'
     });
-    await queryInterface.addIndex('automated_contact_logs', ['inquiry_id'], {
+    await addIndexIfNotExists(queryInterface, 'automated_contact_logs', ['inquiry_id'], {
       name: 'automated_contact_logs_inquiry_id_idx'
     });
-    await queryInterface.addIndex('automated_contact_logs', ['agent_id'], {
+    await addIndexIfNotExists(queryInterface, 'automated_contact_logs', ['agent_id'], {
       name: 'automated_contact_logs_agent_id_idx'
     });
-    await queryInterface.addIndex('automated_contact_logs', ['contact_type'], {
+    await addIndexIfNotExists(queryInterface, 'automated_contact_logs', ['contact_type'], {
       name: 'automated_contact_logs_contact_type_idx'
     });
-    await queryInterface.addIndex('automated_contact_logs', ['status'], {
+    await addIndexIfNotExists(queryInterface, 'automated_contact_logs', ['status'], {
       name: 'automated_contact_logs_status_idx'
     });
-    await queryInterface.addIndex('automated_contact_logs', ['recipient_email'], {
+    await addIndexIfNotExists(queryInterface, 'automated_contact_logs', ['recipient_email'], {
       name: 'automated_contact_logs_recipient_email_idx'
     });
-    await queryInterface.addIndex('automated_contact_logs', ['automation_trigger'], {
+    await addIndexIfNotExists(queryInterface, 'automated_contact_logs', ['automation_trigger'], {
       name: 'automated_contact_logs_automation_trigger_idx'
     });
-    await queryInterface.addIndex('automated_contact_logs', ['created_at'], {
+    await addIndexIfNotExists(queryInterface, 'automated_contact_logs', ['created_at'], {
       name: 'automated_contact_logs_created_at_idx'
     });
-    await queryInterface.addIndex('automated_contact_logs', ['sent_at'], {
+    await addIndexIfNotExists(queryInterface, 'automated_contact_logs', ['sent_at'], {
       name: 'automated_contact_logs_sent_at_idx'
     });
   },
