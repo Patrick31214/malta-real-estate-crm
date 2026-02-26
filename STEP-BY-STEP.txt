@@ -184,11 +184,11 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
     and opens the CRM Login Page in your browser.
 
   quick-start.bat
-    A CHECKER (not a starter).
-    Double-click this ONLY if you want to check whether
-    Node.js, PostgreSQL, and your configuration are set up correctly.
-    If a check fails, the window STAYS OPEN and tells you what to install.
-    After checking, you still need to run start-windows.bat to start the CRM.
+    ✔ ALSO WORKS AS A STARTER - use this if start-windows.bat is not present.
+    Double-click this to check your setup AND start the CRM.
+    It checks Node.js and npm, installs packages, builds the CRM pages,
+    and opens the CRM Login Page in your browser - same as start-windows.bat.
+    If a check fails the window STAYS OPEN and tells you exactly what to fix.
 
   quick-start.sh
     ⚠ FOR MAC AND LINUX ONLY — DO NOT USE ON WINDOWS.
@@ -340,6 +340,48 @@ STEP 3 - STOPPING THE CRM
 COMMON PROBLEMS
 ================================================================
 
+  PROBLEM: The black window closes IMMEDIATELY (opens and closes in a flash)
+           - I double-clicked the file and the window disappeared before I
+             could read anything
+  SOLUTION: This nearly always means ONE of these things:
+
+    CAUSE A — You are running the script from INSIDE a ZIP archive.
+              ZIP archives look exactly like normal folders in Windows Explorer
+              but the files inside them are NOT actually extracted to your PC.
+              When you run a script from inside a ZIP, Windows puts it in a
+              hidden temporary folder where package.json does not exist, so
+              the script fails in the first second and the window closes.
+
+              HOW TO FIX:
+                1. CLOSE the ZIP window completely.
+                2. Find the ZIP file (e.g. malta-real-estate-crm.zip) in
+                   Windows Explorer (the yellow folder icon).
+                3. RIGHT-CLICK on the ZIP file.
+                4. Click "Extract All..." (or "Extract Here").
+                5. Choose a folder and click Extract.
+                6. A NEW real folder appears (not a ZIP).
+                7. Open that new folder.
+                8. Double-click quick-start.bat from INSIDE that real folder.
+
+    CAUSE B — Node.js is not installed on your computer.
+              The CRM needs Node.js to run. If it is missing, the script
+              exits with nothing visible.
+
+              HOW TO FIX:
+                1. Open your browser and go to: https://nodejs.org/
+                2. Click the big green "LTS" button and download.
+                3. Run the installer - click Next on everything.
+                4. RESTART your computer.
+                5. Double-click quick-start.bat again.
+
+    CAUSE C — You moved quick-start.bat out of the project folder.
+              The script must be inside the malta-real-estate-crm folder
+              (the same folder that contains package.json).
+
+              HOW TO FIX:
+                Find the malta-real-estate-crm folder and double-click
+                quick-start.bat (or start-windows.bat) from INSIDE it.
+
   PROBLEM: I typed 'cmd' and it opened a Google search / showed search results
   SOLUTION: You typed 'cmd' in your WEB BROWSER address bar by mistake.
             Your web browser (Chrome, Edge, Firefox) is NOT Windows Explorer.
@@ -379,9 +421,10 @@ COMMON PROBLEMS
             A black Command Prompt window will open - that is the CRM running.
 
   PROBLEM: The black window closes immediately / shows an error
-  SOLUTION: Make sure you double-clicked start-windows.bat from INSIDE the folder:
-               C:\Users\YourName\malta-crm\malta-real-estate-crm
-            (This folder must contain a file called package.json)
+  SOLUTION: See the detailed entry at the top of COMMON PROBLEMS above.
+            The most common cause is running the script from inside a ZIP
+            archive without extracting it first. Extract the ZIP, then
+            double-click quick-start.bat from inside the extracted folder.
 
   PROBLEM: Browser shows 'This site can't be reached' or connection refused
   SOLUTION: Wait 30 seconds after double-clicking start-windows.bat,
