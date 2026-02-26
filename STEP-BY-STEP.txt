@@ -23,6 +23,39 @@ IMPORTANT - READ THIS FIRST
 
 
 ================================================================
+ABOUT start-windows.bat  (PLEASE READ - this causes confusion)
+================================================================
+
+  start-windows.bat is a PROGRAM, not a website link.
+
+  DO NOT try to open start-windows.bat in Chrome, Edge, or Firefox.
+  Typing "http//start-windows.bat" or dragging it into a browser will NOT work.
+  Opening it in Notepad will just show the script text - that is also wrong.
+
+  HOW TO RUN IT CORRECTLY:
+    Double-click start-windows.bat in Windows Explorer (the yellow folder).
+    A black Command Prompt window will open and run the CRM.
+
+  WHAT TO EXPECT:
+    - A black window opens and shows text (this is NORMAL and CORRECT).
+    - After about 15 seconds, your browser opens automatically.
+    - The CRM website appears in your browser at http://localhost:3001
+    - The black window stays open. THIS IS CORRECT - do not close it.
+      The black window is the engine keeping the CRM running.
+      Closing the black window will STOP the CRM.
+
+  IF DOUBLE-CLICK OPENS NOTEPAD (shows lines of text starting with @echo):
+    Right-click on start-windows.bat  (hold right mouse button, then release)
+    Click "Open with"
+    Click "Choose another app" (or "Choose default program")
+    Scroll down and click "Windows Command Processor" or "cmd.exe"
+    Make sure "Always use this app" is NOT ticked
+    Click OK
+    The black window should now open and start the CRM.
+    OR: just use command prompt (see STEP 2 below).
+
+
+================================================================
 STEP 1 - OPEN A COMMAND PROMPT  (3 methods - use whichever works)
 ================================================================
 
@@ -113,18 +146,27 @@ STEP 2 - START THE CRM  (do this EVERY TIME you want to use it)
      (It is in the same folder as this STEP-BY-STEP.txt file.)
 
   4. DOUBLE-CLICK on  start-windows.bat
+     A black window opens. This is CORRECT - it is not an error.
+     (If it opens in Notepad instead, see the ABOUT section above.)
 
-  5. A black window opens and installs things automatically.
+  5. The black window installs things and starts the CRM server.
      This can take 1-3 minutes the first time. Just wait.
 
-  6. When it is ready you will see messages like:
-        CRM backend is starting...
-        Open your browser and go to: http://localhost:3001
-        Server is running on port 3001
-
-     Your browser will open automatically.  If it does not, open it
-     yourself and go to:
+  6. After about 15 seconds, your browser opens automatically and
+     shows the CRM website at:
         http://localhost:3001
+
+     If your browser does NOT open automatically:
+     Open Chrome, Edge, or Firefox yourself and type in the address bar:
+        http://localhost:3001
+     Then press ENTER.
+
+  IMPORTANT: The black window must stay open the whole time you use the CRM.
+             The black window IS the CRM server - closing it stops everything.
+
+  ALSO: If the CRM does not open after 30 seconds, something went wrong.
+        Look at the black window for error messages.
+        Common problems are listed below in COMMON PROBLEMS.
 
 
 ================================================================
@@ -155,6 +197,17 @@ COMMON PROBLEMS
   SOLUTION: Install Git. Go to https://git-scm.com/download/win
             Click 'Download for Windows', run the installer, click Next everywhere.
             After installing, close and re-open any black windows, then try again.
+
+  PROBLEM: Double-clicking start-windows.bat opens Notepad with text starting
+           with @echo off (instead of opening a black window)
+  SOLUTION: See "IF DOUBLE-CLICK OPENS NOTEPAD" in the ABOUT section above.
+            Or: open a Command Prompt (METHOD A from STEP 1), navigate to
+            the CRM folder, and type:  start-windows.bat  then press ENTER.
+
+  PROBLEM: I opened start-windows.bat in Chrome / Edge / Firefox / a browser
+  SOLUTION: start-windows.bat is NOT a website. You cannot open it in a browser.
+            Double-click it in Windows Explorer (the yellow folder icon).
+            A black Command Prompt window will open - that is the CRM running.
 
   PROBLEM: The black window closes immediately / shows an error
   SOLUTION: Make sure you double-clicked start-windows.bat from INSIDE the folder:

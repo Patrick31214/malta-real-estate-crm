@@ -16,22 +16,11 @@ if not exist "package.json" (
     exit /b 1
 )
 
-echo [1/3] Installing backend dependencies...
+echo [1/3] Installing dependencies...
 call npm install
 echo.
 
-echo [2/3] Installing frontend dependencies...
-if exist "client\package.json" (
-    cd client
-    call npm install
-    cd ..
-    echo [OK] Frontend dependencies installed.
-) else (
-    echo [SKIP] No client\package.json found - skipping frontend install.
-)
-echo.
-
-echo [3/3] Checking configuration file...
+echo [2/3] Checking configuration file...
 if not exist ".env" (
     if exist ".env.example" (
         copy .env.example .env >nul
@@ -49,23 +38,33 @@ if not exist ".env" (
 )
 echo.
 
-if exist "client\package.json" (
-    echo Opening frontend in a new window (http://localhost:3000) and backend at http://localhost:3001...
-    start "Malta CRM - Frontend" /D "%~dp0" cmd /k npm run client:dev
-    echo.
-)
-
-echo ============================================================
-echo   CRM backend is starting...
+echo [3/3] Starting CRM server...
 echo.
-echo   Open your browser and go to:
-echo       http://localhost:3001
-echo.
-echo   To STOP: press Ctrl+C in this window.
 echo ============================================================
 echo.
+echo   SERVER IS STARTING - please wait about 20 seconds...
+echo.
+echo   Your browser will open automatically at http://localhost:3001
+echo   If it does not open, type http://localhost:3001 in your browser.
+echo.
+echo   IMPORTANT: Keep this black window OPEN while using the CRM.
+echo              Closing this window will STOP the CRM.
+echo.
+echo   To stop the CRM: press Ctrl+C in this window.
+echo.
+echo ============================================================
+echo.
 
-start http://localhost:3001
+REM Open browser after 20 seconds (gives server time to connect to database)
+start "" /b powershell -WindowStyle Hidden -NoProfile -Command "Start-Sleep 20; Start-Process 'http://localhost:3001'"
 
-call npm run dev
+REM Start the server - this keeps running until you press Ctrl+C
+call npm start
 
+echo.
+echo ============================================================
+echo   CRM server has stopped.
+echo   You can close this window now.
+echo ============================================================
+echo.
+pause
