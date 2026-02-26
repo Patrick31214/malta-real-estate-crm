@@ -655,12 +655,18 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
 
       1. Open a Command Prompt in the CRM folder (see STEP 1 above).
       2. Stop the CRM server if it is running (close its black window).
-      3. Type this and press ENTER:
+      3. Make sure you have the latest code — type this and press ENTER:
+            git pull
+      4. Then type this and press ENTER:
             npm run db:fresh
          This will: drop the database → recreate it → run all migrations
          → load demo data.
-      4. Restart the server (double-click start-windows.bat or START-CRM.bat).
-      5. Log in at http://localhost:3000 (or http://localhost:3001) with:
+
+         If you still see "Missing script: db:fresh" after the git pull,
+         use OPTION B (pgAdmin reset) below instead.
+
+      5. Restart the server (double-click start-windows.bat or START-CRM.bat).
+      6. Log in at http://localhost:3000 (or http://localhost:3001) with:
             Email:    admin@maltarealestate.com
             Password: Password123!
          Then change the password.
