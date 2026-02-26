@@ -5,6 +5,32 @@ Do these steps IN ORDER, one at a time.
 
 
 ================================================================
+QUICK START - USE index.html IN YOUR BROWSER
+================================================================
+
+  The easiest way to use the CRM from your browser:
+
+  1. Open Windows Explorer (the yellow folder icon on your taskbar).
+
+  2. Go to your CRM folder:
+        C:\Users\USER\malta-crm\malta-real-estate-crm
+
+  3. Double-click the file named:  index.html
+     It opens in your browser and shows a friendly launch page.
+
+  4. That page will tell you if the server is running or not,
+     and has a big "OPEN THE CRM" button.
+
+  5. If the server is not running, double-click start-windows.bat
+     (in Windows Explorer), wait 20 seconds, then click
+     "Check again" on the index.html page.
+
+  NOTE: If you opened the folder URL in Edge (file:///C:\...) and
+        saw a list of files, just click on index.html in that list.
+        Edge will show the launch page.
+
+
+================================================================
 IMPORTANT - READ THIS FIRST
 ================================================================
 
