@@ -640,6 +640,42 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
         3. Install it again. WRITE DOWN the new password.
         4. Update DB_PASSWORD in .env with the new password.
 
+  PROBLEM: npm run db:migrate fails with "relation already exists"
+           -OR- npm run db:seed fails with "column does not exist"
+           -OR- you ran the server before running migrations and now
+                the database has the wrong column names
+  SOLUTION: Your database tables were created in the wrong order (the
+            server ran first and created tables with wrong column names,
+            then the migration tried to create the same tables again).
+            The quickest fix is a FULL RESET — this DELETES all data.
+
+    ── OPTION A: Full reset via npm (EASIEST) ───────────────────────────────
+      WARNING: This deletes all data in the CRM database.
+      Only do this during initial setup (before you have real data).
+
+      1. Open a Command Prompt in the CRM folder (see STEP 1 above).
+      2. Stop the CRM server if it is running (close its black window).
+      3. Type this and press ENTER:
+            npm run db:fresh
+         This will: drop the database → recreate it → run all migrations
+         → load demo data.
+      4. Restart the server (double-click start-windows.bat or START-CRM.bat).
+      5. Log in at http://localhost:3000 (or http://localhost:3001) with:
+            Email:    admin@maltarealestate.com
+            Password: Password123!
+         Then change the password.
+
+    ── OPTION B: Manual reset via pgAdmin ───────────────────────────────────
+      1. Open pgAdmin (purple elephant icon in your Start Menu).
+      2. Expand Servers → PostgreSQL → Databases.
+      3. Right-click "malta_crm" → Delete/Drop → check "Drop with all objects"
+         → OK.
+      4. Right-click Databases → Create → Database.
+         Name it "malta_crm" and click Save.
+      5. Back in the Command Prompt, run:
+            npm run db:migrate
+            npm run db:seed
+
   PROBLEM: I can see the login page at http://localhost:3000 but I do not know
            what email and password to use
   SOLUTION: You need to create your first admin account.

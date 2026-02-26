@@ -1,5 +1,7 @@
 'use strict';
 
+const { addIndexIfNotExists } = require('./helpers');
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('properties', {
@@ -236,31 +238,31 @@ module.exports = {
     });
 
     // Add indexes
-    await queryInterface.addIndex('properties', ['owner_id'], {
+    await addIndexIfNotExists(queryInterface, 'properties', ['owner_id'], {
       name: 'properties_owner_id_idx'
     });
-    await queryInterface.addIndex('properties', ['agent_id'], {
+    await addIndexIfNotExists(queryInterface, 'properties', ['agent_id'], {
       name: 'properties_agent_id_idx'
     });
-    await queryInterface.addIndex('properties', ['property_type'], {
+    await addIndexIfNotExists(queryInterface, 'properties', ['property_type'], {
       name: 'properties_property_type_idx'
     });
-    await queryInterface.addIndex('properties', ['listing_type'], {
+    await addIndexIfNotExists(queryInterface, 'properties', ['listing_type'], {
       name: 'properties_listing_type_idx'
     });
-    await queryInterface.addIndex('properties', ['status'], {
+    await addIndexIfNotExists(queryInterface, 'properties', ['status'], {
       name: 'properties_status_idx'
     });
-    await queryInterface.addIndex('properties', ['city'], {
+    await addIndexIfNotExists(queryInterface, 'properties', ['city'], {
       name: 'properties_city_idx'
     });
-    await queryInterface.addIndex('properties', ['price'], {
+    await addIndexIfNotExists(queryInterface, 'properties', ['price'], {
       name: 'properties_price_idx'
     });
-    await queryInterface.addIndex('properties', ['is_active'], {
+    await addIndexIfNotExists(queryInterface, 'properties', ['is_active'], {
       name: 'properties_is_active_idx'
     });
-    await queryInterface.addIndex('properties', ['featured'], {
+    await addIndexIfNotExists(queryInterface, 'properties', ['featured'], {
       name: 'properties_featured_idx'
     });
   },
