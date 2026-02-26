@@ -2,11 +2,23 @@
 
 A secure, scalable private CRM system for real estate agents and property owners in Malta, integrated with WordPress Elementor Pro.
 
-## 🚀 Getting Started
+## 🚀 Getting Started (Windows — double-click to start)
 
-**New here? Read the complete step-by-step setup guide:**
+> **Non-technical user?**  Double-click **`quick-start.bat`** in Windows Explorer.
+> It checks your setup AND starts the CRM — your browser will open at `http://localhost:3001`.
 
-👉 **[SETUP_GUIDE.md](SETUP_GUIDE.md)** — Covers everything from installing tools to deploying online and adding agent accounts. No technical experience required.
+> **Full setup guide:**  👉 **[SETUP_GUIDE.md](SETUP_GUIDE.md)** — step-by-step from installing tools to adding agents. No coding experience needed.
+
+---
+
+### 🔧 Fixing an old `start-windows.bat` that closes immediately
+
+If you downloaded the project a while ago and `start-windows.bat` closes as soon as you
+press any key (even though the server started), you have an older version of the file.
+
+**Quick fix**: Use **`quick-start.bat`** instead — open it by double-clicking it in Windows
+Explorer. It does exactly the same job as `start-windows.bat`: checks your setup, builds
+the CRM pages, and starts the server in a dedicated window that stays open.
 
 ---
 
