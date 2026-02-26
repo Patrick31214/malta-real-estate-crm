@@ -426,6 +426,49 @@ COMMON PROBLEMS
             archive without extracting it first. Extract the ZIP, then
             double-click quick-start.bat from inside the extracted folder.
 
+  PROBLEM: The "Malta CRM Server" window opens and closes immediately
+           (or: the server crashes right after the setup window closes)
+  SOLUTION: The server is failing to connect to the database. This happens
+            when PostgreSQL is not running OR your DB_PASSWORD in .env is wrong.
+
+    STEP A — Check your .env file:
+      1. Open ".env" in Notepad.
+      2. Find the line: DB_PASSWORD=
+         If it still says  DB_PASSWORD=your_password_here  then you have NOT
+         set your PostgreSQL password yet.  Replace "your_password_here" with
+         the actual password you chose when you installed PostgreSQL.
+      3. Save the file.
+      4. Double-click start-windows.bat again.
+
+    STEP B — Make sure PostgreSQL is running:
+      1. Press Win+R (hold Windows key, press R).
+      2. Type:  services.msc  and press ENTER.
+      3. Scroll down and find a service named "PostgreSQL" (may include a version
+         number, e.g. "postgresql-x64-15").
+      4. If its Status column says "Running" — good, skip to STEP C.
+      5. If Status is empty or "Stopped":
+         - Right-click the service name.
+         - Click "Start".
+         - Wait 5 seconds.
+      6. Double-click start-windows.bat again.
+
+    STEP C — Install PostgreSQL if you have not done so yet:
+      1. Download from: https://www.postgresql.org/download/windows/
+      2. Run the installer. WRITE DOWN the password you set.
+      3. When installation finishes, RESTART your computer.
+      4. Open ".env" in Notepad and set:  DB_PASSWORD=<your chosen password>
+      5. Double-click start-windows.bat again.
+
+    HOW TO READ THE ERROR:
+      After all setup steps finish, a second black window titled
+      "Malta CRM Server - DO NOT CLOSE" opens.
+      If the server crashes, that window shows the reason, for example:
+        "Unable to connect to the database: password authentication failed"
+        → wrong DB_PASSWORD in .env
+        "Unable to connect to the database: connect ECONNREFUSED 127.0.0.1:5432"
+        → PostgreSQL service is not running
+      Read the message and follow STEP A or STEP B above.
+
   PROBLEM: Browser shows 'This site can't be reached' or connection refused
   SOLUTION: Wait 30 seconds after double-clicking start-windows.bat,
             then try http://localhost:3001 again.
