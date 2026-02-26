@@ -99,4 +99,9 @@ echo.
 echo   To STOP: press Ctrl+C in this window, then close the other window.
 echo ============================================================
 echo.
+
+REM Open the browser after 12 seconds to give Vite time to compile.
+REM Uses a hidden PowerShell window so this window stays open for the backend.
+start "" /b powershell -WindowStyle Hidden -NoProfile -Command "Start-Sleep 12; Start-Process 'http://localhost:3000'"
+
 call npm run dev

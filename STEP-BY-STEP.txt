@@ -337,8 +337,61 @@ STEP 3 - STOPPING THE CRM
 
 
 ================================================================
-COMMON PROBLEMS
+STEP 4 - FIRST LOGIN (first time only — do this once)
 ================================================================
+
+  After the backend shows "✓ Server is running", you need to create
+  your first admin account before you can log in.
+
+  TWO WAYS TO DO THIS — choose one:
+
+  ── OPTION A: Create your own account (RECOMMENDED) ─────────────────────
+    Use this to choose your own email and password.
+
+    1. Open a NEW Command Prompt window (do NOT close the CRM windows):
+       Press Win+R, type  cmd  and click OK.
+
+    2. Type the following and press ENTER:
+          cd C:\Users\YourName\malta-crm\malta-real-estate-crm
+       Replace YourName with your actual Windows username.
+
+    3. Type this and press ENTER:
+          npm run setup:admin
+
+    4. Follow the prompts on screen.
+       Enter your first name, last name, email, and a password
+       (minimum 8 characters).
+
+    5. When it says "Admin account created successfully!", close this window.
+
+    6. Open your browser and go to:
+          http://localhost:3000          ← if you used START-CRM.bat
+          http://localhost:3001          ← if you used start-windows.bat
+       Log in with the email and password you just created.
+
+  ── OPTION B: Load sample/demo data ──────────────────────────────────────
+    Use this to get example properties and owners pre-filled so you can
+    see what the CRM looks like with real data.
+
+    1. Open a NEW Command Prompt window (same as Option A step 1-2).
+
+    2. Type these commands one at a time, pressing ENTER after each:
+          npm run db:migrate
+          npm run db:seed
+
+    3. Open your browser and log in with:
+          URL:      http://localhost:3000   (START-CRM.bat)
+                    http://localhost:3001   (start-windows.bat)
+          Email:    admin@maltarealestate.com
+          Password: Password123!
+       IMPORTANT: These are demo credentials. Change the password after
+       your first login!
+
+  TIP: You only need to do this ONCE. After creating your account,
+       just start the CRM and go straight to the login page every time.
+
+
+
 
   PROBLEM: The black window closes IMMEDIATELY (opens and closes in a flash)
            - I double-clicked the file and the window disappeared before I

@@ -60,6 +60,13 @@ app.get('/health', (req, res) => {
 
 // Root endpoint
 app.get('/', (req, res) => {
+  if (process.env.NODE_ENV !== 'production') {
+    // In development mode the React app runs on the Vite dev server (port 3000),
+    // not on this API server (port 3001).  Redirect the user so they land on the
+    // correct address instead of seeing raw JSON.
+    const clientUrl = process.env.CLIENT_URL || 'http://localhost:3000';
+    return res.redirect(302, clientUrl);
+  }
   res.status(200).json({
     success: true,
     message: 'Malta Real Estate CRM API',
