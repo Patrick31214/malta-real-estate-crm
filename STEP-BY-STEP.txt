@@ -121,28 +121,43 @@ ABOUT start-windows.bat  (PLEASE READ - this causes confusion)
     Double-click start-windows.bat in Windows Explorer (the yellow folder).
     A black Command Prompt window will open and run the CRM.
 
-  WHAT TO EXPECT:
-    - A black window opens and shows text (this is NORMAL and CORRECT).
-    - FIRST TIME ONLY: The black window will say "Building CRM interface pages..."
+  WHAT TO EXPECT — TWO windows will open, not one:
+
+  WINDOW 1 — "SETUP WINDOW" (the first window that appears):
+    - Shows progress messages like [1/4], [2/4], [3/4], [4/4].
+    - FIRST TIME ONLY: step [3/4] says "Building CRM interface pages..."
       This takes 2-3 minutes. Do NOT close the window — just wait.
-    - After the build finishes (or on subsequent runs, after about 20 seconds),
-      your browser opens automatically at http://localhost:3001
-    - You will see a LOGIN PAGE with boxes for Email and Password.
-      (If you see raw JSON text instead of a login form, the CRM interface
-       did not build correctly. Here is what to do:
-         1. Close the black window (press Ctrl+C, then close it).
-         2. Check your Node.js version — open a Command Prompt (Win+R, type cmd,
-            press Enter) and type:  node --version
-            You need version 16 or newer. If your version starts with v14 or lower,
-            download the latest Node.js from https://nodejs.org/
-         3. Check you have at least 500 MB of free disk space.
-         4. Delete the folder:  client\node_modules  (if it exists).
-         5. Double-click start-windows.bat again and wait for the build to finish.
-         If the error continues, copy the red error text from the black window
-         and ask for help — include that text so the problem can be diagnosed.)
-    - The black window stays open. THIS IS CORRECT - do not close it.
-      The black window is the engine keeping the CRM running.
-      Closing the black window will STOP the CRM.
+    - After step [4/4], it shows "YOUR CRM IS NOW STARTING UP!" and the URL.
+    - This window then says "Press any key to close THIS setup window."
+      When you press a key THIS setup window closes. That is fine.
+      The CRM keeps running in Window 2.
+
+  WINDOW 2 — "Malta CRM Server - DO NOT CLOSE" (opens during step 4):
+    - A second black window opens with the title:
+        Malta CRM Server - DO NOT CLOSE
+    - This window is the ENGINE running your CRM.
+    - KEEP THIS WINDOW OPEN the whole time you use the CRM.
+    - If you close this window, the CRM stops.
+
+  BROWSER:
+    - About 8 seconds after step [4/4], your browser opens at:
+        http://localhost:3001
+    - You will see a LOGIN PAGE with Email and Password boxes.
+
+  IF YOU SEE RAW JSON TEXT IN THE BROWSER (not a login form):
+    The React pages did not build correctly.  How to fix:
+      1. Close BOTH black windows.
+      2. Check Node.js version: open a Command Prompt and type  node --version
+         You need v16 or newer. Download from https://nodejs.org/ if older.
+      3. Delete the folder: client\node_modules (if it exists).
+      4. Double-click start-windows.bat again and wait for the build.
+      If the error continues, copy the red error text and ask for help.
+
+  IF YOU PRESSED "ANY KEY" AND THE WINDOW CLOSED:
+    You probably pressed a key on the SETUP WINDOW (Window 1).
+    That is OK — closing Window 1 does NOT stop the CRM.
+    Look for the second window titled "Malta CRM Server - DO NOT CLOSE".
+    If that window is also closed, just double-click start-windows.bat again.
 
   IF DOUBLE-CLICK OPENS NOTEPAD (shows lines of text starting with @echo):
     Right-click on start-windows.bat  (hold right mouse button, then release)
@@ -340,6 +355,17 @@ COMMON PROBLEMS
   SOLUTION: Install Git. Go to https://git-scm.com/download/win
             Click 'Download for Windows', run the installer, click Next everywhere.
             After installing, close and re-open any black windows, then try again.
+
+  PROBLEM: The black window closed after I pressed "Press any key to continue"
+           and now nothing is running / the browser shows nothing
+  SOLUTION: You pressed a key on the SETUP WINDOW (Window 1).  That is OK.
+            Pressing a key on Window 1 only closes the setup window.
+            The CRM SHOULD keep running in a SECOND window titled:
+               "Malta CRM Server - DO NOT CLOSE"
+            Look on your Taskbar at the bottom of the screen for that window.
+            Click on it to bring it to the front.
+            If BOTH windows closed, double-click start-windows.bat again —
+            the setup takes only a few seconds the second time.
 
   PROBLEM: Double-clicking start-windows.bat opens Notepad with text starting
            with @echo off (instead of opening a black window)
