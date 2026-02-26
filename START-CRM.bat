@@ -1,6 +1,10 @@
 @echo off
 cd /d "%~dp0"
 
+REM ── Placeholder string that must match what .env.example uses ────────────────
+REM  If .env.example changes its DB_PASSWORD placeholder, update this line too.
+set DB_PASS_PLACEHOLDER=your_password_here
+
 echo.
 echo ============================================================
 echo   Malta Real Estate CRM - Starting Up
@@ -54,6 +58,34 @@ if not exist ".env" (
     )
 ) else (
     echo [OK] .env file exists.
+
+    REM Block if DB_PASSWORD is still the placeholder value — the server
+    REM will crash immediately with "password authentication failed" if this
+    REM is not changed.
+    findstr /C:"DB_PASSWORD=%DB_PASS_PLACEHOLDER%" .env >nul 2>nul
+    if %ERRORLEVEL% EQU 0 (
+        echo.
+        echo ============================================================
+        echo   [X] ACTION NEEDED — DB_PASSWORD not set
+        echo.
+        echo   The file ".env" still has the placeholder password.
+        echo   The backend server will crash until you fix this.
+        echo.
+        echo   HOW TO FIX:
+        echo     1. Open ".env" in Notepad (it is in this same folder).
+        echo     2. Find this line:   DB_PASSWORD=%DB_PASS_PLACEHOLDER%
+        echo     3. Replace  %DB_PASS_PLACEHOLDER%  with the password you
+        echo        chose when you installed PostgreSQL.
+        echo        Example:  DB_PASSWORD=MyPostgresPass123
+        echo     4. Save the file and double-click START-CRM.bat again.
+        echo.
+        echo   If you do not know your PostgreSQL password, see
+        echo   STEP-BY-STEP.txt under COMMON PROBLEMS.
+        echo ============================================================
+        echo.
+        pause
+        exit /b 1
+    )
 )
 echo.
 

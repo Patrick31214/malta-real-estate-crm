@@ -532,10 +532,139 @@ COMMON PROBLEMS
 
     Leave CLIENT_URL=http://localhost:3000 unchanged.
 
+  PROBLEM: The backend window shows "password authentication failed for user postgres"
+           and keeps crashing / restarting in a loop
+  SOLUTION: The DB_PASSWORD in your .env file does not match your PostgreSQL password.
 
-================================================================
-NEED TO UPDATE TO A NEW VERSION?
-================================================================
+    STEP 1 — Open .env in Notepad:
+      1. Open Windows Explorer (the yellow folder icon).
+      2. Go to your CRM folder:
+            C:\Users\YourName\malta-crm\malta-real-estate-crm
+      3. You may not see .env because it is a hidden file.
+         HOW TO SHOW HIDDEN FILES:
+           - Click "View" in the top menu of Windows Explorer.
+           - Tick "Hidden items" (or turn on "Show hidden items").
+         Now .env should appear.
+      4. Right-click on ".env" and choose "Open with" → Notepad.
+
+    STEP 2 — Fix the password:
+      5. Find the line that says:   DB_PASSWORD=
+         The value after = should be exactly the password you chose when
+         you installed PostgreSQL.
+         Example:  DB_PASSWORD=MyPostgresPass123
+      6. If it still says  DB_PASSWORD=your_password_here  you have NOT
+         set it yet. Replace "your_password_here" with your actual password.
+      7. Save the file (Ctrl+S) and close Notepad.
+      8. Double-click start-windows.bat (or START-CRM.bat) again.
+
+    FORGOTTEN YOUR PostgreSQL PASSWORD?
+      Option A — Reset via pgAdmin:
+        1. Open pgAdmin (the purple elephant icon in your Start Menu or
+           in Windows Explorer under C:\Program Files\PostgreSQL\...).
+        2. Expand "Servers" → "PostgreSQL" → right-click → Properties.
+        3. Change the password and click Save.
+        4. Update DB_PASSWORD in .env to match the new password.
+      Option B — Reinstall PostgreSQL:
+        WARNING: Reinstalling will DELETE ALL your database data.
+        Only do this if you have no important data yet.
+        1. Uninstall PostgreSQL via Windows Settings → Apps.
+        2. Re-download from: https://www.postgresql.org/download/windows/
+        3. Install it again. WRITE DOWN the new password.
+        4. Update DB_PASSWORD in .env with the new password.
+
+  PROBLEM: I can see the login page at http://localhost:3000 but I do not know
+           what email and password to use
+  SOLUTION: You need to create your first admin account.
+
+    The CRM does not come with a pre-made account. You must create one.
+    There are TWO ways to do this:
+
+    ── METHOD 1: Create your own admin account (RECOMMENDED) ────────────────
+    Use this if you want to choose your own email and password.
+
+    Requirements: the backend must be running WITHOUT errors.
+    (Start it with start-windows.bat OR fix the DB_PASSWORD error first.)
+
+    Once the backend is running:
+      1. Open a NEW Command Prompt window:
+         Press Win+R, type cmd, click OK.
+      2. Type the following and press ENTER:
+            cd C:\Users\YourName\malta-crm\malta-real-estate-crm
+         (Replace YourName with your Windows username.)
+      3. Type this and press ENTER:
+            npm run setup:admin
+      4. Follow the prompts — enter your name, email, and a password
+         (minimum 8 characters).
+      5. Go back to http://localhost:3000 (or http://localhost:3001) and
+         log in with the email and password you just entered.
+
+    ── METHOD 2: Load sample/demo data ──────────────────────────────────────
+    Use this if you want example properties, owners, and users already filled in
+    so you can see how the CRM looks with data.
+
+    Requirements: backend must be running, AND migrations must have run.
+
+    Steps:
+      1. Open a Command Prompt in the CRM folder (as in Method 1 step 1-2).
+      2. Run migrations first (creates the database tables):
+            npm run db:migrate
+      3. Run the seeders (loads the sample data):
+            npm run db:seed
+      4. Log in at http://localhost:3000 (or http://localhost:3001) with:
+            Email:    admin@maltarealestate.com
+            Password: Password123!
+         IMPORTANT: These are public demo credentials. Change the password
+         immediately after your first login (use the profile/settings page,
+         or delete this user and create a new one via npm run setup:admin).
+
+    NOTE: Sample data includes example properties and owners for Malta.
+    You can delete it later via the CRM interface.
+
+  PROBLEM: I used START-CRM.bat and it opens TWO windows — which one is the server?
+  SOLUTION: Both windows are needed:
+
+    START-CRM.bat is the DEVELOPMENT MODE launcher. It opens:
+
+    WINDOW 1 (the first window that appeared):
+      Title: just "C:\Windows\..." or "malta-real-estate-crm"
+      This runs the BACKEND (Node.js/Express API server) using nodemon.
+      It will show messages like:
+          ✓ PostgreSQL database connection established successfully.
+          ✓ Server is running on port 3001
+      KEEP THIS WINDOW OPEN — closing it stops the backend.
+      If it shows errors (like password authentication failed), read the
+      error message and follow the instructions above.
+
+    WINDOW 2 (opened automatically by Window 1):
+      Title: "Malta CRM - Frontend"
+      This runs the FRONTEND (React/Vite development server) on port 3000.
+      It will show:
+          VITE v5.x.x  ready in ... ms
+          Local:   http://localhost:3000/
+      KEEP THIS WINDOW OPEN — closing it stops the frontend.
+
+    BROWSER: Open http://localhost:3000 to use the CRM in development mode.
+
+    NOTE: start-windows.bat is a different launcher for PRODUCTION mode.
+      - It builds the React pages once and serves everything on port 3001.
+      - Use start-windows.bat for everyday use (one window, not two).
+      - Use START-CRM.bat only if you are making code changes.
+
+  PROBLEM: I want to change the brand name, colours, or design of the CRM
+  SOLUTION: Yes — all of this is possible after the CRM is set up.
+
+    The CRM interface is built in React (inside the client/src folder).
+    Once you are comfortable using the CRM, you can customise:
+      - Brand name and logo: client/src/components/Layout.jsx and Sidebar.jsx
+      - Colours and fonts: client/src/index.css (or Tailwind config if present)
+      - Page layout: files inside client/src/pages/
+      - Any other text or design elements in the component files.
+
+    You do NOT need to do any of this now. Get the CRM running and log in
+    first, then make customisations one small step at a time.
+    Ask for help with each specific change when you are ready.
+
+
 
   1. Follow STEP 1 again (open a black Command Prompt window, type: git pull).
   2. Then follow STEP 2 again (double-click start-windows.bat).
