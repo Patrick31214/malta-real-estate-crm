@@ -343,10 +343,25 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
   After the backend shows "✓ Server is running", you need to create
   your first admin account before you can log in.
 
-  TWO WAYS TO DO THIS — choose one:
+  THREE WAYS TO DO THIS — choose one:
 
-  ── OPTION A: Create your own account (RECOMMENDED) ─────────────────────
-    Use this to choose your own email and password.
+  ── OPTION A: Double-click CREATE-ADMIN.bat (EASIEST) ───────────────────
+    The easiest way — no command prompt needed.
+
+    1. In the CRM folder (the same folder as START-CRM.bat), find:
+          CREATE-ADMIN.bat
+    2. Double-click it.
+    3. A black window opens and asks for your name, email and password.
+       Type each one and press ENTER.
+    4. When it says "Admin account created successfully!", the window
+       shows you the next step.  Press any key to close it.
+    5. Open your browser and go to:
+          http://localhost:3000   (if you used START-CRM.bat)
+          http://localhost:3001   (if you used start-windows.bat)
+       Log in with the email and password you just entered.
+
+  ── OPTION B: Create your own account via Command Prompt ─────────────────
+    Use this if double-clicking the .bat file does not work.
 
     1. Open a NEW Command Prompt window (do NOT close the CRM windows):
        Press Win+R, type  cmd  and click OK.
@@ -369,11 +384,11 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
           http://localhost:3001          ← if you used start-windows.bat
        Log in with the email and password you just created.
 
-  ── OPTION B: Load sample/demo data ──────────────────────────────────────
+  ── OPTION C: Load sample/demo data ──────────────────────────────────────
     Use this to get example properties and owners pre-filled so you can
     see what the CRM looks like with real data.
 
-    1. Open a NEW Command Prompt window (same as Option A step 1-2).
+    1. Open a NEW Command Prompt window (same as Option B step 1-2).
 
     2. Type these commands one at a time, pressing ENTER after each:
           npm run db:migrate

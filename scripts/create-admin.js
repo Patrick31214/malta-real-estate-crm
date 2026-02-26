@@ -22,30 +22,9 @@ const User = require('../src/models/User');
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 
-function ask(question, hidden = false) {
+function ask(question) {
   return new Promise((resolve) => {
-    if (hidden && process.stdout.isTTY) {
-      // Hide password input on real terminals
-      process.stdout.write(question);
-      const stdin = process.openStdin();
-      process.stdin.on('data', function onData(char) {
-        char = char + '';
-        switch (char) {
-          case '\n': case '\r': case '\u0004':
-            process.stdin.removeListener('data', onData);
-            process.stdout.write('\n');
-            resolve(stdin._buffer ? stdin._buffer.toString().trim() : '');
-            break;
-          default:
-            process.stdout.write('*');
-            break;
-        }
-      });
-      process.stdin.setRawMode(true);
-      process.stdin.resume();
-    } else {
-      rl.question(question, (answer) => resolve(answer.trim()));
-    }
+    rl.question(question, (answer) => resolve(answer.trim()));
   });
 }
 
