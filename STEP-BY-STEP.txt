@@ -5,29 +5,88 @@ Do these steps IN ORDER, one at a time.
 
 
 ================================================================
-QUICK START - USE index.html IN YOUR BROWSER
+WHAT IS THE MALTA CRM? — READ THIS FIRST IF YOU ARE A BEGINNER
 ================================================================
 
-  The easiest way to use the CRM from your browser:
+  The Malta Real Estate CRM is a PRIVATE WEB APPLICATION that runs
+  entirely on YOUR OWN COMPUTER.
+
+  It is NOT a WordPress plugin.
+  It is NOT something you paste into WordPress Elementor.
+  It is NOT hosted on the internet.
+
+  WHAT IT IS:
+    - A private website that runs only on your computer.
+    - You access it by typing  http://localhost:3001  in your browser.
+    - It has a Login Page (email + password) to keep it secure.
+    - After login, you see a Dashboard to manage your properties and owners.
+
+  HOW IT WORKS (two parts):
+    Part 1 — The ENGINE (backend):  start-windows.bat starts this.
+             This is a program running in a black window.
+             It also builds the CRM website on first run (takes 2-3 minutes).
+    Part 2 — THE WEBSITE (frontend):  built automatically by start-windows.bat.
+             After Part 1 is running, open http://localhost:3001 to use the CRM.
+
+  THE ONLY THING YOU NEED TO DO IS:
+    Double-click  start-windows.bat  in Windows Explorer.
+    Then wait about 2-3 minutes (first run only).
+    Your browser will open the CRM Login Page automatically.
+    Type your email and password, click Sign In — you're in!
+
+  ABOUT index.html (the helper page):
+    index.html is a STATUS CHECKER. It tells you if the server is running
+    and has a button to open the CRM login page. You can open it directly
+    by double-clicking it in Windows Explorer.
+    DO NOT copy its code into WordPress — it won't work there.
+
+  ABOUT WordPress:
+    This CRM does not need WordPress to work.
+    The CRM runs completely separately from WordPress.
+    If you want to later connect it to WordPress, that is a future step —
+    but for now, just use it at http://localhost:3001 directly in your browser.
+
+
+
+================================================================
+QUICK START — DOUBLE-CLICK start-windows.bat
+================================================================
+
+  This is the ONLY thing you need to do to start the CRM:
 
   1. Open Windows Explorer (the yellow folder icon on your taskbar).
 
   2. Go to your CRM folder:
         C:\Users\USER\malta-crm\malta-real-estate-crm
+     (Replace USER with your actual Windows username.)
 
-  3. Double-click the file named:  index.html
-     It opens in your browser and shows a friendly launch page.
+  3. Double-click the file named:  start-windows.bat
+     A black window opens and starts running.
 
-  4. That page will tell you if the server is running or not,
-     and has a big "OPEN THE CRM" button.
+  4. WAIT:
+     - FIRST TIME: Wait 2-3 minutes (it installs and builds the CRM interface).
+       The black window will print many lines — this is NORMAL.
+     - AFTER FIRST TIME: Wait about 20 seconds.
 
-  5. If the server is not running, double-click start-windows.bat
-     (in Windows Explorer), wait 20 seconds, then click
-     "Check again" on the index.html page.
+  5. Your browser opens AUTOMATICALLY at http://localhost:3001
+     You will see a LOGIN PAGE with an Email and Password form.
 
-  NOTE: If you opened the folder URL in Edge (file:///C:\...) and
-        saw a list of files, just click on index.html in that list.
-        Edge will show the launch page.
+  6. Log in:
+     - If you set up your own account:  use your email and password.
+     - If you loaded sample/demo data:
+         Email:    admin@maltarealestate.com
+         Password: Password123!
+
+  7. After login you will see the CRM Dashboard where you can manage
+     properties, owners, and more.
+
+  NOTE: Keep the black window open while you use the CRM.
+        Closing it stops the server and the CRM stops working.
+
+  TIP: You can also double-click index.html to open a helper page
+       that shows whether the server is running and has a
+       "OPEN THE CRM LOGIN PAGE" button.
+
 
 
 ================================================================
@@ -64,8 +123,23 @@ ABOUT start-windows.bat  (PLEASE READ - this causes confusion)
 
   WHAT TO EXPECT:
     - A black window opens and shows text (this is NORMAL and CORRECT).
-    - After about 15 seconds, your browser opens automatically.
-    - The CRM website appears in your browser at http://localhost:3001
+    - FIRST TIME ONLY: The black window will say "Building CRM interface pages..."
+      This takes 2-3 minutes. Do NOT close the window — just wait.
+    - After the build finishes (or on subsequent runs, after about 20 seconds),
+      your browser opens automatically at http://localhost:3001
+    - You will see a LOGIN PAGE with boxes for Email and Password.
+      (If you see raw JSON text instead of a login form, the CRM interface
+       did not build correctly. Here is what to do:
+         1. Close the black window (press Ctrl+C, then close it).
+         2. Check your Node.js version — open a Command Prompt (Win+R, type cmd,
+            press Enter) and type:  node --version
+            You need version 16 or newer. If your version starts with v14 or lower,
+            download the latest Node.js from https://nodejs.org/
+         3. Check you have at least 500 MB of free disk space.
+         4. Delete the folder:  client\node_modules  (if it exists).
+         5. Double-click start-windows.bat again and wait for the build to finish.
+         If the error continues, copy the red error text from the black window
+         and ask for help — include that text so the problem can be diagnosed.)
     - The black window stays open. THIS IS CORRECT - do not close it.
       The black window is the engine keeping the CRM running.
       Closing the black window will STOP the CRM.

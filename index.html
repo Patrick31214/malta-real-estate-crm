@@ -203,12 +203,32 @@
     <div class="running-panel" id="runningPanel">
       <div class="running-banner">
         <div class="dot-green"></div>
-        Server is running &mdash; you can open the CRM now
+        ✓ CRM server is running — your Login Page is ready!
       </div>
+
       <a href="http://localhost:3001" class="open-btn" target="_blank">
-        &#9654;&nbsp; OPEN THE CRM
+        &#9654;&nbsp; OPEN THE CRM LOGIN PAGE
       </a>
-      <button class="recheck-btn" onclick="checkServer()" style="margin-top:8px">
+
+      <div style="width:100%;background:#0f172a;border:1px solid #1e40af;border-radius:10px;padding:16px 18px;font-size:13px;line-height:1.7;color:#93c5fd;">
+        <strong style="color:#bfdbfe;display:block;margin-bottom:6px">📋 What you will see when you click the button above:</strong>
+        A <strong style="color:#e2e8f0">Login Page</strong> with two boxes: <em>Email address</em> and <em>Password</em>.<br>
+        Enter your email and password, then click <strong style="color:#e2e8f0">Sign In</strong>.
+        <br><br>
+        <strong style="color:#bfdbfe">Demo login (if you loaded the sample data):</strong><br>
+        &nbsp;Email: <code style="background:#1e3a5f;color:#60a5fa;padding:1px 6px;border-radius:4px">admin@maltarealestate.com</code><br>
+        &nbsp;Password: <code style="background:#1e3a5f;color:#60a5fa;padding:1px 6px;border-radius:4px">Password123!</code>
+      </div>
+
+      <div style="width:100%;background:#1c1917;border:1px solid #57534e;border-radius:10px;padding:12px 16px;font-size:12px;line-height:1.6;color:#a8a29e;">
+        <strong style="color:#fbbf24">⚠ Important:</strong>
+        This <em>index.html</em> file is just a helper launcher &mdash; it checks whether the server is running.
+        <strong style="color:#f1f5f9">Do NOT paste it into WordPress</strong> &mdash; the CRM is a standalone app
+        that lives entirely on your computer and runs at <code style="color:#60a5fa;background:#0f172a;padding:1px 5px;border-radius:3px">localhost:3001</code>.
+        WordPress is not involved.
+      </div>
+
+      <button class="recheck-btn" onclick="checkServer()" style="margin-top:4px">
         &#8635; Check again
       </button>
     </div>
