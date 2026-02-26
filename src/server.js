@@ -13,8 +13,26 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
+// Allow the developer frontend (CLIENT_URL, usually localhost:3000 in dev mode)
+// and the server's own port (localhost:{PORT} in production where React is served
+// by this same Express process).
+const allowedOrigins = [
+  process.env.CLIENT_URL || 'http://localhost:3000',
+  `http://localhost:${PORT}`
+];
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: (origin, callback) => {
+    // Requests with no Origin header come from:
+    //   - Same-origin browser fetches (React app served by this process on port 3001)
+    //   - Command-line tools such as Postman or curl
+    //   - Mobile webviews
+    // All of these are intentionally allowed — same-origin requests require no CORS
+    // header, and API testing tools need access during development.
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    callback(null, false);
+  },
   credentials: true
 }));
 app.use(express.json());

@@ -491,6 +491,47 @@ COMMON PROBLEMS
   SOLUTION: Wait 30 seconds after double-clicking start-windows.bat,
             then try http://localhost:3001 again.
 
+  PROBLEM: I changed DB_PORT or DB_PASSWORD in .env and now the CRM won't start
+  SOLUTION: Change them BACK to the original values.
+
+    The PostgreSQL service uses a fixed port (5432 by default) and a fixed
+    password that you set during installation.  Changing DB_PORT or DB_PASSWORD
+    in .env does NOT change what PostgreSQL listens on — it only tells the CRM
+    which port and password to USE when connecting.
+
+    If you changed DB_PORT to something other than 5432, the CRM tries to
+    connect to a port where nothing is listening, and the connection fails.
+
+    HOW TO FIX:
+      1. Open ".env" in Notepad.
+      2. Set:  DB_PORT=5432           (the standard PostgreSQL port)
+      3. Set:  DB_PASSWORD=<the password you chose when you installed PostgreSQL>
+      4. Save ".env" and double-click start-windows.bat again.
+
+    If you have also changed the DB_PORT inside PostgreSQL itself (by editing
+    postgresql.conf), change it back to 5432 and restart the PostgreSQL service.
+
+  PROBLEM: My folder path shows "malta-crm\malta-real-estate-crm" — is that correct?
+  SOLUTION: Yes, that path is perfectly fine.
+
+    The project folder is named "malta-real-estate-crm" and it can live inside
+    any parent folder you like (e.g., "malta-crm", "Documents", "Desktop").
+    The setup scripts use %~dp0 which means "the folder this script lives in",
+    so the parent folder name does not affect anything.
+
+  PROBLEM: Is CLIENT_URL=http://localhost:3000 in .env correct?
+  SOLUTION: Yes — leave it as http://localhost:3000.
+
+    CLIENT_URL is used in development mode only (when you use START-CRM.bat or
+    run npm run dev).  In that mode the React frontend runs on port 3000, and
+    CLIENT_URL tells the backend which origin to allow for cross-origin requests.
+
+    In production mode (start-windows.bat), the React pages are served by the
+    same Express server on port 3001, so CLIENT_URL is not needed and the value
+    in .env does not matter for that mode.
+
+    Leave CLIENT_URL=http://localhost:3000 unchanged.
+
 
 ================================================================
 NEED TO UPDATE TO A NEW VERSION?

@@ -242,13 +242,20 @@ REM ── STEP 3: Check PostgreSQL, then start the CRM server ─────�
 echo [STEP 3/3] Checking PostgreSQL and starting the CRM server...
 echo.
 
-REM  Test whether PostgreSQL is listening on port 5432.
+REM  Read DB_PORT from .env so the check uses the same port as the application.
+REM  Uses PowerShell to parse the value robustly (handles whitespace, no comments).
+REM  Falls back to 5432 (the PostgreSQL default) if DB_PORT is not set.
+for /f "usebackq tokens=*" %%V in (`powershell -NoProfile -Command ^
+  "$l=(Get-Content '.env' -ErrorAction SilentlyContinue) -match '^DB_PORT\s*='; if ($l) { (($l -split '\s*=\s*',2)[1]).Trim() } else { '5432' }"`) do set DB_PORT=%%V
+if not defined DB_PORT set DB_PORT=5432
+
+REM  Test whether PostgreSQL is listening on the configured port.
 powershell -NoProfile -Command ^
-  "try { $c=New-Object Net.Sockets.TcpClient; $c.Connect('127.0.0.1',5432); $c.Close(); exit 0 } catch { exit 1 }" ^
+  "try { $c=New-Object Net.Sockets.TcpClient; $c.Connect('127.0.0.1',%DB_PORT%); $c.Close(); exit 0 } catch { exit 1 }" ^
   >nul 2>nul
 
 if %ERRORLEVEL% NEQ 0 (
-    echo   [X] PostgreSQL is NOT running on this computer.
+    echo   [X] PostgreSQL is NOT listening on port %DB_PORT%.
     echo.
     echo   The CRM needs a running PostgreSQL database to work.
     echo   Without it the server window will crash immediately.
@@ -269,9 +276,15 @@ if %ERRORLEVEL% NEQ 0 (
     echo     3. Right-click it and choose "Start".
     echo     4. Then run this script again.
     echo.
+    echo   If DB_PORT in .env does not match the PostgreSQL service port:
+    echo     1. Open .env in Notepad.
+    echo     2. Check the line  DB_PORT=  — it must match the port PostgreSQL
+    echo        was configured to use during installation (default: 5432).
+    echo     3. Save .env and run this script again.
+    echo.
     exit /b 1
 )
-echo   [OK] PostgreSQL is running on port 5432.
+echo   [OK] PostgreSQL is running on port %DB_PORT%.
 echo.
 
 REM  Create the CRM database if it does not exist yet.
