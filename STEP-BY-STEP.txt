@@ -5,51 +5,119 @@ Do these steps IN ORDER, one at a time.
 
 
 ================================================================
-STEP 1 - GET THE LATEST VERSION (do this ONCE, the first time)
+IMPORTANT - READ THIS FIRST
 ================================================================
 
-  1. You should have this folder open in Windows Explorer.
-     The address bar at the top shows something like:
+  There are TWO different things that look similar but are NOT the same:
+
+  [A] WINDOWS EXPLORER  = the yellow folder icon on your taskbar or desktop.
+       This is where you see your files and folders.
+       Its address bar shows a PATH like: C:\Users\YourName\...
+
+  [B] WEB BROWSER  = Chrome, Edge, or Firefox.
+       This opens websites. Its address bar shows web addresses like:
+       https://www.google.com
+
+  DO NOT type 'cmd' in your web browser - it will search Google.
+  You must open Windows Explorer (the yellow folder), NOT your browser.
+
+
+================================================================
+STEP 1 - OPEN A COMMAND PROMPT  (3 methods - use whichever works)
+================================================================
+
+  --- METHOD A: Windows key shortcut (EASIEST) ---
+
+  1. Press the Windows key and R at the same time (Win+R).
+     A small 'Run' box appears in the bottom-left corner of your screen.
+
+  2. Type:  cmd
+     Then click OK.
+     A black window opens (Command Prompt).
+
+  3. In the black window, type the following and press ENTER:
+        cd C:\Users\YourName\malta-crm\malta-real-estate-crm
+     IMPORTANT: Replace 'YourName' with YOUR actual Windows username.
+     Example: if your name is Patrick, type:
+        cd C:\Users\Patrick\malta-crm\malta-real-estate-crm
+     Then press ENTER.
+
+  4. Now type:  git pull
+     Then press ENTER.
+     Wait until it finishes (you will see 'Already up to date.' or a file list).
+
+  5. Type:  exit  and press ENTER.  The black window closes.
+
+
+  --- METHOD B: From Windows Explorer address bar ---
+
+  NOTE: Windows Explorer is the YELLOW FOLDER icon - NOT your web browser.
+
+  1. Open Windows Explorer (click the yellow folder icon on the taskbar).
+
+  2. Navigate to your CRM folder:
         C:\Users\YourName\malta-crm\malta-real-estate-crm
-     (YourName is YOUR Windows username, for example: Patrick, Admin, John, etc.)
+     (Double-click folders to go inside them.)
 
-  2. Look at the TOP of the Explorer window.
-     You will see the folder path in a white bar.
-     CLICK on that white bar with the path (it will go blue/selected).
+  3. Look at the TOP of the Windows Explorer window.
+     You will see a white bar showing the folder path (NOT a Google search bar).
+     Example of what it looks like:  C:\Users\Patrick\malta-crm\...
 
-  3. While that bar is selected (blue), type:  cmd
-     (just the three letters c-m-d)
+  4. CLICK ONCE on that white path bar.
+     The whole path turns blue/highlighted.
+
+  5. With the path bar still highlighted (blue), type:  cmd
      Then press ENTER.
+     A black Command Prompt window opens.
 
-  4. A BLACK window opens (Command Prompt).
-     You will see something like:  C:\Users\YourName\malta-crm\malta-real-estate-crm>
+  6. In the black window, type:  git pull
+     Then press ENTER.  Wait for it to finish.
 
-  5. In that black window, type:  git pull
-     Then press ENTER.
-     Wait until it finishes (you will see 'Already up to date.' or a list of files).
+  7. Type:  exit  and press ENTER.  The black window closes.
 
-  6. Type:  exit
-     Then press ENTER. The black window closes.
+
+  --- METHOD C: Right-click inside the folder ---
+
+  1. Open Windows Explorer and go to the CRM folder.
+
+  2. Hold the SHIFT key on your keyboard.
+
+  3. While holding SHIFT, RIGHT-CLICK on any empty space inside the folder
+     (not on a file, just on blank space).
+
+  4. A menu appears.  Click one of these options (whichever you see):
+       - 'Open PowerShell window here'
+       - 'Open command window here'
+       - 'Open in Terminal'
+     A black (or blue) window opens.
+
+  5. In that window, type:  git pull
+     Then press ENTER.  Wait for it to finish.
 
 
 ================================================================
-STEP 2 - START THE CRM (do this EVERY TIME you want to use it)
+STEP 2 - START THE CRM  (do this EVERY TIME you want to use it)
 ================================================================
 
-  1. In Windows Explorer, find the file:  START-CRM.bat
-     (It is in the same folder as this file.)
+  1. Open Windows Explorer (the yellow folder icon).
 
-  2. DOUBLE-CLICK on  START-CRM.bat
+  2. Go to your CRM folder:
+        C:\Users\YourName\malta-crm\malta-real-estate-crm
 
-  3. A black window opens. You will see it installing things.
+  3. Find the file named:  START-CRM.bat
+     (It is in the same folder as this STEP-BY-STEP.txt file.)
+
+  4. DOUBLE-CLICK on  START-CRM.bat
+
+  5. A black window opens and installs things automatically.
      This can take 1-3 minutes the first time. Just wait.
 
-  4. When it is ready, it will say:
+  6. When it is ready you will see:
         Opening frontend in a new window (http://localhost:3000)...
         Starting backend - press Ctrl+C in this window to stop...
 
-  5. Your browser may open automatically. If not, open your browser
-     (Chrome, Edge, or Firefox) and go to:  http://localhost:3000
+  7. Open your browser (Chrome, Edge, or Firefox) and go to:
+        http://localhost:3000
 
 
 ================================================================
@@ -65,6 +133,11 @@ STEP 3 - STOPPING THE CRM
 COMMON PROBLEMS
 ================================================================
 
+  PROBLEM: I typed 'cmd' and it opened a Google search / showed search results
+  SOLUTION: You typed 'cmd' in your WEB BROWSER address bar by mistake.
+            Your web browser (Chrome, Edge, Firefox) is NOT Windows Explorer.
+            Use METHOD A (Win+R) from STEP 1 above instead - it always works.
+
   PROBLEM: 'npm' is not recognized
   SOLUTION: Install Node.js. Go to https://nodejs.org/
             Download the version labelled 'LTS - Recommended For Most Users'.
@@ -74,6 +147,7 @@ COMMON PROBLEMS
   PROBLEM: 'git' is not recognized
   SOLUTION: Install Git. Go to https://git-scm.com/download/win
             Click 'Download for Windows', run the installer, click Next everywhere.
+            After installing, close and re-open any black windows, then try again.
 
   PROBLEM: The black window closes immediately / shows an error
   SOLUTION: Make sure you double-clicked START-CRM.bat from INSIDE the folder:
@@ -89,7 +163,7 @@ COMMON PROBLEMS
 NEED TO UPDATE TO A NEW VERSION?
 ================================================================
 
-  1. Follow STEP 1 again (open CMD, type: git pull, press ENTER).
+  1. Follow STEP 1 again (open a black Command Prompt window, type: git pull).
   2. Then follow STEP 2 again (double-click START-CRM.bat).
 
 =========================================
