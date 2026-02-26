@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Malta Real Estate CRM - Launcher</title>
+  <title>Malta Real Estate CRM</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -20,227 +20,290 @@
     .card {
       background: #1e293b;
       border-radius: 16px;
-      padding: 40px 48px;
-      max-width: 580px;
+      padding: 36px 44px;
+      max-width: 620px;
       width: 100%;
       box-shadow: 0 25px 50px rgba(0,0,0,0.5);
     }
     .logo {
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 700;
       color: #38bdf8;
-      margin-bottom: 4px;
+      margin-bottom: 28px;
+      text-align: center;
     }
-    .subtitle {
-      font-size: 14px;
-      color: #94a3b8;
-      margin-bottom: 32px;
+
+    /* ── RUNNING STATE ── */
+    .running-panel {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
     }
-    .status-box {
+    .running-banner {
+      width: 100%;
+      background: #14532d;
+      border: 2px solid #16a34a;
+      border-radius: 12px;
+      padding: 18px 20px;
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 14px 18px;
-      border-radius: 10px;
-      margin-bottom: 28px;
-      font-size: 15px;
-      font-weight: 500;
+      gap: 14px;
+      font-size: 17px;
+      font-weight: 600;
+      color: #86efac;
     }
-    .status-box.checking { background: #1e3a5f; border: 1px solid #2563eb; color: #93c5fd; }
-    .status-box.running  { background: #14532d; border: 1px solid #16a34a; color: #86efac; }
-    .status-box.stopped  { background: #431407; border: 1px solid #c2410c; color: #fdba74; }
-    .dot {
-      width: 12px; height: 12px;
+    .dot-green {
+      width: 14px; height: 14px;
+      background: #4ade80;
       border-radius: 50%;
       flex-shrink: 0;
     }
-    .dot.pulse { background: #60a5fa; animation: pulse 1.2s ease-in-out infinite; }
-    .dot.green { background: #4ade80; }
-    .dot.orange { background: #fb923c; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
     .open-btn {
       display: block;
       width: 100%;
-      padding: 16px;
+      padding: 18px;
       background: #0ea5e9;
       color: #fff;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
       text-align: center;
       text-decoration: none;
-      border-radius: 10px;
+      border-radius: 12px;
       border: none;
       cursor: pointer;
       transition: background 0.2s, transform 0.1s;
-      margin-bottom: 10px;
     }
-    .open-btn:hover { background: #0284c7; transform: translateY(-1px); }
+    .open-btn:hover { background: #0284c7; transform: translateY(-2px); }
     .open-btn:active { transform: translateY(0); }
-    .open-btn.disabled {
-      background: #334155;
-      color: #64748b;
-      cursor: not-allowed;
-      pointer-events: none;
+
+    /* ── STOPPED STATE ── */
+    .stopped-panel {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+    }
+    .stopped-banner {
+      background: #431407;
+      border: 2px solid #dc2626;
+      border-radius: 12px 12px 0 0;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #fca5a5;
+    }
+    .dot-red {
+      width: 14px; height: 14px;
+      background: #ef4444;
+      border-radius: 50%;
+      flex-shrink: 0;
+      animation: blink 1s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+    .action-box {
+      background: #1e293b;
+      border: 2px solid #dc2626;
+      border-top: none;
+      border-radius: 0 0 12px 12px;
+      padding: 24px 20px;
+    }
+    .action-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fbbf24;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .action-step {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+    .action-step:last-child { margin-bottom: 0; }
+    .snum {
+      flex-shrink: 0;
+      width: 28px; height: 28px;
+      background: #b45309;
+      color: #fef3c7;
+      font-size: 14px;
+      font-weight: 800;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sbody {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #cbd5e1;
+      padding-top: 4px;
+    }
+    .sbody strong { color: #f1f5f9; }
+    .path {
+      display: inline-block;
+      margin-top: 6px;
+      background: #0f172a;
+      color: #38bdf8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: Consolas, 'Courier New', monospace;
+      word-break: break-all;
     }
     .recheck-btn {
       display: block;
       width: 100%;
-      padding: 10px;
-      background: transparent;
-      color: #94a3b8;
-      font-size: 14px;
-      text-align: center;
-      border: 1px solid #334155;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-bottom: 28px;
-      transition: background 0.2s, color 0.2s;
-    }
-    .recheck-btn:hover { background: #1e293b; color: #e2e8f0; }
-    .divider { height: 1px; background: #334155; margin-bottom: 28px; }
-    .steps-title {
-      font-size: 13px;
+      margin-top: 22px;
+      padding: 13px;
+      background: #334155;
+      color: #e2e8f0;
+      font-size: 15px;
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #64748b;
-      margin-bottom: 16px;
-    }
-    .step {
-      display: flex;
-      gap: 14px;
-      margin-bottom: 18px;
-    }
-    .step-num {
-      flex-shrink: 0;
-      width: 26px; height: 26px;
-      background: #0ea5e9;
-      color: #fff;
-      font-size: 13px;
-      font-weight: 700;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .step-body { font-size: 14px; line-height: 1.6; }
-    .step-body strong { color: #f1f5f9; }
-    code {
-      background: #0f172a;
-      color: #38bdf8;
-      padding: 1px 6px;
-      border-radius: 4px;
-      font-size: 13px;
-      font-family: Consolas, 'Courier New', monospace;
-    }
-    .warn-box {
-      background: #1c1917;
-      border: 1px solid #57534e;
+      text-align: center;
+      border: 2px solid #475569;
       border-radius: 10px;
-      padding: 14px 16px;
-      margin-top: 24px;
-      font-size: 13px;
-      color: #a8a29e;
-      line-height: 1.7;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
     }
-    .warn-box strong { color: #fbbf24; }
+    .recheck-btn:hover { background: #475569; border-color: #64748b; }
+
+    /* ── CHECKING STATE ── */
+    .checking-panel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 28px 0;
+      color: #64748b;
+      font-size: 15px;
+    }
+    .dot-pulse {
+      width: 12px; height: 12px;
+      background: #60a5fa;
+      border-radius: 50%;
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
   </style>
 </head>
 <body>
   <div class="card">
-    <div class="logo">Malta Real Estate CRM</div>
-    <div class="subtitle">Local development launcher</div>
+    <div class="logo">🏠 Malta Real Estate CRM</div>
 
-    <div class="status-box checking" id="statusBox">
-      <div class="dot pulse" id="statusDot"></div>
-      <span id="statusText">Checking if server is running…</span>
+    <!-- CHECKING -->
+    <div class="checking-panel" id="checkingPanel">
+      <div class="dot-pulse"></div>
+      <span>Checking server&hellip;</span>
     </div>
 
-    <a href="http://localhost:3001" id="openBtn" class="open-btn disabled" target="_blank">
-      ▶&nbsp; OPEN THE CRM
-    </a>
-    <button class="recheck-btn" onclick="checkServer()">↺ Check again</button>
-
-    <div class="divider"></div>
-
-    <div class="steps-title">How to start the CRM server</div>
-
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-body">
-        <strong>Open Windows Explorer</strong> — click the yellow folder icon
-        on your taskbar. <em>Do NOT use a web browser for this step.</em>
+    <!-- RUNNING -->
+    <div class="running-panel" id="runningPanel">
+      <div class="running-banner">
+        <div class="dot-green"></div>
+        Server is running &mdash; you can open the CRM now
       </div>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-body">
-        Navigate to your CRM folder:<br>
-        <code>C:\Users\USER\malta-crm\malta-real-estate-crm</code>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-body">
-        Find <strong>start-windows.bat</strong> and <strong>double-click it</strong>.<br>
-        A black window opens — this is correct. Wait about 20 seconds.<br>
-        <em>Keep that black window open while using the CRM.</em>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-body">
-        Come back to this page and click
-        <strong>↺ Check again</strong>, then click <strong>OPEN THE CRM</strong>.
-      </div>
+      <a href="http://localhost:3001" class="open-btn" target="_blank">
+        &#9654;&nbsp; OPEN THE CRM
+      </a>
+      <button class="recheck-btn" onclick="checkServer()" style="margin-top:8px">
+        &#8635; Check again
+      </button>
     </div>
 
-    <div class="warn-box">
-      <strong>⚠ Important:</strong> <code>start-windows.bat</code> is a program,
-      not a website. You cannot open it in a browser. Always double-click it
-      in <strong>Windows Explorer</strong> (the yellow folder), not in Edge or Chrome.
-      Closing the black window will stop the CRM server.
+    <!-- STOPPED -->
+    <div class="stopped-panel" id="stoppedPanel">
+      <div class="stopped-banner">
+        <div class="dot-red"></div>
+        Server is NOT running &mdash; do these steps first:
+      </div>
+      <div class="action-box">
+        <div class="action-title">&#9888; What to do right now</div>
+
+        <div class="action-step">
+          <div class="snum">1</div>
+          <div class="sbody">
+            <strong>Press the Windows key</strong> on your keyboard (bottom-left, looks like a flag).<br>
+            Type <strong>Explorer</strong> and press Enter.<br>
+            A yellow folder window opens &mdash; this is Windows Explorer.
+          </div>
+        </div>
+
+        <div class="action-step">
+          <div class="snum">2</div>
+          <div class="sbody">
+            In the address bar at the top of that yellow folder window,
+            click once, then type this exact path and press Enter:
+            <br>
+            <span class="path" id="crmPath">C:\Users\USER\malta-crm\malta-real-estate-crm</span>
+            <br>
+            <small style="color:#94a3b8;display:block;margin-top:4px" id="pathNote">
+              Replace <strong style="color:#fbbf24">USER</strong> with your Windows username
+              (the word shown before &gt; in a Command Prompt window).
+            </small>
+          </div>
+        </div>
+
+        <div class="action-step">
+          <div class="snum">3</div>
+          <div class="sbody">
+            Find the file called <strong>start-windows.bat</strong> in that folder.<br>
+            <strong>Double-click it.</strong><br>
+            A black window opens and starts scrolling text &mdash; this is normal, leave it running.
+            Wait about <strong>20 seconds</strong>.
+          </div>
+        </div>
+
+        <div class="action-step">
+          <div class="snum">4</div>
+          <div class="sbody">
+            Come back to <strong>this browser tab</strong> (do NOT close the black window)<br>
+            and click the button below:
+          </div>
+        </div>
+
+        <button class="recheck-btn" onclick="checkServer()">
+          &#8635;&nbsp; I started the server &mdash; Check again
+        </button>
+      </div>
     </div>
   </div>
 
   <script>
     var CRM_URL = 'http://localhost:3001';
+    var recheckTimer = null;
 
-    function setStatus(state) {
-      var box  = document.getElementById('statusBox');
-      var dot  = document.getElementById('statusDot');
-      var text = document.getElementById('statusText');
-      var btn  = document.getElementById('openBtn');
-
-      if (state === 'checking') {
-        box.className  = 'status-box checking';
-        dot.className  = 'dot pulse';
-        text.textContent = 'Checking if server is running\u2026';
-        btn.className  = 'open-btn disabled';
-      } else if (state === 'running') {
-        box.className  = 'status-box running';
-        dot.className  = 'dot green';
-        text.textContent = '\u2713 Server is running \u2014 click the button below to open the CRM';
-        btn.className  = 'open-btn';
-      } else {
-        box.className  = 'status-box stopped';
-        dot.className  = 'dot orange';
-        text.textContent = 'Server is not running \u2014 follow the steps below to start it';
-        btn.className  = 'open-btn disabled';
+    // Highlight the USER placeholder in the path so it is impossible to miss
+    (function() {
+      var el = document.getElementById('crmPath');
+      if (el) {
+        el.innerHTML = 'C:\\Users\\<mark style="background:#b45309;color:#fef3c7;padding:0 3px;border-radius:3px">USER</mark>\\malta-crm\\malta-real-estate-crm';
       }
+    })();
+
+    function show(id) {
+      ['checkingPanel','runningPanel','stoppedPanel'].forEach(function(pid) {
+        document.getElementById(pid).style.display = (pid === id) ? 'flex' : 'none';
+      });
     }
 
     function checkServer() {
-      setStatus('checking');
-      // no-cors so CORS headers are not required; if connection refused -> catch
+      if (recheckTimer) { clearTimeout(recheckTimer); recheckTimer = null; }
+      show('checkingPanel');
       var ctrl = new AbortController();
-      var timer = setTimeout(function() { ctrl.abort(); }, 4000);
+      var timer = setTimeout(function() { ctrl.abort(); }, 5000);
       fetch(CRM_URL, { mode: 'no-cors', signal: ctrl.signal })
         .then(function() {
           clearTimeout(timer);
-          setStatus('running');
+          show('runningPanel');
         })
         .catch(function() {
           clearTimeout(timer);
-          setStatus('stopped');
+          show('stoppedPanel');
+          // auto re-check every 15 seconds so user doesn't have to click
+          recheckTimer = setTimeout(checkServer, 15000);
         });
     }
 
