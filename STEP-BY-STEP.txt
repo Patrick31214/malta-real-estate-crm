@@ -156,8 +156,51 @@ ABOUT start-windows.bat  (PLEASE READ - this causes confusion)
 
 
 ================================================================
-STEP 1 - OPEN A COMMAND PROMPT  (3 methods - use whichever works)
+FILES IN THIS FOLDER - WHAT EACH ONE DOES
 ================================================================
+
+  You will see several files in the malta-real-estate-crm folder.
+  Here is what each one is for:
+
+  start-windows.bat
+    ✔ THE MAIN FILE YOU NEED.
+    Double-click this to START the CRM.
+    It installs everything, builds the CRM pages,
+    and opens the CRM Login Page in your browser.
+
+  quick-start.bat
+    A CHECKER (not a starter).
+    Double-click this ONLY if you want to check whether
+    Node.js, PostgreSQL, and your configuration are set up correctly.
+    If a check fails, the window STAYS OPEN and tells you what to install.
+    After checking, you still need to run start-windows.bat to start the CRM.
+
+  quick-start.sh
+    ⚠ FOR MAC AND LINUX ONLY — DO NOT USE ON WINDOWS.
+    This file has a .sh extension which means it is a "shell script"
+    designed for Mac or Linux computers. On Windows, double-clicking it
+    will open and immediately close without doing anything useful.
+    IGNORE THIS FILE. Windows users use quick-start.bat instead.
+
+  run-crm.bat / START-CRM.bat
+    Older shortcuts that also start the CRM. If start-windows.bat works,
+    you do not need to use these.
+
+  index.html
+    A status checker you can open in your browser. It shows whether
+    the CRM server is running and has a button to open the Login Page.
+    DO NOT paste its code into WordPress.
+
+  STEP-BY-STEP.txt
+    This file. Full beginner guide.
+
+  .env / .env.example
+    Configuration files with your database password and security keys.
+    .env is your actual config. .env.example is the template.
+    These files are hidden in Windows Explorer by default.
+
+
+
 
   --- METHOD A: Windows key shortcut (EASIEST) ---
 

@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# ============================================================
+# WINDOWS USERS: DO NOT RUN THIS FILE
+# ============================================================
+# This file (quick-start.sh) is for Mac and Linux ONLY.
+# On Windows, double-clicking it will NOT work.
+#
+# If you are on Windows, use these files instead:
+#   - quick-start.bat   (to check your setup)
+#   - start-windows.bat (to start the CRM)
+#
+# See STEP-BY-STEP.txt for the full guide.
+# ============================================================
+
+
 # Malta Real Estate CRM - Quick Start Script
 # This script helps you verify your backend setup
 
