@@ -141,38 +141,23 @@ if %ERRORLEVEL% NEQ 0 (
 )
 echo.
 
-REM ── Rebuild the React frontend ───────────────────────────────────────────────
-echo [6/6] Rebuilding the CRM interface pages...
+REM ── Install client (frontend) packages ──────────────────────────────────────
+echo [6/6] Installing frontend packages...
 if exist "client\package.json" (
-    if not exist "client\node_modules" (
-        echo   First-time: installing interface packages (2-3 minutes)...
-        cd client
-        call npm install
-        if %ERRORLEVEL% NEQ 0 (
-            echo.
-            echo   [X] Failed to install interface packages.
-            echo       Check your internet connection and try again.
-            cd ..
-            pause
-            exit /b 1
-        )
-        cd ..
-    )
-    call npm run client:build
+    cd client
+    call npm install
     if %ERRORLEVEL% NEQ 0 (
         echo.
-        echo   [X] Failed to rebuild the CRM interface.
-        echo.
-        echo   Common causes:
-        echo     - Node.js too old (v16+ required).  Check: node --version
-        echo     - Try: delete the client\node_modules folder and run again.
-        echo.
+        echo   [X] Failed to install frontend packages.
+        echo       Check your internet connection and try again.
+        cd ..
         pause
         exit /b 1
     )
-    echo   [OK] CRM interface rebuilt.
+    cd ..
+    echo   [OK] Frontend packages installed.
 ) else (
-    echo   [SKIP] client\package.json not found - skipping interface rebuild.
+    echo   [SKIP] client\package.json not found - skipping frontend install.
 )
 echo.
 
@@ -180,22 +165,17 @@ echo ============================================================
 echo   SUCCESS!  Your CRM code is now up to date.
 echo ============================================================
 echo.
-echo   NEXT STEP — Restart the CRM to load the new pages:
+echo   NEXT STEP — Start the CRM:
 echo.
-echo     1. Close the CRM server window (the black window that
-echo        says "Server is running on port 3001") if it is open.
+echo     1. Close the CRM if it is already running:
+echo        Close the black Command Prompt window labelled
+echo        "Malta CRM - Backend" or "Malta CRM - Frontend".
 echo.
-echo     2. Double-click  quick-start.bat  in this folder.
-echo        Your browser will open at  http://localhost:3001
+echo     2. Double-click  START-CRM.bat  in this folder.
+echo        Your browser will open at  http://localhost:3000
 echo.
 echo     3. Log in with your usual email and password.
-echo        (If you reset the database: admin@maltarealestate.com / Password123!)
-echo.
-echo   NEW IN THIS UPDATE:
-echo     - Agents page  (sidebar → Agents 👔)
-echo       Add/edit/remove agents and create their CRM login.
-echo     - Public listings website  (sidebar → Website → Public Listings 🌐)
-echo       A no-login page your clients can browse at /listings
+echo        (Default: admin@maltarealestate.com / Password123!)
 echo.
 echo ============================================================
 echo.

@@ -256,7 +256,39 @@ SOLUTION:
    1. Check that the backend window is open (the black window)
    2. If it shows an error, read it carefully
    3. Most common fix: check your .env file has correct DB_PASSWORD
-   4. Try: http://localhost:3000 OR http://localhost:5000
+   4. Try: http://localhost:3000
+
+PROBLEM: "I ran DOWNLOAD-LATEST but nothing changed / CRM looks the same"
+SOLUTION:
+   DOWNLOAD-LATEST downloads from the main GitHub branch.
+   Make sure you actually see the "SUCCESS!" message at the end of
+   DOWNLOAD-LATEST.bat.  If you do:
+   1. Close all open CRM windows (the black Command Prompt windows).
+   2. Double-click START-CRM.bat to restart.
+   3. Hold Ctrl+Shift+R in your browser to hard-refresh the page.
+   If you still see old content, the browser may be showing a cached page.
+
+PROBLEM: "START-CRM stopped working after running DOWNLOAD-LATEST"
+SOLUTION:
+   DOWNLOAD-LATEST updates the code, but START-CRM.bat now checks that
+   PostgreSQL is running before starting.  If PostgreSQL was stopped:
+   1. Press Win+R → type services.msc → press Enter
+   2. Find "postgresql-x64-16" (or similar) in the list
+   3. Right-click → Start
+   4. Wait 5 seconds, then double-click START-CRM.bat again
+   If PostgreSQL IS running, check that .env has the correct DB_PASSWORD.
+
+PROBLEM: "npm run client:dev gets a lot of errors"
+SOLUTION:
+   Do NOT run "npm run client:dev" by itself.
+   Always use START-CRM.bat — it installs all the required packages
+   and starts BOTH the backend and the frontend together.
+   If you must run it manually:
+   1. First make sure the backend is running: double-click START-CRM.bat.
+      The backend window (labelled "Malta CRM - Backend") must stay open.
+   2. Open a new Command Prompt in the malta-real-estate-crm folder
+   3. Run:  npm run client:install  (installs frontend packages)
+   4. Run:  npm run client:dev      (starts the frontend on port 3000)
 
 PROBLEM: GET-LATEST.bat closes immediately
 SOLUTION:

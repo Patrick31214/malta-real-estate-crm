@@ -89,17 +89,74 @@ if not exist ".env" (
 )
 echo.
 
-echo [4/5] Setting up the database (safe to run every time)...
+echo [4/5] Checking PostgreSQL and setting up the database...
+
+REM  Read DB_PORT from .env so the check uses the same port as the application.
+REM  Falls back to 5432 (the PostgreSQL default) if DB_PORT is not set.
+for /f "usebackq tokens=*" %%V in (`powershell -NoProfile -Command ^
+  "$l=(Get-Content '.env' -ErrorAction SilentlyContinue) -match '^DB_PORT\s*='; if ($l) { (($l -split '\s*=\s*',2)[1]).Trim() } else { '5432' }"`) do set DB_PORT=%%V
+if not defined DB_PORT set DB_PORT=5432
+REM  Ensure DB_PORT is numeric; fall back to 5432 if not (e.g. malformed .env).
+echo %DB_PORT%| findstr /R "^[0-9][0-9]*$" >nul 2>nul
+if %ERRORLEVEL% NEQ 0 set DB_PORT=5432
+
+REM  Test whether PostgreSQL is listening on the configured port.
+powershell -NoProfile -Command ^
+  "try { $c=New-Object Net.Sockets.TcpClient; $c.Connect('127.0.0.1',%DB_PORT%); $c.Close(); exit 0 } catch { exit 1 }" ^
+  >nul 2>nul
+
+if %ERRORLEVEL% NEQ 0 (
+    echo.
+    echo ============================================================
+    echo   [X] PostgreSQL is NOT running on port %DB_PORT%
+    echo.
+    echo   The CRM needs PostgreSQL to store its data.
+    echo   Without it the server will crash immediately.
+    echo.
+    echo   HOW TO FIX:
+    echo.
+    echo   If PostgreSQL IS installed but not running:
+    echo     1. Press Win+R, type  services.msc  and click OK.
+    echo     2. Find "PostgreSQL" in the list (e.g. postgresql-x64-16).
+    echo     3. Right-click it and choose "Start".
+    echo     4. Wait 5 seconds, then double-click START-CRM.bat again.
+    echo.
+    echo   If PostgreSQL is NOT installed yet:
+    echo     1. Go to: https://www.postgresql.org/download/windows/
+    echo     2. Download and install it.  Write down the password you set.
+    echo     3. Open .env in Notepad and set  DB_PASSWORD=^<your password^>
+    echo     4. Restart your computer, then double-click START-CRM.bat again.
+    echo.
+    echo   See STEP-BY-STEP.txt for detailed instructions.
+    echo ============================================================
+    echo.
+    pause
+    exit /b 1
+)
+echo [OK] PostgreSQL is running on port %DB_PORT%.
+echo.
+
 call node scripts/create-database.js
 if %ERRORLEVEL% NEQ 0 (
-    echo [ERROR] Could not create/verify the database. Check the message above.
-    echo         Make sure PostgreSQL is running and DB_PASSWORD is correct in .env
+    echo.
+    echo [ERROR] Could not create/verify the CRM database.
+    echo.
+    echo   This almost always means the DB_PASSWORD in .env is wrong.
+    echo   HOW TO FIX:
+    echo     1. Open ".env" in Notepad.
+    echo     2. Find the line:  DB_PASSWORD=
+    echo     3. Make sure the value is EXACTLY your PostgreSQL password.
+    echo     4. Save ".env" and double-click START-CRM.bat again.
+    echo.
     pause
     exit /b 1
 )
 call npm run db:migrate
 if %ERRORLEVEL% NEQ 0 (
+    echo.
     echo [ERROR] Database migration failed. Check the message above.
+    echo         If this is a fresh install, try:  npm run db:fresh
+    echo.
     pause
     exit /b 1
 )
