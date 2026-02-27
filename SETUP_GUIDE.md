@@ -144,7 +144,9 @@ This downloads any updates. After pulling, run `npm install` and then install th
 > git pull
 > ```
 >
-> *(Windows shortcut: double-click **`GET-LATEST.bat`** in the CRM folder — it does all of this automatically.)*
+> **If `git pull` says "untracked working tree files would be overwritten by merge":** run `git clean -fd` then `git pull origin main`. Or double-click **`DOWNLOAD-LATEST.bat`**.
+>
+> *(Windows shortcut: double-click **`GET-LATEST.bat`** in the CRM folder — it handles both cases automatically.)*
 
 ---
 
@@ -273,7 +275,9 @@ git pull
 > git pull
 > ```
 >
-> *(Windows shortcut: double-click **`GET-LATEST.bat`** in the CRM folder — it does all of this automatically.)*
+> **If `git pull` says "untracked working tree files would be overwritten by merge":** run `git clean -fd` then `git pull origin main`. Or double-click **`DOWNLOAD-LATEST.bat`**.
+>
+> *(Windows shortcut: double-click **`GET-LATEST.bat`** in the CRM folder — it handles both cases automatically.)*
 
 **Install backend dependencies:**
 ```
@@ -628,6 +632,24 @@ This is safe — your local changes are saved by `git stash` and the correct ver
 > 3. `git pull origin main`
 > 4. `npm install`
 > 5. `npm run db:fresh`
+
+---
+
+### ❌ `git pull origin main` says "untracked working tree files would be overwritten by merge"
+
+This happens when files exist on your disk that Git is not currently tracking, but `origin/main` contains those same files. Git refuses to overwrite them silently.
+
+**Easiest fix (Windows):** double-click **`GET-LATEST.bat`** — it now uses `git stash -u` which stashes untracked files too, so the pull will succeed.
+
+**Manual fix — Option A** (remove untracked files, then pull):
+```
+git clean -fd
+git pull origin main
+```
+> ⚠️ `git clean -fd` **permanently deletes** untracked files. For this CRM it is always safe because everything important lives in your `.env` file and in the database.
+
+**Manual fix — Option B** (download a fresh copy — safest):
+Double-click **`DOWNLOAD-LATEST.bat`** in the CRM folder. It downloads the latest ZIP from GitHub and replaces all code files without touching your `.env` or database.
 
 ---
 

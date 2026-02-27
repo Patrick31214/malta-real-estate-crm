@@ -669,6 +669,36 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
             for local use).  Replace  Your Name  with your name.
             Then run  git pull origin main  again.
 
+  PROBLEM: git pull origin main says:
+             "error: The following untracked working tree files would be
+              overwritten by merge: .gitattributes GET-LATEST.bat SETUP_GUIDE.md
+              client/... scripts/...  Please move or remove them before you merge.
+              Aborting"
+             (The exact list of files may vary.)
+  SOLUTION: You have files on disk that git is not tracking on the current
+            branch, but origin/main wants to write those same files.  Git
+            refuses to silently overwrite them.
+
+            EASIEST FIX — double-click  GET-LATEST.bat  in the CRM folder.
+            The updated GET-LATEST.bat uses  git stash -u  which stashes
+            untracked files too, so the pull succeeds automatically.
+
+            If GET-LATEST.bat itself fails (or you prefer the manual way):
+
+            OPTION A — Remove the untracked files and pull:
+              Open a Command Prompt in the CRM folder and type:
+                 git clean -fd
+                 git pull origin main
+              WARNING: git clean -fd permanently deletes untracked files.
+              Only do this if you do not need them — for this CRM it is
+              always safe because all important files are in .env (which
+              is protected) and in the database.
+
+            OPTION B — Download a fresh copy (safest):
+              Double-click  DOWNLOAD-LATEST.bat  in the CRM folder.
+              It downloads the latest ZIP from GitHub and replaces all code
+              files without touching your .env or database.
+
   PROBLEM: The black window closed after I pressed "Press any key to continue"
            and now nothing is running / the browser shows nothing
   SOLUTION: You pressed a key on the SETUP WINDOW (Window 1).  That is OK.

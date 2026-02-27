@@ -67,7 +67,7 @@ git config user.email "crm-local@localhost" >nul 2>nul
 git config user.name "CRM Local User" >nul 2>nul
 
 echo [1/4] Saving any local changes (stash)...
-git stash
+git stash -u
 echo   [OK] Done (any local changes have been saved safely).
 echo.
 
@@ -80,7 +80,7 @@ if %ERRORLEVEL% NEQ 0 (
     echo   This can happen if there are conflicts that need manual resolution.
     echo   Try running  DOWNLOAD-LATEST.bat  in this folder instead,
     echo   or run these commands in a Command Prompt inside the CRM folder:
-    echo       git stash
+    echo       git stash -u
     echo       git checkout main
     echo.
     pause
@@ -98,6 +98,9 @@ if %ERRORLEVEL% NEQ 0 (
     echo     - No internet connection.  Check your connection and try again.
     echo     - GitHub login required.  Make sure you have cloned the repo
     echo       using HTTPS (not SSH) and that your credentials are saved.
+    echo     - Untracked files in your folder would be overwritten by the
+    echo       pull.  Run DOWNLOAD-LATEST.bat instead — it downloads a
+    echo       fresh copy and does not depend on your local git state.
     echo.
     pause
     exit /b 1
