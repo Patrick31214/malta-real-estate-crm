@@ -23,11 +23,11 @@ if not exist "package.json" (
     exit /b 1
 )
 
-echo [1/3] Installing backend dependencies (please wait)...
+echo [1/5] Installing backend dependencies (please wait)...
 call npm install
 echo.
 
-echo [2/3] Installing frontend dependencies...
+echo [2/5] Installing frontend dependencies...
 if exist "client\package.json" (
     cd client
     call npm install
@@ -38,7 +38,7 @@ if exist "client\package.json" (
 )
 echo.
 
-echo [3/3] Checking configuration file...
+echo [3/5] Checking configuration file...
 if not exist ".env" (
     if exist ".env.example" (
         copy .env.example .env >nul
@@ -89,7 +89,28 @@ if not exist ".env" (
 )
 echo.
 
-echo Opening frontend in a new window (http://localhost:3000)...
+echo [4/5] Setting up the database (safe to run every time)...
+call node scripts/create-database.js
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] Could not create/verify the database. Check the message above.
+    echo         Make sure PostgreSQL is running and DB_PASSWORD is correct in .env
+    pause
+    exit /b 1
+)
+call npm run db:migrate
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] Database migration failed. Check the message above.
+    pause
+    exit /b 1
+)
+echo [OK] Database is up to date.
+echo.
+echo  TIP: First time running? Seed sample data with:
+echo       npm run db:seed
+echo  (Run that once in a separate Command Prompt — skip if you already have data.)
+echo.
+
+echo [5/5] Opening frontend in a new window (http://localhost:3000)...
 start "Malta CRM - Frontend" /D "%~dp0" cmd /k npm run client:dev
 echo.
 echo ============================================================
