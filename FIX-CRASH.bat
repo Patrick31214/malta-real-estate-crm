@@ -25,16 +25,89 @@ echo   This tool fixes the error:
 echo     column 'createdAt' of relation 'users' contains null values
 echo.
 
-REM ── Safety: must be in the correct project folder ────────────────────────────
-if not exist "src\config\database.js" (
-    echo   [X] src\config\database.js not found here.
+REM ── Find the CRM folder ──────────────────────────────────────────────────────
+REM    First try the folder this .bat file is in (the normal case).
+REM    If not there, search common Windows locations automatically.
+REM    If still not found, ask the user to enter the path.
+
+if exist "src\config\database.js" goto :have_folder
+
+echo   Looking for the CRM folder on your computer...
+echo   (This happens when FIX-CRASH.bat was saved to a different folder.)
+echo.
+
+set "_FOUND="
+
+REM  Check Desktop
+for /d %%D in ("%USERPROFILE%\Desktop\malta-real-estate-crm*") do (
+    if exist "%%D\src\config\database.js" if not defined _FOUND set "_FOUND=%%D"
+)
+if defined _FOUND goto :folder_found
+
+REM  Check Documents
+for /d %%D in ("%USERPROFILE%\Documents\malta-real-estate-crm*") do (
+    if exist "%%D\src\config\database.js" if not defined _FOUND set "_FOUND=%%D"
+)
+if defined _FOUND goto :folder_found
+
+REM  Check Downloads
+for /d %%D in ("%USERPROFILE%\Downloads\malta-real-estate-crm*") do (
+    if exist "%%D\src\config\database.js" if not defined _FOUND set "_FOUND=%%D"
+)
+if defined _FOUND goto :folder_found
+
+REM  Check C:\MaltaCRM (location used by REINSTALL-CRM.bat)
+if exist "C:\MaltaCRM\src\config\database.js" (
+    set "_FOUND=C:\MaltaCRM"
+    goto :folder_found
+)
+
+REM  Check C:\ root (some users extract here)
+for /d %%D in ("C:\malta-real-estate-crm*") do (
+    if exist "%%D\src\config\database.js" if not defined _FOUND set "_FOUND=%%D"
+)
+if defined _FOUND goto :folder_found
+
+REM  Not found automatically — ask the user
+echo   Could not find the CRM folder automatically.
+echo.
+echo   Please type the FULL PATH to your CRM folder and press Enter.
+echo   This is the folder that contains START-CRM.bat and package.json.
+echo   Example:  C:\Users\Patrick\Desktop\malta-real-estate-crm-main
+echo.
+set /p "_CRM_PATH=CRM folder path: "
+
+if not defined _CRM_PATH (
     echo.
-    echo   You must run this file from INSIDE the malta-real-estate-crm folder
-    echo   (the same folder as START-CRM.bat, package.json, and the src folder).
+    echo   [X] No path entered. Exiting.
     echo.
     pause
     exit /b 1
 )
+
+if not exist "%_CRM_PATH%\src\config\database.js" (
+    echo.
+    echo   [X] That path does not look right.
+    echo       Could not find src\config\database.js there.
+    echo.
+    echo   Double-check the path and try again, or run REINSTALL-CRM.bat
+    echo   for a completely fresh install.
+    echo.
+    pause
+    exit /b 1
+)
+
+set "_FOUND=%_CRM_PATH%"
+
+:folder_found
+echo   Found CRM folder at:
+echo     %_FOUND%
+echo.
+cd /d "%_FOUND%"
+
+:have_folder
+echo   Working folder: %CD%
+echo.
 
 if not exist ".env" (
     echo   [X] .env file not found.

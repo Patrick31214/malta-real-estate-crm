@@ -89,6 +89,21 @@ if not exist ".env" (
 )
 echo.
 
+REM ── Self-heal: silently remove sequelize.sync() which causes the createdAt crash ─
+REM    This patch is idempotent — it is a no-op when the line is already absent.
+set "_HPS=%TEMP%\malta-crm-heal.ps1"
+echo if (Test-Path 'src\config\database.js') {  > "%_HPS%"
+echo   $f = [IO.Path]::GetFullPath('src\config\database.js') >> "%_HPS%"
+echo   $c = [IO.File]::ReadAllText($f) >> "%_HPS%"
+echo   $c = $c -replace '(?m)^^[ \t]*// Sync models with database.*[\r\n]+', '' >> "%_HPS%"
+echo   $c = $c -replace '(?m)^^[ \t]*// or drop existing ones.*[\r\n]+', '' >> "%_HPS%"
+echo   $c = $c -replace '(?m)^^[ \t]*await sequelize[.]sync[(][)];.*[\r\n]+', '' >> "%_HPS%"
+echo   $c = $c -replace '(?m)^^[ \t]*console[.]log.*Database models synchronized.*[\r\n]+', '' >> "%_HPS%"
+echo   [IO.File]::WriteAllText($f, $c) >> "%_HPS%"
+echo } >> "%_HPS%"
+powershell -NoProfile -ExecutionPolicy Bypass -File "%_HPS%" >nul 2>nul
+del /f /q "%_HPS%" >nul 2>nul
+
 echo [4/5] Checking PostgreSQL and setting up the database...
 
 REM  Read DB_PORT from .env so the check uses the same port as the application.

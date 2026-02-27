@@ -223,34 +223,38 @@ COMMON PROBLEMS
 
 PROBLEM: 'column "createdAt" of relation "users" contains null values'
 SOLUTION:
-   The CRM server file database.js still contains an old line that tries to
-   auto-create database columns — but the columns already exist, causing the
-   crash.  Run FIX-CRASH.bat to remove that line automatically:
-   1. Double-click  FIX-CRASH.bat  in the CRM folder.
-      If you do not see it:
-        a. Open https://github.com/Patrick31214/malta-real-estate-crm
-        b. Click FIX-CRASH.bat in the file list
-        c. Click "Raw", then press Ctrl+S to save it into the CRM folder
-   2. When FIX-CRASH.bat says "FIX APPLIED!", double-click START-CRM.bat.
+   EASIEST FIX — Use REINSTALL-CRM.bat (works from any folder):
+   1. Open https://github.com/Patrick31214/malta-real-estate-crm
+   2. Click REINSTALL-CRM.bat in the file list
+   3. Click the download icon (down-arrow near top-right of the page)
+      NOTE: If it saves as REINSTALL-CRM.bat.txt, rename it:
+            right-click the file → Rename → delete the ".txt" at the end
+   4. Double-click REINSTALL-CRM.bat — it does everything automatically.
 
-   DO NOT use DOWNLOAD-LATEST to try to fix this — it downloads the main
-   branch which may still contain the same broken line.
+   QUICK FIX — If you already have START-CRM.bat working in the right folder:
+   1. Just double-click START-CRM.bat again.
+      START-CRM.bat now automatically fixes this crash before starting the
+      database — you may not need to do anything else.
 
-   Manual fix (if you prefer):
+   MANUAL FIX — If you prefer to fix database.js yourself:
    1. Open  src\config\database.js  in Notepad
-   2. Find and DELETE these lines:
+   2. Find and DELETE these lines (they may not all be present):
         // Sync models with database ...
         // or drop existing ones ...
         await sequelize.sync();
         console.log('... Database models synchronized ...');
    3. Save the file, then double-click START-CRM.bat.
 
-PROBLEM: A .bat file opens and closes immediately
-SOLUTION:
+PROBLEM: A .bat file opens and immediately closes (you see a flash of a window)
+SOLUTION — two options:
+   Option A — Check the error message:
    1. Right-click the .bat file → "Edit" (opens in Notepad)
-   2. Add "pause" at the very end of the file, save it
-   3. Double-click it again — now you can read the error message
-   4. Fix the error shown, then remove the "pause" line
+   2. Scroll to the very end and add a new line:  pause
+   3. Save the file and double-click it — now you can read the error
+   4. Fix the error shown, then remove the  pause  line you added
+   Option B — Run REINSTALL-CRM.bat instead:
+   1. Download REINSTALL-CRM.bat from GitHub (see above)
+   2. Double-click it — it is designed to work from any folder
 
 PROBLEM: "PostgreSQL is NOT listening on port 5432"
 SOLUTION:
