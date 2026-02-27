@@ -1,35 +1,50 @@
 .app-header {
   height: var(--header-height);
-  background: var(--bg-card);
-  border-bottom: 1px solid var(--border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-gold);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;
   flex-shrink: 0;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 16px rgba(31, 110, 69, 0.08);
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .page-title {
   font-size: 20px;
   font-weight: 700;
-  color: var(--text-dark);
+  color: var(--primary);
+  letter-spacing: 0.2px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .header-badge {
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-medium);
-  background: var(--bg-page);
-  padding: 5px 12px;
+  color: var(--primary);
+  background: rgba(201, 168, 76, 0.15);
+  padding: 5px 14px;
   border-radius: 20px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-gold);
+  letter-spacing: 0.3px;
+  transition: all 0.2s;
+}
+.header-badge:hover {
+  background: rgba(201, 168, 76, 0.25);
+  transform: translateY(-1px);
 }
 
 /* Hamburger menu toggle — hidden on desktop */
@@ -39,14 +54,15 @@
   border: none;
   font-size: 22px;
   cursor: pointer;
-  color: var(--text-dark);
-  padding: 4px 8px;
+  color: var(--primary);
+  padding: 6px 10px;
   border-radius: var(--radius-sm);
   line-height: 1;
+  transition: background 0.2s;
 }
 
 .menu-toggle:hover {
-  background: var(--bg-page);
+  background: rgba(31, 110, 69, 0.1);
 }
 
 @media (max-width: 768px) {

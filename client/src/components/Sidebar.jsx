@@ -10,6 +10,10 @@ const navItems = [
   { to: '/inquiries', label: 'Inquiries', icon: '📋' }
 ];
 
+const adminNavItems = [
+  { to: '/activity-log', label: 'Activity Log', icon: '🔍' }
+];
+
 function Sidebar({ onClose }) {
   const navigate = useNavigate();
 
@@ -24,10 +28,10 @@ function Sidebar({ onClose }) {
     <aside className="sidebar">
       {/* Logo */}
       <div className="sidebar-logo">
-        <div className="logo-icon">🏖️</div>
+        <div className="logo-icon">🗝️</div>
         <div className="logo-text">
-          <span className="logo-title">Malta</span>
-          <span className="logo-subtitle">Real Estate CRM</span>
+          <span className="logo-title">Golden Key Realty</span>
+          <span className="logo-subtitle">Premium Real Estate CRM</span>
         </div>
       </div>
 
@@ -45,6 +49,23 @@ function Sidebar({ onClose }) {
             <span className="nav-label">{item.label}</span>
           </NavLink>
         ))}
+
+        {user && (user.role === 'admin' || user.role === 'manager') && (
+          <>
+            <p className="nav-section-title" style={{ marginTop: 16 }}>Admin</p>
+            {adminNavItems.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}
+                onClick={onClose}
+              >
+                <span className="nav-icon">{item.icon}</span>
+                <span className="nav-label">{item.label}</span>
+              </NavLink>
+            ))}
+          </>
+        )}
 
         <p className="nav-section-title" style={{ marginTop: 16 }}>Website</p>
         <a

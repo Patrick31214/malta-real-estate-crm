@@ -1,5 +1,6 @@
 const { Owner, Property } = require('../models');
 const { Op } = require('sequelize');
+const { logActivity } = require('./activityLogController');
 
 /**
  * Get all owners with pagination
@@ -26,6 +27,17 @@ const getOwners = async (req, res) => {
       offset,
       order: [['createdAt', 'DESC']]
     });
+
+    // Log access for agent role
+    if (req.user && req.user.role === 'agent') {
+      await logActivity({
+        agentUserId: req.user.userId,
+        action: 'VIEW_OWNER_LIST',
+        resourceType: 'owner',
+        resourceLabel: `Viewed ${count} owners (search: "${search || ''}")`,
+        ipAddress: req.ip
+      });
+    }
 
     res.status(200).json({
       success: true,
@@ -58,6 +70,18 @@ const getOwner = async (req, res) => {
 
     if (!owner) {
       return res.status(404).json({ success: false, message: 'Owner not found.' });
+    }
+
+    // Log sensitive data access for agents
+    if (req.user && req.user.role === 'agent') {
+      await logActivity({
+        agentUserId: req.user.userId,
+        action: 'VIEW_OWNER_DETAILS',
+        resourceType: 'owner',
+        resourceId: owner.id,
+        resourceLabel: `${owner.firstName} ${owner.lastName}`,
+        ipAddress: req.ip
+      });
     }
 
     res.status(200).json({ success: true, data: { owner } });

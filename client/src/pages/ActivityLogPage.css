@@ -1,0 +1,119 @@
+.activity-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.activity-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.activity-toolbar-info h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.activity-toolbar-info p {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.table-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.log-agent {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.log-agent-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.log-agent-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-dark);
+}
+
+.log-agent-email {
+  font-size: 11px;
+  color: var(--text-light);
+}
+
+.log-action {
+  font-size: 13px;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.log-resource {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.log-resource-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.log-resource-type {
+  font-size: 11px;
+  color: var(--text-light);
+  text-transform: capitalize;
+  background: rgba(31,110,69,0.08);
+  padding: 2px 8px;
+  border-radius: 10px;
+  display: inline-block;
+  width: fit-content;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.page-btn {
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--glass-bg);
+  color: var(--text-medium);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.page-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+.page-btn.active {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: white;
+  border-color: var(--primary);
+  font-weight: 700;
+}

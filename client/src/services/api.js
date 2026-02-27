@@ -103,6 +103,7 @@ export const properties = {
   getOne: (id) => request(`/properties/${id}`),
   create: (data) => request('/properties', { method: 'POST', body: JSON.stringify(data) }),
   update: (id, data) => request(`/properties/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  approve: (id, status) => request(`/properties/${id}/approve`, { method: 'PUT', body: JSON.stringify({ status }) }),
   delete: (id) => request(`/properties/${id}`, { method: 'DELETE' })
 };
 
@@ -139,7 +140,16 @@ export const agents = {
   getOne: (id) => request(`/agents/${id}`),
   create: (data) => request('/agents', { method: 'POST', body: JSON.stringify(data) }),
   update: (id, data) => request(`/agents/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  delete: (id) => request(`/agents/${id}`, { method: 'DELETE' })
+  delete: (id) => request(`/agents/${id}`, { method: 'DELETE' }),
+  block: (id, blocked) => request(`/agents/${id}/block`, { method: 'PUT', body: JSON.stringify({ blocked }) })
+};
+
+// Activity Logs (admin/manager only)
+export const activityLogs = {
+  getAll: (params = {}) => {
+    const qs = new URLSearchParams(params).toString();
+    return request(`/activity-logs${qs ? '?' + qs : ''}`);
+  }
 };
 
 // Public listings (no auth required)
@@ -152,4 +162,4 @@ export const listings = {
   getOne: (id) => fetch(`${API_BASE}/listings/${id}`).then(r => r.json())
 };
 
-export default { auth, properties, owners, inquiries, agents, listings };
+export default { auth, properties, owners, inquiries, agents, listings, activityLogs };

@@ -104,7 +104,12 @@ const getProperty = async (req, res) => {
  */
 const createProperty = async (req, res) => {
   try {
-    const property = await Property.create(req.body);
+    // Properties created by agents start as 'pending' approval
+    const propertyData = { ...req.body };
+    if (req.user && req.user.role === 'agent') {
+      propertyData.approvalStatus = 'pending';
+    }
+    const property = await Property.create(propertyData);
     res.status(201).json({ success: true, message: 'Property created successfully.', data: { property } });
   } catch (error) {
     console.error('Create property error:', error);
@@ -123,11 +128,45 @@ const updateProperty = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Property not found.' });
     }
 
-    await property.update(req.body);
+    // Agents cannot change approvalStatus; only admin/manager can
+    const updates = { ...req.body };
+    if (req.user && req.user.role === 'agent') {
+      delete updates.approvalStatus;
+    }
+
+    await property.update(updates);
     res.status(200).json({ success: true, message: 'Property updated successfully.', data: { property } });
   } catch (error) {
     console.error('Update property error:', error);
     res.status(500).json({ success: false, message: 'Error updating property.', error: error.message });
+  }
+};
+
+/**
+ * Approve or reject a listing (admin/manager only)
+ * PUT /api/properties/:id/approve
+ */
+const approveProperty = async (req, res) => {
+  try {
+    const { status } = req.body; // 'approved' or 'rejected'
+    if (!['approved', 'rejected'].includes(status)) {
+      return res.status(400).json({ success: false, message: "Status must be 'approved' or 'rejected'." });
+    }
+
+    const property = await Property.findByPk(req.params.id);
+    if (!property) {
+      return res.status(404).json({ success: false, message: 'Property not found.' });
+    }
+
+    await property.update({ approvalStatus: status });
+    res.status(200).json({
+      success: true,
+      message: `Property ${status} successfully.`,
+      data: { property }
+    });
+  } catch (error) {
+    console.error('Approve property error:', error);
+    res.status(500).json({ success: false, message: 'Error updating approval status.', error: error.message });
   }
 };
 
@@ -150,4 +189,4 @@ const deleteProperty = async (req, res) => {
   }
 };
 
-module.exports = { getProperties, getProperty, createProperty, updateProperty, deleteProperty };
+module.exports = { getProperties, getProperty, createProperty, updateProperty, approveProperty, deleteProperty };

@@ -39,10 +39,10 @@ function LoginPage() {
     <div className="login-page">
       <div className="login-left">
         <div className="login-branding">
-          <div className="brand-icon">🏖️</div>
-          <h1 className="brand-name">Malta Real Estate CRM</h1>
+          <div className="brand-icon">🗝️</div>
+          <h1 className="brand-name">Golden Key Realty</h1>
           <p className="brand-tagline">
-            Manage your properties, owners and inquiries — all in one place.
+            Malta's premier real estate CRM — manage properties, owners, and agents with elegance.
           </p>
           <div className="brand-features">
             <div className="feature-item">
@@ -80,7 +80,7 @@ function LoginPage() {
                 name="email"
                 type="email"
                 className="form-input"
-                placeholder="agent@realestate.mt"
+                placeholder="agent@goldenkeyrealty.mt"
                 value={form.email}
                 onChange={handleChange}
                 required
@@ -112,7 +112,7 @@ function LoginPage() {
           </form>
 
           <p className="login-footer">
-            🇲🇹 Malta Real Estate CRM &mdash; Private Access Only
+            🗝️ Golden Key Realty Malta &mdash; Private Access Only
           </p>
         </div>
       </div>

@@ -4,6 +4,34 @@
   gap: 16px;
 }
 
+.page-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.toolbar-left {
+  flex: 1;
+  min-width: 200px;
+}
+
+.search-input {
+  max-width: 360px;
+}
+
+.result-count {
+  font-size: 13px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.table-card {
+  padding: 0;
+  overflow: hidden;
+}
+
 .agent-name-cell {
   display: flex;
   align-items: center;
@@ -11,10 +39,10 @@
 }
 
 .agent-avatar {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
   color: white;
   display: flex;
   align-items: center;
@@ -22,6 +50,17 @@
   font-weight: 700;
   font-size: 14px;
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(31,110,69,0.25);
+}
+
+.agent-photo {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid var(--accent);
+  box-shadow: 0 2px 8px rgba(201,168,76,0.3);
 }
 
 .agent-name {
@@ -44,20 +83,22 @@
   color: var(--text-medium);
 }
 
-.result-count {
-  font-size: 13px;
-  color: var(--text-light);
-  font-weight: 500;
-}
-
-.table-card {
-  padding: 0;
-  overflow: hidden;
-}
-
 .action-btns {
   display: flex;
-  gap: 6px;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.btn-warning {
+  background: rgba(230, 126, 34, 0.15);
+  color: #b7450a;
+  border: 1px solid rgba(230,126,34,0.35);
+  font-weight: 600;
+}
+.btn-warning:hover {
+  background: rgba(230, 126, 34, 0.85);
+  color: white;
+  transform: translateY(-1px);
 }
 
 .pagination {
@@ -68,25 +109,28 @@
 }
 
 .page-btn {
-  width: 36px;
-  height: 36px;
+  padding: 7px 14px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
-  background: white;
+  background: var(--glass-bg);
   color: var(--text-medium);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.2s;
+  backdrop-filter: blur(4px);
 }
 
 .page-btn:hover {
   border-color: var(--primary);
   color: var(--primary);
+  background: rgba(31,110,69,0.08);
+  transform: translateY(-1px);
 }
 
 .page-btn.active {
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
   border-color: var(--primary);
   color: white;
+  font-weight: 700;
 }

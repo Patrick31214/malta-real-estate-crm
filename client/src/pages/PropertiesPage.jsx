@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { properties } from '../services/api';
+import { properties, auth } from '../services/api';
 import PropertyModal from '../components/PropertyModal';
 import './PropertiesPage.css';
 
@@ -21,6 +21,9 @@ function PropertiesPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editProperty, setEditProperty] = useState(null);
   const [toast, setToast] = useState(null);
+
+  const user = auth.getUser();
+  const isAdmin = user && (user.role === 'admin' || user.role === 'manager');
 
   const showToast = (msg, type = 'success') => {
     setToast({ msg, type });
@@ -59,6 +62,16 @@ function PropertiesPage() {
     if (res.success) {
       showToast('Property deleted.');
       fetchProperties(pagination.page);
+    }
+  };
+
+  const handleApprove = async (id, status) => {
+    const res = await properties.approve(id, status);
+    if (res.success) {
+      showToast(`Property ${status}.`);
+      fetchProperties(pagination.page);
+    } else {
+      showToast(res.message || 'Failed to update.', 'error');
     }
   };
 
@@ -130,6 +143,7 @@ function PropertiesPage() {
                   <th>Price</th>
                   <th>Beds/Baths</th>
                   <th>Status</th>
+                  <th>Approval</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -149,8 +163,19 @@ function PropertiesPage() {
                     </td>
                     <td><span className={`badge badge-${p.status}`}>{p.status.replace('_', ' ')}</span></td>
                     <td>
+                      <span className={`badge badge-${p.approvalStatus || 'pending'}`}>
+                        {p.approvalStatus || 'pending'}
+                      </span>
+                    </td>
+                    <td>
                       <div className="action-btns">
                         <button className="btn btn-outline btn-sm" onClick={() => { setEditProperty(p); setModalOpen(true); }}>Edit</button>
+                        {isAdmin && p.approvalStatus !== 'approved' && (
+                          <button className="btn btn-sm btn-accent" onClick={() => handleApprove(p.id, 'approved')} title="Approve listing">✓ Approve</button>
+                        )}
+                        {isAdmin && p.approvalStatus !== 'rejected' && (
+                          <button className="btn btn-sm btn-danger" style={{fontSize:11}} onClick={() => handleApprove(p.id, 'rejected')} title="Reject listing">✗ Reject</button>
+                        )}
                         <button className="btn btn-danger btn-sm" onClick={() => handleDelete(p.id)}>Del</button>
                       </div>
                     </td>

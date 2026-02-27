@@ -76,10 +76,10 @@ function DashboardPage() {
 
       {isEmpty ? (
         <div className="dashboard-welcome card">
-          <div className="welcome-icon">🏖️</div>
-          <h2>Welcome to Malta Real Estate CRM</h2>
+          <div className="welcome-icon">🗝️</div>
+          <h2>Welcome to Golden Key Realty CRM</h2>
           <p>
-            Your CRM is up and running. Start by adding your first property owner and listing.
+            Your premium CRM is up and running. Start by adding your first property owner and listing.
           </p>
           <div className="welcome-actions">
             <Link to="/owners" className="btn btn-primary btn-lg">

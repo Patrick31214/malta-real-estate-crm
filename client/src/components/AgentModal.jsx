@@ -6,7 +6,7 @@ const defaultForm = {
   firstName: '', lastName: '', email: '',
   licenseNumber: '', specialization: '', commissionRate: '',
   phone: '', mobile: '', officeAddress: '', bio: '',
-  languages: 'English', yearsExperience: ''
+  languages: 'English', yearsExperience: '', profileImageUrl: ''
 };
 
 function AgentModal({ agent, onClose, onSaved }) {
@@ -29,7 +29,8 @@ function AgentModal({ agent, onClose, onSaved }) {
         officeAddress: agent.officeAddress || '',
         bio: agent.bio || '',
         languages: (agent.languages || ['English']).join(', '),
-        yearsExperience: agent.yearsExperience || ''
+        yearsExperience: agent.yearsExperience || '',
+        profileImageUrl: agent.profileImageUrl || ''
       });
     }
   }, [agent]);
@@ -174,6 +175,14 @@ function AgentModal({ agent, onClose, onSaved }) {
           <div className="form-group">
             <label>Bio</label>
             <textarea name="bio" className="form-input" rows={3} value={form.bio} onChange={handleChange} placeholder="Brief professional bio…" style={{ resize: 'vertical' }} />
+          </div>
+
+          <div className="form-group">
+            <label>Profile Photo URL</label>
+            <input name="profileImageUrl" type="url" className="form-input" value={form.profileImageUrl} onChange={handleChange} placeholder="https://example.com/photo.jpg" />
+            {form.profileImageUrl && (
+              <img src={form.profileImageUrl} alt="Preview" style={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'cover', marginTop: 8, border: '2px solid var(--accent)' }} />
+            )}
           </div>
 
           <div className="modal-footer">
