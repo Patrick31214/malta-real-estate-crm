@@ -516,6 +516,75 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
             Run the installer and click Next until it finishes.
             After installing, close and re-open Windows Explorer, then try again.
 
+  PROBLEM: npm run db:fresh (or db:migrate, db:seed) says "Missing script"
+           even after running npm install
+  SOLUTION: Your LOCAL copy of package.json is from an older version of the
+            CRM.  Running  npm install  does NOT update package.json —
+            it only installs the packages that are already listed there.
+            You need to download the latest package.json from GitHub first.
+
+    ── OPTION 1: Quickest fix — copy-paste one line ─────────────────────────
+      1. Open a Command Prompt in your CRM folder.
+         (Press Win+R, type  cmd, click OK.
+          Then type:  cd C:\Users\USER\malta-crm\malta-real-estate-crm
+          Replace USER with your Windows username.)
+
+      2. Copy and paste the line below EXACTLY and press ENTER:
+
+            powershell -Command "try { Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/Patrick31214/malta-real-estate-crm/main/package.json' -OutFile 'package.json' -UseBasicParsing -ErrorAction Stop; Write-Host '[OK] Downloaded.' } catch { Write-Host '[X] FAILED:' $_.Exception.Message }"
+
+         IMPORTANT: If it prints  [X] FAILED  — STOP.  Check your internet
+         connection and try again.  If it prints  [OK] Downloaded.  continue.
+
+      3. Then type:  npm install   and press ENTER.
+
+      4. Then type:  npm run db:fresh   and press ENTER.
+
+    ── OPTION 2: Download FIX-SCRIPTS.bat (does everything for you) ─────────
+      1. Open your browser and go to this exact URL:
+            https://raw.githubusercontent.com/Patrick31214/malta-real-estate-crm/main/FIX-SCRIPTS.bat
+      2. Press Ctrl+S to save the file.
+         Save it to your CRM folder:
+            C:\Users\USER\malta-crm\malta-real-estate-crm
+         (Replace USER with your Windows username.)
+         If Windows asks what program to open with, click "Save" not "Open".
+      3. Double-click FIX-SCRIPTS.bat.  It will download the latest
+         package.json, also save DOWNLOAD-LATEST.bat for future use,
+         and run npm install automatically.
+      4. When it says "SUCCESS!", open a Command Prompt in the CRM folder
+         and run:  npm run db:fresh
+
+    ── OPTION 3: Download the full ZIP ───────────────────────────────────────
+      1. Go to:  https://github.com/Patrick31214/malta-real-estate-crm
+      2. Click the green "Code" button.
+      3. Click "Download ZIP".
+      4. Extract the ZIP.
+      5. Copy ALL files from the extracted folder into your CRM folder.
+         When Windows asks about overwriting files, choose Yes to All.
+         DO NOT overwrite your .env file — it has your database password.
+      6. Run  npm install  and then  npm run db:fresh.
+
+  PROBLEM: npm install shows "X vulnerabilities (low, moderate, high)"
+  SOLUTION: This is a WARNING, not an error.  The CRM will still work.
+            The vulnerabilities are in development tools used only on
+            your own computer to run migrations, not in the live server.
+
+    What it means:
+      Some packages inside node_modules have known security issues.
+      For this CRM they are all in  sequelize-cli  (the migration tool)
+      which runs only on your computer, not on the internet.
+
+    What to do:
+      Nothing — if you just want the CRM to work, ignore this warning.
+      The latest code already includes fixes in package.json that keep the
+      count to zero.  If you still see vulnerabilities after running
+      DOWNLOAD-LATEST.bat or FIX-SCRIPTS.bat, your npm/node_modules may
+      have a cached older version.  Try:
+        1. Delete the  node_modules  folder from the CRM folder.
+        2. Run:  npm install
+      If you still see high/critical vulnerabilities after that, ask for
+      help and share the output of:  npm audit
+
   PROBLEM: 'git' is not recognized
   SOLUTION: Install Git. Go to https://git-scm.com/download/win
             Click 'Download for Windows', run the installer, click Next everywhere.

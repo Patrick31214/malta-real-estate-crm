@@ -39,6 +39,11 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.11",
-    "sequelize-cli": "^6.6.5"
+    "sequelize-cli": "6.6.2"
+  },
+  "overrides": {
+    "editorconfig": {
+      "minimatch": "9.0.9"
+    }
   }
 }
