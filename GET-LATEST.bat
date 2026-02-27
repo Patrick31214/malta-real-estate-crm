@@ -127,11 +127,19 @@ echo   What to do next:
 echo.
 echo   If you were told to run  db:fresh  (database reset):
 echo     1. Open a Command Prompt in this folder.
-echo     2. Type:  npm run db:fresh
-echo     3. Then double-click  start-windows.bat  to start the CRM.
+echo     2. Type:  npm run db:fresh   and press ENTER.
+echo        Wait for the line "X seeders executed successfully".
+echo     3. Double-click  start-windows.bat  in this folder.
+echo        Wait for the CRM to start (about 20 seconds).
+echo     4. Your browser will open at  http://localhost:3001
+echo        Log in with:
+echo            Email:    admin@maltarealestate.com
+echo            Password: Password123!
+echo        (These are demo credentials — change your password after login.)
 echo.
 echo   If you just wanted the latest code without a database reset:
 echo     Double-click  start-windows.bat  to start the CRM.
+echo     Log in with your usual email and password.
 echo.
 echo ============================================================
 echo.

@@ -532,6 +532,26 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
 
             If  git checkout main  fails, double-click  GET-LATEST.bat.
 
+  PROBLEM: npm run db:fresh finished with no errors — what do I do next?
+  SOLUTION: db:fresh resets the database and loads sample data.
+            Here is the complete sequence to go from db:fresh to the login page:
+
+            ▶ STEP 1 — Double-click  start-windows.bat  in the CRM folder.
+                        Wait about 20 seconds for the server to start.
+
+            ▶ STEP 2 — Your browser should open automatically at
+                          http://localhost:3001
+                        If it does not open, type that address in your browser.
+
+            ▶ STEP 3 — Log in with:
+                          Email:    admin@maltarealestate.com
+                          Password: Password123!
+                        (db:fresh loads demo credentials — change your
+                         password after your first login.)
+
+            ▶ STEP 4 — You are in!  You will see the CRM Dashboard where
+                        you can manage properties, owners, inquiries, etc.
+
   PROBLEM: npm run db:fresh (or db:migrate, db:seed) says "Missing script"
            even after running npm install
   SOLUTION: Your LOCAL copy of package.json is from an older version of the
