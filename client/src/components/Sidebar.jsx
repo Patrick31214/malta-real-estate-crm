@@ -6,6 +6,7 @@ const navItems = [
   { to: '/dashboard', label: 'Dashboard', icon: '📊' },
   { to: '/properties', label: 'Properties', icon: '🏠' },
   { to: '/owners', label: 'Owners', icon: '👤' },
+  { to: '/agents', label: 'Agents', icon: '👔' },
   { to: '/inquiries', label: 'Inquiries', icon: '📋' }
 ];
 
@@ -44,6 +45,18 @@ function Sidebar({ onClose }) {
             <span className="nav-label">{item.label}</span>
           </NavLink>
         ))}
+
+        <p className="nav-section-title" style={{ marginTop: 16 }}>Website</p>
+        <a
+          href="/listings"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="nav-item"
+          onClick={onClose}
+        >
+          <span className="nav-icon">🌐</span>
+          <span className="nav-label">Public Listings</span>
+        </a>
       </nav>
 
       {/* Bottom user info */}
