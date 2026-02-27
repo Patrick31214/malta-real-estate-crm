@@ -24,11 +24,11 @@ const connectDB = async () => {
     await sequelize.authenticate();
     console.log('✓ PostgreSQL database connection established successfully.');
     console.log(`  (host: ${process.env.DB_HOST || 'localhost'}, port: ${process.env.DB_PORT || 5432}, db: ${process.env.DB_NAME || 'malta_crm'})`);
-    
-    // Sync models with database (create tables that are missing; never alter
-    // or drop existing ones so that a populated malta_crm database is safe).
-    await sequelize.sync();
-    console.log('✓ Database models synchronized.');
+    // Schema is managed entirely by Sequelize CLI migrations (npm run db:migrate).
+    // Do NOT call sequelize.sync() here — it conflicts with underscored models
+    // because sync() tries to ADD "createdAt"/"updatedAt" camelCase columns even
+    // when the migrations already created "created_at"/"updated_at" snake_case
+    // columns, causing: "column X contains null values" on every server start.
   } catch (error) {
     console.error('✗ Unable to connect to the database:', error.message);
 
