@@ -1,2 +1,8 @@
-# Ensure .bat files always have CRLF line endings on every platform
+# Normalize line endings: store LF in Git, check out with the platform default
+* text=auto
+
+# Shell scripts must keep LF on all platforms (including Windows)
+*.sh text eol=lf
+
+# Windows batch files must always have CRLF line endings
 *.bat text eol=crlf

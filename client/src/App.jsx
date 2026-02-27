@@ -4,6 +4,8 @@ import DashboardPage from './pages/DashboardPage';
 import PropertiesPage from './pages/PropertiesPage';
 import OwnersPage from './pages/OwnersPage';
 import InquiriesPage from './pages/InquiriesPage';
+import AgentsPage from './pages/AgentsPage';
+import ListingsPage from './pages/ListingsPage';
 import Layout from './components/Layout';
 import { auth } from './services/api';
 
@@ -19,6 +21,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/listings" element={<ListingsPage />} />
         <Route
           path="/"
           element={
@@ -32,6 +35,7 @@ function App() {
           <Route path="properties" element={<PropertiesPage />} />
           <Route path="owners" element={<OwnersPage />} />
           <Route path="inquiries" element={<InquiriesPage />} />
+          <Route path="agents" element={<AgentsPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>

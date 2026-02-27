@@ -44,7 +44,7 @@ if %ERRORLEVEL% NEQ 0 (
 )
 
 REM ── Check internet (quick test to github.com) ─────────────────────────────────
-echo [1/5] Checking internet connection...
+echo [1/6] Checking internet connection...
 powershell -NoProfile -Command ^
   "try { $r=(Invoke-WebRequest 'https://github.com' -UseBasicParsing -TimeoutSec 10 -ErrorAction Stop).StatusCode; if($r -eq 200){exit 0} else {exit 1} } catch { exit 1 }" ^
   >nul 2>nul
@@ -61,7 +61,7 @@ echo.
 
 REM ── Create a temporary download folder ───────────────────────────────────────
 set TMPDIR=%TEMP%\malta-crm-download-%RANDOM%
-echo [2/5] Downloading latest code from GitHub...
+echo [2/6] Downloading latest code from GitHub...
 echo   URL: https://github.com/Patrick31214/malta-real-estate-crm/archive/refs/heads/main.zip
 echo   Please wait...
 
@@ -84,7 +84,7 @@ echo   [OK] Downloaded successfully.
 echo.
 
 REM ── Extract the ZIP ───────────────────────────────────────────────────────────
-echo [3/5] Extracting files...
+echo [3/6] Extracting files...
 powershell -NoProfile -Command ^
   "try { Expand-Archive -Path '%TMPDIR%.zip' -DestinationPath '%TMPDIR%' -Force -ErrorAction Stop; exit 0 } catch { Write-Host $_.Exception.Message; exit 1 }"
 if %ERRORLEVEL% NEQ 0 (
@@ -102,7 +102,7 @@ echo.
 REM ── Copy new files into the CRM folder ───────────────────────────────────────
 REM    The ZIP extracts as  malta-real-estate-crm-main\  inside %TMPDIR%
 REM    We copy everything EXCEPT .env (which holds the user's database password)
-echo [4/5] Updating CRM files...
+echo [4/6] Updating CRM files...
 echo   (Your .env file is NOT changed - your database password is safe.)
 
 REM  Robocopy: /E = all subdirs including empty, /XF .env = skip .env,
@@ -129,7 +129,7 @@ del /f /q "%TMPDIR%.zip" >nul 2>nul
 rd /s /q "%TMPDIR%" >nul 2>nul
 
 REM ── Install any new npm packages ─────────────────────────────────────────────
-echo [5/5] Installing any new packages...
+echo [5/6] Installing any new packages...
 call npm install
 if %ERRORLEVEL% NEQ 0 (
     echo.
@@ -141,19 +141,61 @@ if %ERRORLEVEL% NEQ 0 (
 )
 echo.
 
+REM ── Rebuild the React frontend ───────────────────────────────────────────────
+echo [6/6] Rebuilding the CRM interface pages...
+if exist "client\package.json" (
+    if not exist "client\node_modules" (
+        echo   First-time: installing interface packages (2-3 minutes)...
+        cd client
+        call npm install
+        if %ERRORLEVEL% NEQ 0 (
+            echo.
+            echo   [X] Failed to install interface packages.
+            echo       Check your internet connection and try again.
+            cd ..
+            pause
+            exit /b 1
+        )
+        cd ..
+    )
+    call npm run client:build
+    if %ERRORLEVEL% NEQ 0 (
+        echo.
+        echo   [X] Failed to rebuild the CRM interface.
+        echo.
+        echo   Common causes:
+        echo     - Node.js too old (v16+ required).  Check: node --version
+        echo     - Try: delete the client\node_modules folder and run again.
+        echo.
+        pause
+        exit /b 1
+    )
+    echo   [OK] CRM interface rebuilt.
+) else (
+    echo   [SKIP] client\package.json not found - skipping interface rebuild.
+)
+echo.
+
 echo ============================================================
 echo   SUCCESS!  Your CRM code is now up to date.
 echo ============================================================
 echo.
-echo   What to do next:
+echo   NEXT STEP — Restart the CRM to load the new pages:
 echo.
-echo   If you were told to run  db:fresh  (database reset):
-echo     1. Open a Command Prompt in this folder.
-echo     2. Type:  npm run db:fresh
-echo     3. Then double-click  start-windows.bat  to start the CRM.
+echo     1. Close the CRM server window (the black window that
+echo        says "Server is running on port 3001") if it is open.
 echo.
-echo   If you just wanted the latest code without a database reset:
-echo     Double-click  start-windows.bat  to start the CRM.
+echo     2. Double-click  quick-start.bat  in this folder.
+echo        Your browser will open at  http://localhost:3001
+echo.
+echo     3. Log in with your usual email and password.
+echo        (If you reset the database: admin@maltarealestate.com / Password123!)
+echo.
+echo   NEW IN THIS UPDATE:
+echo     - Agents page  (sidebar → Agents 👔)
+echo       Add/edit/remove agents and create their CRM login.
+echo     - Public listings website  (sidebar → Website → Public Listings 🌐)
+echo       A no-login page your clients can browse at /listings
 echo.
 echo ============================================================
 echo.

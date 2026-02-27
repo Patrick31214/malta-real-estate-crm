@@ -135,13 +135,18 @@ git pull
 
 This downloads any updates. After pulling, run `npm install` and then install the frontend dependencies with the steps in Section 5.
 
-> **If `git pull` says "local changes to the following files would be overwritten":**
+> **If `git pull` or `git checkout main` says "local changes to the following files would be overwritten":**
 >
-> This happens when you already ran `npm install`, which modifies `package-lock.json`. Discard that change, then pull again:
+> This happens when `npm install` or other setup steps modified local files. Discard those local changes, then pull again:
 > ```
-> git checkout -- package-lock.json
+> git stash
+> git checkout main
 > git pull
 > ```
+>
+> **If `git pull` says "untracked working tree files would be overwritten by merge":** run `git clean -fd` then `git pull origin main`. Or double-click **`DOWNLOAD-LATEST.bat`**.
+>
+> *(Windows shortcut: double-click **`GET-LATEST.bat`** in the CRM folder — it handles both cases automatically.)*
 
 ---
 
@@ -261,13 +266,18 @@ cd %USERPROFILE%\malta-crm\malta-real-estate-crm
 git pull
 ```
 
-> **If `git pull` says "local changes to the following files would be overwritten":**
+> **If `git pull` or `git checkout main` says "local changes to the following files would be overwritten":**
 >
-> Running `npm install` earlier modified `package-lock.json`. Discard that local change, then pull again:
+> Running `npm install` or other setup steps can modify local files. Discard those local changes, then pull again:
 > ```
-> git checkout -- package-lock.json
+> git stash
+> git checkout main
 > git pull
 > ```
+>
+> **If `git pull` says "untracked working tree files would be overwritten by merge":** run `git clean -fd` then `git pull origin main`. Or double-click **`DOWNLOAD-LATEST.bat`**.
+>
+> *(Windows shortcut: double-click **`GET-LATEST.bat`** in the CRM folder — it handles both cases automatically.)*
 
 **Install backend dependencies:**
 ```
@@ -599,17 +609,55 @@ cd ..
 
 ---
 
-### ❌ `git pull` says "local changes would be overwritten by merge"
+### ❌ `git pull` or `git checkout main` says "local changes would be overwritten"
 
-Running `npm install` modifies `package-lock.json`. Git refuses to pull because it would overwrite that file.
+Setup steps (such as `npm install`) can modify files like `package-lock.json` and other project files. Git refuses to pull or switch branches because it would overwrite them.
 
-**Fix — discard the lock file change and pull again:**
+**Fix — stash the local changes and pull again:**
 ```
-git checkout -- package-lock.json
+git stash
+git checkout main
 git pull
 ```
 
-This is safe — `package-lock.json` will be replaced by the correct version from GitHub.
+This is safe — your local changes are saved by `git stash` and the correct versions of all files are pulled from GitHub.
+
+*(Windows shortcut: double-click **`GET-LATEST.bat`** in the CRM folder — it does all of this automatically.)*
+
+> **After `git stash`, run `git checkout main` BEFORE any `npm run` commands.**
+>
+> Running `npm run db:fresh` while still on an old branch will fail with "Missing script: db:fresh" because that branch's `package.json` is outdated. Always complete the full sequence:
+> 1. `git stash`
+> 2. `git checkout main`
+> 3. `git pull origin main`
+> 4. `npm install`
+> 5. `npm run db:fresh`
+
+---
+
+### ❌ `git pull origin main` says "untracked working tree files would be overwritten by merge"
+
+This happens when files exist on your disk that Git is not currently tracking, but `origin/main` contains those same files. Git refuses to overwrite them silently.
+
+**Easiest fix (Windows):** double-click **`GET-LATEST.bat`** — it now uses `git stash -u` which stashes untracked files too, so the pull will succeed.
+
+**Manual fix — Option A** (remove untracked files, then pull):
+```
+git clean -fd
+git pull origin main
+```
+> ⚠️ `git clean -fd` **permanently deletes** untracked files. For this CRM it is always safe because everything important lives in your `.env` file and in the database.
+
+**Manual fix — Option B** (download a fresh copy — safest):
+Double-click **`DOWNLOAD-LATEST.bat`** in the CRM folder. It downloads the latest ZIP from GitHub and replaces all code files without touching your `.env` or database.
+
+---
+
+### ⚠️ `git stash` shows many "LF will be replaced by CRLF" warnings
+
+These are **harmless informational messages**, not errors. Git is noting that files stored with Unix line endings (LF) will be converted to Windows line endings (CRLF) in your working folder. The stash completes successfully.
+
+**What to do:** Nothing — proceed to the next step (`git checkout main`).
 
 ---
 

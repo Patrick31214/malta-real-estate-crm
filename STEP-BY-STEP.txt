@@ -276,7 +276,7 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
 
   4. Type the following commands one at a time, pressing ENTER after each:
 
-         git checkout -- package.json package-lock.json
+         git stash
          git checkout main
          git pull origin main
 
@@ -313,7 +313,7 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
 
   6. In the black window, type each of these and press ENTER after each:
 
-        git checkout -- package.json package-lock.json
+        git stash
         git checkout main
         git pull origin main
 
@@ -339,7 +339,7 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
 
   5. In that window, type each of these and press ENTER after each:
 
-        git checkout -- package.json package-lock.json
+        git stash
         git checkout main
         git pull origin main
 
@@ -516,6 +516,42 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
             Run the installer and click Next until it finishes.
             After installing, close and re-open Windows Explorer, then try again.
 
+  PROBLEM: git stash says "Saved working directory..." but then
+           npm run db:fresh immediately says "Missing script: db:fresh"
+  SOLUTION: You ran npm run db:fresh BEFORE switching to the main branch.
+            After git stash you MUST switch to main first.  The main branch
+            has the latest package.json which includes that script.
+
+            In your Command Prompt (still in the CRM folder), type these
+            commands one at a time, pressing ENTER after each:
+
+               git checkout main
+               git pull origin main
+               npm install
+               npm run db:fresh
+
+            If  git checkout main  fails, double-click  GET-LATEST.bat.
+
+  PROBLEM: npm run db:fresh finished with no errors — what do I do next?
+  SOLUTION: db:fresh resets the database and loads sample data.
+            Here is the complete sequence to go from db:fresh to the login page:
+
+            ▶ STEP 1 — Double-click  start-windows.bat  in the CRM folder.
+                        Wait about 20 seconds for the server to start.
+
+            ▶ STEP 2 — Your browser should open automatically at
+                          http://localhost:3001
+                        If it does not open, type that address in your browser.
+
+            ▶ STEP 3 — Log in with:
+                          Email:    admin@maltarealestate.com
+                          Password: Password123!
+                        (db:fresh loads demo credentials — change your
+                         password after your first login.)
+
+            ▶ STEP 4 — You are in!  You will see the CRM Dashboard where
+                        you can manage properties, owners, inquiries, etc.
+
   PROBLEM: npm run db:fresh (or db:migrate, db:seed) says "Missing script"
            even after running npm install
   SOLUTION: Your LOCAL copy of package.json is from an older version of the
@@ -590,12 +626,38 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
             Click 'Download for Windows', run the installer, click Next everywhere.
             After installing, close and re-open any black windows, then try again.
 
+  PROBLEM: git stash (or git checkout / git pull) shows many lines like:
+             "warning: in the working copy of 'README.md', LF will be replaced
+              by CRLF the next time Git touches it."
+  SOLUTION: These are WARNINGS, not errors.  Git will continue and finish
+            successfully.  This is a Windows line-ending notice: the files
+            were saved on Linux/Mac (LF endings) and Windows Git will
+            convert them to Windows-style (CRLF) in your working folder.
+            The latest .gitattributes in the repository fixes this for new
+            clones; if you see these warnings it just means your local clone
+            pre-dates that fix.
+
+            What to do:  NOTHING.  The command finished — proceed to the
+            next step.  The CRM will work perfectly.
+
+            If you never want to see them again:
+              git config --global core.autocrlf false
+              (Type that in any Command Prompt, then re-clone the repo OR
+               run DOWNLOAD-LATEST.bat / GET-LATEST.bat.)
+
   PROBLEM: git checkout main says:
              "error: Your local changes to the following files would be overwritten
-              by checkout: package-lock.json package.json
+              by checkout: README.md package-lock.json package.json
+              src/config/database.js src/controllers/inquiryController.js
+              src/controllers/ownerController.js src/controllers/propertyController.js
+              src/models/User.js src/routes/inquiries.js src/routes/owners.js
+              src/routes/properties.js src/server.js start-windows.bat
               Please commit your changes or stash them before you switch branches."
-  SOLUTION: Your local package.json or package-lock.json was changed by running
-            npm install.  These changes do not need to be kept — just discard them.
+             (The exact list of files may vary.)
+  SOLUTION: Your local copy of the code is from an older version of the project.
+            Running setup steps (like npm install) can also modify files.
+            These local copies should be replaced with the latest versions from
+            GitHub — just stash them, switch to main, and pull.
 
             EASIEST FIX — double-click GET-LATEST.bat in the CRM folder.
             It handles this automatically and switches you to the main branch.
@@ -603,7 +665,7 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
             MANUAL FIX — open a Command Prompt in the CRM folder and type
             these commands one at a time, pressing ENTER after each:
 
-               git checkout -- package.json package-lock.json
+               git stash
                git checkout main
                git pull
 
@@ -626,6 +688,36 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
             Replace  your@email.com  with any email (even a fake one is fine
             for local use).  Replace  Your Name  with your name.
             Then run  git pull origin main  again.
+
+  PROBLEM: git pull origin main says:
+             "error: The following untracked working tree files would be
+              overwritten by merge: .gitattributes GET-LATEST.bat SETUP_GUIDE.md
+              client/... scripts/...  Please move or remove them before you merge.
+              Aborting"
+             (The exact list of files may vary.)
+  SOLUTION: You have files on disk that git is not tracking on the current
+            branch, but origin/main wants to write those same files.  Git
+            refuses to silently overwrite them.
+
+            EASIEST FIX — double-click  GET-LATEST.bat  in the CRM folder.
+            The updated GET-LATEST.bat uses  git stash -u  which stashes
+            untracked files too, so the pull succeeds automatically.
+
+            If GET-LATEST.bat itself fails (or you prefer the manual way):
+
+            OPTION A — Remove the untracked files and pull:
+              Open a Command Prompt in the CRM folder and type:
+                 git clean -fd
+                 git pull origin main
+              WARNING: git clean -fd permanently deletes untracked files.
+              Only do this if you do not need them — for this CRM it is
+              always safe because all important files are in .env (which
+              is protected) and in the database.
+
+            OPTION B — Download a fresh copy (safest):
+              Double-click  DOWNLOAD-LATEST.bat  in the CRM folder.
+              It downloads the latest ZIP from GitHub and replaces all code
+              files without touching your .env or database.
 
   PROBLEM: The black window closed after I pressed "Press any key to continue"
            and now nothing is running / the browser shows nothing
@@ -889,11 +981,9 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
 
          MANUAL WAY (git): Type the following commands one at a time,
          pressing ENTER after each:
-            git checkout -- package.json package-lock.json
+            git stash
             git checkout main
             git pull origin main
-         ⚠ If  git checkout main  says "your local changes would be overwritten"
-           run the first line above it first, then retry git checkout main.
          ⚠ If  git pull  says "unable to auto-detect email", see the PROBLEM
            entry for that error in the COMMON PROBLEMS section above.
       4. Then type this and press ENTER:

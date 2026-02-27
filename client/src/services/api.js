@@ -130,4 +130,26 @@ export const inquiries = {
   delete: (id) => request(`/inquiries/${id}`, { method: 'DELETE' })
 };
 
-export default { auth, properties, owners, inquiries };
+// Agents
+export const agents = {
+  getAll: (params = {}) => {
+    const qs = new URLSearchParams(params).toString();
+    return request(`/agents${qs ? '?' + qs : ''}`);
+  },
+  getOne: (id) => request(`/agents/${id}`),
+  create: (data) => request('/agents', { method: 'POST', body: JSON.stringify(data) }),
+  update: (id, data) => request(`/agents/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  delete: (id) => request(`/agents/${id}`, { method: 'DELETE' })
+};
+
+// Public listings (no auth required)
+export const listings = {
+  getAll: (params = {}) => {
+    const qs = new URLSearchParams(params).toString();
+    return fetch(`${API_BASE}/listings${qs ? '?' + qs : ''}`)
+      .then(r => r.json());
+  },
+  getOne: (id) => fetch(`${API_BASE}/listings/${id}`).then(r => r.json())
+};
+
+export default { auth, properties, owners, inquiries, agents, listings };
