@@ -177,6 +177,7 @@
 
 @media (max-width: 768px) {
   .sidebar {
-    display: none;
+    /* Keep visible but off-screen; Layout.css handles the slide-in */
+    z-index: 100;
   }
 }

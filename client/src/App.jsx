@@ -3,6 +3,7 @@ import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import PropertiesPage from './pages/PropertiesPage';
 import OwnersPage from './pages/OwnersPage';
+import InquiriesPage from './pages/InquiriesPage';
 import Layout from './components/Layout';
 import { auth } from './services/api';
 
@@ -30,6 +31,7 @@ function App() {
           <Route path="dashboard" element={<DashboardPage />} />
           <Route path="properties" element={<PropertiesPage />} />
           <Route path="owners" element={<OwnersPage />} />
+          <Route path="inquiries" element={<InquiriesPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>

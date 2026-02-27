@@ -8,6 +8,7 @@ const { connectDB } = require('./config/database');
 const authRoutes = require('./routes/auth');
 const propertyRoutes = require('./routes/properties');
 const ownerRoutes = require('./routes/owners');
+const inquiryRoutes = require('./routes/inquiries');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -43,6 +44,7 @@ app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/owners', ownerRoutes);
+app.use('/api/inquiries', inquiryRoutes);
 
 // Serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {

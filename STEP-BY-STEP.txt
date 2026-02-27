@@ -237,9 +237,17 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
         cd C:\Users\Patrick\malta-crm\malta-real-estate-crm    (if your username is Patrick)
      Then press ENTER.
 
-  4. Now type:  git pull
-     Then press ENTER.
-     Wait until it finishes (you will see 'Already up to date.' or a file list).
+  4. Type the following TWO commands, pressing ENTER after each one:
+
+         git checkout main
+         git pull origin main
+
+     Wait until the second command finishes.
+     You should see 'Already up to date.' OR a list of updated files.
+
+     ⚠ IMPORTANT: Always run  git checkout main  first.
+       If you skip this and just run  git pull , you may be on the
+       wrong branch and the latest scripts and fixes will NOT appear.
 
   5. Type:  exit  and press ENTER.  The black window closes.
 
@@ -266,8 +274,12 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
      Then press ENTER.
      A black Command Prompt window opens.
 
-  6. In the black window, type:  git pull
-     Then press ENTER.  Wait for it to finish.
+  6. In the black window, type each of these and press ENTER after each:
+
+        git checkout main
+        git pull origin main
+
+     Wait for both to finish.
 
   7. Type:  exit  and press ENTER.  The black window closes.
 
@@ -287,8 +299,12 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
        - 'Open in Terminal'
      A black (or blue) window opens.
 
-  5. In that window, type:  git pull
-     Then press ENTER.  Wait for it to finish.
+  5. In that window, type each of these and press ENTER after each:
+
+        git checkout main
+        git pull origin main
+
+     Wait for both to finish.
 
 
 ================================================================
@@ -655,15 +671,26 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
 
       1. Open a Command Prompt in the CRM folder (see STEP 1 above).
       2. Stop the CRM server if it is running (close its black window).
-      3. Make sure you have the latest code — type this and press ENTER:
-            git pull
+      3. Make sure you have the LATEST code by typing BOTH commands and
+         pressing ENTER after each one:
+            git checkout main
+            git pull origin main
+         ⚠ You MUST type  git checkout main  first.  If you only type
+           git pull  without switching to main, you may stay on an old
+           branch and the db:fresh / db:refresh scripts will be missing.
       4. Then type this and press ENTER:
             npm run db:fresh
+         (or: npm run db:refresh — both do the same thing)
          This will: drop the database → recreate it → run all migrations
          → load demo data.
 
-         If you still see "Missing script: db:fresh" after the git pull,
-         use OPTION B (pgAdmin reset) below instead.
+         STILL seeing "Missing script: db:fresh"?
+         That means step 3 did not switch you to the main branch.
+         Run this and try again:
+            git checkout main
+            git pull origin main
+            npm run db:fresh
+         If it still fails, use OPTION B (pgAdmin reset) below.
 
       5. Restart the server (double-click start-windows.bat or START-CRM.bat).
       6. Log in at http://localhost:3000 (or http://localhost:3001) with:
@@ -776,7 +803,10 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
 
 
 
-  1. Follow STEP 1 again (open a black Command Prompt window, type: git pull).
+  1. Follow STEP 1 again (open a black Command Prompt window, type:
+        git checkout main
+        git pull origin main
+     Press ENTER after each command).
   2. Then follow STEP 2 again (double-click start-windows.bat).
 
 =========================================
