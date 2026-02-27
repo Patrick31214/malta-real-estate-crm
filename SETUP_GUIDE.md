@@ -135,13 +135,16 @@ git pull
 
 This downloads any updates. After pulling, run `npm install` and then install the frontend dependencies with the steps in Section 5.
 
-> **If `git pull` says "local changes to the following files would be overwritten":**
+> **If `git pull` or `git checkout main` says "local changes to the following files would be overwritten":**
 >
-> This happens when you already ran `npm install`, which modifies `package-lock.json`. Discard that change, then pull again:
+> This happens when `npm install` or other setup steps modified local files. Discard those local changes, then pull again:
 > ```
-> git checkout -- package-lock.json
+> git stash
+> git checkout main
 > git pull
 > ```
+>
+> *(Windows shortcut: double-click **`GET-LATEST.bat`** in the CRM folder — it does all of this automatically.)*
 
 ---
 
@@ -261,13 +264,16 @@ cd %USERPROFILE%\malta-crm\malta-real-estate-crm
 git pull
 ```
 
-> **If `git pull` says "local changes to the following files would be overwritten":**
+> **If `git pull` or `git checkout main` says "local changes to the following files would be overwritten":**
 >
-> Running `npm install` earlier modified `package-lock.json`. Discard that local change, then pull again:
+> Running `npm install` or other setup steps can modify local files. Discard those local changes, then pull again:
 > ```
-> git checkout -- package-lock.json
+> git stash
+> git checkout main
 > git pull
 > ```
+>
+> *(Windows shortcut: double-click **`GET-LATEST.bat`** in the CRM folder — it does all of this automatically.)*
 
 **Install backend dependencies:**
 ```
@@ -599,17 +605,20 @@ cd ..
 
 ---
 
-### ❌ `git pull` says "local changes would be overwritten by merge"
+### ❌ `git pull` or `git checkout main` says "local changes would be overwritten"
 
-Running `npm install` modifies `package-lock.json`. Git refuses to pull because it would overwrite that file.
+Setup steps (such as `npm install`) can modify files like `package-lock.json` and other project files. Git refuses to pull or switch branches because it would overwrite them.
 
-**Fix — discard the lock file change and pull again:**
+**Fix — stash the local changes and pull again:**
 ```
-git checkout -- package-lock.json
+git stash
+git checkout main
 git pull
 ```
 
-This is safe — `package-lock.json` will be replaced by the correct version from GitHub.
+This is safe — your local changes are saved by `git stash` and the correct versions of all files are pulled from GitHub.
+
+*(Windows shortcut: double-click **`GET-LATEST.bat`** in the CRM folder — it does all of this automatically.)*
 
 ---
 

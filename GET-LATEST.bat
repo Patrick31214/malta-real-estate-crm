@@ -78,8 +78,9 @@ if %ERRORLEVEL% NEQ 0 (
     echo   [X] Could not switch to the main branch.
     echo.
     echo   This can happen if there are conflicts that need manual resolution.
-    echo   Try this in a Command Prompt inside the CRM folder:
-    echo       git checkout -- package.json package-lock.json
+    echo   Try running  DOWNLOAD-LATEST.bat  in this folder instead,
+    echo   or run these commands in a Command Prompt inside the CRM folder:
+    echo       git stash
     echo       git checkout main
     echo.
     pause

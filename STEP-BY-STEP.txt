@@ -276,7 +276,7 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
 
   4. Type the following commands one at a time, pressing ENTER after each:
 
-         git checkout -- package.json package-lock.json
+         git stash
          git checkout main
          git pull origin main
 
@@ -313,7 +313,7 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
 
   6. In the black window, type each of these and press ENTER after each:
 
-        git checkout -- package.json package-lock.json
+        git stash
         git checkout main
         git pull origin main
 
@@ -339,7 +339,7 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
 
   5. In that window, type each of these and press ENTER after each:
 
-        git checkout -- package.json package-lock.json
+        git stash
         git checkout main
         git pull origin main
 
@@ -592,10 +592,17 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
 
   PROBLEM: git checkout main says:
              "error: Your local changes to the following files would be overwritten
-              by checkout: package-lock.json package.json
+              by checkout: README.md package-lock.json package.json
+              src/config/database.js src/controllers/inquiryController.js
+              src/controllers/ownerController.js src/controllers/propertyController.js
+              src/models/User.js src/routes/inquiries.js src/routes/owners.js
+              src/routes/properties.js src/server.js start-windows.bat
               Please commit your changes or stash them before you switch branches."
-  SOLUTION: Your local package.json or package-lock.json was changed by running
-            npm install.  These changes do not need to be kept — just discard them.
+             (The exact list of files may vary.)
+  SOLUTION: Your local copy of the code is from an older version of the project.
+            Running setup steps (like npm install) can also modify files.
+            These local copies should be replaced with the latest versions from
+            GitHub — just stash them, switch to main, and pull.
 
             EASIEST FIX — double-click GET-LATEST.bat in the CRM folder.
             It handles this automatically and switches you to the main branch.
@@ -603,7 +610,7 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
             MANUAL FIX — open a Command Prompt in the CRM folder and type
             these commands one at a time, pressing ENTER after each:
 
-               git checkout -- package.json package-lock.json
+               git stash
                git checkout main
                git pull
 
@@ -889,11 +896,9 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
 
          MANUAL WAY (git): Type the following commands one at a time,
          pressing ENTER after each:
-            git checkout -- package.json package-lock.json
+            git stash
             git checkout main
             git pull origin main
-         ⚠ If  git checkout main  says "your local changes would be overwritten"
-           run the first line above it first, then retry git checkout main.
          ⚠ If  git pull  says "unable to auto-detect email", see the PROBLEM
            entry for that error in the COMMON PROBLEMS section above.
       4. Then type this and press ENTER:
