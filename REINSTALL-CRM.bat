@@ -139,6 +139,10 @@ if !ERRORLEVEL! NEQ 0 (
     echo   Press any key to CLOSE this window.
     echo.
     del /f /q "!_ZIP!" >nul 2>nul
+    pause
+    exit /b 1
+)
+echo   [OK] Extracted.
 echo.
 
 REM ── Copy files to install folder ──────────────────────────────────────────────
