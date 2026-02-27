@@ -201,13 +201,22 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
     Older shortcuts that also start the CRM. If start-windows.bat works,
     you do not need to use these.
 
+  DOWNLOAD-LATEST.bat
+    ✔ USE THIS WHEN TOLD TO "GET THE LATEST CODE" if you got your
+      code from a ZIP download (NOT from git clone).
+    Double-click to: download the latest ZIP from GitHub, replace the
+    CRM files, and run npm install.  Does NOT need Git installed.
+    Your .env file (with your database password) is never changed.
+
   GET-LATEST.bat
-    ✔ USE THIS WHEN TOLD TO "GET THE LATEST CODE" or when commands like
-      db:fresh are missing.
+    ✔ USE THIS WHEN TOLD TO "GET THE LATEST CODE" if you cloned the
+      repo with Git (i.e. the folder has a .git sub-folder).
     Double-click to: save local changes, switch to the main branch, pull
     the latest code from GitHub, and run npm install.
     Handles the common git errors automatically (wrong branch, local changes,
     missing git identity).
+    If Git is not installed or this folder is not a git repository,
+    it will tell you to use DOWNLOAD-LATEST.bat instead.
 
   index.html
     A status checker you can open in your browser. It shows whether
@@ -224,14 +233,26 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
 
 
 
+  --- EASIEST METHOD: Double-click the right update file ---
 
-  --- EASIEST METHOD: Double-click GET-LATEST.bat ---
+  HOW DO YOU KNOW WHICH ONE TO USE?
+    Look inside the malta-real-estate-crm folder.
+    - If you see a  .git  folder (it may be hidden — see "show hidden files"
+      in Windows Explorer): use  GET-LATEST.bat
+    - If there is NO  .git  folder (you extracted a ZIP):
+      use  DOWNLOAD-LATEST.bat
 
-  This is the simplest way. Open Windows Explorer, go to the CRM folder,
-  and double-click  GET-LATEST.bat.  It handles everything automatically:
-  local changes, wrong branch, missing git identity, and npm install.
-  When it says "SUCCESS!" you are done.
+  DOWNLOAD-LATEST.bat (use this if you downloaded a ZIP):
+    Open Windows Explorer, go to the CRM folder, and double-click
+    DOWNLOAD-LATEST.bat.  It downloads the latest code from GitHub and
+    updates all files automatically.  No Git needed.
+    When it says "SUCCESS!" you are done.
 
+  GET-LATEST.bat (use this if you used git clone):
+    Open Windows Explorer, go to the CRM folder, and double-click
+    GET-LATEST.bat.  It handles everything automatically:
+    local changes, wrong branch, missing git identity, and npm install.
+    When it says "SUCCESS!" you are done.
 
   --- METHOD A: Windows key shortcut ---
 
@@ -728,13 +749,20 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
       2. Stop the CRM server if it is running (close its black window).
       3. Get the LATEST code from GitHub.
 
-         EASIEST WAY: Close this Command Prompt, then double-click
-         GET-LATEST.bat in the CRM folder.  It automatically discards
-         any local changes, switches to the main branch, and pulls the
-         latest code.  Open a new Command Prompt afterwards and continue.
+         EASIEST WAY — if you downloaded a ZIP (no .git folder):
+           Close this Command Prompt.
+           Double-click  DOWNLOAD-LATEST.bat  in the CRM folder.
+           It downloads the latest code automatically.  No Git needed.
+           Open a new Command Prompt in the CRM folder and continue.
 
-         MANUAL WAY: Type the following commands one at a time, pressing
-         ENTER after each:
+         EASIEST WAY — if you used git clone (has a .git folder):
+           Close this Command Prompt.
+           Double-click  GET-LATEST.bat  in the CRM folder.
+           It automatically switches to main and pulls the latest code.
+           Open a new Command Prompt in the CRM folder and continue.
+
+         MANUAL WAY (git): Type the following commands one at a time,
+         pressing ENTER after each:
             git checkout -- package.json package-lock.json
             git checkout main
             git pull origin main
@@ -749,9 +777,10 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
          → load demo data.
 
          STILL seeing "Missing script: db:fresh"?
-         Step 3 did not switch you to the main branch.
-         Double-click GET-LATEST.bat in the CRM folder, then open a new
-         Command Prompt and run:  npm run db:fresh
+         You still have old code.  Close the Command Prompt and:
+           - If you downloaded a ZIP: double-click DOWNLOAD-LATEST.bat
+           - If you used git clone: double-click GET-LATEST.bat
+         Then open a new Command Prompt and run:  npm run db:fresh
          If it still fails, use OPTION B (pgAdmin reset) below.
 
       5. Restart the server (double-click start-windows.bat or START-CRM.bat).
