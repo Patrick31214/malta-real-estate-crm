@@ -124,6 +124,34 @@ if %ERRORLEVEL% GEQ 8 (
 echo   [OK] Files updated.
 echo.
 
+REM ── Patch database.js (remove sequelize.sync() if the downloaded code has it) ─
+REM    The downloaded code from the main GitHub branch may still contain an
+REM    "await sequelize.sync()" call that causes the server to crash on startup.
+REM    This step removes it so the CRM works immediately after downloading.
+REM    The patch is safe to run on every update — it is a no-op when the line
+REM    is already absent (i.e. after the fix is merged into the main branch).
+REM    The temp .ps1 file is created in %TEMP% so robocopy (which only writes
+REM    to %CD%) never touches it.
+echo   Applying database.js compatibility patch...
+
+REM  The temp .ps1 is written to %TEMP%, which robocopy never touches.
+REM  (Robocopy only copies to %CD% — the CRM folder — so a .ps1 in %TEMP%
+REM   is completely safe here, unlike a .ps1 placed inside the project folder.)
+set "_DLPS1=%TEMP%\malta-dl-patch-%RANDOM%.ps1"
+echo $f = [System.IO.Path]::GetFullPath('src\config\database.js') > "%_DLPS1%"
+echo if (Test-Path $f) { >> "%_DLPS1%"
+echo   $c = [IO.File]::ReadAllText($f) >> "%_DLPS1%"
+echo   $c = $c -replace '(?m)^^[ \t]*// Sync models with database.*[\r\n]+', '' >> "%_DLPS1%"
+echo   $c = $c -replace '(?m)^^[ \t]*// or drop existing ones.*[\r\n]+', '' >> "%_DLPS1%"
+echo   $c = $c -replace '(?m)^^[ \t]*await sequelize[.]sync[(][)];.*[\r\n]+', '' >> "%_DLPS1%"
+echo   $c = $c -replace '(?m)^^[ \t]*console[.]log.*Database models synchronized.*[\r\n]+', '' >> "%_DLPS1%"
+echo   [IO.File]::WriteAllText($f, $c) >> "%_DLPS1%"
+echo } >> "%_DLPS1%"
+powershell -NoProfile -ExecutionPolicy Bypass -File "%_DLPS1%" >nul 2>nul
+del /f /q "%_DLPS1%" >nul 2>nul
+echo   [OK] database.js patched.
+echo.
+
 REM ── Clean up temp files ───────────────────────────────────────────────────────
 del /f /q "%TMPDIR%.zip" >nul 2>nul
 rd /s /q "%TMPDIR%" >nul 2>nul

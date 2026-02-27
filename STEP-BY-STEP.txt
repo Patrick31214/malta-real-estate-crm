@@ -223,11 +223,27 @@ COMMON PROBLEMS
 
 PROBLEM: 'column "createdAt" of relation "users" contains null values'
 SOLUTION:
-   This was a bug in older versions of the CRM (now fixed).
-   To fix it, get the latest code:
-   1. Double-click GET-LATEST.bat (if Git is installed)
-      OR double-click DOWNLOAD-LATEST.bat
-   2. Then run START-CRM.bat as usual.
+   The CRM server file database.js still contains an old line that tries to
+   auto-create database columns — but the columns already exist, causing the
+   crash.  Run FIX-CRASH.bat to remove that line automatically:
+   1. Double-click  FIX-CRASH.bat  in the CRM folder.
+      If you do not see it:
+        a. Open https://github.com/Patrick31214/malta-real-estate-crm
+        b. Click FIX-CRASH.bat in the file list
+        c. Click "Raw", then press Ctrl+S to save it into the CRM folder
+   2. When FIX-CRASH.bat says "FIX APPLIED!", double-click START-CRM.bat.
+
+   DO NOT use DOWNLOAD-LATEST to try to fix this — it downloads the main
+   branch which may still contain the same broken line.
+
+   Manual fix (if you prefer):
+   1. Open  src\config\database.js  in Notepad
+   2. Find and DELETE these lines:
+        // Sync models with database ...
+        // or drop existing ones ...
+        await sequelize.sync();
+        console.log('... Database models synchronized ...');
+   3. Save the file, then double-click START-CRM.bat.
 
 PROBLEM: A .bat file opens and closes immediately
 SOLUTION:
