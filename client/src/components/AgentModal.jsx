@@ -181,7 +181,12 @@ function AgentModal({ agent, onClose, onSaved }) {
             <label>Profile Photo URL</label>
             <input name="profileImageUrl" type="url" className="form-input" value={form.profileImageUrl} onChange={handleChange} placeholder="https://example.com/photo.jpg" />
             {form.profileImageUrl && (
-              <img src={form.profileImageUrl} alt="Preview" style={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'cover', marginTop: 8, border: '2px solid var(--accent)' }} />
+              <img
+                src={form.profileImageUrl}
+                alt="Preview"
+                onError={e => { e.target.style.display = 'none'; }}
+                style={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'cover', marginTop: 8, border: '2px solid var(--accent)' }}
+              />
             )}
           </div>
 

@@ -102,7 +102,7 @@ function ActivityLogPage() {
                         {log.resourceType && <span className="log-resource-type">{log.resourceType}</span>}
                       </div>
                     </td>
-                    <td style={{ fontFamily: 'monospace', fontSize: 12 }}>{log.ipAddress || '—'}</td>
+                    <td style={{ fontFamily: 'monospace', fontSize: '12px' }}>{log.ipAddress || '—'}</td>
                     <td style={{ whiteSpace: 'nowrap', fontSize: 13 }}>{formatDate(log.createdAt)}</td>
                   </tr>
                 ))}

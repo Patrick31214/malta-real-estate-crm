@@ -128,8 +128,8 @@ STEP 5 – FIRST-TIME DATABASE SETUP
 
    3. This creates all the tables and adds sample data.
 
-   4. Default admin login:
-      Email:    admin@goldenkeyrealty.mt
+   4. Default admin login (from sample data):
+      Email:    admin@maltarealestate.com
       Password: Password123!
 
       CHANGE THIS PASSWORD after first login!

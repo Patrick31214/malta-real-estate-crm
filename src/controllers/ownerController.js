@@ -34,7 +34,7 @@ const getOwners = async (req, res) => {
         agentUserId: req.user.userId,
         action: 'VIEW_OWNER_LIST',
         resourceType: 'owner',
-        resourceLabel: `Viewed ${count} owners (search: "${search || ''}")`,
+        resourceLabel: `Viewed ${count} owners (search: "${String(search || '').slice(0, 100)}")`,
         ipAddress: req.ip
       });
     }

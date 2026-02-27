@@ -11,7 +11,7 @@ const PROPERTY_TYPES = [
 // Malta demand areas data (for the demand map info section)
 const DEMAND_AREAS = [
   { area: 'Sliema', demand: 'Very High', priceRange: '€3,500 – €6,000 /m²', icon: '🔴' },
-  { area: 'St. Julian\'s', demand: 'Very High', priceRange: '€3,200 – €5,800 /m²', icon: '🔴' },
+  { area: "St. Julian's", demand: 'Very High', priceRange: '€3,200 – €5,800 /m²', icon: '🔴' },
   { area: 'Valletta', demand: 'High', priceRange: '€2,800 – €5,000 /m²', icon: '🟠' },
   { area: 'Msida', demand: 'High', priceRange: '€2,200 – €3,800 /m²', icon: '🟠' },
   { area: 'Swieqi', demand: 'High', priceRange: '€2,500 – €4,200 /m²', icon: '🟠' },

@@ -4,6 +4,19 @@
   gap: 16px;
 }
 
+.page-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.toolbar-left {
+  flex: 1;
+  min-width: 200px;
+}
+
 .owner-name-cell {
   display: flex;
   align-items: center;
@@ -11,17 +24,18 @@
 }
 
 .owner-avatar {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: var(--primary);
-  color: white;
+  background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+  color: #12291e;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
   font-size: 14px;
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(201,168,76,0.3);
 }
 
 .owner-name {
@@ -48,7 +62,8 @@
 
 .action-btns {
   display: flex;
-  gap: 6px;
+  gap: 5px;
+  flex-wrap: wrap;
 }
 
 .pagination {
@@ -59,25 +74,28 @@
 }
 
 .page-btn {
-  width: 36px;
-  height: 36px;
+  padding: 7px 14px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
-  background: white;
+  background: var(--glass-bg);
   color: var(--text-medium);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.2s;
+  backdrop-filter: blur(4px);
 }
 
 .page-btn:hover {
   border-color: var(--primary);
   color: var(--primary);
+  background: rgba(31,110,69,0.08);
+  transform: translateY(-1px);
 }
 
 .page-btn.active {
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
   border-color: var(--primary);
   color: white;
+  font-weight: 700;
 }

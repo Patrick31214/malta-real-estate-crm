@@ -174,7 +174,7 @@ function PropertiesPage() {
                           <button className="btn btn-sm btn-accent" onClick={() => handleApprove(p.id, 'approved')} title="Approve listing">✓ Approve</button>
                         )}
                         {isAdmin && p.approvalStatus !== 'rejected' && (
-                          <button className="btn btn-sm btn-danger" style={{fontSize:11}} onClick={() => handleApprove(p.id, 'rejected')} title="Reject listing">✗ Reject</button>
+                          <button className="btn btn-sm btn-danger" style={{fontSize:'11px'}} onClick={() => handleApprove(p.id, 'rejected')} title="Reject listing">✗ Reject</button>
                         )}
                         <button className="btn btn-danger btn-sm" onClick={() => handleDelete(p.id)}>Del</button>
                       </div>
