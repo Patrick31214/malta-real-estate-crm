@@ -801,6 +801,30 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
         3. Install it again. WRITE DOWN the new password.
         4. Update DB_PASSWORD in .env with the new password.
 
+  PROBLEM: npm run db:fresh (or db:drop) says:
+           "ERROR: database "malta_crm" is being accessed by other users"
+           "ERROR DETAIL: There is 1 other session using the database."
+  SOLUTION: The CRM server is still running and holding a connection to
+            the database.  PostgreSQL refuses to drop a database while
+            any session is using it.
+
+    The latest code handles this automatically — the db:drop step now
+    terminates all open connections before dropping the database, so you
+    do NOT need to stop the server first.
+
+    If you still see this error, your local code is out of date.
+    Update it with one of these methods:
+
+      - Double-click  DOWNLOAD-LATEST.bat  (if you have it, or download
+        it from GitHub — see the FILES section above).
+      - OR run the PowerShell one-liner from the PROBLEM entry above:
+        "npm run db:fresh says Missing script even after npm install".
+
+    MANUAL WORKAROUND (if you cannot update the code):
+      1. Close the black "Malta CRM Server" window (or press Ctrl+C in it).
+      2. Run  npm run db:fresh  again.
+      3. When db:fresh finishes, double-click start-windows.bat to restart.
+
   PROBLEM: npm run db:migrate fails with "relation already exists"
            -OR- npm run db:seed fails with "column does not exist"
            -OR- you ran the server before running migrations and now
