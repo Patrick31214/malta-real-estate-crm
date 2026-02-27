@@ -1,6 +1,6 @@
 'use strict';
 
-const { addIndexIfNotExists } = require('./helpers');
+const { addIndexIfNotExists } = require('../utils/migration-helpers');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {

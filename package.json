@@ -11,7 +11,7 @@
     "client:build": "cd client && npm run build",
     "setup:admin": "node scripts/create-admin.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "db:drop": "sequelize-cli db:drop",
+    "db:drop": "node scripts/drop-database.js",
     "db:create": "node scripts/create-database.js",
     "db:fresh": "npm run db:drop && npm run db:create && npm run db:migrate && npm run db:seed",
     "db:refresh": "npm run db:fresh",
@@ -34,10 +34,16 @@
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.16.3",
-    "sequelize": "^6.37.7"
+    "sequelize": "^6.37.7",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.11",
-    "sequelize-cli": "^6.6.5"
+    "sequelize-cli": "6.6.2"
+  },
+  "overrides": {
+    "editorconfig": {
+      "minimatch": "9.0.9"
+    }
   }
 }

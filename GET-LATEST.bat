@@ -26,13 +26,35 @@ if not exist "package.json" (
 REM ── Check that git is installed ───────────────────────────────────────────────
 where git >nul 2>nul
 if %ERRORLEVEL% NEQ 0 (
-    echo   [X] Git is not installed.
+    echo   [!] Git is not installed.
+    echo.
+    echo   No problem — you can use DOWNLOAD-LATEST.bat instead.
+    echo   It downloads the latest code directly from GitHub without Git.
     echo.
     echo   HOW TO FIX:
-    echo     1. Go to  https://git-scm.com/download/win
-    echo     2. Click Download for Windows, run the installer.
-    echo     3. Click Next on everything (leave all defaults).
-    echo     4. After it finishes, close this window and run GET-LATEST.bat again.
+    echo     Double-click  DOWNLOAD-LATEST.bat  in this folder.
+    echo     It will download and update the code for you automatically.
+    echo.
+    echo   (If you want to install Git anyway:  https://git-scm.com/download/win)
+    echo.
+    pause
+    exit /b 1
+)
+
+REM ── Check that this is a git repository ──────────────────────────────────────
+git rev-parse --is-inside-work-tree >nul 2>nul
+if %ERRORLEVEL% NEQ 0 (
+    echo   [!] This folder is not a Git repository.
+    echo.
+    echo   This happens when you extracted the code from a ZIP archive
+    echo   instead of using  git clone.
+    echo.
+    echo   No problem — use DOWNLOAD-LATEST.bat instead.
+    echo   It downloads the latest code directly from GitHub without Git.
+    echo.
+    echo   HOW TO FIX:
+    echo     Double-click  DOWNLOAD-LATEST.bat  in this folder.
+    echo     It will download and update the code for you automatically.
     echo.
     pause
     exit /b 1

@@ -201,13 +201,22 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
     Older shortcuts that also start the CRM. If start-windows.bat works,
     you do not need to use these.
 
+  DOWNLOAD-LATEST.bat
+    ✔ USE THIS WHEN TOLD TO "GET THE LATEST CODE" if you got your
+      code from a ZIP download (NOT from git clone).
+    Double-click to: download the latest ZIP from GitHub, replace the
+    CRM files, and run npm install.  Does NOT need Git installed.
+    Your .env file (with your database password) is never changed.
+
   GET-LATEST.bat
-    ✔ USE THIS WHEN TOLD TO "GET THE LATEST CODE" or when commands like
-      db:fresh are missing.
+    ✔ USE THIS WHEN TOLD TO "GET THE LATEST CODE" if you cloned the
+      repo with Git (i.e. the folder has a .git sub-folder).
     Double-click to: save local changes, switch to the main branch, pull
     the latest code from GitHub, and run npm install.
     Handles the common git errors automatically (wrong branch, local changes,
     missing git identity).
+    If Git is not installed or this folder is not a git repository,
+    it will tell you to use DOWNLOAD-LATEST.bat instead.
 
   index.html
     A status checker you can open in your browser. It shows whether
@@ -224,14 +233,26 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
 
 
 
+  --- EASIEST METHOD: Double-click the right update file ---
 
-  --- EASIEST METHOD: Double-click GET-LATEST.bat ---
+  HOW DO YOU KNOW WHICH ONE TO USE?
+    Look inside the malta-real-estate-crm folder.
+    - If you see a  .git  folder (it may be hidden — see "show hidden files"
+      in Windows Explorer): use  GET-LATEST.bat
+    - If there is NO  .git  folder (you extracted a ZIP):
+      use  DOWNLOAD-LATEST.bat
 
-  This is the simplest way. Open Windows Explorer, go to the CRM folder,
-  and double-click  GET-LATEST.bat.  It handles everything automatically:
-  local changes, wrong branch, missing git identity, and npm install.
-  When it says "SUCCESS!" you are done.
+  DOWNLOAD-LATEST.bat (use this if you downloaded a ZIP):
+    Open Windows Explorer, go to the CRM folder, and double-click
+    DOWNLOAD-LATEST.bat.  It downloads the latest code from GitHub and
+    updates all files automatically.  No Git needed.
+    When it says "SUCCESS!" you are done.
 
+  GET-LATEST.bat (use this if you used git clone):
+    Open Windows Explorer, go to the CRM folder, and double-click
+    GET-LATEST.bat.  It handles everything automatically:
+    local changes, wrong branch, missing git identity, and npm install.
+    When it says "SUCCESS!" you are done.
 
   --- METHOD A: Windows key shortcut ---
 
@@ -495,6 +516,75 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
             Run the installer and click Next until it finishes.
             After installing, close and re-open Windows Explorer, then try again.
 
+  PROBLEM: npm run db:fresh (or db:migrate, db:seed) says "Missing script"
+           even after running npm install
+  SOLUTION: Your LOCAL copy of package.json is from an older version of the
+            CRM.  Running  npm install  does NOT update package.json —
+            it only installs the packages that are already listed there.
+            You need to download the latest package.json from GitHub first.
+
+    ── OPTION 1: Quickest fix — copy-paste one line ─────────────────────────
+      1. Open a Command Prompt in your CRM folder.
+         (Press Win+R, type  cmd, click OK.
+          Then type:  cd C:\Users\USER\malta-crm\malta-real-estate-crm
+          Replace USER with your Windows username.)
+
+      2. Copy and paste the line below EXACTLY and press ENTER:
+
+            powershell -Command "try { Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/Patrick31214/malta-real-estate-crm/main/package.json' -OutFile 'package.json' -UseBasicParsing -ErrorAction Stop; Write-Host '[OK] Downloaded.' } catch { Write-Host '[X] FAILED:' $_.Exception.Message }"
+
+         IMPORTANT: If it prints  [X] FAILED  — STOP.  Check your internet
+         connection and try again.  If it prints  [OK] Downloaded.  continue.
+
+      3. Then type:  npm install   and press ENTER.
+
+      4. Then type:  npm run db:fresh   and press ENTER.
+
+    ── OPTION 2: Download FIX-SCRIPTS.bat (does everything for you) ─────────
+      1. Open your browser and go to this exact URL:
+            https://raw.githubusercontent.com/Patrick31214/malta-real-estate-crm/main/FIX-SCRIPTS.bat
+      2. Press Ctrl+S to save the file.
+         Save it to your CRM folder:
+            C:\Users\USER\malta-crm\malta-real-estate-crm
+         (Replace USER with your Windows username.)
+         If Windows asks what program to open with, click "Save" not "Open".
+      3. Double-click FIX-SCRIPTS.bat.  It will download the latest
+         package.json, also save DOWNLOAD-LATEST.bat for future use,
+         and run npm install automatically.
+      4. When it says "SUCCESS!", open a Command Prompt in the CRM folder
+         and run:  npm run db:fresh
+
+    ── OPTION 3: Download the full ZIP ───────────────────────────────────────
+      1. Go to:  https://github.com/Patrick31214/malta-real-estate-crm
+      2. Click the green "Code" button.
+      3. Click "Download ZIP".
+      4. Extract the ZIP.
+      5. Copy ALL files from the extracted folder into your CRM folder.
+         When Windows asks about overwriting files, choose Yes to All.
+         DO NOT overwrite your .env file — it has your database password.
+      6. Run  npm install  and then  npm run db:fresh.
+
+  PROBLEM: npm install shows "X vulnerabilities (low, moderate, high)"
+  SOLUTION: This is a WARNING, not an error.  The CRM will still work.
+            The vulnerabilities are in development tools used only on
+            your own computer to run migrations, not in the live server.
+
+    What it means:
+      Some packages inside node_modules have known security issues.
+      For this CRM they are all in  sequelize-cli  (the migration tool)
+      which runs only on your computer, not on the internet.
+
+    What to do:
+      Nothing — if you just want the CRM to work, ignore this warning.
+      The latest code already includes fixes in package.json that keep the
+      count to zero.  If you still see vulnerabilities after running
+      DOWNLOAD-LATEST.bat or FIX-SCRIPTS.bat, your npm/node_modules may
+      have a cached older version.  Try:
+        1. Delete the  node_modules  folder from the CRM folder.
+        2. Run:  npm install
+      If you still see high/critical vulnerabilities after that, ask for
+      help and share the output of:  npm audit
+
   PROBLEM: 'git' is not recognized
   SOLUTION: Install Git. Go to https://git-scm.com/download/win
             Click 'Download for Windows', run the installer, click Next everywhere.
@@ -711,6 +801,63 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
         3. Install it again. WRITE DOWN the new password.
         4. Update DB_PASSWORD in .env with the new password.
 
+  PROBLEM: npm run db:fresh (or db:drop) says:
+           "ERROR: database "malta_crm" is being accessed by other users"
+           "ERROR DETAIL: There is 1 other session using the database."
+
+  ── DO THIS RIGHT NOW ─────────────────────────────────────────────────────────
+
+    PostgreSQL refuses to drop a database while ANY other program is
+    connected to it.  The CRM server is one such program, but database
+    management tools like pgAdmin 4 ALSO hold connections quietly in the
+    background — even when you think everything is closed.
+
+    ▶ STEP 1 — Close pgAdmin 4 completely (most common cause).
+
+      pgAdmin 4 keeps a persistent connection to every database it knows
+      about, even when its browser window is minimised or closed.  You must
+      quit it from the system tray (the small icons near the clock).
+
+        a) Look at the BOTTOM-RIGHT corner of your screen, near the clock.
+           You may see a small elephant head icon (the pgAdmin / PostgreSQL
+           icon).  If you don't see it, click the  ▲  arrow to show hidden
+           icons — it may be hiding there.
+
+        b) RIGHT-CLICK that elephant icon.
+           Choose  "Quit pgAdmin 4"  (or just  "Quit").
+
+        c) If you do not see a pgAdmin icon, check if pgAdmin is open as a
+           normal window in the taskbar and close it from there.
+
+      If you use DBeaver, TablePlus, HeidiSQL, or any other database tool,
+      close that too (File → Exit, or right-click its taskbar icon → Close).
+
+    ▶ STEP 2 — Close the black CRM server window (if it is still open).
+
+      Look in the taskbar for a black command-prompt window titled "Malta
+      CRM" or "node".  Click its X button to close it.
+      If there are TWO black windows (backend + frontend), close BOTH.
+
+    ▶ STEP 3 — Run db:fresh again in your Command Prompt:
+                  npm run db:fresh
+               Wait for it to finish.  It ends with "X seeders executed".
+
+    ▶ STEP 4 — Restart the CRM.
+               Double-click  start-windows.bat  in the CRM folder.
+               Log in at  http://localhost:3001
+                  Email:    admin@maltarealestate.com
+                  Password: Password123!
+
+  ── PERMANENT FIX (update your code so this never happens again) ─────────────
+
+    The latest CRM code handles this automatically — it disconnects all
+    open sessions before dropping the database, so you will never need to
+    close pgAdmin or the server manually.
+
+    Double-click  DOWNLOAD-LATEST.bat  in the CRM folder to update.
+    After it finishes, run  npm run db:fresh  and it will work regardless
+    of whether pgAdmin or the server is running.
+
   PROBLEM: npm run db:migrate fails with "relation already exists"
            -OR- npm run db:seed fails with "column does not exist"
            -OR- you ran the server before running migrations and now
@@ -728,13 +875,20 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
       2. Stop the CRM server if it is running (close its black window).
       3. Get the LATEST code from GitHub.
 
-         EASIEST WAY: Close this Command Prompt, then double-click
-         GET-LATEST.bat in the CRM folder.  It automatically discards
-         any local changes, switches to the main branch, and pulls the
-         latest code.  Open a new Command Prompt afterwards and continue.
+         EASIEST WAY — if you downloaded a ZIP (no .git folder):
+           Close this Command Prompt.
+           Double-click  DOWNLOAD-LATEST.bat  in the CRM folder.
+           It downloads the latest code automatically.  No Git needed.
+           Open a new Command Prompt in the CRM folder and continue.
 
-         MANUAL WAY: Type the following commands one at a time, pressing
-         ENTER after each:
+         EASIEST WAY — if you used git clone (has a .git folder):
+           Close this Command Prompt.
+           Double-click  GET-LATEST.bat  in the CRM folder.
+           It automatically switches to main and pulls the latest code.
+           Open a new Command Prompt in the CRM folder and continue.
+
+         MANUAL WAY (git): Type the following commands one at a time,
+         pressing ENTER after each:
             git checkout -- package.json package-lock.json
             git checkout main
             git pull origin main
@@ -749,9 +903,10 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
          → load demo data.
 
          STILL seeing "Missing script: db:fresh"?
-         Step 3 did not switch you to the main branch.
-         Double-click GET-LATEST.bat in the CRM folder, then open a new
-         Command Prompt and run:  npm run db:fresh
+         You still have old code.  Close the Command Prompt and:
+           - If you downloaded a ZIP: double-click DOWNLOAD-LATEST.bat
+           - If you used git clone: double-click GET-LATEST.bat
+         Then open a new Command Prompt and run:  npm run db:fresh
          If it still fails, use OPTION B (pgAdmin reset) below.
 
       5. Restart the server (double-click start-windows.bat or START-CRM.bat).
