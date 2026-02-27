@@ -118,4 +118,16 @@ export const owners = {
   delete: (id) => request(`/owners/${id}`, { method: 'DELETE' })
 };
 
-export default { auth, properties, owners };
+// Inquiries
+export const inquiries = {
+  getAll: (params = {}) => {
+    const qs = new URLSearchParams(params).toString();
+    return request(`/inquiries${qs ? '?' + qs : ''}`);
+  },
+  getOne: (id) => request(`/inquiries/${id}`),
+  create: (data) => request('/inquiries', { method: 'POST', body: JSON.stringify(data) }),
+  update: (id, data) => request(`/inquiries/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  delete: (id) => request(`/inquiries/${id}`, { method: 'DELETE' })
+};
+
+export default { auth, properties, owners, inquiries };

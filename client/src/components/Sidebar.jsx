@@ -5,10 +5,11 @@ import './Sidebar.css';
 const navItems = [
   { to: '/dashboard', label: 'Dashboard', icon: '📊' },
   { to: '/properties', label: 'Properties', icon: '🏠' },
-  { to: '/owners', label: 'Owners', icon: '👤' }
+  { to: '/owners', label: 'Owners', icon: '👤' },
+  { to: '/inquiries', label: 'Inquiries', icon: '📋' }
 ];
 
-function Sidebar() {
+function Sidebar({ onClose }) {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -37,6 +38,7 @@ function Sidebar() {
             key={item.to}
             to={item.to}
             className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}
+            onClick={onClose}
           >
             <span className="nav-icon">{item.icon}</span>
             <span className="nav-label">{item.label}</span>

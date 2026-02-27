@@ -1,0 +1,50 @@
+.inquiries-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inq-client-name {
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 14px;
+}
+
+.inq-client-email {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+.inq-prop-title {
+  font-weight: 500;
+  color: var(--text-dark);
+  font-size: 13px;
+}
+
+.inq-prop-city {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+.inq-date {
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+/* Priority badges */
+.badge-priority-low    { background: #d4edda; color: #155724; }
+.badge-priority-medium { background: #fff3cd; color: #856404; }
+.badge-priority-high   { background: #ffe5d0; color: #8a3700; }
+.badge-priority-urgent { background: #f8d7da; color: #721c24; }
+
+/* Inquiry status badges */
+.badge-inq-new               { background: #cce5ff; color: #004085; }
+.badge-inq-contacted         { background: #d4edda; color: #155724; }
+.badge-inq-in_progress       { background: #fff3cd; color: #856404; }
+.badge-inq-viewing_scheduled { background: #e2d9f3; color: #5a2d8c; }
+.badge-inq-offer_made        { background: #ffe5d0; color: #8a3700; }
+.badge-inq-completed         { background: #d4edda; color: #155724; }
+.badge-inq-cancelled         { background: #f3f0f0; color: #6c757d; }
