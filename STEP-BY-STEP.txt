@@ -516,6 +516,22 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
             Run the installer and click Next until it finishes.
             After installing, close and re-open Windows Explorer, then try again.
 
+  PROBLEM: git stash says "Saved working directory..." but then
+           npm run db:fresh immediately says "Missing script: db:fresh"
+  SOLUTION: You ran npm run db:fresh BEFORE switching to the main branch.
+            After git stash you MUST switch to main first.  The main branch
+            has the latest package.json which includes that script.
+
+            In your Command Prompt (still in the CRM folder), type these
+            commands one at a time, pressing ENTER after each:
+
+               git checkout main
+               git pull origin main
+               npm install
+               npm run db:fresh
+
+            If  git checkout main  fails, double-click  GET-LATEST.bat.
+
   PROBLEM: npm run db:fresh (or db:migrate, db:seed) says "Missing script"
            even after running npm install
   SOLUTION: Your LOCAL copy of package.json is from an older version of the
@@ -589,6 +605,25 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
   SOLUTION: Install Git. Go to https://git-scm.com/download/win
             Click 'Download for Windows', run the installer, click Next everywhere.
             After installing, close and re-open any black windows, then try again.
+
+  PROBLEM: git stash (or git checkout / git pull) shows many lines like:
+             "warning: in the working copy of 'README.md', LF will be replaced
+              by CRLF the next time Git touches it."
+  SOLUTION: These are WARNINGS, not errors.  Git will continue and finish
+            successfully.  This is a Windows line-ending notice: the files
+            were saved on Linux/Mac (LF endings) and Windows Git will
+            convert them to Windows-style (CRLF) in your working folder.
+            The latest .gitattributes in the repository fixes this for new
+            clones; if you see these warnings it just means your local clone
+            pre-dates that fix.
+
+            What to do:  NOTHING.  The command finished — proceed to the
+            next step.  The CRM will work perfectly.
+
+            If you never want to see them again:
+              git config --global core.autocrlf false
+              (Type that in any Command Prompt, then re-clone the repo OR
+               run DOWNLOAD-LATEST.bat / GET-LATEST.bat.)
 
   PROBLEM: git checkout main says:
              "error: Your local changes to the following files would be overwritten

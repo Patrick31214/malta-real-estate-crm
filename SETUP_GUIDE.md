@@ -620,6 +620,23 @@ This is safe — your local changes are saved by `git stash` and the correct ver
 
 *(Windows shortcut: double-click **`GET-LATEST.bat`** in the CRM folder — it does all of this automatically.)*
 
+> **After `git stash`, run `git checkout main` BEFORE any `npm run` commands.**
+>
+> Running `npm run db:fresh` while still on an old branch will fail with "Missing script: db:fresh" because that branch's `package.json` is outdated. Always complete the full sequence:
+> 1. `git stash`
+> 2. `git checkout main`
+> 3. `git pull origin main`
+> 4. `npm install`
+> 5. `npm run db:fresh`
+
+---
+
+### ⚠️ `git stash` shows many "LF will be replaced by CRLF" warnings
+
+These are **harmless informational messages**, not errors. Git is noting that files stored with Unix line endings (LF) will be converted to Windows line endings (CRLF) in your working folder. The stash completes successfully.
+
+**What to do:** Nothing — proceed to the next step (`git checkout main`).
+
 ---
 
 ### ❌ Cannot connect to database
