@@ -201,6 +201,14 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
     Older shortcuts that also start the CRM. If start-windows.bat works,
     you do not need to use these.
 
+  GET-LATEST.bat
+    ✔ USE THIS WHEN TOLD TO "GET THE LATEST CODE" or when commands like
+      db:fresh are missing.
+    Double-click to: save local changes, switch to the main branch, pull
+    the latest code from GitHub, and run npm install.
+    Handles the common git errors automatically (wrong branch, local changes,
+    missing git identity).
+
   index.html
     A status checker you can open in your browser. It shows whether
     the CRM server is running and has a button to open the Login Page.
@@ -217,7 +225,15 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
 
 
 
-  --- METHOD A: Windows key shortcut (EASIEST) ---
+  --- EASIEST METHOD: Double-click GET-LATEST.bat ---
+
+  This is the simplest way. Open Windows Explorer, go to the CRM folder,
+  and double-click  GET-LATEST.bat.  It handles everything automatically:
+  local changes, wrong branch, missing git identity, and npm install.
+  When it says "SUCCESS!" you are done.
+
+
+  --- METHOD A: Windows key shortcut ---
 
   1. Press the Windows key and R at the same time (Win+R).
      A small 'Run' box appears in the bottom-left corner of your screen.
@@ -237,17 +253,17 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
         cd C:\Users\Patrick\malta-crm\malta-real-estate-crm    (if your username is Patrick)
      Then press ENTER.
 
-  4. Type the following TWO commands, pressing ENTER after each one:
+  4. Type the following commands one at a time, pressing ENTER after each:
 
+         git checkout -- package.json package-lock.json
          git checkout main
          git pull origin main
 
-     Wait until the second command finishes.
+     Wait until the last command finishes.
      You should see 'Already up to date.' OR a list of updated files.
 
-     ⚠ IMPORTANT: Always run  git checkout main  first.
-       If you skip this and just run  git pull , you may be on the
-       wrong branch and the latest scripts and fixes will NOT appear.
+     ⚠ If git says "unable to auto-detect email" after git pull, see
+       the matching PROBLEM entry in the COMMON PROBLEMS section.
 
   5. Type:  exit  and press ENTER.  The black window closes.
 
@@ -276,10 +292,11 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
 
   6. In the black window, type each of these and press ENTER after each:
 
+        git checkout -- package.json package-lock.json
         git checkout main
         git pull origin main
 
-     Wait for both to finish.
+     Wait for all three to finish.
 
   7. Type:  exit  and press ENTER.  The black window closes.
 
@@ -301,10 +318,11 @@ FILES IN THIS FOLDER - WHAT EACH ONE DOES
 
   5. In that window, type each of these and press ENTER after each:
 
+        git checkout -- package.json package-lock.json
         git checkout main
         git pull origin main
 
-     Wait for both to finish.
+     Wait for all three to finish.
 
 
 ================================================================
@@ -481,6 +499,43 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
   SOLUTION: Install Git. Go to https://git-scm.com/download/win
             Click 'Download for Windows', run the installer, click Next everywhere.
             After installing, close and re-open any black windows, then try again.
+
+  PROBLEM: git checkout main says:
+             "error: Your local changes to the following files would be overwritten
+              by checkout: package-lock.json package.json
+              Please commit your changes or stash them before you switch branches."
+  SOLUTION: Your local package.json or package-lock.json was changed by running
+            npm install.  These changes do not need to be kept — just discard them.
+
+            EASIEST FIX — double-click GET-LATEST.bat in the CRM folder.
+            It handles this automatically and switches you to the main branch.
+
+            MANUAL FIX — open a Command Prompt in the CRM folder and type
+            these commands one at a time, pressing ENTER after each:
+
+               git checkout -- package.json package-lock.json
+               git checkout main
+               git pull
+
+            Then continue with whatever you were doing (e.g. npm run db:fresh).
+
+  PROBLEM: git pull origin main says:
+             "fatal: unable to auto-detect email address"
+             -OR- "Committer identity unknown — Please tell me who you are."
+  SOLUTION: Git needs a name and email set up before it can create merge commits.
+            This is a one-time setup step for your computer.
+
+            EASIEST FIX — double-click GET-LATEST.bat in the CRM folder.
+            It sets a local identity automatically and then runs git pull for you.
+
+            MANUAL FIX — open a Command Prompt (any folder) and type:
+
+               git config --global user.email "your@email.com"
+               git config --global user.name "Your Name"
+
+            Replace  your@email.com  with any email (even a fake one is fine
+            for local use).  Replace  Your Name  with your name.
+            Then run  git pull origin main  again.
 
   PROBLEM: The black window closed after I pressed "Press any key to continue"
            and now nothing is running / the browser shows nothing
@@ -671,13 +726,22 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
 
       1. Open a Command Prompt in the CRM folder (see STEP 1 above).
       2. Stop the CRM server if it is running (close its black window).
-      3. Make sure you have the LATEST code by typing BOTH commands and
-         pressing ENTER after each one:
+      3. Get the LATEST code from GitHub.
+
+         EASIEST WAY: Close this Command Prompt, then double-click
+         GET-LATEST.bat in the CRM folder.  It automatically discards
+         any local changes, switches to the main branch, and pulls the
+         latest code.  Open a new Command Prompt afterwards and continue.
+
+         MANUAL WAY: Type the following commands one at a time, pressing
+         ENTER after each:
+            git checkout -- package.json package-lock.json
             git checkout main
             git pull origin main
-         ⚠ You MUST type  git checkout main  first.  If you only type
-           git pull  without switching to main, you may stay on an old
-           branch and the db:fresh / db:refresh scripts will be missing.
+         ⚠ If  git checkout main  says "your local changes would be overwritten"
+           run the first line above it first, then retry git checkout main.
+         ⚠ If  git pull  says "unable to auto-detect email", see the PROBLEM
+           entry for that error in the COMMON PROBLEMS section above.
       4. Then type this and press ENTER:
             npm run db:fresh
          (or: npm run db:refresh — both do the same thing)
@@ -685,11 +749,9 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
          → load demo data.
 
          STILL seeing "Missing script: db:fresh"?
-         That means step 3 did not switch you to the main branch.
-         Run this and try again:
-            git checkout main
-            git pull origin main
-            npm run db:fresh
+         Step 3 did not switch you to the main branch.
+         Double-click GET-LATEST.bat in the CRM folder, then open a new
+         Command Prompt and run:  npm run db:fresh
          If it still fails, use OPTION B (pgAdmin reset) below.
 
       5. Restart the server (double-click start-windows.bat or START-CRM.bat).
