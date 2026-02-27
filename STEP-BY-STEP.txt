@@ -805,49 +805,58 @@ STEP 4 - FIRST LOGIN (first time only — do this once)
            "ERROR: database "malta_crm" is being accessed by other users"
            "ERROR DETAIL: There is 1 other session using the database."
 
-  ── DO THIS RIGHT NOW — takes 30 seconds ─────────────────────────────────────
+  ── DO THIS RIGHT NOW ─────────────────────────────────────────────────────────
 
-    STEP 1 — Find the black "Malta CRM Server" window and close it.
-             Look in your taskbar for a black command window titled something
-             like "Malta CRM - Backend" or "Malta CRM Server".
-             Click on it, then either:
-               • Press Ctrl+C and then close the window, OR
-               • Click the X button in the top-right corner.
-             If there are TWO black windows (backend + frontend), close BOTH.
+    PostgreSQL refuses to drop a database while ANY other program is
+    connected to it.  The CRM server is one such program, but database
+    management tools like pgAdmin 4 ALSO hold connections quietly in the
+    background — even when you think everything is closed.
 
-    STEP 2 — Go back to your Command Prompt and run db:fresh again:
-                npm run db:fresh
-             Press ENTER.  Wait for it to finish (it prints several lines
-             ending with "X seeders executed").
+    ▶ STEP 1 — Close pgAdmin 4 completely (most common cause).
 
-    STEP 3 — Restart the CRM server.
-             Double-click  start-windows.bat  in the CRM folder.
-             Log in at  http://localhost:3001
-                Email:    admin@maltarealestate.com
-                Password: Password123!
+      pgAdmin 4 keeps a persistent connection to every database it knows
+      about, even when its browser window is minimised or closed.  You must
+      quit it from the system tray (the small icons near the clock).
 
-  ── WHY THIS HAPPENED ─────────────────────────────────────────────────────────
+        a) Look at the BOTTOM-RIGHT corner of your screen, near the clock.
+           You may see a small elephant head icon (the pgAdmin / PostgreSQL
+           icon).  If you don't see it, click the  ▲  arrow to show hidden
+           icons — it may be hiding there.
 
-    The CRM server was still running and holding an open connection to the
-    database.  PostgreSQL refuses to drop a database while any session is
-    using it.
+        b) RIGHT-CLICK that elephant icon.
+           Choose  "Quit pgAdmin 4"  (or just  "Quit").
 
-  ── PREVENT IT IN FUTURE (update your code) ──────────────────────────────────
+        c) If you do not see a pgAdmin icon, check if pgAdmin is open as a
+           normal window in the taskbar and close it from there.
 
-    The latest code fixes this permanently — the db:drop step now
-    terminates all open connections automatically before dropping the
-    database, so you will NOT need to stop the server first.
+      If you use DBeaver, TablePlus, HeidiSQL, or any other database tool,
+      close that too (File → Exit, or right-click its taskbar icon → Close).
 
-    To verify your code is fully up to date, use one of these methods:
+    ▶ STEP 2 — Close the black CRM server window (if it is still open).
 
-      EASIEST — Double-click  DOWNLOAD-LATEST.bat  in the CRM folder.
-                (If you don't have it, download it — see the FILES section
-                earlier in this guide.)
+      Look in the taskbar for a black command-prompt window titled "Malta
+      CRM" or "node".  Click its X button to close it.
+      If there are TWO black windows (backend + frontend), close BOTH.
 
-      OR — run this PowerShell line in your Command Prompt:
-            powershell -Command "try { Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/Patrick31214/malta-real-estate-crm/main/package.json' -OutFile 'package.json' -UseBasicParsing -ErrorAction Stop; Write-Host '[OK] Downloaded.' } catch { Write-Host '[X] FAILED:' $_.Exception.Message }"
-           Then run:  npm install
-           Then run:  npm run db:fresh
+    ▶ STEP 3 — Run db:fresh again in your Command Prompt:
+                  npm run db:fresh
+               Wait for it to finish.  It ends with "X seeders executed".
+
+    ▶ STEP 4 — Restart the CRM.
+               Double-click  start-windows.bat  in the CRM folder.
+               Log in at  http://localhost:3001
+                  Email:    admin@maltarealestate.com
+                  Password: Password123!
+
+  ── PERMANENT FIX (update your code so this never happens again) ─────────────
+
+    The latest CRM code handles this automatically — it disconnects all
+    open sessions before dropping the database, so you will never need to
+    close pgAdmin or the server manually.
+
+    Double-click  DOWNLOAD-LATEST.bat  in the CRM folder to update.
+    After it finishes, run  npm run db:fresh  and it will work regardless
+    of whether pgAdmin or the server is running.
 
   PROBLEM: npm run db:migrate fails with "relation already exists"
            -OR- npm run db:seed fails with "column does not exist"
