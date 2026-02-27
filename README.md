@@ -23,6 +23,30 @@ the CRM pages, and starts the server in a dedicated window that stays open.
 ---
 
 
+## 🔄 Updating the CRM (getting new features)
+
+When new features are pushed to GitHub (such as the **Agents page** and **Public Listings** website), your running CRM will not show them automatically — you need to pull the new code and rebuild the browser pages.
+
+### Quick update (3 steps)
+
+1. **Close the CRM server window** (the black window that says *"Server is running on port 3001"*).
+2. **Download the latest code** — double-click one of these in your CRM folder:
+   - **`GET-LATEST.bat`** — if you have Git installed *(recommended)*
+   - **`DOWNLOAD-LATEST.bat`** — if you don't have Git (uses PowerShell, works on any Windows)
+3. **Restart the CRM** — double-click **`quick-start.bat`**.  Your browser will open at `http://localhost:3001` with all new features active.
+
+> ⚠️ **Why you must rebuild:** The CRM browser pages are pre-compiled into the `client/dist` folder.  Running `GET-LATEST.bat` now automatically rebuilds that folder after pulling — so you never need to do it manually.
+
+### What's new after the latest update
+
+| Section | How to reach it |
+|---------|----------------|
+| 👔 **Agents** — manage your agents and create their logins | Sidebar → **Agents** |
+| 🌐 **Public Listings** — a no-login website your clients can browse | Sidebar → **Website → Public Listings** or go to `http://localhost:3001/listings` |
+
+---
+
+
 ## Features
 
 - **JWT-based Authentication**: Secure authentication system with access and refresh tokens

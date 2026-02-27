@@ -66,12 +66,12 @@ REM    It is only used for automatic merge commits — it has no effect on GitHu
 git config user.email "crm-local@localhost" >nul 2>nul
 git config user.name "CRM Local User" >nul 2>nul
 
-echo [1/4] Saving any local changes (stash)...
+echo [1/5] Saving any local changes (stash)...
 git stash -u
 echo   [OK] Done (any local changes have been saved safely).
 echo.
 
-echo [2/4] Switching to the main branch...
+echo [2/5] Switching to the main branch...
 git checkout main
 if %ERRORLEVEL% NEQ 0 (
     echo.
@@ -88,7 +88,7 @@ if %ERRORLEVEL% NEQ 0 (
 )
 echo.
 
-echo [3/4] Downloading latest code from GitHub...
+echo [3/5] Downloading latest code from GitHub...
 git pull origin main
 if %ERRORLEVEL% NEQ 0 (
     echo.
@@ -107,7 +107,7 @@ if %ERRORLEVEL% NEQ 0 (
 )
 echo.
 
-echo [4/4] Installing any new packages...
+echo [4/5] Installing any new packages...
 call npm install
 if %ERRORLEVEL% NEQ 0 (
     echo.
@@ -119,27 +119,60 @@ if %ERRORLEVEL% NEQ 0 (
 )
 echo.
 
+echo [5/5] Rebuilding the CRM interface pages...
+if exist "client\package.json" (
+    if not exist "client\node_modules" (
+        echo   First-time: installing interface packages (2-3 minutes)...
+        cd client
+        call npm install
+        if %ERRORLEVEL% NEQ 0 (
+            echo.
+            echo   [X] Failed to install interface packages.
+            echo       Check your internet connection and try again.
+            cd ..
+            pause
+            exit /b 1
+        )
+        cd ..
+    )
+    call npm run client:build
+    if %ERRORLEVEL% NEQ 0 (
+        echo.
+        echo   [X] Failed to rebuild the CRM interface.
+        echo.
+        echo   Common causes:
+        echo     - Node.js too old (v16+ required).  Check: node --version
+        echo     - Try: delete the client\node_modules folder and run again.
+        echo.
+        pause
+        exit /b 1
+    )
+    echo   [OK] CRM interface rebuilt.
+) else (
+    echo   [SKIP] client\package.json not found - skipping interface rebuild.
+)
+echo.
+
 echo ============================================================
 echo   SUCCESS!  Your CRM code is now up to date.
 echo ============================================================
 echo.
-echo   What to do next:
+echo   NEXT STEP — Restart the CRM to load the new pages:
 echo.
-echo   If you were told to run  db:fresh  (database reset):
-echo     1. Open a Command Prompt in this folder.
-echo     2. Type:  npm run db:fresh   and press ENTER.
-echo        Wait for the line "X seeders executed successfully".
-echo     3. Double-click  start-windows.bat  in this folder.
-echo        Wait for the CRM to start (about 20 seconds).
-echo     4. Your browser will open at  http://localhost:3001
-echo        Log in with:
-echo            Email:    admin@maltarealestate.com
-echo            Password: Password123!
-echo        (These are demo credentials — change your password after login.)
+echo     1. Close the CRM server window (the black window that
+echo        says "Server is running on port 3001") if it is open.
 echo.
-echo   If you just wanted the latest code without a database reset:
-echo     Double-click  start-windows.bat  to start the CRM.
-echo     Log in with your usual email and password.
+echo     2. Double-click  quick-start.bat  in this folder.
+echo        Your browser will open at  http://localhost:3001
+echo.
+echo     3. Log in with your usual email and password.
+echo        (If you reset the database: admin@maltarealestate.com / Password123!)
+echo.
+echo   NEW IN THIS UPDATE:
+echo     - Agents page  (sidebar → Agents 👔)
+echo       Add/edit/remove agents and create their CRM login.
+echo     - Public listings website  (sidebar → Website → Public Listings 🌐)
+echo       A no-login page your clients can browse at /listings
 echo.
 echo ============================================================
 echo.
