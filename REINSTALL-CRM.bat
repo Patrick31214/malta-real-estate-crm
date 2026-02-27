@@ -4,6 +4,7 @@ REM ============================================================================
 REM  REINSTALL-CRM.bat  —  Fresh Install or Re-Install of Malta Real Estate CRM
 REM
 REM  RUN THIS FILE from ANYWHERE on your computer (Downloads, Desktop, etc.)
+REM  Does NOT require Administrator — installs to your user folder.
 REM
 REM  What it does:
 REM    1. Downloads the latest CRM code from GitHub
@@ -13,15 +14,15 @@ REM    4. Creates the database and runs migrations
 REM    5. Offers to start the CRM immediately
 REM
 REM  Your existing data is safe:
-REM    - If you already have the CRM installed at C:\MaltaCRM, your .env
-REM      file (which contains your database password and settings) is
-REM      NEVER overwritten.
+REM    - If you already have a CRM installed at %USERPROFILE%\MaltaCRM, your
+REM      .env file (database password and settings) is NEVER overwritten.
 REM
 REM  HOW TO DOWNLOAD THIS FILE:
 REM    1. Go to: https://github.com/Patrick31214/malta-real-estate-crm
 REM    2. Click REINSTALL-CRM.bat in the file list
 REM    3. Click the download icon (down-arrow button near top-right)
-REM    4. If it saves as REINSTALL-CRM.bat.txt, rename it to REINSTALL-CRM.bat
+REM    4. If it saves as REINSTALL-CRM.bat.txt, rename it:
+REM         Right-click the file → Rename → delete the .txt at the end → Enter
 REM    5. Double-click REINSTALL-CRM.bat
 REM ============================================================================
 
@@ -29,16 +30,17 @@ cd /d "%~dp0"
 
 echo.
 echo ================================================================
-echo   Malta Real Estate CRM — Fresh Install / Re-Install
+echo   Malta Real Estate CRM -- Fresh Install / Re-Install
 echo ================================================================
 echo.
 echo   This will download the latest CRM code and set it up for you.
 echo.
 
 REM ── Install location ─────────────────────────────────────────────────────────
-REM    C:\MaltaCRM is a clean path with no spaces, easy to find, and
-REM    avoids the "two-folders" confusion from ZIP extractions.
-set "INSTALL=C:\MaltaCRM"
+REM    Use %USERPROFILE%\MaltaCRM (e.g. C:\Users\Patrick\MaltaCRM).
+REM    This folder is always writable without Administrator access.
+REM    (Installing to C:\ root requires admin — this avoids that problem.)
+set "INSTALL=%USERPROFILE%\MaltaCRM"
 echo   Install location: %INSTALL%
 echo.
 
@@ -49,6 +51,22 @@ if %ERRORLEVEL% NEQ 0 (
     echo.
     echo   PowerShell is included with Windows 7 and later.
     echo   Please update Windows and try again.
+    echo.
+    pause
+    exit /b 1
+)
+
+REM ── Check Node.js / npm ───────────────────────────────────────────────────────
+where npm >nul 2>nul
+if %ERRORLEVEL% NEQ 0 (
+    echo   [X] Node.js / npm not found.
+    echo.
+    echo   You must install Node.js first:
+    echo     1. Go to: https://nodejs.org/en/download/
+    echo     2. Download and run the LTS installer (the big green button).
+    echo     3. Tick "Automatically install the necessary tools" when asked.
+    echo     4. Restart your computer.
+    echo     5. Double-click REINSTALL-CRM.bat again.
     echo.
     pause
     exit /b 1
@@ -70,11 +88,9 @@ echo   [OK] Connected.
 echo.
 
 REM ── Preserve existing .env ────────────────────────────────────────────────────
-REM    If the user already has a CRM at C:\MaltaCRM, back up their .env so
-REM    the database password and other settings are not lost.
 set "_ENV_BACKUP="
 if exist "%INSTALL%\.env" (
-    echo   Found existing installation — saving your .env settings...
+    echo   Found existing installation -- saving your .env settings...
     copy /y "%INSTALL%\.env" "%TEMP%\malta-crm-env-backup.txt" >nul 2>nul
     set "_ENV_BACKUP=1"
     echo   [OK] .env backed up.
@@ -90,14 +106,18 @@ echo   URL: https://github.com/Patrick31214/malta-real-estate-crm/archive/refs/h
 echo   Please wait (this may take 30-60 seconds)...
 echo.
 powershell -NoProfile -Command "try { Invoke-WebRequest 'https://github.com/Patrick31214/malta-real-estate-crm/archive/refs/heads/main.zip' -OutFile '!_ZIP!' -UseBasicParsing -ErrorAction Stop; exit 0 } catch { Write-Host $_.Exception.Message; exit 1 }"
-if %ERRORLEVEL% NEQ 0 (
+if !ERRORLEVEL! NEQ 0 (
     echo.
-    echo   [X] Download failed.
+    echo ================================================================
+    echo   ERROR -- Download failed (step 2 of 7)
+    echo ================================================================
     echo.
     echo   This can happen if:
-    echo     - The repository is private — make sure it is set to Public on GitHub.
-    echo     - Your antivirus is blocking downloads — try disabling it temporarily.
-    echo     - Your internet connection dropped.
+    echo     - Your antivirus blocked the download -- disable it and retry.
+    echo     - No internet connection.
+    echo.
+    echo   Press any key to CLOSE this window, then fix the issue and
+    echo   double-click REINSTALL-CRM.bat again.
     echo.
     pause
     exit /b 1
@@ -108,30 +128,43 @@ echo.
 REM ── Extract ───────────────────────────────────────────────────────────────────
 echo [3/7] Extracting files...
 powershell -NoProfile -Command "try { Expand-Archive -Path '!_ZIP!' -DestinationPath '!_EXTRACTED!' -Force -ErrorAction Stop; exit 0 } catch { Write-Host $_.Exception.Message; exit 1 }"
-if %ERRORLEVEL% NEQ 0 (
+if !ERRORLEVEL! NEQ 0 (
     echo.
-    echo   [X] Could not extract the ZIP.  Try running this file again.
+    echo ================================================================
+    echo   ERROR -- Could not extract the ZIP (step 3 of 7)
+    echo ================================================================
+    echo.
+    echo   Try running REINSTALL-CRM.bat again.
+    echo.
+    echo   Press any key to CLOSE this window.
     echo.
     del /f /q "!_ZIP!" >nul 2>nul
-    pause
-    exit /b 1
-)
-echo   [OK] Extracted.
 echo.
 
 REM ── Copy files to install folder ──────────────────────────────────────────────
+REM    The ZIP extracts as  malta-real-estate-crm-main\  inside _EXTRACTED.
 echo [4/7] Installing files to %INSTALL% ...
 echo   (Your .env is NOT changed if it already exists there.)
-REM  The ZIP extracts as  malta-real-estate-crm-main\  inside _EXTRACTED
-robocopy "!_EXTRACTED!\malta-real-estate-crm-main" "%INSTALL%" /E /XF .env /XD .git /NFL /NDL /NJH /NJS >nul 2>nul
-REM  Robocopy exit codes: 0=no change, 1=files copied, 2+=problem
-if %ERRORLEVEL% GEQ 8 (
+
+REM  Create the destination folder first so robocopy never has to create C:\...
+if not exist "%INSTALL%" mkdir "%INSTALL%"
+
+robocopy "!_EXTRACTED!\malta-real-estate-crm-main" "%INSTALL%" /E /XF .env /XD .git /NFL /NDL /NJH /NJS
+REM  Robocopy exit codes: 0=no change, 1=files copied, >=8=some files failed
+if !ERRORLEVEL! GEQ 8 (
     echo.
-    echo   [X] Could not copy files.
+    echo ================================================================
+    echo   ERROR -- Could not copy files to %INSTALL% (step 4 of 7)
+    echo ================================================================
     echo.
-    echo   Try:
-    echo     1. Close any open files in %INSTALL%
-    echo     2. Run this file again as Administrator (right-click → Run as administrator)
+    echo   Exit code was: !ERRORLEVEL!
+    echo.
+    echo   HOW TO FIX:
+    echo     - Make sure no files in %INSTALL% are open in another program.
+    echo     - Try right-clicking REINSTALL-CRM.bat and choosing
+    echo       "Run as administrator", then run it again.
+    echo.
+    echo   Press any key to CLOSE this window, fix the issue, then retry.
     echo.
     del /f /q "!_ZIP!" >nul 2>nul
     rd /s /q "!_EXTRACTED!" >nul 2>nul
@@ -177,23 +210,21 @@ REM ── Set up .env if this is a first install ──────────
 if not exist ".env" (
     if exist ".env.example" (
         copy .env.example .env >nul
-        echo   [!] Created .env from .env.example.
         echo.
         echo ================================================================
-        echo   ACTION NEEDED — Set your database password
+        echo   ACTION NEEDED -- Set your database password
         echo ================================================================
         echo.
-        echo   Before continuing, you must set your PostgreSQL password in .env:
+        echo   Notepad will open with the .env settings file.
         echo.
-        echo     1. Notepad will open with the .env file.
-        echo     2. Find the line:   DB_PASSWORD=your_password_here
-        echo     3. Replace  your_password_here  with the password you
-        echo        chose when you installed PostgreSQL.
-        echo        Example:  DB_PASSWORD=MyPostgresPass123
-        echo     4. Press Ctrl+S to save, then close Notepad.
-        echo     5. Press any key here to continue.
+        echo   1. Find the line:   DB_PASSWORD=your_password_here
+        echo   2. Replace  your_password_here  with the password you
+        echo      chose when you installed PostgreSQL.
+        echo      Example:  DB_PASSWORD=MyPostgresPass123
+        echo   3. Press Ctrl+S to save, then close Notepad.
+        echo   4. Come back here and press any key to continue.
         echo.
-        echo   (If you have not installed PostgreSQL yet, install it first:)
+        echo   (If PostgreSQL is not installed yet:)
         echo   https://www.postgresql.org/download/windows/
         echo.
         start "" notepad "%INSTALL%\.env"
@@ -203,15 +234,21 @@ if not exist ".env" (
 
 REM ── Check DB_PASSWORD placeholder ────────────────────────────────────────────
 findstr /C:"DB_PASSWORD=your_password_here" .env >nul 2>nul
-if %ERRORLEVEL% EQU 0 (
+if !ERRORLEVEL! EQU 0 (
     echo.
-    echo   [X] DB_PASSWORD in .env is still set to the placeholder.
+    echo ================================================================
+    echo   ERROR -- DB_PASSWORD not set in .env
+    echo ================================================================
     echo.
     echo   HOW TO FIX:
-    echo     1. Open %INSTALL%\.env in Notepad
-    echo     2. Change:  DB_PASSWORD=your_password_here
-    echo        To:      DB_PASSWORD=YourActualPassword
-    echo     3. Save, then double-click REINSTALL-CRM.bat again
+    echo     1. Open Notepad
+    echo     2. Open the file:  %INSTALL%\.env
+    echo     3. Change the line:  DB_PASSWORD=your_password_here
+    echo        To:               DB_PASSWORD=YourActualPassword
+    echo     4. Save the file (Ctrl+S), close Notepad.
+    echo     5. Double-click REINSTALL-CRM.bat again.
+    echo.
+    echo   Press any key to CLOSE this window.
     echo.
     pause
     exit /b 1
@@ -223,17 +260,22 @@ for /f "usebackq tokens=*" %%V in (`powershell -NoProfile -Command "$l=(Get-Cont
 if not defined DB_PORT set DB_PORT=5432
 
 powershell -NoProfile -Command "try { $c=New-Object Net.Sockets.TcpClient; $c.Connect('127.0.0.1',%DB_PORT%); $c.Close(); exit 0 } catch { exit 1 }" >nul 2>nul
-if %ERRORLEVEL% NEQ 0 (
+if !ERRORLEVEL! NEQ 0 (
     echo.
-    echo   [X] PostgreSQL is not running on port %DB_PORT%.
+    echo ================================================================
+    echo   ERROR -- PostgreSQL is not running on port %DB_PORT%
+    echo ================================================================
     echo.
     echo   HOW TO FIX:
-    echo     1. Press Win+R → type  services.msc  → click OK
-    echo     2. Find "PostgreSQL" (e.g. postgresql-x64-16) in the list
-    echo     3. Right-click → Start
-    echo     4. Wait 5 seconds, then double-click REINSTALL-CRM.bat again
+    echo     1. Press Win+R, type  services.msc  and press Enter.
+    echo     2. Find "PostgreSQL" (e.g. postgresql-x64-16) in the list.
+    echo     3. Right-click it and choose "Start".
+    echo     4. Wait 5 seconds.
+    echo     5. Double-click REINSTALL-CRM.bat again.
     echo.
-    echo   Not installed? Download from: https://www.postgresql.org/download/windows/
+    echo   Not installed?  https://www.postgresql.org/download/windows/
+    echo.
+    echo   Press any key to CLOSE this window.
     echo.
     pause
     exit /b 1
@@ -243,13 +285,19 @@ echo.
 
 REM ── Install packages ─────────────────────────────────────────────────────────
 echo [6/7] Installing packages (npm install)...
-echo   This may take a few minutes on first install.
+echo   This may take a few minutes on first install.  Please wait...
 echo.
 call npm install
-if %ERRORLEVEL% NEQ 0 (
+if !ERRORLEVEL! NEQ 0 (
     echo.
-    echo   [X] npm install failed.
-    echo       Check your internet connection and try again.
+    echo ================================================================
+    echo   ERROR -- npm install failed (step 6 of 7)
+    echo ================================================================
+    echo.
+    echo   Check your internet connection and double-click
+    echo   REINSTALL-CRM.bat again.
+    echo.
+    echo   Press any key to CLOSE this window.
     echo.
     pause
     exit /b 1
@@ -259,8 +307,8 @@ if exist "client\package.json" (
     echo   Installing frontend packages...
     cd client
     call npm install
-    if %ERRORLEVEL% NEQ 0 (
-        echo   [!] Frontend npm install had errors (see above).
+    if !ERRORLEVEL! NEQ 0 (
+        echo   [!] Frontend npm install had errors -- see above.
         cd ..
     ) else (
         cd ..
@@ -272,20 +320,34 @@ echo.
 REM ── Set up database ───────────────────────────────────────────────────────────
 echo [7/7] Setting up the database...
 call node scripts/create-database.js
-if %ERRORLEVEL% NEQ 0 (
+if !ERRORLEVEL! NEQ 0 (
     echo.
-    echo   [X] Could not create the database.
+    echo ================================================================
+    echo   ERROR -- Could not create the database (step 7 of 7)
+    echo ================================================================
     echo.
-    echo   Almost always means the DB_PASSWORD in .env is wrong.
-    echo   Open %INSTALL%\.env in Notepad and check DB_PASSWORD.
+    echo   This almost always means DB_PASSWORD in .env is wrong.
+    echo.
+    echo   HOW TO FIX:
+    echo     1. Open %INSTALL%\.env in Notepad.
+    echo     2. Check that DB_PASSWORD= is set to your PostgreSQL password.
+    echo     3. Save the file, then double-click REINSTALL-CRM.bat again.
+    echo.
+    echo   Press any key to CLOSE this window.
     echo.
     pause
     exit /b 1
 )
 call npm run db:migrate
-if %ERRORLEVEL% NEQ 0 (
+if !ERRORLEVEL! NEQ 0 (
     echo.
-    echo   [X] Database migration failed.  Check the error above.
+    echo ================================================================
+    echo   ERROR -- Database migration failed (step 7 of 7)
+    echo ================================================================
+    echo.
+    echo   Check the error message shown above for details.
+    echo.
+    echo   Press any key to CLOSE this window.
     echo.
     pause
     exit /b 1
@@ -297,28 +359,28 @@ echo ================================================================
 echo   INSTALL COMPLETE!
 echo ================================================================
 echo.
-echo   The CRM is installed at:  %INSTALL%
+echo   CRM installed at:  %INSTALL%
 echo.
-echo   To start the CRM in future, double-click:
-echo     %INSTALL%\START-CRM.bat
+echo   To start the CRM in future:
+echo     Double-click  %INSTALL%\START-CRM.bat
 echo.
 
 REM ── Offer to start now ───────────────────────────────────────────────────────
 choice /C YN /M "Start the CRM right now?"
-if %ERRORLEVEL% EQU 1 (
+if !ERRORLEVEL! EQU 1 (
     echo.
-    echo   Starting CRM...
-    echo   Your browser will open at http://localhost:3000
+    echo   Starting CRM...  Your browser will open at http://localhost:3000
     echo.
     start "Malta CRM - Frontend" /D "%INSTALL%" cmd /k npm run client:dev
     start "" /b powershell -WindowStyle Hidden -NoProfile -Command "Start-Sleep 12; Start-Process 'http://localhost:3000'"
     call npm run dev
 ) else (
     echo.
-    echo   OK — to start the CRM later:
+    echo   OK.  To start the CRM:
     echo     Double-click  %INSTALL%\START-CRM.bat
     echo.
     echo ================================================================
     echo.
     pause
 )
+
