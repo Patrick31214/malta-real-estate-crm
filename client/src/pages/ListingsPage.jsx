@@ -145,15 +145,42 @@ function getInitials(name) {
 
 // ---- MODAL FORM ----
 
-function ModalForm({ title, subtitle, onClose }) {
+function ModalForm({ title, subtitle, onClose, propertyId, source }) {
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => { setLoading(false); setSubmitted(true); }, 800);
+    setSubmitError('');
+    try {
+      const body = {
+        clientName: form.name,
+        clientEmail: form.email,
+        message: form.message,
+        source: source || 'website',
+        status: 'new',
+      };
+      if (form.phone) body.clientPhone = form.phone;
+      if (propertyId) body.propertyId = propertyId;
+      const res = await fetch('/api/inquiries/public', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubmitted(true);
+      } else {
+        setSubmitError(data.message || 'Failed to send. Please try again.');
+      }
+    } catch {
+      setSubmitError('An error occurred. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -171,6 +198,7 @@ function ModalForm({ title, subtitle, onClose }) {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="modal-form">
+            {submitError && <div style={{ color: 'var(--error, #ef4444)', marginBottom: 8, fontSize: 14 }}>{submitError}</div>}
             <input required placeholder="Full Name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
             <input required type="email" placeholder="Email Address" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
             <input placeholder="Phone Number" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} />
@@ -501,6 +529,7 @@ function ServiceTab({ category, title, emoji }) {
           title={`Book: ${bookingService.title || bookingService.name || title}`}
           subtitle="Fill in your details and we'll confirm your booking shortly."
           onClose={() => setBookingService(null)}
+          source="website_service_booking"
         />
       )}
     </div>
@@ -918,19 +947,21 @@ function ListingsPageInner() {
 
       {/* ── Modals ── */}
       {modal?.type === 'list-property' && (
-        <ModalForm title="List Your Property" subtitle="Get your property in front of thousands of buyers and renters." onClose={() => setModal(null)} />
+        <ModalForm title="List Your Property" subtitle="Get your property in front of thousands of buyers and renters." onClose={() => setModal(null)} source="website_list_property" />
       )}
       {modal?.type === 'affiliate' && (
-        <ModalForm title="Become an Affiliate" subtitle="Earn commissions by referring clients to Golden Key Realty." onClose={() => setModal(null)} />
+        <ModalForm title="Become an Affiliate" subtitle="Earn commissions by referring clients to Golden Key Realty." onClose={() => setModal(null)} source="website_affiliate" />
       )}
       {modal?.type === 'join-team' && (
-        <ModalForm title="Join Our Team" subtitle="We're looking for talented real estate professionals in Malta." onClose={() => setModal(null)} />
+        <ModalForm title="Join Our Team" subtitle="We're looking for talented real estate professionals in Malta." onClose={() => setModal(null)} source="website_join_team" />
       )}
       {modal?.type === 'contact-agent' && modal.property && (
         <ModalForm
           title={`Enquire about: ${modal.property.title}`}
           subtitle={`${modal.property.city || 'Malta'} · ${formatPrice(modal.property.price)}`}
           onClose={() => setModal(null)}
+          propertyId={modal.property.id}
+          source="website"
         />
       )}
 
