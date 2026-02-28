@@ -746,7 +746,7 @@ function getListingsBotResponse(message) {
   // 10. Contact / agent queries
   if (msg.includes('contact') || msg.includes('speak') || msg.includes('call') || msg.includes('phone') || msg.includes('email') || msg.includes('agent')) {
     return {
-      text: `${pick(OPENINGS)} I'd love to connect you with one of our expert Malta property agents 🤝!\n\nClick the **'Enquire'** button on any listing to send a direct message, or reach us via:\n• 📞 **Phone:** Available Mon–Sat, 9am–6pm\n• 📧 **Email:** info@goldenkey.mt\n• 💬 **WhatsApp:** Available during office hours\n\n[Browse properties and enquire →](/listings)`,
+      text: `${pick(OPENINGS)} I'd love to connect you with one of our expert Malta property agents 🤝!\n\nClick the **'Enquire'** button on any listing to send a direct message, or reach us via:\n• 📞 **Phone:** Available Mon–Sat, 9am–6pm\n• 📧 **Email:** info@goldenkey.mt\n• 💬 <a href='https://wa.me/35699800363' target='_blank' rel='noopener noreferrer'>Chat with us on WhatsApp →</a>\n\n[Browse properties and enquire →](/listings)`,
       quickReplies: ['📋 All listings', '🏠 Popular properties', '🗺️ Areas guide', '💰 Price guide'],
     };
   }

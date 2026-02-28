@@ -6,6 +6,8 @@ import { listings } from '../services/api';
 import { useTheme } from '../contexts/ThemeContext';
 import { CurrencyProvider, useCurrency } from '../contexts/CurrencyContext';
 import AIChatbot from '../components/AIChatbot';
+import Footer from '../components/Footer';
+import WhatsAppButton from '../components/WhatsAppButton';
 import './ListingsPage.css';
 
 // Fix leaflet default marker icons in Vite builds
@@ -934,6 +936,8 @@ function ListingsPageInner() {
 
       {/* ── AI Chatbot ── */}
       <AIChatbot variant="listings" />
+      <WhatsAppButton />
+      <Footer />
     </div>
   );
 }
