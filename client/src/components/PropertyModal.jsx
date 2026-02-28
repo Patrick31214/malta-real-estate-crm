@@ -254,8 +254,8 @@ function PropertyModal({ property, onClose, onSaved }) {
                 <option value="GBP">GBP</option>
               </select>
             </div>
-            <div className="form-group" style={{ display: 'flex', alignItems: 'flex-end', paddingBottom: 2 }}>
-              <label className="form-group-inline" style={{ marginBottom: 0 }}>
+            <div className="form-group form-group-checkbox-aligned">
+              <label className="form-group-inline form-group-inline-no-margin">
                 <input type="checkbox" name="priceNegotiable" checked={form.priceNegotiable} onChange={handleChange} />
                 &nbsp;Negotiable
               </label>
@@ -384,8 +384,8 @@ function PropertyModal({ property, onClose, onSaved }) {
                   <label>Parking Spaces</label>
                   <input name="parkingSpaces" type="number" min="0" className="form-input" value={form.parkingSpaces} onChange={handleChange} placeholder="1" />
                 </div>
-                <div className="form-group" style={{ display: 'flex', alignItems: 'flex-end', paddingBottom: 2 }}>
-                  <label className="form-group-inline" style={{ marginBottom: 0 }}>
+                <div className="form-group form-group-checkbox-aligned">
+                  <label className="form-group-inline form-group-inline-no-margin">
                     <input type="checkbox" name="garage" checked={form.garage} onChange={handleChange} />
                     &nbsp;Garage
                   </label>

@@ -267,4 +267,13 @@
   border-color: var(--gold-primary);
   opacity: 0.85;
 }
+.form-group-checkbox-aligned {
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 2px;
+}
+
+.form-group-inline-no-margin {
+  margin-bottom: 0;
+}
 
