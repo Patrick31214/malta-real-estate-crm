@@ -118,7 +118,6 @@ function DashboardPage() {
     rented: 0,
     underOffer: 0
   });
-  const [recentProperties, setRecentProperties] = useState([]);
   const [allProperties, setAllProperties] = useState([]);
   const [activityFeed, setActivityFeed] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -143,7 +142,6 @@ function DashboardPage() {
             rented: props.filter(p => p.status === 'rented').length,
             underOffer: props.filter(p => p.status === 'under_offer').length
           });
-          setRecentProperties(props.slice(0, 5));
           setAllProperties(props);
         }
 
@@ -197,43 +195,6 @@ function DashboardPage() {
       ) : (
         <>
           <div className="dashboard-grid">
-            {/* Recent Properties */}
-            <div className="card recent-section">
-              <div className="section-header">
-                <h3>Recent Properties</h3>
-                <Link to="/properties" className="btn btn-outline btn-sm">View all</Link>
-              </div>
-              {recentProperties.length === 0 ? (
-                <div className="empty-state">
-                  <div className="empty-icon"><Building2 size={32} strokeWidth={1.25} style={{color:'var(--text-muted)'}} /></div>
-                  <p>No properties yet</p>
-                </div>
-              ) : (
-                <div className="table-container">
-                  <table className="data-table">
-                    <thead>
-                      <tr>
-                        <th>Title</th>
-                        <th>Type</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {recentProperties.map(p => (
-                        <tr key={p.id}>
-                          <td><strong>{p.title}</strong><br /><small style={{color:'var(--text-light)'}}>{p.city}</small></td>
-                          <td style={{textTransform:'capitalize'}}>{p.propertyType}</td>
-                          <td>€{Number(p.price).toLocaleString()}</td>
-                          <td><span className={`badge badge-${p.status}`}>{p.status.replace('_', ' ')}</span></td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </div>
-
             {/* Pie chart */}
             <div className="card quick-stats">
               <h3>Property Status Mix</h3>

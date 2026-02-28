@@ -10,6 +10,7 @@ function OwnersPage() {
   const [search, setSearch] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [editOwner, setEditOwner] = useState(null);
+  const [viewOwner, setViewOwner] = useState(null);
   const [toast, setToast] = useState(null);
 
   const showToast = (msg, type = 'success') => {
@@ -96,8 +97,6 @@ function OwnersPage() {
               <thead>
                 <tr>
                   <th>Owner</th>
-                  <th>Email</th>
-                  <th>Phone</th>
                   <th>City</th>
                   <th>Company</th>
                   <th>Actions</th>
@@ -117,12 +116,11 @@ function OwnersPage() {
                         </div>
                       </div>
                     </td>
-                    <td>{o.email}</td>
-                    <td>{o.phone || o.mobile || '—'}</td>
                     <td>{o.city || '—'}</td>
                     <td>{o.companyName || '—'}</td>
                     <td>
                       <div className="action-btns">
+                        <button className="btn btn-outline btn-sm" onClick={() => setViewOwner(o)}>👁 View</button>
                         <button className="btn btn-outline btn-sm" onClick={() => { setEditOwner(o); setModalOpen(true); }}>Edit</button>
                         <button className="btn btn-danger btn-sm" onClick={() => handleDelete(o.id)}>Del</button>
                       </div>
@@ -150,7 +148,16 @@ function OwnersPage() {
         </div>
       )}
 
-      {/* Modal */}
+      {/* View Modal */}
+      {viewOwner && (
+        <OwnerModal
+          owner={viewOwner}
+          onClose={() => setViewOwner(null)}
+          onSaved={() => setViewOwner(null)}
+        />
+      )}
+
+      {/* Edit Modal */}
       {modalOpen && (
         <OwnerModal
           owner={editOwner}
