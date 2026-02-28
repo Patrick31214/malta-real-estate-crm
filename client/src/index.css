@@ -24,6 +24,8 @@
   --glass-border: rgba(255, 255, 255, 0.15);
   --glass-shadow: rgba(0, 0, 0, 0.4);
   --glass-green: rgba(29, 185, 84, 0.12);
+  --emerald-primary: #2D6A4F;
+  --emerald-light: #40916C;
 }
 
 [data-theme="light"] {
@@ -45,6 +47,8 @@
   --glass-border: rgba(212, 175, 55, 0.2);
   --glass-shadow: rgba(0, 0, 0, 0.08);
   --glass-green: rgba(29, 185, 84, 0.08);
+  --emerald-primary: #2D6A4F;
+  --emerald-light: #40916C;
 }
 
 * {

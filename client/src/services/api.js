@@ -162,4 +162,12 @@ export const listings = {
   getOne: (id) => fetch(`${API_BASE}/listings/${id}`).then(r => r.json())
 };
 
+// Public services (no auth required)
+export const services = {
+  getPublic: (category) => {
+    const qs = category ? `?category=${encodeURIComponent(category)}` : '';
+    return fetch(`${API_BASE}/services/public${qs}`).then(r => r.json());
+  }
+};
+
 export default { auth, properties, owners, inquiries, agents, listings, activityLogs };
