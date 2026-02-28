@@ -6,13 +6,17 @@ import 'leaflet/dist/leaflet.css';
 import { listings } from '../services/api';
 import './ListingsPage.css';
 
-// Fix leaflet marker icons in Vite/webpack builds
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
+// Fix leaflet default marker icons in Vite builds by providing explicit URLs
+const defaultMarkerIcon = L.icon({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
 });
+L.Marker.prototype.options.icon = defaultMarkerIcon;
 
 const PROPERTY_TYPES = [
   'apartment', 'house', 'villa', 'townhouse', 'penthouse',

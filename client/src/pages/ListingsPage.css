@@ -59,7 +59,7 @@
 .listings-login-link {
   font-size: 13px;
   font-weight: 600;
-  color: #D4AF37;
+  color: var(--gold);
   padding: 8px 20px;
   border: 1px solid rgba(212,175,55,0.4);
   border-radius: 24px;
@@ -73,7 +73,7 @@
 
 /* ---- Hero ---- */
 .listings-hero {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #1a1a2e 100%);
+  background: linear-gradient(135deg, var(--charcoal) 0%, var(--charcoal-mid) 60%, var(--charcoal) 100%);
   padding: 72px 32px 48px;
   text-align: center;
   position: relative;
@@ -92,7 +92,7 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: clamp(28px, 5vw, 52px);
   font-weight: 800;
-  background: linear-gradient(135deg, #ffffff 0%, #F5E6B8 50%, #D4AF37 100%);
+  background: linear-gradient(135deg, #ffffff 0%, var(--gold-soft) 50%, var(--gold) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -167,9 +167,9 @@
 }
 
 .listings-tab.active {
-  background: linear-gradient(135deg, #D4AF37 0%, #F5E6B8 100%);
-  color: #1a1a2e;
-  border-color: #D4AF37;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
+  color: var(--charcoal);
+  border-color: var(--gold);
   font-weight: 700;
   box-shadow: 0 4px 16px rgba(212,175,55,0.4);
 }
@@ -184,7 +184,7 @@
 .listings-map-section h2 {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 22px;
-  color: #1a1a2e;
+  color: var(--charcoal);
   margin-bottom: 16px;
 }
 
@@ -238,12 +238,12 @@
 .filter-header h3 {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 18px;
-  color: #1a1a2e;
+  color: var(--charcoal);
 }
 
 .filter-clear {
   font-size: 12px;
-  color: #D4AF37;
+  color: var(--gold);
   background: none;
   border: none;
   cursor: pointer;
@@ -263,7 +263,7 @@
   display: block;
   font-size: 11px;
   font-weight: 700;
-  color: #a07830;
+  color: var(--gold-dark);
   text-transform: uppercase;
   letter-spacing: 0.8px;
   margin-bottom: 6px;
@@ -277,14 +277,14 @@
   border-radius: 10px;
   background: rgba(255,255,255,0.8);
   font-size: 13px;
-  color: #1a1a2e;
+  color: var(--charcoal);
   font-family: 'Inter', sans-serif;
   transition: all 0.2s;
 }
 
 .filter-select:focus,
 .filter-input:focus {
-  border-color: #D4AF37;
+  border-color: var(--gold);
   box-shadow: 0 0 0 3px rgba(212,175,55,0.1);
   outline: none;
 }
@@ -308,7 +308,7 @@
 
 .listings-count {
   font-size: 14px;
-  color: #3d3d5c;
+  color: var(--text-medium);
   font-weight: 600;
 }
 
@@ -317,7 +317,7 @@
   width: 48px;
   height: 48px;
   border: 3px solid rgba(212,175,55,0.15);
-  border-top-color: #D4AF37;
+  border-top-color: var(--gold);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   margin: 60px auto;
@@ -343,12 +343,12 @@
 .listings-empty h3 {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 22px;
-  color: #1a1a2e;
+  color: var(--charcoal);
   margin-bottom: 8px;
 }
 
 .listings-empty p {
-  color: #8888aa;
+  color: var(--text-light);
   margin-bottom: 20px;
 }
 
@@ -357,7 +357,7 @@
   border-radius: 24px;
   border: 1.5px solid rgba(212,175,55,0.4);
   background: transparent;
-  color: #a07830;
+  color: var(--gold-dark);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -464,21 +464,21 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 22px;
   font-weight: 800;
-  color: #D4AF37;
+  color: var(--gold);
   letter-spacing: -0.5px;
 }
 
 .listing-title {
   font-size: 15px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: var(--charcoal);
   line-height: 1.4;
   margin: 0;
 }
 
 .listing-location {
   font-size: 13px;
-  color: #8888aa;
+  color: var(--text-light);
   display: flex;
   align-items: center;
   gap: 4px;
@@ -493,7 +493,7 @@
 
 .listing-features span {
   font-size: 12px;
-  color: #3d3d5c;
+  color: var(--text-medium);
   background: rgba(212,175,55,0.08);
   padding: 4px 10px;
   border-radius: 20px;
@@ -503,7 +503,7 @@
 
 .listing-desc {
   font-size: 13px;
-  color: #8888aa;
+  color: var(--text-light);
   line-height: 1.5;
   margin-top: 4px;
 }
@@ -520,13 +520,13 @@
 .listing-agent-name {
   font-size: 12px;
   font-weight: 600;
-  color: #3d3d5c;
+  color: var(--text-medium);
 }
 
 .listing-agent-phone,
 .listing-agent-email {
   font-size: 12px;
-  color: #D4AF37;
+  color: var(--gold);
   text-decoration: none;
   font-weight: 500;
   transition: opacity 0.2s;
@@ -551,7 +551,7 @@
   border-radius: 10px;
   border: 1px solid rgba(212,175,55,0.25);
   background: rgba(255,255,255,0.65);
-  color: #3d3d5c;
+  color: var(--text-medium);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -561,14 +561,14 @@
 
 .listings-page-btn:hover {
   background: rgba(212,175,55,0.1);
-  border-color: #D4AF37;
+  border-color: var(--gold);
 }
 
 .listings-page-btn.active {
-  background: linear-gradient(135deg, #D4AF37 0%, #F5E6B8 100%);
-  color: #1a1a2e;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
+  color: var(--charcoal);
   font-weight: 700;
-  border-color: #D4AF37;
+  border-color: var(--gold);
   box-shadow: 0 2px 10px rgba(212,175,55,0.3);
 }
 
@@ -590,12 +590,12 @@
 .demand-header h2 {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 28px;
-  color: #1a1a2e;
+  color: var(--charcoal);
   margin-bottom: 8px;
 }
 
 .demand-header p {
-  color: #8888aa;
+  color: var(--text-light);
   font-size: 15px;
   margin-bottom: 20px;
 }
@@ -612,7 +612,7 @@
   border-radius: 20px;
   border: 1px solid rgba(212,175,55,0.25);
   background: transparent;
-  color: #3d3d5c;
+  color: var(--text-medium);
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -625,10 +625,10 @@
 }
 
 .demand-filter-btn.active {
-  background: linear-gradient(135deg, #D4AF37 0%, #F5E6B8 100%);
-  color: #1a1a2e;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
+  color: var(--charcoal);
   font-weight: 700;
-  border-color: #D4AF37;
+  border-color: var(--gold);
 }
 
 .demand-legend {
@@ -638,7 +638,7 @@
   flex-wrap: wrap;
   margin-bottom: 24px;
   font-size: 13px;
-  color: #3d3d5c;
+  color: var(--text-medium);
   font-weight: 500;
 }
 
@@ -671,19 +671,19 @@
 
 .demand-area-name {
   font-weight: 700;
-  color: #1a1a2e;
+  color: var(--charcoal);
   font-size: 15px;
 }
 
 .demand-level {
   font-size: 12px;
-  color: #8888aa;
+  color: var(--text-light);
   font-weight: 500;
 }
 
 .demand-price {
   font-size: 13px;
-  color: #D4AF37;
+  color: var(--gold);
   font-weight: 600;
   margin-top: 2px;
 }
@@ -697,7 +697,7 @@
   border-radius: 12px;
   border: 1px solid rgba(212,175,55,0.15);
   font-size: 14px;
-  color: #3d3d5c;
+  color: var(--text-medium);
   line-height: 1.6;
 }
 
@@ -717,7 +717,7 @@
 }
 
 .listings-footer a {
-  color: #D4AF37;
+  color: var(--gold);
   font-weight: 600;
 }
 
