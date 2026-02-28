@@ -119,10 +119,11 @@
 .nav-item:hover::before { transform: scaleY(0.7); }
 
 .nav-item.active {
-  background: rgba(212, 175, 55, 0.15);
-  color: var(--text-primary);
+  background: rgba(45, 106, 79, 0.12);
+  color: var(--emerald-light, #40916C);
   font-weight: 600;
-  border-color: rgba(212, 175, 55, 0.25);
+  border-color: rgba(45, 106, 79, 0.2);
+  border-left: 3px solid var(--emerald-light, #40916C);
 }
 
 .nav-item.active::before { transform: scaleY(1); }
