@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Building2, Users, UserCheck, MessageSquare, Activity, Globe, LogOut, Key, Calculator } from 'lucide-react';
+import { LayoutDashboard, Building2, Users, UserCheck, MessageSquare, Activity, Globe, LogOut, Key, Calculator, Scale } from 'lucide-react';
 import { auth } from '../services/api';
 import './Sidebar.css';
 
@@ -8,12 +8,13 @@ const navItems = [
   { to: '/properties', label: 'Properties', icon: Building2 },
   { to: '/owners', label: 'Owners', icon: Users },
   { to: '/agents', label: 'Agents', icon: UserCheck },
-  { to: '/inquiries', label: 'Inquiries', icon: MessageSquare }
+  { to: '/inquiries', label: 'Inquiries', icon: MessageSquare },
+  { to: '/mortgage-calculator', label: 'Mortgage Calc', icon: Calculator },
 ];
 
 const adminNavItems = [
   { to: '/activity-log', label: 'Activity Log', icon: Activity },
-  { to: '/mortgage-calculator', label: 'Mortgage Calc', icon: Calculator }
+  { to: '/compliance', label: 'Malta Compliance', icon: Scale },
 ];
 
 function Sidebar({ onClose }) {

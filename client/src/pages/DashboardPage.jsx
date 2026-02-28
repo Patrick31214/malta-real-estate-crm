@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Building2, CheckCircle, Handshake, Users, TrendingUp, Calculator } from 'lucide-react';
+import { Building2, CheckCircle, Handshake, Users, Calculator } from 'lucide-react';
 import { properties, owners } from '../services/api';
 import './DashboardPage.css';
 

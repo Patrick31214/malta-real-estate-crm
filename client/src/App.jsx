@@ -10,6 +10,7 @@ import AgentsPage from './pages/AgentsPage';
 import ListingsPage from './pages/ListingsPage';
 import ActivityLogPage from './pages/ActivityLogPage';
 import MortgageCalculatorPage from './pages/MortgageCalculatorPage';
+import MaltaCompliancePage from './pages/MaltaCompliancePage';
 import Layout from './components/Layout';
 import { auth } from './services/api';
 
@@ -56,6 +57,7 @@ function App() {
           <Route path="agents" element={<AgentsPage />} />
           <Route path="activity-log" element={<ActivityLogPage />} />
           <Route path="mortgage-calculator" element={<MortgageCalculatorPage />} />
+          <Route path="compliance" element={<MaltaCompliancePage />} />
         </Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>

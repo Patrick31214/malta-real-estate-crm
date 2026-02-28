@@ -3,6 +3,7 @@ import { Sun, Moon, KeyRound } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useCurrency } from '../contexts/CurrencyContext';
 import NotificationBell from './NotificationBell';
+import GlobalSearch from './GlobalSearch';
 import './Header.css';
 
 const pageTitles = {
@@ -12,7 +13,8 @@ const pageTitles = {
   '/inquiries': 'Inquiries',
   '/agents': 'Agents',
   '/activity-log': 'Activity Log',
-  '/mortgage-calculator': 'Mortgage Calculator'
+  '/mortgage-calculator': 'Mortgage Calculator',
+  '/compliance': 'Malta Compliance'
 };
 
 function Header({ onMenuClick }) {
@@ -28,6 +30,9 @@ function Header({ onMenuClick }) {
           ☰
         </button>
         <h1 className="page-title">{title}</h1>
+      </div>
+      <div className="header-center">
+        <GlobalSearch />
       </div>
       <div className="header-right">
         <select
