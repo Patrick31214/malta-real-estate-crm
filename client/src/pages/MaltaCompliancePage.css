@@ -27,6 +27,9 @@
 }
 
 .compliance-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   padding: 9px 20px;
   border-radius: 10px;
   background: var(--glass-bg);

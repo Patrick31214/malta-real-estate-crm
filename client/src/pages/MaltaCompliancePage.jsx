@@ -1,10 +1,7 @@
 import { useState } from 'react';
-import { Scale, Percent, AlertTriangle, CheckCircle, Info } from 'lucide-react';
+import { Scale, Percent, AlertTriangle, CheckCircle, Info, Receipt, FileText, Lock, Flag } from 'lucide-react';
+import { formatEuro } from '../utils/formatCurrency';
 import './MaltaCompliancePage.css';
-
-function formatEuro(n) {
-  return '€' + Number(n).toLocaleString('en-MT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-}
 
 function VATCalculator() {
   const [inputs, setInputs] = useState({
@@ -247,24 +244,30 @@ function MaltaCompliancePage() {
   return (
     <div className="compliance-page">
       <div className="compliance-page-header">
-        <h1>🇲🇹 Malta Compliance</h1>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 4 }}>
+          <Flag size={26} strokeWidth={1.75} style={{ color: 'var(--gold-primary)' }} />
+          <h1>Malta Compliance</h1>
+        </div>
         <p>AML/KYC, VAT Calculator, EIRA License Tracking</p>
       </div>
 
       <div className="compliance-tabs">
         {[
-          { id: 'vat', label: '💰 VAT & Stamp Duty' },
-          { id: 'eira', label: '📋 EIRA Licenses' },
-          { id: 'aml', label: '🔒 AML / KYC' },
-        ].map(t => (
-          <button
-            key={t.id}
-            className={`compliance-tab${tab === t.id ? ' active' : ''}`}
-            onClick={() => setTab(t.id)}
-          >
-            {t.label}
-          </button>
-        ))}
+          { id: 'vat', label: 'VAT & Stamp Duty', icon: Receipt },
+          { id: 'eira', label: 'EIRA Licenses', icon: FileText },
+          { id: 'aml', label: 'AML / KYC', icon: Lock },
+        ].map(t => {
+          const Icon = t.icon;
+          return (
+            <button
+              key={t.id}
+              className={`compliance-tab${tab === t.id ? ' active' : ''}`}
+              onClick={() => setTab(t.id)}
+            >
+              <Icon size={14} strokeWidth={1.75} /> {t.label}
+            </button>
+          );
+        })}
       </div>
 
       {tab === 'vat' && <VATCalculator />}

@@ -1,8 +1,16 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Building2, CheckCircle, Handshake, Users, Calculator } from 'lucide-react';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 import { properties, owners } from '../services/api';
 import './DashboardPage.css';
+
+const STATUS_COLORS = {
+  available: '#1DB954',
+  under_offer: '#D4AF37',
+  sold: '#c0392b',
+  rented: '#2980b9',
+};
 
 function StatCard({ icon: Icon, label, value, color, linkTo }) {
   return (
@@ -17,6 +25,90 @@ function StatCard({ icon: Icon, label, value, color, linkTo }) {
   );
 }
 
+function StatusPieChart({ stats }) {
+  const data = [
+    { name: 'Available', value: stats.available, color: STATUS_COLORS.available },
+    { name: 'Under Offer', value: stats.underOffer, color: STATUS_COLORS.under_offer },
+    { name: 'Sold', value: stats.sold, color: STATUS_COLORS.sold },
+    { name: 'Rented', value: stats.rented, color: STATUS_COLORS.rented },
+  ].filter(d => d.value > 0);
+
+  if (data.length === 0) return <div className="chart-empty">No data yet</div>;
+
+  return (
+    <ResponsiveContainer width="100%" height={200}>
+      <PieChart>
+        <Pie
+          data={data}
+          cx="50%"
+          cy="50%"
+          innerRadius={55}
+          outerRadius={85}
+          paddingAngle={3}
+          dataKey="value"
+        >
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={entry.color} />
+          ))}
+        </Pie>
+        <Tooltip
+          formatter={(value, name) => [value, name]}
+          contentStyle={{
+            background: 'var(--bg-secondary)',
+            border: '1px solid var(--glass-border)',
+            borderRadius: 8,
+            color: 'var(--text-primary)',
+            fontSize: 12,
+          }}
+        />
+      </PieChart>
+    </ResponsiveContainer>
+  );
+}
+
+function PriceTypeChart({ properties: props }) {
+  if (!props || props.length === 0) return <div className="chart-empty">No data yet</div>;
+
+  const typeMap = {};
+  props.forEach(p => {
+    const type = p.propertyType || 'other';
+    if (!typeMap[type]) typeMap[type] = { type, count: 0, totalPrice: 0 };
+    typeMap[type].count++;
+    typeMap[type].totalPrice += Number(p.price) || 0;
+  });
+
+  const data = Object.values(typeMap)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 6)
+    .map(d => ({
+      type: d.type.charAt(0).toUpperCase() + d.type.slice(1),
+      count: d.count,
+      avgPrice: Math.round(d.totalPrice / d.count / 1000),
+    }));
+
+  return (
+    <ResponsiveContainer width="100%" height={200}>
+      <BarChart data={data} margin={{ top: 4, right: 8, bottom: 4, left: -16 }}>
+        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+        <XAxis dataKey="type" tick={{ fontSize: 11, fill: 'var(--text-muted)' }} />
+        <YAxis tick={{ fontSize: 11, fill: 'var(--text-muted)' }} />
+        <Tooltip
+          contentStyle={{
+            background: 'var(--bg-secondary)',
+            border: '1px solid var(--glass-border)',
+            borderRadius: 8,
+            color: 'var(--text-primary)',
+            fontSize: 12,
+          }}
+          formatter={(value, name) => [name === 'count' ? `${value} properties` : `€${value}k avg`, name === 'count' ? 'Count' : 'Avg Price']}
+        />
+        <Legend wrapperStyle={{ fontSize: 11 }} />
+        <Bar dataKey="count" fill="#D4AF37" name="Count" radius={[4, 4, 0, 0]} />
+      </BarChart>
+    </ResponsiveContainer>
+  );
+}
+
 function DashboardPage() {
   const [stats, setStats] = useState({
     totalProperties: 0,
@@ -27,6 +119,7 @@ function DashboardPage() {
     underOffer: 0
   });
   const [recentProperties, setRecentProperties] = useState([]);
+  const [allProperties, setAllProperties] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -49,6 +142,7 @@ function DashboardPage() {
             underOffer: props.filter(p => p.status === 'under_offer').length
           });
           setRecentProperties(props.slice(0, 5));
+          setAllProperties(props);
         }
       } catch (err) {
         console.error('Failed to load dashboard stats:', err);
@@ -95,70 +189,79 @@ function DashboardPage() {
           </div>
         </div>
       ) : (
-        <div className="dashboard-grid">
-          {/* Recent Properties */}
-          <div className="card recent-section">
-            <div className="section-header">
-              <h3>Recent Properties</h3>
-              <Link to="/properties" className="btn btn-outline btn-sm">View all</Link>
-            </div>
-            {recentProperties.length === 0 ? (
-              <div className="empty-state">
-                <div className="empty-icon"><Building2 size={32} strokeWidth={1.25} style={{color:'var(--text-muted)'}} /></div>
-                <p>No properties yet</p>
+        <>
+          <div className="dashboard-grid">
+            {/* Recent Properties */}
+            <div className="card recent-section">
+              <div className="section-header">
+                <h3>Recent Properties</h3>
+                <Link to="/properties" className="btn btn-outline btn-sm">View all</Link>
               </div>
-            ) : (
-              <div className="table-container">
-                <table className="data-table">
-                  <thead>
-                    <tr>
-                      <th>Title</th>
-                      <th>Type</th>
-                      <th>Price</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {recentProperties.map(p => (
-                      <tr key={p.id}>
-                        <td><strong>{p.title}</strong><br /><small style={{color:'var(--text-light)'}}>{p.city}</small></td>
-                        <td style={{textTransform:'capitalize'}}>{p.propertyType}</td>
-                        <td>€{Number(p.price).toLocaleString()}</td>
-                        <td><span className={`badge badge-${p.status}`}>{p.status.replace('_', ' ')}</span></td>
+              {recentProperties.length === 0 ? (
+                <div className="empty-state">
+                  <div className="empty-icon"><Building2 size={32} strokeWidth={1.25} style={{color:'var(--text-muted)'}} /></div>
+                  <p>No properties yet</p>
+                </div>
+              ) : (
+                <div className="table-container">
+                  <table className="data-table">
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Price</th>
+                        <th>Status</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {recentProperties.map(p => (
+                        <tr key={p.id}>
+                          <td><strong>{p.title}</strong><br /><small style={{color:'var(--text-light)'}}>{p.city}</small></td>
+                          <td style={{textTransform:'capitalize'}}>{p.propertyType}</td>
+                          <td>€{Number(p.price).toLocaleString()}</td>
+                          <td><span className={`badge badge-${p.status}`}>{p.status.replace('_', ' ')}</span></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+
+            {/* Pie chart */}
+            <div className="card quick-stats">
+              <h3>Property Status Mix</h3>
+              <StatusPieChart stats={stats} />
+              <div className="pie-legend">
+                {[
+                  { label: 'Available', color: STATUS_COLORS.available },
+                  { label: 'Under Offer', color: STATUS_COLORS.under_offer },
+                  { label: 'Sold', color: STATUS_COLORS.sold },
+                  { label: 'Rented', color: STATUS_COLORS.rented },
+                ].map(l => (
+                  <span key={l.label} className="pie-legend-item">
+                    <span className="pie-legend-dot" style={{ background: l.color }} />
+                    {l.label}
+                  </span>
+                ))}
               </div>
-            )}
+            </div>
           </div>
 
-          {/* Quick stats */}
-          <div className="card quick-stats">
-            <h3>Property Status Breakdown</h3>
-            <div className="status-breakdown">
-              {[
-                { label: 'Available', value: stats.available, color: 'var(--success)', percent: stats.totalProperties ? (stats.available / stats.totalProperties * 100) : 0 },
-                { label: 'Under Offer', value: stats.underOffer, color: 'var(--accent)', percent: stats.totalProperties ? (stats.underOffer / stats.totalProperties * 100) : 0 },
-                { label: 'Sold', value: stats.sold, color: 'var(--danger)', percent: stats.totalProperties ? (stats.sold / stats.totalProperties * 100) : 0 },
-                { label: 'Rented', value: stats.rented, color: 'var(--info)', percent: stats.totalProperties ? (stats.rented / stats.totalProperties * 100) : 0 }
-              ].map(s => (
-                <div key={s.label} className="status-item">
-                  <div className="status-row">
-                    <span className="status-name">{s.label}</span>
-                    <span className="status-count">{s.value}</span>
-                  </div>
-                  <div className="progress-bar">
-                    <div className="progress-fill" style={{ width: `${s.percent}%`, background: s.color }} />
-                  </div>
-                </div>
-              ))}
+          {/* Bar chart */}
+          {allProperties.length > 0 && (
+            <div className="card" style={{ marginTop: 24 }}>
+              <div className="section-header" style={{ marginBottom: 12 }}>
+                <h3>Properties by Type</h3>
+              </div>
+              <PriceTypeChart properties={allProperties} />
             </div>
-          </div>
-        </div>
+          )}
+        </>
       )}
     </div>
   );
 }
 
 export default DashboardPage;
+

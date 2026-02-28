@@ -99,7 +99,7 @@ function GlobalSearch() {
       >
         <Search size={15} strokeWidth={1.75} />
         <span>Search…</span>
-        <kbd>⌘K</kbd>
+        <kbd>{navigator.platform.includes('Mac') ? '⌘K' : 'Ctrl+K'}</kbd>
       </button>
     );
   }

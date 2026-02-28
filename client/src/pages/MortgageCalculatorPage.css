@@ -184,3 +184,37 @@
     padding: 20px 16px;
   }
 }
+
+/* Tabs */
+.mortgage-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.mortgage-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 22px;
+  border-radius: 10px;
+  background: var(--glass-bg);
+  border: 1.5px solid var(--glass-border);
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.mortgage-tab:hover {
+  border-color: var(--gold-primary);
+  color: var(--text-primary);
+}
+
+.mortgage-tab.active {
+  background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(212,175,55,0.05));
+  border-color: var(--gold-primary);
+  color: var(--gold-primary);
+}
