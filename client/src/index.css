@@ -26,10 +26,11 @@
   --glass-green: rgba(29, 185, 84, 0.12);
   --emerald-primary: #2D6A4F;
   --emerald-light: #40916C;
+  --emerald-glow: rgba(45, 106, 79, 0.3);
 }
 
 [data-theme="light"] {
-  --bg-primary: #F5F5F7;
+  --bg-primary: #EDECEA;
   --bg-secondary: #FFFFFF;
   --bg-tertiary: #EAEAEE;
   --text-primary: #0D0D0F;
@@ -49,6 +50,7 @@
   --glass-green: rgba(29, 185, 84, 0.08);
   --emerald-primary: #2D6A4F;
   --emerald-light: #40916C;
+  --emerald-glow: rgba(45, 106, 79, 0.15);
 }
 
 * {
@@ -225,6 +227,17 @@ input, select, textarea {
 .btn-danger:hover {
   transform: translateY(-1px);
   box-shadow: 0 6px 18px rgba(192, 57, 43, 0.4);
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, #c97a10 0%, var(--warning) 100%);
+  color: white;
+  border-color: var(--warning);
+  box-shadow: 0 3px 10px rgba(230, 126, 34, 0.3);
+}
+.btn-warning:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(230, 126, 34, 0.4);
 }
 
 .btn-sm {

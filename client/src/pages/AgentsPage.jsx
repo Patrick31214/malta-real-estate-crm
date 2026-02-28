@@ -51,10 +51,10 @@ function AgentsPage() {
     }
   };
 
-  const handleBlock = async (id, currentlyActive) => {
-    const action = currentlyActive ? 'block' : 'unblock';
+  const handleBlock = async (id, currentlyBlocked) => {
+    const action = currentlyBlocked ? 'unblock' : 'block';
     if (!confirm(`Are you sure you want to ${action} this agent's account?`)) return;
-    const res = await agents.block(id, currentlyActive);
+    const res = await agents.block(id, !currentlyBlocked);
     if (res.success) {
       showToast(`Agent ${action}ed successfully.`);
       fetchAgents(pagination.page);
@@ -156,20 +156,32 @@ function AgentsPage() {
                     <td>{a.commissionRate ? `${a.commissionRate}%` : '—'}</td>
                     <td>{a.yearsExperience ? `${a.yearsExperience}y` : '—'}</td>
                     <td>
-                      <span className={`badge ${a.user?.isActive !== false ? 'badge-available' : 'badge-withdrawn'}`}>
-                        {a.user?.isActive !== false ? 'Active' : 'Blocked'}
-                      </span>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                        <span className={`badge ${a.user?.isBlocked ? 'badge-withdrawn' : (a.user?.isActive !== false ? 'badge-available' : 'badge-withdrawn')}`}>
+                          {a.user?.isBlocked ? 'Blocked' : (a.user?.isActive !== false ? 'Active' : 'Inactive')}
+                        </span>
+                        {a.user?.isBlocked && a.user?.blockedReason && (
+                          <span style={{ fontSize: 11, color: 'var(--text-muted)' }} title={a.user.blockedReason}>
+                            {a.user.blockedReason.slice(0, 30)}{a.user.blockedReason.length > 30 ? '…' : ''}
+                          </span>
+                        )}
+                        {a.user?.isBlocked && !a.user?.blockedReason && (
+                          <span className="badge" style={{ fontSize: 10, background: 'rgba(192,57,43,0.1)', color: '#922b21', border: '1px solid rgba(192,57,43,0.2)' }}>
+                            Auto-blocked
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td>
                       <div className="action-btns">
                         <button className="btn btn-outline btn-sm" onClick={() => { setEditAgent(a); setModalOpen(true); }}>Edit</button>
                         {isAdmin && (
                           <button
-                            className={`btn btn-sm ${a.user?.isActive !== false ? 'btn-warning' : 'btn-accent'}`}
-                            onClick={() => handleBlock(a.id, a.user?.isActive !== false)}
-                            title={a.user?.isActive !== false ? 'Block this agent' : 'Unblock this agent'}
+                            className={`btn btn-sm ${a.user?.isBlocked ? 'btn-accent' : 'btn-warning'}`}
+                            onClick={() => handleBlock(a.id, !!a.user?.isBlocked)}
+                            title={a.user?.isBlocked ? 'Unblock this agent' : 'Block this agent'}
                           >
-                            {a.user?.isActive !== false ? '🔒 Block' : '🔓 Unblock'}
+                            {a.user?.isBlocked ? '🔓 Unblock' : '🔒 Block'}
                           </button>
                         )}
                         <button className="btn btn-danger btn-sm" onClick={() => handleDelete(a.id)}>Del</button>

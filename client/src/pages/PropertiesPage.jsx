@@ -1,14 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { properties, auth } from '../services/api';
 import PropertyModal from '../components/PropertyModal';
 import './PropertiesPage.css';
 
 const PROPERTY_TYPES = ['apartment', 'house', 'villa', 'townhouse', 'penthouse', 'maisonette', 'farmhouse', 'commercial', 'office', 'land', 'garage', 'other'];
-const STATUSES = ['available', 'under_offer', 'sold', 'rented', 'withdrawn', 'draft'];
+const STATUSES = ['available', 'under_offer', 'sold', 'rented', 'withdrawn', 'draft', 'off_market'];
 
 function PropertiesPage() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [propertyList, setPropertyList] = useState([]);
   const [pagination, setPagination] = useState({ total: 0, page: 1, limit: 20, totalPages: 0 });
   const [loading, setLoading] = useState(true);
@@ -82,6 +83,15 @@ function PropertiesPage() {
     showToast(editProperty ? 'Property updated.' : 'Property created.');
   };
 
+  const handleStatusChange = async (id, newStatus) => {
+    const res = await properties.update(id, { status: newStatus });
+    if (res.success) {
+      setPropertyList(list => list.map(p => p.id === id ? { ...p, status: newStatus } : p));
+    } else {
+      showToast('Failed to update status.', 'error');
+    }
+  };
+
   return (
     <div className="properties-page">
       {/* Toolbar */}
@@ -137,6 +147,7 @@ function PropertiesPage() {
             <table className="data-table">
               <thead>
                 <tr>
+                  <th style={{width:60}}></th>
                   <th>Property</th>
                   <th>Type</th>
                   <th>Listing</th>
@@ -150,8 +161,26 @@ function PropertiesPage() {
               <tbody>
                 {propertyList.map(p => (
                   <tr key={p.id}>
+                    <td style={{padding:'8px 8px'}}>
+                      {p.images && p.images[0] ? (
+                        <img
+                          src={p.images[0]}
+                          alt={p.title}
+                          style={{width:60,height:60,objectFit:'cover',borderRadius:8,display:'block',cursor:'pointer'}}
+                          onClick={() => navigate(`/properties/${p.id}`)}
+                        />
+                      ) : (
+                        <div style={{width:60,height:60,borderRadius:8,background:'var(--bg-tertiary)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:22}}>🏠</div>
+                      )}
+                    </td>
                     <td>
-                      <div className="prop-title">{p.title}</div>
+                      <div
+                        className="prop-title prop-title-link"
+                        onClick={() => navigate(`/properties/${p.id}`)}
+                        style={{cursor:'pointer'}}
+                      >
+                        {p.title}
+                      </div>
                       <div className="prop-location">📍 {p.address}, {p.city}</div>
                     </td>
                     <td style={{textTransform:'capitalize'}}>{p.propertyType}</td>
@@ -161,7 +190,17 @@ function PropertiesPage() {
                       {p.bedrooms != null ? `🛏 ${p.bedrooms}` : '—'}
                       {p.bathrooms != null ? ` 🚿 ${p.bathrooms}` : ''}
                     </td>
-                    <td><span className={`badge badge-${p.status}`}>{p.status.replace('_', ' ')}</span></td>
+                    <td>
+                      <select
+                        className="status-quick-select"
+                        value={p.status}
+                        onChange={e => handleStatusChange(p.id, e.target.value)}
+                      >
+                        {STATUSES.map(s => (
+                          <option key={s} value={s}>{s.replace(/_/g, ' ')}</option>
+                        ))}
+                      </select>
+                    </td>
                     <td>
                       <span className={`badge badge-${p.approvalStatus || 'pending'}`}>
                         {p.approvalStatus || 'pending'}

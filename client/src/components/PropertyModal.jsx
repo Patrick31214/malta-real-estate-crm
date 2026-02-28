@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { properties, owners } from '../services/api';
+import { useState, useEffect, useRef } from 'react';
+import { properties, owners, upload } from '../services/api';
 import './Modal.css';
 
 const PROPERTY_TYPES = ['apartment', 'house', 'villa', 'townhouse', 'penthouse', 'maisonette', 'farmhouse', 'commercial', 'office', 'land', 'garage', 'other'];
@@ -10,14 +10,17 @@ const defaultForm = {
   title: '', description: '', propertyType: 'apartment', listingType: 'sale',
   status: 'draft', price: '', currency: 'EUR', bedrooms: '', bathrooms: '',
   squareMeters: '', address: '', city: 'Valletta', country: 'Malta',
-  ownerId: '', featured: false
+  ownerId: '', featured: false, rentalType: '', availableFrom: '', images: []
 };
 
 function PropertyModal({ property, onClose, onSaved }) {
   const [form, setForm] = useState(defaultForm);
   const [ownerList, setOwnerList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     // Load owners for select
@@ -42,7 +45,10 @@ function PropertyModal({ property, onClose, onSaved }) {
         city: property.city || 'Valletta',
         country: property.country || 'Malta',
         ownerId: property.ownerId || '',
-        featured: property.featured || false
+        featured: property.featured || false,
+        rentalType: property.rentalType || '',
+        availableFrom: property.availableFrom ? property.availableFrom.slice(0, 10) : '',
+        images: Array.isArray(property.images) ? property.images : [],
       });
     }
   }, [property]);
@@ -50,6 +56,44 @@ function PropertyModal({ property, onClose, onSaved }) {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm(f => ({ ...f, [name]: type === 'checkbox' ? checked : value }));
+  };
+
+  const handleFileUpload = async (files) => {
+    if (!files || files.length === 0) return;
+    setUploading(true);
+    try {
+      const res = await upload.files(files);
+      if (res.success && res.data?.urls) {
+        setForm(f => ({ ...f, images: [...f.images, ...res.data.urls] }));
+      } else if (res.urls) {
+        setForm(f => ({ ...f, images: [...f.images, ...res.urls] }));
+      }
+    } catch {
+      setError('Image upload failed.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleAddImageUrl = () => {
+    const url = imageUrl.trim();
+    if (!url) return;
+    try {
+      const parsed = new URL(url);
+      if (!['http:', 'https:'].includes(parsed.protocol)) {
+        setError('Please enter a valid HTTP/HTTPS image URL.');
+        return;
+      }
+    } catch {
+      setError('Please enter a valid URL.');
+      return;
+    }
+    setForm(f => ({ ...f, images: [...f.images, url] }));
+    setImageUrl('');
+  };
+
+  const handleRemoveImage = (idx) => {
+    setForm(f => ({ ...f, images: f.images.filter((_, i) => i !== idx) }));
   };
 
   const handleSubmit = async (e) => {
@@ -167,6 +211,69 @@ function PropertyModal({ property, onClose, onSaved }) {
           <div className="form-group">
             <label>Description</label>
             <textarea name="description" className="form-input" rows={3} value={form.description} onChange={handleChange} placeholder="Describe the property…" style={{resize:'vertical'}} />
+          </div>
+
+          {/* Rental-specific fields */}
+          {form.listingType === 'rent' && (
+            <div className="form-row">
+              <div className="form-group">
+                <label>Rental Type</label>
+                <select name="rentalType" className="form-input" value={form.rentalType} onChange={handleChange}>
+                  <option value="">Select…</option>
+                  <option value="short">Short Term</option>
+                  <option value="long">Long Term</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Available From</label>
+                <input name="availableFrom" type="date" className="form-input" value={form.availableFrom} onChange={handleChange} />
+              </div>
+            </div>
+          )}
+
+          {/* Images */}
+          <div className="form-group">
+            <label>Images</label>
+            {/* URL input */}
+            <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+              <input
+                type="url"
+                className="form-input"
+                value={imageUrl}
+                onChange={e => setImageUrl(e.target.value)}
+                placeholder="Paste image URL and click Add"
+                style={{ flex: 1 }}
+              />
+              <button type="button" className="btn btn-outline btn-sm" onClick={handleAddImageUrl}>Add URL</button>
+            </div>
+            {/* File upload */}
+            <div
+              className="upload-drop-area"
+              onClick={() => fileInputRef.current?.click()}
+              onDragOver={e => e.preventDefault()}
+              onDrop={e => { e.preventDefault(); handleFileUpload(e.dataTransfer.files); }}
+            >
+              {uploading ? '⏳ Uploading…' : '📁 Drag & drop images here, or click to browse'}
+            </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              style={{ display: 'none' }}
+              onChange={e => handleFileUpload(e.target.files)}
+            />
+            {/* Previews */}
+            {form.images.length > 0 && (
+              <div className="image-previews">
+                {form.images.map((url, i) => (
+                  <div key={i} className="image-preview-item">
+                    <img src={url} alt={`Image ${i + 1}`} onError={e => { e.target.style.opacity = 0.3; }} />
+                    <button type="button" className="remove-image-btn" onClick={() => handleRemoveImage(i)}>✕</button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="form-group-inline">
