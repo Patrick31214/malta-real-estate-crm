@@ -124,6 +124,34 @@ if %ERRORLEVEL% GEQ 8 (
 echo   [OK] Files updated.
 echo.
 
+REM ── Patch database.js (remove sequelize.sync() if the downloaded code has it) ─
+REM    The downloaded code from the main GitHub branch may still contain an
+REM    "await sequelize.sync()" call that causes the server to crash on startup.
+REM    This step removes it so the CRM works immediately after downloading.
+REM    The patch is safe to run on every update — it is a no-op when the line
+REM    is already absent (i.e. after the fix is merged into the main branch).
+REM    The temp .ps1 file is created in %TEMP% so robocopy (which only writes
+REM    to %CD%) never touches it.
+echo   Applying database.js compatibility patch...
+
+REM  The temp .ps1 is written to %TEMP%, which robocopy never touches.
+REM  (Robocopy only copies to %CD% — the CRM folder — so a .ps1 in %TEMP%
+REM   is completely safe here, unlike a .ps1 placed inside the project folder.)
+set "_DLPS1=%TEMP%\malta-dl-patch-%RANDOM%.ps1"
+echo $f = [System.IO.Path]::GetFullPath('src\config\database.js') > "%_DLPS1%"
+echo if (Test-Path $f) { >> "%_DLPS1%"
+echo   $c = [IO.File]::ReadAllText($f) >> "%_DLPS1%"
+echo   $c = $c -replace '(?m)^^[ \t]*// Sync models with database.*[\r\n]+', '' >> "%_DLPS1%"
+echo   $c = $c -replace '(?m)^^[ \t]*// or drop existing ones.*[\r\n]+', '' >> "%_DLPS1%"
+echo   $c = $c -replace '(?m)^^[ \t]*await sequelize[.]sync[(][)];.*[\r\n]+', '' >> "%_DLPS1%"
+echo   $c = $c -replace '(?m)^^[ \t]*console[.]log.*Database models synchronized.*[\r\n]+', '' >> "%_DLPS1%"
+echo   [IO.File]::WriteAllText($f, $c) >> "%_DLPS1%"
+echo } >> "%_DLPS1%"
+powershell -NoProfile -ExecutionPolicy Bypass -File "%_DLPS1%" >nul 2>nul
+del /f /q "%_DLPS1%" >nul 2>nul
+echo   [OK] database.js patched.
+echo.
+
 REM ── Clean up temp files ───────────────────────────────────────────────────────
 del /f /q "%TMPDIR%.zip" >nul 2>nul
 rd /s /q "%TMPDIR%" >nul 2>nul
@@ -141,38 +169,23 @@ if %ERRORLEVEL% NEQ 0 (
 )
 echo.
 
-REM ── Rebuild the React frontend ───────────────────────────────────────────────
-echo [6/6] Rebuilding the CRM interface pages...
+REM ── Install client (frontend) packages ──────────────────────────────────────
+echo [6/6] Installing frontend packages...
 if exist "client\package.json" (
-    if not exist "client\node_modules" (
-        echo   First-time: installing interface packages (2-3 minutes)...
-        cd client
-        call npm install
-        if %ERRORLEVEL% NEQ 0 (
-            echo.
-            echo   [X] Failed to install interface packages.
-            echo       Check your internet connection and try again.
-            cd ..
-            pause
-            exit /b 1
-        )
-        cd ..
-    )
-    call npm run client:build
+    cd client
+    call npm install
     if %ERRORLEVEL% NEQ 0 (
         echo.
-        echo   [X] Failed to rebuild the CRM interface.
-        echo.
-        echo   Common causes:
-        echo     - Node.js too old (v16+ required).  Check: node --version
-        echo     - Try: delete the client\node_modules folder and run again.
-        echo.
+        echo   [X] Failed to install frontend packages.
+        echo       Check your internet connection and try again.
+        cd ..
         pause
         exit /b 1
     )
-    echo   [OK] CRM interface rebuilt.
+    cd ..
+    echo   [OK] Frontend packages installed.
 ) else (
-    echo   [SKIP] client\package.json not found - skipping interface rebuild.
+    echo   [SKIP] client\package.json not found - skipping frontend install.
 )
 echo.
 
@@ -180,22 +193,17 @@ echo ============================================================
 echo   SUCCESS!  Your CRM code is now up to date.
 echo ============================================================
 echo.
-echo   NEXT STEP — Restart the CRM to load the new pages:
+echo   NEXT STEP — Start the CRM:
 echo.
-echo     1. Close the CRM server window (the black window that
-echo        says "Server is running on port 3001") if it is open.
+echo     1. Close the CRM if it is already running:
+echo        Close the black Command Prompt window labelled
+echo        "Malta CRM - Backend" or "Malta CRM - Frontend".
 echo.
-echo     2. Double-click  quick-start.bat  in this folder.
-echo        Your browser will open at  http://localhost:3001
+echo     2. Double-click  START-CRM.bat  in this folder.
+echo        Your browser will open at  http://localhost:3000
 echo.
 echo     3. Log in with your usual email and password.
-echo        (If you reset the database: admin@maltarealestate.com / Password123!)
-echo.
-echo   NEW IN THIS UPDATE:
-echo     - Agents page  (sidebar → Agents 👔)
-echo       Add/edit/remove agents and create their CRM login.
-echo     - Public listings website  (sidebar → Website → Public Listings 🌐)
-echo       A no-login page your clients can browse at /listings
+echo        (Default: admin@maltarealestate.com / Password123!)
 echo.
 echo ============================================================
 echo.

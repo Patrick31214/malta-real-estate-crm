@@ -5,12 +5,14 @@ const pageTitles = {
   '/dashboard': 'Dashboard',
   '/properties': 'Properties',
   '/owners': 'Owners',
-  '/inquiries': 'Inquiries'
+  '/inquiries': 'Inquiries',
+  '/agents': 'Agents',
+  '/activity-log': 'Activity Log'
 };
 
 function Header({ onMenuClick }) {
   const location = useLocation();
-  const title = pageTitles[location.pathname] || 'Malta Real Estate CRM';
+  const title = pageTitles[location.pathname] || 'Golden Key Realty';
 
   return (
     <header className="app-header">
@@ -21,7 +23,7 @@ function Header({ onMenuClick }) {
         <h1 className="page-title">{title}</h1>
       </div>
       <div className="header-right">
-        <span className="header-badge">🇲🇹 Malta</span>
+        <span className="header-badge">🗝️ Golden Key Realty</span>
       </div>
     </header>
   );

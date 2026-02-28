@@ -29,7 +29,16 @@
 .filter-select {
   flex: 0 0 150px;
   min-width: 0;
+  padding: 10px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--text-dark);
+  background: rgba(255,255,255,0.75);
+  cursor: pointer;
+  transition: border-color 0.2s;
 }
+.filter-select:focus { border-color: var(--primary); outline: none; }
 
 .result-count {
   font-size: 13px;
@@ -61,7 +70,8 @@
 
 .action-btns {
   display: flex;
-  gap: 6px;
+  gap: 5px;
+  flex-wrap: wrap;
 }
 
 /* Pagination */
@@ -70,28 +80,32 @@
   gap: 6px;
   justify-content: center;
   padding: 8px;
+  flex-wrap: wrap;
 }
 
 .page-btn {
-  width: 36px;
-  height: 36px;
+  padding: 7px 14px;
   border: 1.5px solid var(--border);
   border-radius: var(--radius-sm);
-  background: white;
+  background: var(--glass-bg);
   color: var(--text-medium);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.2s;
+  backdrop-filter: blur(4px);
 }
 
 .page-btn:hover {
   border-color: var(--primary);
   color: var(--primary);
+  background: rgba(31,110,69,0.08);
+  transform: translateY(-1px);
 }
 
 .page-btn.active {
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
   border-color: var(--primary);
   color: white;
+  font-weight: 700;
 }

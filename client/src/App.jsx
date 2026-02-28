@@ -6,6 +6,7 @@ import OwnersPage from './pages/OwnersPage';
 import InquiriesPage from './pages/InquiriesPage';
 import AgentsPage from './pages/AgentsPage';
 import ListingsPage from './pages/ListingsPage';
+import ActivityLogPage from './pages/ActivityLogPage';
 import Layout from './components/Layout';
 import { auth } from './services/api';
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="owners" element={<OwnersPage />} />
           <Route path="inquiries" element={<InquiriesPage />} />
           <Route path="agents" element={<AgentsPage />} />
+          <Route path="activity-log" element={<ActivityLogPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>

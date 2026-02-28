@@ -1,1121 +1,371 @@
-MALTA CRM - HOW TO START (STEP BY STEP)
-=========================================
+GOLDEN KEY REALTY – CRM COMPLETE SETUP GUIDE
+=============================================
+Last updated: 2025
+
+══════════════════════════════════════════════════════════════════
+IMPORTANT: READ THIS BEFORE DOING ANYTHING
+══════════════════════════════════════════════════════════════════
+
+WHY SOME LINKS DON'T WORK:
+---------------------------
+• START-CRM.bat     → This is the main launcher. Use this EVERY time.
+• start-windows.bat → This builds the production version. It needs
+                      PostgreSQL installed FIRST. If PostgreSQL is not
+                      running, it will close immediately (this is normal).
+• GET-LATEST.bat    → This needs Git installed. If Git is not installed
+                      it will close immediately. Use DOWNLOAD-LATEST.bat
+                      instead to get the latest code.
+• All .bat files    → They CLOSE IMMEDIATELY if something is wrong.
+                      Read the COMMON PROBLEMS section below if this happens.
+
+THE RULE: Always use START-CRM.bat to open the CRM.
+          If START-CRM.bat works, use that and nothing else.
+
+══════════════════════════════════════════════════════════════════
+STEP 1 – INSTALL REQUIRED SOFTWARE (FIRST TIME ONLY)
+══════════════════════════════════════════════════════════════════
+
+A) Install Node.js (Required)
+   1. Go to: https://nodejs.org/
+   2. Download the "LTS" version (the green button)
+   3. Run the installer, click Next → Next → Install
+   4. When finished, RESTART your computer
+
+B) Install PostgreSQL (Required for the database)
+   1. Go to: https://www.postgresql.org/download/windows/
+   2. Click "Download the installer"
+   3. Choose the latest version for Windows x86-64
+   4. Run the installer:
+      - Installation Directory: leave as default
+      - Select Components: leave all checked
+      - Data Directory: leave as default
+      - Password: WRITE THIS DOWN! You will need it later.
+        Example: MyPostgres2024!
+      - Port: 5432 (leave as default)
+      - Locale: leave as default
+   5. Click Next → Next → Finish
+   6. RESTART your computer after installation
+
+══════════════════════════════════════════════════════════════════
+STEP 2 – DOWNLOAD THE CRM FILES (FIRST TIME ONLY)
+══════════════════════════════════════════════════════════════════
+
+Option A – If you have Git installed:
+   1. Open Command Prompt (Win+R → type cmd → press Enter)
+   2. Navigate to where you want the files:
+      Example: cd C:\Users\YourName\Desktop
+   3. Run: git clone https://github.com/Patrick31214/malta-real-estate-crm.git
+   4. Then: cd malta-real-estate-crm
+
+Option B – Without Git (easier):
+   1. Go to: https://github.com/Patrick31214/malta-real-estate-crm
+   2. Click the green "<> Code" button
+   3. Click "Download ZIP"
+   4. RIGHT-CLICK the downloaded ZIP → "Extract All"
+   5. Choose your desktop or a folder you can find easily
+   6. Open the extracted folder "malta-real-estate-crm"
+
+══════════════════════════════════════════════════════════════════
+STEP 3 – CONFIGURE THE DATABASE PASSWORD
+══════════════════════════════════════════════════════════════════
+
+   1. Inside the malta-real-estate-crm folder, find the file ".env.example"
+   2. RIGHT-CLICK on it → "Copy"
+   3. RIGHT-CLICK on an empty area → "Paste"
+   4. Rename the copy to ".env" (remove the ".example" part)
+      Note: If Windows won't let you do this:
+      - Open Notepad
+      - Open the ".env.example" file from Notepad
+      - Click File → Save As
+      - In the filename box, type exactly: .env
+      - Change "Save as type" to "All Files (*.*)"
+      - Save in the malta-real-estate-crm folder
+   5. Open ".env" in Notepad
+   6. Find the line: DB_PASSWORD=your_password_here
+   7. Change "your_password_here" to YOUR PostgreSQL password
+      Example: DB_PASSWORD=MyPostgres2024!
+   8. Also change the JWT secrets (optional but recommended for security):
+      JWT_SECRET=any_long_random_text_here_at_least_32_characters
+      JWT_REFRESH_SECRET=different_long_random_text_here
+   9. Save the file (Ctrl+S) and close Notepad
+
+══════════════════════════════════════════════════════════════════
+STEP 4 – FIRST-TIME DATABASE SETUP (FIRST TIME ONLY)
+══════════════════════════════════════════════════════════════════
+
+   START-CRM.bat now creates the database and runs migrations automatically
+   every time it starts — so you do NOT need to run db:create or db:migrate
+   yourself.  The only thing you may want to run once, by hand, is the seed
+   command that loads sample data:
+
+   1. Open Command Prompt in the CRM folder:
+      - Hold Shift + Right-click on the malta-real-estate-crm folder
+      - Click "Open PowerShell window here" or "Open Command Prompt here"
+
+   2. Run this one command (first time only — skip if you already have data):
+      npm run db:seed
+
+   3. This adds sample properties, owners, and an admin account.
+
+   4. Default admin login (from sample data):
+      Email:    admin@maltarealestate.com
+      Password: Password123!
+
+      CHANGE THIS PASSWORD after first login!
+
+══════════════════════════════════════════════════════════════════
+STEP 5 – START THE CRM (EVERY TIME YOU WANT TO USE IT)
+══════════════════════════════════════════════════════════════════
+
+   1. Make sure PostgreSQL is running:
+      - Press Win+R → type "services.msc" → press Enter
+      - Find "postgresql-x64-xx" in the list
+      - If Status is not "Running", right-click → Start
+
+   2. Double-click START-CRM.bat in the malta-real-estate-crm folder
+      - It will open TWO windows:
+        Window 1 (this one): The backend API server
+        Window 2: The frontend interface
+      - Your browser will open automatically at http://localhost:3000
+      - Wait about 15-20 seconds for everything to start
+
+   3. If the browser doesn't open automatically:
+      - Open your browser
+      - Type: http://localhost:3000
+      - Press Enter
+
+══════════════════════════════════════════════════════════════════
+STEP 6 – CREATE YOUR ADMIN ACCOUNT (OPTIONAL)
+══════════════════════════════════════════════════════════════════
+
+   If you want to create a custom admin account:
+   1. Double-click CREATE-ADMIN.bat
+   2. Follow the prompts to enter your name, email, and password
+
+══════════════════════════════════════════════════════════════════
+GETTING THE LATEST CODE UPDATES
+══════════════════════════════════════════════════════════════════
+
+   Option A – If Git is installed:
+   1. Double-click GET-LATEST.bat
+   2. Wait for it to finish (it will say "SUCCESS" when done)
+   3. Then open START-CRM.bat as usual
+
+   Option B – Without Git:
+   1. Double-click DOWNLOAD-LATEST.bat
+   2. This downloads and installs the latest version automatically
+
+   After updating, rebuild the interface:
+   1. Open Command Prompt in the CRM folder
+   2. Run: npm run client:build
+   3. Then run: npm start
+
+══════════════════════════════════════════════════════════════════
+HOW TO ACCESS THE CRM
+══════════════════════════════════════════════════════════════════
+
+   CRM Dashboard:    http://localhost:3000
+   Public Website:   http://localhost:3000/listings
+   API (backend):    http://localhost:5000
+
+   When deployed online, replace "localhost:3000" with your domain.
+
+══════════════════════════════════════════════════════════════════
+CRM FEATURES OVERVIEW
+══════════════════════════════════════════════════════════════════
+
+DASHBOARD
+   - Overview of all properties, owners, availability stats
+   - Quick links to add owners and properties
+
+PROPERTIES
+   - Add, edit, delete properties
+   - Each new property needs ADMIN APPROVAL before going live on the website
+   - Admin/Manager can approve or reject listings directly from the table
+
+OWNERS
+   - Full database of property owners with contact details
+   - All agent access to owner details is tracked in the Activity Log
+
+AGENTS
+   - Add agents with profile photos (enter image URL)
+   - Each agent gets their own CRM login
+   - Admin can BLOCK or UNBLOCK agent accounts
+   - A temporary password is shown when creating a new agent
+
+INQUIRIES
+   - Track all property inquiries from potential buyers/renters
+
+ACTIVITY LOG (Admin/Manager only)
+   - See every action performed by every agent
+   - Tracks: who viewed owner details, which owners, when
+   - Helps you monitor agent activity and security
+
+PUBLIC WEBSITE (/listings)
+   - Luxury branded public portal for Golden Key Realty
+   - Shows only APPROVED properties
+   - Tabs: Properties view + Demand Map
+   - Demand Map shows which areas in Malta have highest/lowest demand
+     and expected price per m²
+   - Clients can filter by type, price, bedrooms, etc.
+
+══════════════════════════════════════════════════════════════════
+BRAND INFORMATION
+══════════════════════════════════════════════════════════════════
+
+   Brand Name:  Golden Key Realty
+   Colors:      Luxury Glassmorphism — Deep Green + Champagne Gold
+   Icon:        🗝️ (Golden Key)
+
+══════════════════════════════════════════════════════════════════
+COMMON PROBLEMS
+══════════════════════════════════════════════════════════════════
+
+PROBLEM: 'column "createdAt" of relation "users" contains null values'
+SOLUTION:
+   EASIEST FIX — Use REINSTALL-CRM.bat (works from any folder):
+   1. Open https://github.com/Patrick31214/malta-real-estate-crm
+   2. Click REINSTALL-CRM.bat in the file list
+   3. Click the download icon (down-arrow near top-right of the page)
+      NOTE: If it saves as REINSTALL-CRM.bat.txt, rename it:
+            right-click the file → Rename → delete the ".txt" at the end
+   4. Double-click REINSTALL-CRM.bat — it does everything automatically.
+
+   QUICK FIX — If you already have START-CRM.bat working in the right folder:
+   1. Just double-click START-CRM.bat again.
+      START-CRM.bat now automatically fixes this crash before starting the
+      database — you may not need to do anything else.
+
+   MANUAL FIX — If you prefer to fix database.js yourself:
+   1. Open  src\config\database.js  in Notepad
+   2. Find and DELETE these lines (they may not all be present):
+        // Sync models with database ...
+        // or drop existing ones ...
+        await sequelize.sync();
+        console.log('... Database models synchronized ...');
+   3. Save the file, then double-click START-CRM.bat.
+
+PROBLEM: A .bat file opens and immediately closes (you see a flash of a window)
+SOLUTION — two options:
+   Option A — Check the error message:
+   1. Right-click the .bat file → "Edit" (opens in Notepad)
+   2. Scroll to the very end and add a new line:  pause
+   3. Save the file and double-click it — now you can read the error
+   4. Fix the error shown, then remove the  pause  line you added
+   Option B — Run REINSTALL-CRM.bat instead:
+   1. Download REINSTALL-CRM.bat from GitHub (see above)
+   2. Double-click it — it is designed to work from any folder
+
+PROBLEM: "PostgreSQL is NOT listening on port 5432"
+SOLUTION:
+   1. Press Win+R → type services.msc → press Enter
+   2. Find "postgresql-x64-16" (or similar) in the list
+   3. Right-click → Start
+   4. Wait 5 seconds, then run START-CRM.bat again
+
+PROBLEM: "DB_PASSWORD not set" or authentication failed
+SOLUTION:
+   1. Open .env in Notepad
+   2. Find: DB_PASSWORD=
+   3. Make sure it has your exact PostgreSQL password
+   4. No spaces around the = sign
+   5. Save and try again
+
+PROBLEM: Browser shows "Cannot connect" or blank page
+SOLUTION:
+   1. Check that the backend window is open (the black window)
+   2. If it shows an error, read it carefully
+   3. Most common fix: check your .env file has correct DB_PASSWORD
+   4. Try: http://localhost:3000
+
+PROBLEM: "I ran DOWNLOAD-LATEST but nothing changed / CRM looks the same"
+SOLUTION:
+   DOWNLOAD-LATEST downloads from the main GitHub branch.
+   Make sure you actually see the "SUCCESS!" message at the end of
+   DOWNLOAD-LATEST.bat.  If you do:
+   1. Close all open CRM windows (the black Command Prompt windows).
+   2. Double-click START-CRM.bat to restart.
+   3. Hold Ctrl+Shift+R in your browser to hard-refresh the page.
+   If you still see old content, the browser may be showing a cached page.
+
+PROBLEM: "START-CRM stopped working after running DOWNLOAD-LATEST"
+SOLUTION:
+   DOWNLOAD-LATEST updates the code, but START-CRM.bat now checks that
+   PostgreSQL is running before starting.  If PostgreSQL was stopped:
+   1. Press Win+R → type services.msc → press Enter
+   2. Find "postgresql-x64-16" (or similar) in the list
+   3. Right-click → Start
+   4. Wait 5 seconds, then double-click START-CRM.bat again
+   If PostgreSQL IS running, check that .env has the correct DB_PASSWORD.
+
+PROBLEM: "npm run client:dev gets a lot of errors"
+SOLUTION:
+   Do NOT run "npm run client:dev" by itself.
+   Always use START-CRM.bat — it installs all the required packages
+   and starts BOTH the backend and the frontend together.
+   If you must run it manually:
+   1. First make sure the backend is running: double-click START-CRM.bat.
+      The backend window (labelled "Malta CRM - Backend") must stay open.
+   2. Open a new Command Prompt in the malta-real-estate-crm folder
+   3. Run:  npm run client:install  (installs frontend packages)
+   4. Run:  npm run client:dev      (starts the frontend on port 3000)
+
+PROBLEM: GET-LATEST.bat closes immediately
+SOLUTION:
+   Use DOWNLOAD-LATEST.bat instead — it doesn't require Git.
+
+PROBLEM: start-windows.bat closes immediately
+SOLUTION:
+   This requires PostgreSQL. Check it's installed and running (see above).
+   Then make sure .env has the correct DB_PASSWORD.
+   Use START-CRM.bat instead for development mode.
+
+PROBLEM: "npm is not recognized"
+SOLUTION:
+   Node.js is not installed or not in PATH.
+   1. Download Node.js from https://nodejs.org/
+   2. Install it (LTS version)
+   3. RESTART your computer
+   4. Try again
+
+PROBLEM: Agent photos not showing
+SOLUTION:
+   Agent photos use URL links (not file uploads).
+   When adding/editing an agent, paste the full URL of their photo.
+   Example: https://example.com/agent-photo.jpg
+   The photo must be publicly accessible on the internet.
+
+══════════════════════════════════════════════════════════════════
+ONLINE DEPLOYMENT (HOSTING ON THE INTERNET)
+══════════════════════════════════════════════════════════════════
+
+   To make the CRM and website accessible online:
+
+   RECOMMENDED: Deploy to Railway.app or Render.com
+   ------------------------------------------------
+   1. Create account at https://railway.app or https://render.com
+   2. Connect your GitHub repository
+   3. Add environment variables (same as your .env file)
+   4. For the database, add a PostgreSQL service in the same project
+   5. Set NODE_ENV=production
+   6. Build command: npm run client:build
+   7. Start command: npm start
+   8. Railway/Render will give you a URL like: https://yourapp.railway.app
+
+   DOMAIN NAME:
+   - Buy a domain from Namecheap, GoDaddy, etc.
+   - Point it to your Railway/Render URL
+   - The public listing website will be at: https://yourdomain.com/listings
+
+══════════════════════════════════════════════════════════════════
+NEED HELP?
+══════════════════════════════════════════════════════════════════
+
+   If something isn't working:
+   1. Read the error message carefully
+   2. Check this file under "COMMON PROBLEMS"
+   3. Make sure all software is installed (Node.js, PostgreSQL)
+   4. Make sure .env has the correct database password
+   5. Open a GitHub issue at:
+      https://github.com/Patrick31214/malta-real-estate-crm/issues
 
-Do these steps IN ORDER, one at a time.
-
-
-================================================================
-WHAT IS THE MALTA CRM? — READ THIS FIRST IF YOU ARE A BEGINNER
-================================================================
-
-  The Malta Real Estate CRM is a PRIVATE WEB APPLICATION that runs
-  entirely on YOUR OWN COMPUTER.
-
-  It is NOT a WordPress plugin.
-  It is NOT something you paste into WordPress Elementor.
-  It is NOT hosted on the internet.
-
-  WHAT IT IS:
-    - A private website that runs only on your computer.
-    - You access it by typing  http://localhost:3001  in your browser.
-    - It has a Login Page (email + password) to keep it secure.
-    - After login, you see a Dashboard to manage your properties and owners.
-
-  HOW IT WORKS (two parts):
-    Part 1 — The ENGINE (backend):  start-windows.bat starts this.
-             This is a program running in a black window.
-             It also builds the CRM website on first run (takes 2-3 minutes).
-    Part 2 — THE WEBSITE (frontend):  built automatically by start-windows.bat.
-             After Part 1 is running, open http://localhost:3001 to use the CRM.
-
-  THE ONLY THING YOU NEED TO DO IS:
-    Double-click  start-windows.bat  in Windows Explorer.
-    Then wait about 2-3 minutes (first run only).
-    Your browser will open the CRM Login Page automatically.
-    Type your email and password, click Sign In — you're in!
-
-  ABOUT index.html (the helper page):
-    index.html is a STATUS CHECKER. It tells you if the server is running
-    and has a button to open the CRM login page. You can open it directly
-    by double-clicking it in Windows Explorer.
-    DO NOT copy its code into WordPress — it won't work there.
-
-  ABOUT WordPress:
-    This CRM does not need WordPress to work.
-    The CRM runs completely separately from WordPress.
-    If you want to later connect it to WordPress, that is a future step —
-    but for now, just use it at http://localhost:3001 directly in your browser.
-
-
-
-================================================================
-QUICK START — DOUBLE-CLICK start-windows.bat
-================================================================
-
-  This is the ONLY thing you need to do to start the CRM:
-
-  1. Open Windows Explorer (the yellow folder icon on your taskbar).
-
-  2. Go to your CRM folder:
-        C:\Users\USER\malta-crm\malta-real-estate-crm
-     (Replace USER with your actual Windows username.)
-
-  3. Double-click the file named:  start-windows.bat
-     A black window opens and starts running.
-
-  4. WAIT:
-     - FIRST TIME: Wait 2-3 minutes (it installs and builds the CRM interface).
-       The black window will print many lines — this is NORMAL.
-     - AFTER FIRST TIME: Wait about 20 seconds.
-
-  5. Your browser opens AUTOMATICALLY at http://localhost:3001
-     You will see a LOGIN PAGE with an Email and Password form.
-
-  6. Log in:
-     - If you set up your own account:  use your email and password.
-     - If you loaded sample/demo data:
-         Email:    admin@maltarealestate.com
-         Password: Password123!
-
-  7. After login you will see the CRM Dashboard where you can manage
-     properties, owners, and more.
-
-  NOTE: Keep the black window open while you use the CRM.
-        Closing it stops the server and the CRM stops working.
-
-  TIP: You can also double-click index.html to open a helper page
-       that shows whether the server is running and has a
-       "OPEN THE CRM LOGIN PAGE" button.
-
-
-
-================================================================
-IMPORTANT - READ THIS FIRST
-================================================================
-
-  There are TWO different things that look similar but are NOT the same:
-
-  [A] WINDOWS EXPLORER  = the yellow folder icon on your taskbar or desktop.
-       This is where you see your files and folders.
-       Its address bar shows a PATH like: C:\Users\YourName\...
-
-  [B] WEB BROWSER  = Chrome, Edge, or Firefox.
-       This opens websites. Its address bar shows web addresses like:
-       https://www.google.com
-
-  DO NOT type 'cmd' in your web browser - it will search Google.
-  You must open Windows Explorer (the yellow folder), NOT your browser.
-
-
-================================================================
-ABOUT start-windows.bat  (PLEASE READ - this causes confusion)
-================================================================
-
-  start-windows.bat is a PROGRAM, not a website link.
-
-  DO NOT try to open start-windows.bat in Chrome, Edge, or Firefox.
-  Typing "http//start-windows.bat" or dragging it into a browser will NOT work.
-  Opening it in Notepad will just show the script text - that is also wrong.
-
-  HOW TO RUN IT CORRECTLY:
-    Double-click start-windows.bat in Windows Explorer (the yellow folder).
-    A black Command Prompt window will open and run the CRM.
-
-  WHAT TO EXPECT — TWO windows will open, not one:
-
-  WINDOW 1 — "SETUP WINDOW" (the first window that appears):
-    - Shows progress messages like [1/4], [2/4], [3/4], [4/4].
-    - FIRST TIME ONLY: step [3/4] says "Building CRM interface pages..."
-      This takes 2-3 minutes. Do NOT close the window — just wait.
-    - After step [4/4], it shows "YOUR CRM IS NOW STARTING UP!" and the URL.
-    - This window then says "Press any key to close THIS setup window."
-      When you press a key THIS setup window closes. That is fine.
-      The CRM keeps running in Window 2.
-
-  WINDOW 2 — "Malta CRM Server - DO NOT CLOSE" (opens during step 4):
-    - A second black window opens with the title:
-        Malta CRM Server - DO NOT CLOSE
-    - This window is the ENGINE running your CRM.
-    - KEEP THIS WINDOW OPEN the whole time you use the CRM.
-    - If you close this window, the CRM stops.
-
-  BROWSER:
-    - About 8 seconds after step [4/4], your browser opens at:
-        http://localhost:3001
-    - You will see a LOGIN PAGE with Email and Password boxes.
-
-  IF YOU SEE RAW JSON TEXT IN THE BROWSER (not a login form):
-    The React pages did not build correctly.  How to fix:
-      1. Close BOTH black windows.
-      2. Check Node.js version: open a Command Prompt and type  node --version
-         You need v16 or newer. Download from https://nodejs.org/ if older.
-      3. Delete the folder: client\node_modules (if it exists).
-      4. Double-click start-windows.bat again and wait for the build.
-      If the error continues, copy the red error text and ask for help.
-
-  IF YOU PRESSED "ANY KEY" AND THE WINDOW CLOSED:
-    You probably pressed a key on the SETUP WINDOW (Window 1).
-    That is OK — closing Window 1 does NOT stop the CRM.
-    Look for the second window titled "Malta CRM Server - DO NOT CLOSE".
-    If that window is also closed, just double-click start-windows.bat again.
-
-  IF DOUBLE-CLICK OPENS NOTEPAD (shows lines of text starting with @echo):
-    Right-click on start-windows.bat  (hold right mouse button, then release)
-    Click "Open with"
-    Click "Choose another app" (or "Choose default program")
-    Scroll down and click "Windows Command Processor" or "cmd.exe"
-    Make sure "Always use this app" is NOT ticked
-    Click OK
-    The black window should now open and start the CRM.
-    OR: just use command prompt (see STEP 2 below).
-
-
-================================================================
-FILES IN THIS FOLDER - WHAT EACH ONE DOES
-================================================================
-
-  You will see several files in the malta-real-estate-crm folder.
-  Here is what each one is for:
-
-  start-windows.bat
-    ✔ THE MAIN FILE YOU NEED.
-    Double-click this to START the CRM.
-    It installs everything, builds the CRM pages,
-    and opens the CRM Login Page in your browser.
-
-  quick-start.bat
-    ✔ ALSO WORKS AS A STARTER - use this if start-windows.bat is not present.
-    Double-click this to check your setup AND start the CRM.
-    It checks Node.js and npm, installs packages, builds the CRM pages,
-    and opens the CRM Login Page in your browser - same as start-windows.bat.
-    If a check fails the window STAYS OPEN and tells you exactly what to fix.
-
-  quick-start.sh
-    ⚠ FOR MAC AND LINUX ONLY — DO NOT USE ON WINDOWS.
-    This file has a .sh extension which means it is a "shell script"
-    designed for Mac or Linux computers. On Windows, double-clicking it
-    will open and immediately close without doing anything useful.
-    IGNORE THIS FILE. Windows users use quick-start.bat instead.
-
-  run-crm.bat / START-CRM.bat
-    Older shortcuts that also start the CRM. If start-windows.bat works,
-    you do not need to use these.
-
-  DOWNLOAD-LATEST.bat
-    ✔ USE THIS WHEN TOLD TO "GET THE LATEST CODE" if you got your
-      code from a ZIP download (NOT from git clone).
-    Double-click to: download the latest ZIP from GitHub, replace the
-    CRM files, and run npm install.  Does NOT need Git installed.
-    Your .env file (with your database password) is never changed.
-
-  GET-LATEST.bat
-    ✔ USE THIS WHEN TOLD TO "GET THE LATEST CODE" if you cloned the
-      repo with Git (i.e. the folder has a .git sub-folder).
-    Double-click to: save local changes, switch to the main branch, pull
-    the latest code from GitHub, and run npm install.
-    Handles the common git errors automatically (wrong branch, local changes,
-    missing git identity).
-    If Git is not installed or this folder is not a git repository,
-    it will tell you to use DOWNLOAD-LATEST.bat instead.
-
-  index.html
-    A status checker you can open in your browser. It shows whether
-    the CRM server is running and has a button to open the Login Page.
-    DO NOT paste its code into WordPress.
-
-  STEP-BY-STEP.txt
-    This file. Full beginner guide.
-
-  .env / .env.example
-    Configuration files with your database password and security keys.
-    .env is your actual config. .env.example is the template.
-    These files are hidden in Windows Explorer by default.
-
-
-
-  --- EASIEST METHOD: Double-click the right update file ---
-
-  HOW DO YOU KNOW WHICH ONE TO USE?
-    Look inside the malta-real-estate-crm folder.
-    - If you see a  .git  folder (it may be hidden — see "show hidden files"
-      in Windows Explorer): use  GET-LATEST.bat
-    - If there is NO  .git  folder (you extracted a ZIP):
-      use  DOWNLOAD-LATEST.bat
-
-  DOWNLOAD-LATEST.bat (use this if you downloaded a ZIP):
-    Open Windows Explorer, go to the CRM folder, and double-click
-    DOWNLOAD-LATEST.bat.  It downloads the latest code from GitHub and
-    updates all files automatically.  No Git needed.
-    When it says "SUCCESS!" you are done.
-
-  GET-LATEST.bat (use this if you used git clone):
-    Open Windows Explorer, go to the CRM folder, and double-click
-    GET-LATEST.bat.  It handles everything automatically:
-    local changes, wrong branch, missing git identity, and npm install.
-    When it says "SUCCESS!" you are done.
-
-  --- METHOD A: Windows key shortcut ---
-
-  1. Press the Windows key and R at the same time (Win+R).
-     A small 'Run' box appears in the bottom-left corner of your screen.
-
-  2. Type:  cmd
-     Then click OK.
-     A black window opens (Command Prompt).
-
-  3. In the black window, type the following and press ENTER:
-        cd C:\Users\YourName\malta-crm\malta-real-estate-crm
-     IMPORTANT: Replace 'YourName' with YOUR actual Windows username.
-     TIP: Your username is the word shown BEFORE the > in the black window.
-          Example:  C:\Users\USER>     means your username is USER
-          Example:  C:\Users\Patrick>  means your username is Patrick
-     Choose the ONE line that matches YOUR username:
-        cd C:\Users\USER\malta-crm\malta-real-estate-crm       (if your username is USER)
-        cd C:\Users\Patrick\malta-crm\malta-real-estate-crm    (if your username is Patrick)
-     Then press ENTER.
-
-  4. Type the following commands one at a time, pressing ENTER after each:
-
-         git stash
-         git checkout main
-         git pull origin main
-
-     Wait until the last command finishes.
-     You should see 'Already up to date.' OR a list of updated files.
-
-     ⚠ If git says "unable to auto-detect email" after git pull, see
-       the matching PROBLEM entry in the COMMON PROBLEMS section.
-
-  5. Type:  exit  and press ENTER.  The black window closes.
-
-
-  --- METHOD B: From Windows Explorer address bar ---
-
-  NOTE: Windows Explorer is the YELLOW FOLDER icon - NOT your web browser.
-
-  1. Open Windows Explorer (click the yellow folder icon on the taskbar).
-
-  2. Navigate to your CRM folder:
-        C:\Users\YourName\malta-crm\malta-real-estate-crm
-     (Double-click folders to go inside them.)
-
-  3. Look at the TOP of the Windows Explorer window.
-     You will see a white bar showing the folder path (NOT a Google search bar).
-     Example of what it looks like:  C:\Users\USER\malta-crm\...
-     (USER is whatever name appears in your Command Prompt before the >)
-
-  4. CLICK ONCE on that white path bar.
-     The whole path turns blue/highlighted.
-
-  5. With the path bar still highlighted (blue), type:  cmd
-     Then press ENTER.
-     A black Command Prompt window opens.
-
-  6. In the black window, type each of these and press ENTER after each:
-
-        git stash
-        git checkout main
-        git pull origin main
-
-     Wait for all three to finish.
-
-  7. Type:  exit  and press ENTER.  The black window closes.
-
-
-  --- METHOD C: Right-click inside the folder ---
-
-  1. Open Windows Explorer and go to the CRM folder.
-
-  2. Hold the SHIFT key on your keyboard.
-
-  3. While holding SHIFT, RIGHT-CLICK on any empty space inside the folder
-     (not on a file, just on blank space).
-
-  4. A menu appears.  Click one of these options (whichever you see):
-       - 'Open PowerShell window here'
-       - 'Open command window here'
-       - 'Open in Terminal'
-     A black (or blue) window opens.
-
-  5. In that window, type each of these and press ENTER after each:
-
-        git stash
-        git checkout main
-        git pull origin main
-
-     Wait for all three to finish.
-
-
-================================================================
-STEP 2 - START THE CRM  (do this EVERY TIME you want to use it)
-================================================================
-
-  1. Open Windows Explorer (the yellow folder icon).
-
-  2. Go to your CRM folder:
-        C:\Users\YourName\malta-crm\malta-real-estate-crm
-
-  3. Find the file named:  start-windows.bat
-     (It is in the same folder as this STEP-BY-STEP.txt file.)
-
-  4. DOUBLE-CLICK on  start-windows.bat
-     A black window opens. This is CORRECT - it is not an error.
-     (If it opens in Notepad instead, see the ABOUT section above.)
-
-  5. The black window installs things and starts the CRM server.
-     This can take 1-3 minutes the first time. Just wait.
-
-  6. After about 15 seconds, your browser opens automatically and
-     shows the CRM website at:
-        http://localhost:3001
-
-     If your browser does NOT open automatically:
-     Open Chrome, Edge, or Firefox yourself and type in the address bar:
-        http://localhost:3001
-     Then press ENTER.
-
-  IMPORTANT: The black window must stay open the whole time you use the CRM.
-             The black window IS the CRM server - closing it stops everything.
-
-  ALSO: If the CRM does not open after 30 seconds, something went wrong.
-        Look at the black window for error messages.
-        Common problems are listed below in COMMON PROBLEMS.
-
-
-================================================================
-STEP 3 - STOPPING THE CRM
-================================================================
-
-  1. Click on the black Command Prompt window running the CRM.
-  2. Press Ctrl+C (hold Ctrl and press C at the same time).
-  3. When asked 'Terminate batch job (Y/N)?', type  Y  and press ENTER.
-
-
-================================================================
-STEP 4 - FIRST LOGIN (first time only — do this once)
-================================================================
-
-  After the backend shows "✓ Server is running", you need to create
-  your first admin account before you can log in.
-
-  THREE WAYS TO DO THIS — choose one:
-
-  ── OPTION A: Double-click CREATE-ADMIN.bat (EASIEST) ───────────────────
-    The easiest way — no command prompt needed.
-
-    1. In the CRM folder (the same folder as START-CRM.bat), find:
-          CREATE-ADMIN.bat
-    2. Double-click it.
-    3. A black window opens and asks for your name, email and password.
-       Type each one and press ENTER.
-    4. When it says "Admin account created successfully!", the window
-       shows you the next step.  Press any key to close it.
-    5. Open your browser and go to:
-          http://localhost:3000   (if you used START-CRM.bat)
-          http://localhost:3001   (if you used start-windows.bat)
-       Log in with the email and password you just entered.
-
-  ── OPTION B: Create your own account via Command Prompt ─────────────────
-    Use this if double-clicking the .bat file does not work.
-
-    1. Open a NEW Command Prompt window (do NOT close the CRM windows):
-       Press Win+R, type  cmd  and click OK.
-
-    2. Type the following and press ENTER:
-          cd C:\Users\YourName\malta-crm\malta-real-estate-crm
-       Replace YourName with your actual Windows username.
-
-    3. Type this and press ENTER:
-          npm run setup:admin
-
-    4. Follow the prompts on screen.
-       Enter your first name, last name, email, and a password
-       (minimum 8 characters).
-
-    5. When it says "Admin account created successfully!", close this window.
-
-    6. Open your browser and go to:
-          http://localhost:3000          ← if you used START-CRM.bat
-          http://localhost:3001          ← if you used start-windows.bat
-       Log in with the email and password you just created.
-
-  ── OPTION C: Load sample/demo data ──────────────────────────────────────
-    Use this to get example properties and owners pre-filled so you can
-    see what the CRM looks like with real data.
-
-    1. Open a NEW Command Prompt window (same as Option B step 1-2).
-
-    2. Type these commands one at a time, pressing ENTER after each:
-          npm run db:migrate
-          npm run db:seed
-
-    3. Open your browser and log in with:
-          URL:      http://localhost:3000   (START-CRM.bat)
-                    http://localhost:3001   (start-windows.bat)
-          Email:    admin@maltarealestate.com
-          Password: Password123!
-       IMPORTANT: These are demo credentials. Change the password after
-       your first login!
-
-  TIP: You only need to do this ONCE. After creating your account,
-       just start the CRM and go straight to the login page every time.
-
-
-
-
-  PROBLEM: The black window closes IMMEDIATELY (opens and closes in a flash)
-           - I double-clicked the file and the window disappeared before I
-             could read anything
-  SOLUTION: This nearly always means ONE of these things:
-
-    CAUSE A — You are running the script from INSIDE a ZIP archive.
-              ZIP archives look exactly like normal folders in Windows Explorer
-              but the files inside them are NOT actually extracted to your PC.
-              When you run a script from inside a ZIP, Windows puts it in a
-              hidden temporary folder where package.json does not exist, so
-              the script fails in the first second and the window closes.
-
-              HOW TO FIX:
-                1. CLOSE the ZIP window completely.
-                2. Find the ZIP file (e.g. malta-real-estate-crm.zip) in
-                   Windows Explorer (the yellow folder icon).
-                3. RIGHT-CLICK on the ZIP file.
-                4. Click "Extract All..." (or "Extract Here").
-                5. Choose a folder and click Extract.
-                6. A NEW real folder appears (not a ZIP).
-                7. Open that new folder.
-                8. Double-click quick-start.bat from INSIDE that real folder.
-
-    CAUSE B — Node.js is not installed on your computer.
-              The CRM needs Node.js to run. If it is missing, the script
-              exits with nothing visible.
-
-              HOW TO FIX:
-                1. Open your browser and go to: https://nodejs.org/
-                2. Click the big green "LTS" button and download.
-                3. Run the installer - click Next on everything.
-                4. RESTART your computer.
-                5. Double-click quick-start.bat again.
-
-    CAUSE C — You moved quick-start.bat out of the project folder.
-              The script must be inside the malta-real-estate-crm folder
-              (the same folder that contains package.json).
-
-              HOW TO FIX:
-                Find the malta-real-estate-crm folder and double-click
-                quick-start.bat (or start-windows.bat) from INSIDE it.
-
-  PROBLEM: I typed 'cmd' and it opened a Google search / showed search results
-  SOLUTION: You typed 'cmd' in your WEB BROWSER address bar by mistake.
-            Your web browser (Chrome, Edge, Firefox) is NOT Windows Explorer.
-            Use METHOD A (Win+R) from STEP 1 above instead - it always works.
-
-  PROBLEM: 'npm' is not recognized
-  SOLUTION: Install Node.js. Go to https://nodejs.org/
-            Download the version labelled 'LTS - Recommended For Most Users'.
-            Run the installer and click Next until it finishes.
-            After installing, close and re-open Windows Explorer, then try again.
-
-  PROBLEM: git stash says "Saved working directory..." but then
-           npm run db:fresh immediately says "Missing script: db:fresh"
-  SOLUTION: You ran npm run db:fresh BEFORE switching to the main branch.
-            After git stash you MUST switch to main first.  The main branch
-            has the latest package.json which includes that script.
-
-            In your Command Prompt (still in the CRM folder), type these
-            commands one at a time, pressing ENTER after each:
-
-               git checkout main
-               git pull origin main
-               npm install
-               npm run db:fresh
-
-            If  git checkout main  fails, double-click  GET-LATEST.bat.
-
-  PROBLEM: npm run db:fresh finished with no errors — what do I do next?
-  SOLUTION: db:fresh resets the database and loads sample data.
-            Here is the complete sequence to go from db:fresh to the login page:
-
-            ▶ STEP 1 — Double-click  start-windows.bat  in the CRM folder.
-                        Wait about 20 seconds for the server to start.
-
-            ▶ STEP 2 — Your browser should open automatically at
-                          http://localhost:3001
-                        If it does not open, type that address in your browser.
-
-            ▶ STEP 3 — Log in with:
-                          Email:    admin@maltarealestate.com
-                          Password: Password123!
-                        (db:fresh loads demo credentials — change your
-                         password after your first login.)
-
-            ▶ STEP 4 — You are in!  You will see the CRM Dashboard where
-                        you can manage properties, owners, inquiries, etc.
-
-  PROBLEM: npm run db:fresh (or db:migrate, db:seed) says "Missing script"
-           even after running npm install
-  SOLUTION: Your LOCAL copy of package.json is from an older version of the
-            CRM.  Running  npm install  does NOT update package.json —
-            it only installs the packages that are already listed there.
-            You need to download the latest package.json from GitHub first.
-
-    ── OPTION 1: Quickest fix — copy-paste one line ─────────────────────────
-      1. Open a Command Prompt in your CRM folder.
-         (Press Win+R, type  cmd, click OK.
-          Then type:  cd C:\Users\USER\malta-crm\malta-real-estate-crm
-          Replace USER with your Windows username.)
-
-      2. Copy and paste the line below EXACTLY and press ENTER:
-
-            powershell -Command "try { Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/Patrick31214/malta-real-estate-crm/main/package.json' -OutFile 'package.json' -UseBasicParsing -ErrorAction Stop; Write-Host '[OK] Downloaded.' } catch { Write-Host '[X] FAILED:' $_.Exception.Message }"
-
-         IMPORTANT: If it prints  [X] FAILED  — STOP.  Check your internet
-         connection and try again.  If it prints  [OK] Downloaded.  continue.
-
-      3. Then type:  npm install   and press ENTER.
-
-      4. Then type:  npm run db:fresh   and press ENTER.
-
-    ── OPTION 2: Download FIX-SCRIPTS.bat (does everything for you) ─────────
-      1. Open your browser and go to this exact URL:
-            https://raw.githubusercontent.com/Patrick31214/malta-real-estate-crm/main/FIX-SCRIPTS.bat
-      2. Press Ctrl+S to save the file.
-         Save it to your CRM folder:
-            C:\Users\USER\malta-crm\malta-real-estate-crm
-         (Replace USER with your Windows username.)
-         If Windows asks what program to open with, click "Save" not "Open".
-      3. Double-click FIX-SCRIPTS.bat.  It will download the latest
-         package.json, also save DOWNLOAD-LATEST.bat for future use,
-         and run npm install automatically.
-      4. When it says "SUCCESS!", open a Command Prompt in the CRM folder
-         and run:  npm run db:fresh
-
-    ── OPTION 3: Download the full ZIP ───────────────────────────────────────
-      1. Go to:  https://github.com/Patrick31214/malta-real-estate-crm
-      2. Click the green "Code" button.
-      3. Click "Download ZIP".
-      4. Extract the ZIP.
-      5. Copy ALL files from the extracted folder into your CRM folder.
-         When Windows asks about overwriting files, choose Yes to All.
-         DO NOT overwrite your .env file — it has your database password.
-      6. Run  npm install  and then  npm run db:fresh.
-
-  PROBLEM: npm install shows "X vulnerabilities (low, moderate, high)"
-  SOLUTION: This is a WARNING, not an error.  The CRM will still work.
-            The vulnerabilities are in development tools used only on
-            your own computer to run migrations, not in the live server.
-
-    What it means:
-      Some packages inside node_modules have known security issues.
-      For this CRM they are all in  sequelize-cli  (the migration tool)
-      which runs only on your computer, not on the internet.
-
-    What to do:
-      Nothing — if you just want the CRM to work, ignore this warning.
-      The latest code already includes fixes in package.json that keep the
-      count to zero.  If you still see vulnerabilities after running
-      DOWNLOAD-LATEST.bat or FIX-SCRIPTS.bat, your npm/node_modules may
-      have a cached older version.  Try:
-        1. Delete the  node_modules  folder from the CRM folder.
-        2. Run:  npm install
-      If you still see high/critical vulnerabilities after that, ask for
-      help and share the output of:  npm audit
-
-  PROBLEM: 'git' is not recognized
-  SOLUTION: Install Git. Go to https://git-scm.com/download/win
-            Click 'Download for Windows', run the installer, click Next everywhere.
-            After installing, close and re-open any black windows, then try again.
-
-  PROBLEM: git stash (or git checkout / git pull) shows many lines like:
-             "warning: in the working copy of 'README.md', LF will be replaced
-              by CRLF the next time Git touches it."
-  SOLUTION: These are WARNINGS, not errors.  Git will continue and finish
-            successfully.  This is a Windows line-ending notice: the files
-            were saved on Linux/Mac (LF endings) and Windows Git will
-            convert them to Windows-style (CRLF) in your working folder.
-            The latest .gitattributes in the repository fixes this for new
-            clones; if you see these warnings it just means your local clone
-            pre-dates that fix.
-
-            What to do:  NOTHING.  The command finished — proceed to the
-            next step.  The CRM will work perfectly.
-
-            If you never want to see them again:
-              git config --global core.autocrlf false
-              (Type that in any Command Prompt, then re-clone the repo OR
-               run DOWNLOAD-LATEST.bat / GET-LATEST.bat.)
-
-  PROBLEM: git checkout main says:
-             "error: Your local changes to the following files would be overwritten
-              by checkout: README.md package-lock.json package.json
-              src/config/database.js src/controllers/inquiryController.js
-              src/controllers/ownerController.js src/controllers/propertyController.js
-              src/models/User.js src/routes/inquiries.js src/routes/owners.js
-              src/routes/properties.js src/server.js start-windows.bat
-              Please commit your changes or stash them before you switch branches."
-             (The exact list of files may vary.)
-  SOLUTION: Your local copy of the code is from an older version of the project.
-            Running setup steps (like npm install) can also modify files.
-            These local copies should be replaced with the latest versions from
-            GitHub — just stash them, switch to main, and pull.
-
-            EASIEST FIX — double-click GET-LATEST.bat in the CRM folder.
-            It handles this automatically and switches you to the main branch.
-
-            MANUAL FIX — open a Command Prompt in the CRM folder and type
-            these commands one at a time, pressing ENTER after each:
-
-               git stash
-               git checkout main
-               git pull
-
-            Then continue with whatever you were doing (e.g. npm run db:fresh).
-
-  PROBLEM: git pull origin main says:
-             "fatal: unable to auto-detect email address"
-             -OR- "Committer identity unknown — Please tell me who you are."
-  SOLUTION: Git needs a name and email set up before it can create merge commits.
-            This is a one-time setup step for your computer.
-
-            EASIEST FIX — double-click GET-LATEST.bat in the CRM folder.
-            It sets a local identity automatically and then runs git pull for you.
-
-            MANUAL FIX — open a Command Prompt (any folder) and type:
-
-               git config --global user.email "your@email.com"
-               git config --global user.name "Your Name"
-
-            Replace  your@email.com  with any email (even a fake one is fine
-            for local use).  Replace  Your Name  with your name.
-            Then run  git pull origin main  again.
-
-  PROBLEM: git pull origin main says:
-             "error: The following untracked working tree files would be
-              overwritten by merge: .gitattributes GET-LATEST.bat SETUP_GUIDE.md
-              client/... scripts/...  Please move or remove them before you merge.
-              Aborting"
-             (The exact list of files may vary.)
-  SOLUTION: You have files on disk that git is not tracking on the current
-            branch, but origin/main wants to write those same files.  Git
-            refuses to silently overwrite them.
-
-            EASIEST FIX — double-click  GET-LATEST.bat  in the CRM folder.
-            The updated GET-LATEST.bat uses  git stash -u  which stashes
-            untracked files too, so the pull succeeds automatically.
-
-            If GET-LATEST.bat itself fails (or you prefer the manual way):
-
-            OPTION A — Remove the untracked files and pull:
-              Open a Command Prompt in the CRM folder and type:
-                 git clean -fd
-                 git pull origin main
-              WARNING: git clean -fd permanently deletes untracked files.
-              Only do this if you do not need them — for this CRM it is
-              always safe because all important files are in .env (which
-              is protected) and in the database.
-
-            OPTION B — Download a fresh copy (safest):
-              Double-click  DOWNLOAD-LATEST.bat  in the CRM folder.
-              It downloads the latest ZIP from GitHub and replaces all code
-              files without touching your .env or database.
-
-  PROBLEM: The black window closed after I pressed "Press any key to continue"
-           and now nothing is running / the browser shows nothing
-  SOLUTION: You pressed a key on the SETUP WINDOW (Window 1).  That is OK.
-            Pressing a key on Window 1 only closes the setup window.
-            The CRM SHOULD keep running in a SECOND window titled:
-               "Malta CRM Server - DO NOT CLOSE"
-            Look on your Taskbar at the bottom of the screen for that window.
-            Click on it to bring it to the front.
-            If BOTH windows closed, double-click start-windows.bat again —
-            the setup takes only a few seconds the second time.
-
-  PROBLEM: Double-clicking start-windows.bat opens Notepad with text starting
-           with @echo off (instead of opening a black window)
-  SOLUTION: See "IF DOUBLE-CLICK OPENS NOTEPAD" in the ABOUT section above.
-            Or: open a Command Prompt (METHOD A from STEP 1), navigate to
-            the CRM folder, and type:  start-windows.bat  then press ENTER.
-
-  PROBLEM: I opened start-windows.bat in Chrome / Edge / Firefox / a browser
-  SOLUTION: start-windows.bat is NOT a website. You cannot open it in a browser.
-            Double-click it in Windows Explorer (the yellow folder icon).
-            A black Command Prompt window will open - that is the CRM running.
-
-  PROBLEM: The black window closes immediately / shows an error
-  SOLUTION: See the detailed entry at the top of COMMON PROBLEMS above.
-            The most common cause is running the script from inside a ZIP
-            archive without extracting it first. Extract the ZIP, then
-            double-click quick-start.bat from inside the extracted folder.
-
-  PROBLEM: The "Malta CRM Server" window opens and closes immediately
-           (or: the server crashes right after the setup window closes)
-  SOLUTION: The server is failing to connect to the database. This happens
-            when PostgreSQL is not running OR your DB_PASSWORD in .env is wrong.
-
-    STEP A — Check your .env file:
-      1. Open ".env" in Notepad.
-      2. Find the line: DB_PASSWORD=
-         If it still says  DB_PASSWORD=your_password_here  then you have NOT
-         set your PostgreSQL password yet.  Replace "your_password_here" with
-         the actual password you chose when you installed PostgreSQL.
-      3. Save the file.
-      4. Double-click start-windows.bat again.
-
-    STEP B — Make sure PostgreSQL is running:
-      1. Press Win+R (hold Windows key, press R).
-      2. Type:  services.msc  and press ENTER.
-      3. Scroll down and find a service named "PostgreSQL" (may include a version
-         number, e.g. "postgresql-x64-15").
-      4. If its Status column says "Running" — good, skip to STEP C.
-      5. If Status is empty or "Stopped":
-         - Right-click the service name.
-         - Click "Start".
-         - Wait 5 seconds.
-      6. Double-click start-windows.bat again.
-
-    STEP C — Install PostgreSQL if you have not done so yet:
-      1. Download from: https://www.postgresql.org/download/windows/
-      2. Run the installer. WRITE DOWN the password you set.
-      3. When installation finishes, RESTART your computer.
-      4. Open ".env" in Notepad and set:  DB_PASSWORD=<your chosen password>
-      5. Double-click start-windows.bat again.
-
-    HOW TO READ THE ERROR:
-      After all setup steps finish, a second black window titled
-      "Malta CRM Server - DO NOT CLOSE" opens.
-      If the server crashes, that window shows the reason, for example:
-        "Unable to connect to the database: password authentication failed"
-        → wrong DB_PASSWORD in .env
-        "Unable to connect to the database: connect ECONNREFUSED 127.0.0.1:5432"
-        → PostgreSQL service is not running
-        "Could not create/verify the database: password authentication failed"
-        → wrong DB_PASSWORD in .env (caught BEFORE the server starts)
-      Read the message and follow STEP A or STEP B above.
-
-  PROBLEM: Setup says "[X] Could not create or verify the CRM database"
-  SOLUTION: This new check runs before the server starts to create the
-            'malta_crm' database automatically.  If it fails, the most
-            common cause is a wrong DB_PASSWORD.
-
-    1. Open ".env" in Notepad.
-    2. Find the line:  DB_PASSWORD=
-       The value after = must be EXACTLY the password you chose when
-       you installed PostgreSQL.  It is case-sensitive.
-    3. Also check:  DB_USER=postgres  (leave this as "postgres").
-    4. Save the file and double-click start-windows.bat again.
-
-    FORGOTTEN YOUR PostgreSQL PASSWORD?
-    You can reset it via pgAdmin (the purple elephant icon in your
-    Start Menu), or reinstall PostgreSQL (your data will be lost).
-
-  PROBLEM: Browser shows 'This site can't be reached' or connection refused
-  SOLUTION: Wait 30 seconds after double-clicking start-windows.bat,
-            then try http://localhost:3001 again.
-
-  PROBLEM: I changed DB_PORT or DB_PASSWORD in .env and now the CRM won't start
-  SOLUTION: Change them BACK to the original values.
-
-    The PostgreSQL service uses a fixed port (5432 by default) and a fixed
-    password that you set during installation.  Changing DB_PORT or DB_PASSWORD
-    in .env does NOT change what PostgreSQL listens on — it only tells the CRM
-    which port and password to USE when connecting.
-
-    If you changed DB_PORT to something other than 5432, the CRM tries to
-    connect to a port where nothing is listening, and the connection fails.
-
-    HOW TO FIX:
-      1. Open ".env" in Notepad.
-      2. Set:  DB_PORT=5432           (the standard PostgreSQL port)
-      3. Set:  DB_PASSWORD=<the password you chose when you installed PostgreSQL>
-      4. Save ".env" and double-click start-windows.bat again.
-
-    If you have also changed the DB_PORT inside PostgreSQL itself (by editing
-    postgresql.conf), change it back to 5432 and restart the PostgreSQL service.
-
-  PROBLEM: My folder path shows "malta-crm\malta-real-estate-crm" — is that correct?
-  SOLUTION: Yes, that path is perfectly fine.
-
-    The project folder is named "malta-real-estate-crm" and it can live inside
-    any parent folder you like (e.g., "malta-crm", "Documents", "Desktop").
-    The setup scripts use %~dp0 which means "the folder this script lives in",
-    so the parent folder name does not affect anything.
-
-  PROBLEM: Is CLIENT_URL=http://localhost:3000 in .env correct?
-  SOLUTION: Yes — leave it as http://localhost:3000.
-
-    CLIENT_URL is used in development mode only (when you use START-CRM.bat or
-    run npm run dev).  In that mode the React frontend runs on port 3000, and
-    CLIENT_URL tells the backend which origin to allow for cross-origin requests.
-
-    In production mode (start-windows.bat), the React pages are served by the
-    same Express server on port 3001, so CLIENT_URL is not needed and the value
-    in .env does not matter for that mode.
-
-    Leave CLIENT_URL=http://localhost:3000 unchanged.
-
-  PROBLEM: The backend window shows "password authentication failed for user postgres"
-           and keeps crashing / restarting in a loop
-  SOLUTION: The DB_PASSWORD in your .env file does not match your PostgreSQL password.
-
-    STEP 1 — Open .env in Notepad:
-      1. Open Windows Explorer (the yellow folder icon).
-      2. Go to your CRM folder:
-            C:\Users\YourName\malta-crm\malta-real-estate-crm
-      3. You may not see .env because it is a hidden file.
-         HOW TO SHOW HIDDEN FILES:
-           - Click "View" in the top menu of Windows Explorer.
-           - Tick "Hidden items" (or turn on "Show hidden items").
-         Now .env should appear.
-      4. Right-click on ".env" and choose "Open with" → Notepad.
-
-    STEP 2 — Fix the password:
-      5. Find the line that says:   DB_PASSWORD=
-         The value after = should be exactly the password you chose when
-         you installed PostgreSQL.
-         Example:  DB_PASSWORD=MyPostgresPass123
-      6. If it still says  DB_PASSWORD=your_password_here  you have NOT
-         set it yet. Replace "your_password_here" with your actual password.
-      7. Save the file (Ctrl+S) and close Notepad.
-      8. Double-click start-windows.bat (or START-CRM.bat) again.
-
-    FORGOTTEN YOUR PostgreSQL PASSWORD?
-      Option A — Reset via pgAdmin:
-        1. Open pgAdmin (the purple elephant icon in your Start Menu or
-           in Windows Explorer under C:\Program Files\PostgreSQL\...).
-        2. Expand "Servers" → "PostgreSQL" → right-click → Properties.
-        3. Change the password and click Save.
-        4. Update DB_PASSWORD in .env to match the new password.
-      Option B — Reinstall PostgreSQL:
-        WARNING: Reinstalling will DELETE ALL your database data.
-        Only do this if you have no important data yet.
-        1. Uninstall PostgreSQL via Windows Settings → Apps.
-        2. Re-download from: https://www.postgresql.org/download/windows/
-        3. Install it again. WRITE DOWN the new password.
-        4. Update DB_PASSWORD in .env with the new password.
-
-  PROBLEM: npm run db:fresh (or db:drop) says:
-           "ERROR: database "malta_crm" is being accessed by other users"
-           "ERROR DETAIL: There is 1 other session using the database."
-
-  ── DO THIS RIGHT NOW ─────────────────────────────────────────────────────────
-
-    PostgreSQL refuses to drop a database while ANY other program is
-    connected to it.  The CRM server is one such program, but database
-    management tools like pgAdmin 4 ALSO hold connections quietly in the
-    background — even when you think everything is closed.
-
-    ▶ STEP 1 — Close pgAdmin 4 completely (most common cause).
-
-      pgAdmin 4 keeps a persistent connection to every database it knows
-      about, even when its browser window is minimised or closed.  You must
-      quit it from the system tray (the small icons near the clock).
-
-        a) Look at the BOTTOM-RIGHT corner of your screen, near the clock.
-           You may see a small elephant head icon (the pgAdmin / PostgreSQL
-           icon).  If you don't see it, click the  ▲  arrow to show hidden
-           icons — it may be hiding there.
-
-        b) RIGHT-CLICK that elephant icon.
-           Choose  "Quit pgAdmin 4"  (or just  "Quit").
-
-        c) If you do not see a pgAdmin icon, check if pgAdmin is open as a
-           normal window in the taskbar and close it from there.
-
-      If you use DBeaver, TablePlus, HeidiSQL, or any other database tool,
-      close that too (File → Exit, or right-click its taskbar icon → Close).
-
-    ▶ STEP 2 — Close the black CRM server window (if it is still open).
-
-      Look in the taskbar for a black command-prompt window titled "Malta
-      CRM" or "node".  Click its X button to close it.
-      If there are TWO black windows (backend + frontend), close BOTH.
-
-    ▶ STEP 3 — Run db:fresh again in your Command Prompt:
-                  npm run db:fresh
-               Wait for it to finish.  It ends with "X seeders executed".
-
-    ▶ STEP 4 — Restart the CRM.
-               Double-click  start-windows.bat  in the CRM folder.
-               Log in at  http://localhost:3001
-                  Email:    admin@maltarealestate.com
-                  Password: Password123!
-
-  ── PERMANENT FIX (update your code so this never happens again) ─────────────
-
-    The latest CRM code handles this automatically — it disconnects all
-    open sessions before dropping the database, so you will never need to
-    close pgAdmin or the server manually.
-
-    Double-click  DOWNLOAD-LATEST.bat  in the CRM folder to update.
-    After it finishes, run  npm run db:fresh  and it will work regardless
-    of whether pgAdmin or the server is running.
-
-  PROBLEM: npm run db:migrate fails with "relation already exists"
-           -OR- npm run db:seed fails with "column does not exist"
-           -OR- you ran the server before running migrations and now
-                the database has the wrong column names
-  SOLUTION: Your database tables were created in the wrong order (the
-            server ran first and created tables with wrong column names,
-            then the migration tried to create the same tables again).
-            The quickest fix is a FULL RESET — this DELETES all data.
-
-    ── OPTION A: Full reset via npm (EASIEST) ───────────────────────────────
-      WARNING: This deletes all data in the CRM database.
-      Only do this during initial setup (before you have real data).
-
-      1. Open a Command Prompt in the CRM folder (see STEP 1 above).
-      2. Stop the CRM server if it is running (close its black window).
-      3. Get the LATEST code from GitHub.
-
-         EASIEST WAY — if you downloaded a ZIP (no .git folder):
-           Close this Command Prompt.
-           Double-click  DOWNLOAD-LATEST.bat  in the CRM folder.
-           It downloads the latest code automatically.  No Git needed.
-           Open a new Command Prompt in the CRM folder and continue.
-
-         EASIEST WAY — if you used git clone (has a .git folder):
-           Close this Command Prompt.
-           Double-click  GET-LATEST.bat  in the CRM folder.
-           It automatically switches to main and pulls the latest code.
-           Open a new Command Prompt in the CRM folder and continue.
-
-         MANUAL WAY (git): Type the following commands one at a time,
-         pressing ENTER after each:
-            git stash
-            git checkout main
-            git pull origin main
-         ⚠ If  git pull  says "unable to auto-detect email", see the PROBLEM
-           entry for that error in the COMMON PROBLEMS section above.
-      4. Then type this and press ENTER:
-            npm run db:fresh
-         (or: npm run db:refresh — both do the same thing)
-         This will: drop the database → recreate it → run all migrations
-         → load demo data.
-
-         STILL seeing "Missing script: db:fresh"?
-         You still have old code.  Close the Command Prompt and:
-           - If you downloaded a ZIP: double-click DOWNLOAD-LATEST.bat
-           - If you used git clone: double-click GET-LATEST.bat
-         Then open a new Command Prompt and run:  npm run db:fresh
-         If it still fails, use OPTION B (pgAdmin reset) below.
-
-      5. Restart the server (double-click start-windows.bat or START-CRM.bat).
-      6. Log in at http://localhost:3000 (or http://localhost:3001) with:
-            Email:    admin@maltarealestate.com
-            Password: Password123!
-         Then change the password.
-
-    ── OPTION B: Manual reset via pgAdmin ───────────────────────────────────
-      1. Open pgAdmin (purple elephant icon in your Start Menu).
-      2. Expand Servers → PostgreSQL → Databases.
-      3. Right-click "malta_crm" → Delete/Drop → check "Drop with all objects"
-         → OK.
-      4. Right-click Databases → Create → Database.
-         Name it "malta_crm" and click Save.
-      5. Back in the Command Prompt, run:
-            npm run db:migrate
-            npm run db:seed
-
-  PROBLEM: I can see the login page at http://localhost:3000 but I do not know
-           what email and password to use
-  SOLUTION: You need to create your first admin account.
-
-    The CRM does not come with a pre-made account. You must create one.
-    There are TWO ways to do this:
-
-    ── METHOD 1: Create your own admin account (RECOMMENDED) ────────────────
-    Use this if you want to choose your own email and password.
-
-    Requirements: the backend must be running WITHOUT errors.
-    (Start it with start-windows.bat OR fix the DB_PASSWORD error first.)
-
-    Once the backend is running:
-      1. Open a NEW Command Prompt window:
-         Press Win+R, type cmd, click OK.
-      2. Type the following and press ENTER:
-            cd C:\Users\YourName\malta-crm\malta-real-estate-crm
-         (Replace YourName with your Windows username.)
-      3. Type this and press ENTER:
-            npm run setup:admin
-      4. Follow the prompts — enter your name, email, and a password
-         (minimum 8 characters).
-      5. Go back to http://localhost:3000 (or http://localhost:3001) and
-         log in with the email and password you just entered.
-
-    ── METHOD 2: Load sample/demo data ──────────────────────────────────────
-    Use this if you want example properties, owners, and users already filled in
-    so you can see how the CRM looks with data.
-
-    Requirements: backend must be running, AND migrations must have run.
-
-    Steps:
-      1. Open a Command Prompt in the CRM folder (as in Method 1 step 1-2).
-      2. Run migrations first (creates the database tables):
-            npm run db:migrate
-      3. Run the seeders (loads the sample data):
-            npm run db:seed
-      4. Log in at http://localhost:3000 (or http://localhost:3001) with:
-            Email:    admin@maltarealestate.com
-            Password: Password123!
-         IMPORTANT: These are public demo credentials. Change the password
-         immediately after your first login (use the profile/settings page,
-         or delete this user and create a new one via npm run setup:admin).
-
-    NOTE: Sample data includes example properties and owners for Malta.
-    You can delete it later via the CRM interface.
-
-  PROBLEM: I used START-CRM.bat and it opens TWO windows — which one is the server?
-  SOLUTION: Both windows are needed:
-
-    START-CRM.bat is the DEVELOPMENT MODE launcher. It opens:
-
-    WINDOW 1 (the first window that appeared):
-      Title: just "C:\Windows\..." or "malta-real-estate-crm"
-      This runs the BACKEND (Node.js/Express API server) using nodemon.
-      It will show messages like:
-          ✓ PostgreSQL database connection established successfully.
-          ✓ Server is running on port 3001
-      KEEP THIS WINDOW OPEN — closing it stops the backend.
-      If it shows errors (like password authentication failed), read the
-      error message and follow the instructions above.
-
-    WINDOW 2 (opened automatically by Window 1):
-      Title: "Malta CRM - Frontend"
-      This runs the FRONTEND (React/Vite development server) on port 3000.
-      It will show:
-          VITE v5.x.x  ready in ... ms
-          Local:   http://localhost:3000/
-      KEEP THIS WINDOW OPEN — closing it stops the frontend.
-
-    BROWSER: Open http://localhost:3000 to use the CRM in development mode.
-
-    NOTE: start-windows.bat is a different launcher for PRODUCTION mode.
-      - It builds the React pages once and serves everything on port 3001.
-      - Use start-windows.bat for everyday use (one window, not two).
-      - Use START-CRM.bat only if you are making code changes.
-
-  PROBLEM: I want to change the brand name, colours, or design of the CRM
-  SOLUTION: Yes — all of this is possible after the CRM is set up.
-
-    The CRM interface is built in React (inside the client/src folder).
-    Once you are comfortable using the CRM, you can customise:
-      - Brand name and logo: client/src/components/Layout.jsx and Sidebar.jsx
-      - Colours and fonts: client/src/index.css (or Tailwind config if present)
-      - Page layout: files inside client/src/pages/
-      - Any other text or design elements in the component files.
-
-    You do NOT need to do any of this now. Get the CRM running and log in
-    first, then make customisations one small step at a time.
-    Ask for help with each specific change when you are ready.
-
-
-
-  1. Follow STEP 1 again (open a black Command Prompt window, type:
-        git checkout main
-        git pull origin main
-     Press ENTER after each command).
-  2. Then follow STEP 2 again (double-click start-windows.bat).
-
-=========================================
-End of instructions
-=========================================

@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
     } = req.query;
 
     const offset = (parseInt(page) - 1) * parseInt(limit);
-    const where = { isActive: true, status: 'available' };
+    const where = { isActive: true, status: 'available', approvalStatus: 'approved' };
 
     if (propertyType) where.propertyType = propertyType;
     if (listingType) where.listingType = listingType;
@@ -96,7 +96,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const property = await Property.findOne({
-      where: { id: req.params.id, isActive: true, status: 'available' },
+      where: { id: req.params.id, isActive: true, status: 'available', approvalStatus: 'approved' },
       attributes: [
         'id', 'title', 'description', 'propertyType', 'listingType', 'status',
         'price', 'currency', 'bedrooms', 'bathrooms', 'squareMeters',

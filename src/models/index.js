@@ -6,6 +6,7 @@ const Property = require('./Property');
 const Inquiry = require('./Inquiry');
 const PropertyUpdateQueue = require('./PropertyUpdateQueue');
 const AutomatedContactLog = require('./AutomatedContactLog');
+const AgentActivityLog = require('./AgentActivityLog');
 
 // Define relationships
 
@@ -149,6 +150,20 @@ AutomatedContactLog.belongsTo(Agent, {
   onUpdate: 'CASCADE'
 });
 
+// User - AgentActivityLog relationship
+User.hasMany(AgentActivityLog, {
+  foreignKey: 'agentUserId',
+  as: 'activityLogs',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
+AgentActivityLog.belongsTo(User, {
+  foreignKey: 'agentUserId',
+  as: 'user',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
+
 module.exports = {
   sequelize,
   User,
@@ -157,5 +172,6 @@ module.exports = {
   Property,
   Inquiry,
   PropertyUpdateQueue,
-  AutomatedContactLog
+  AutomatedContactLog,
+  AgentActivityLog
 };

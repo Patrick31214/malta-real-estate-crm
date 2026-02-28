@@ -12,34 +12,39 @@
 }
 
 .stat-card {
-  background: var(--bg-card);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-radius: var(--radius);
   padding: 20px;
   display: flex;
   align-items: center;
   gap: 16px;
-  box-shadow: var(--shadow);
-  text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: var(--glass-shadow);
+  border: 1px solid var(--glass-border);
   border-left: 4px solid var(--card-color);
+  text-decoration: none;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
   cursor: pointer;
 }
 
 .stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(31,110,69,0.18);
+  border-left-color: var(--accent);
 }
 
 .stat-icon {
-  font-size: 30px;
+  font-size: 28px;
   width: 52px;
   height: 52px;
-  background: color-mix(in srgb, var(--card-color) 12%, transparent);
+  background: color-mix(in srgb, var(--card-color) 15%, transparent);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border: 1px solid color-mix(in srgb, var(--card-color) 25%, transparent);
 }
 
 .stat-info {
@@ -57,17 +62,19 @@
 }
 
 .stat-label {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-light);
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
 }
 
 .stat-arrow {
-  color: var(--text-light);
+  color: var(--accent);
   font-size: 18px;
+  transition: transform 0.2s;
 }
+.stat-card:hover .stat-arrow { transform: translateX(4px); }
 
 /* Dashboard grid */
 .dashboard-grid {
@@ -87,7 +94,7 @@
 .section-header h3 {
   font-size: 16px;
   font-weight: 700;
-  color: var(--text-dark);
+  color: var(--primary);
 }
 
 /* Status breakdown */
@@ -124,7 +131,7 @@
 
 .progress-bar {
   height: 6px;
-  background: var(--border);
+  background: rgba(31,110,69,0.1);
   border-radius: 3px;
   overflow: hidden;
 }
@@ -145,15 +152,16 @@
 }
 
 .welcome-icon {
-  font-size: 56px;
+  font-size: 60px;
   margin-bottom: 16px;
+  filter: drop-shadow(0 4px 12px rgba(201,168,76,0.4));
 }
 
 .dashboard-welcome h2 {
   font-size: 24px;
   font-weight: 800;
   margin-bottom: 12px;
-  color: var(--text-dark);
+  color: var(--primary);
 }
 
 .dashboard-welcome p {

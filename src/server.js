@@ -11,6 +11,7 @@ const ownerRoutes = require('./routes/owners');
 const inquiryRoutes = require('./routes/inquiries');
 const agentRoutes = require('./routes/agents');
 const listingsRoutes = require('./routes/listings');
+const activityLogsRoutes = require('./routes/activityLogs');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -49,6 +50,7 @@ app.use('/api/owners', ownerRoutes);
 app.use('/api/inquiries', inquiryRoutes);
 app.use('/api/agents', agentRoutes);
 app.use('/api/listings', listingsRoutes);
+app.use('/api/activity-logs', activityLogsRoutes);
 
 // Serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {

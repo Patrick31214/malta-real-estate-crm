@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { agents } from '../services/api';
+import { agents, auth } from '../services/api';
 import AgentModal from '../components/AgentModal';
 import './AgentsPage.css';
 
@@ -11,6 +11,9 @@ function AgentsPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editAgent, setEditAgent] = useState(null);
   const [toast, setToast] = useState(null);
+
+  const user = auth.getUser();
+  const isAdmin = user && (user.role === 'admin' || user.role === 'manager');
 
   const showToast = (msg, type = 'success') => {
     setToast({ msg, type });
@@ -45,6 +48,18 @@ function AgentsPage() {
     if (res.success) {
       showToast('Agent removed.');
       fetchAgents(pagination.page);
+    }
+  };
+
+  const handleBlock = async (id, currentlyActive) => {
+    const action = currentlyActive ? 'block' : 'unblock';
+    if (!confirm(`Are you sure you want to ${action} this agent's account?`)) return;
+    const res = await agents.block(id, currentlyActive);
+    if (res.success) {
+      showToast(`Agent ${action}ed successfully.`);
+      fetchAgents(pagination.page);
+    } else {
+      showToast(res.message || `Failed to ${action} agent.`, 'error');
     }
   };
 
@@ -102,6 +117,7 @@ function AgentsPage() {
                   <th>Specialization</th>
                   <th>Commission</th>
                   <th>Exp.</th>
+                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -110,9 +126,13 @@ function AgentsPage() {
                   <tr key={a.id}>
                     <td>
                       <div className="agent-name-cell">
-                        <div className="agent-avatar">
-                          {(a.user?.firstName || a.user?.email || '?')[0].toUpperCase()}
-                        </div>
+                        {a.profileImageUrl ? (
+                          <img src={a.profileImageUrl} alt="Agent" className="agent-photo" />
+                        ) : (
+                          <div className="agent-avatar">
+                            {(a.user?.firstName || a.user?.email || '?')[0].toUpperCase()}
+                          </div>
+                        )}
                         <div>
                           <div className="agent-name">
                             {a.user ? `${a.user.firstName || ''} ${a.user.lastName || ''}`.trim() || '—' : '—'}
@@ -136,8 +156,22 @@ function AgentsPage() {
                     <td>{a.commissionRate ? `${a.commissionRate}%` : '—'}</td>
                     <td>{a.yearsExperience ? `${a.yearsExperience}y` : '—'}</td>
                     <td>
+                      <span className={`badge ${a.user?.isActive !== false ? 'badge-available' : 'badge-withdrawn'}`}>
+                        {a.user?.isActive !== false ? 'Active' : 'Blocked'}
+                      </span>
+                    </td>
+                    <td>
                       <div className="action-btns">
                         <button className="btn btn-outline btn-sm" onClick={() => { setEditAgent(a); setModalOpen(true); }}>Edit</button>
+                        {isAdmin && (
+                          <button
+                            className={`btn btn-sm ${a.user?.isActive !== false ? 'btn-warning' : 'btn-accent'}`}
+                            onClick={() => handleBlock(a.id, a.user?.isActive !== false)}
+                            title={a.user?.isActive !== false ? 'Block this agent' : 'Unblock this agent'}
+                          >
+                            {a.user?.isActive !== false ? '🔒 Block' : '🔓 Unblock'}
+                          </button>
+                        )}
                         <button className="btn btn-danger btn-sm" onClick={() => handleDelete(a.id)}>Del</button>
                       </div>
                     </td>
