@@ -5,46 +5,59 @@
 }
 
 :root {
-  /* Golden Key Realty – Luxury Glassmorphism Palette */
-  --primary: #1f6e45;
-  --primary-light: #2e9d62;
-  --primary-dark: #144d31;
-  --accent: #c9a84c;
-  --accent-light: #e4c875;
+  /* Golden Key Realty – Luxury Gold Glassmorphism Palette */
+  --gold: #D4AF37;
+  --gold-soft: #F5E6B8;
+  --gold-dark: #a07830;
+  --charcoal: #1a1a2e;
+  --charcoal-mid: #16213e;
+  --cream: #FEFCF6;
+  --pearl: #F8F4ED;
+  --warm-honey: #FFF8E7;
+  /* Legacy aliases for existing code */
+  --primary: #1a1a2e;
+  --primary-light: #2d2d4e;
+  --primary-dark: #0f0f1a;
+  --accent: #D4AF37;
+  --accent-light: #F5E6B8;
   --accent-dark: #a07830;
   --success: #27ae60;
   --danger: #c0392b;
   --warning: #e67e22;
   --info: #2980b9;
-  --text-dark: #12291e;
-  --text-medium: #3a4a40;
-  --text-light: #7a8e84;
-  --bg-page: #eaf4ef;
-  --bg-gradient: linear-gradient(135deg, #d6ede2 0%, #f5edcc 50%, #ddeee5 100%);
+  --text-dark: #1a1a2e;
+  --text-medium: #3d3d5c;
+  --text-light: #8888aa;
+  --bg-page: #FEFCF6;
+  --bg-gradient: linear-gradient(135deg, #FEFCF6 0%, #F8F4ED 25%, #FFF8E7 50%, #F5E6B8 75%, #FEFCF6 100%);
   --bg-card: rgba(255, 255, 255, 0.65);
-  --bg-sidebar: linear-gradient(180deg, #133d28 0%, #1f6e45 100%);
-  --border: rgba(200, 230, 210, 0.6);
-  --border-gold: rgba(201, 168, 76, 0.4);
+  --bg-sidebar: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+  --border: rgba(212, 175, 55, 0.2);
+  --border-gold: rgba(212, 175, 55, 0.35);
   --glass-bg: rgba(255, 255, 255, 0.55);
-  --glass-border: rgba(255, 255, 255, 0.7);
-  --glass-shadow: 0 8px 32px rgba(31, 110, 69, 0.12);
-  --shadow: 0 2px 12px rgba(31, 110, 69, 0.1);
-  --shadow-lg: 0 8px 32px rgba(31, 110, 69, 0.15);
-  --shadow-gold: 0 4px 20px rgba(201, 168, 76, 0.25);
-  --radius: 14px;
-  --radius-sm: 8px;
-  --sidebar-width: 260px;
+  --glass-border: rgba(212, 175, 55, 0.25);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-gold: 0 4px 20px rgba(212, 175, 55, 0.3);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --sidebar-width: 264px;
   --header-height: 68px;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: var(--bg-gradient);
   background-attachment: fixed;
   color: var(--text-dark);
   line-height: 1.5;
   font-size: 14px;
   min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Playfair Display', Georgia, serif;
 }
 
 a {
@@ -66,9 +79,9 @@ input, select, textarea {
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
-::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--accent-dark); }
+::-webkit-scrollbar-track { background: rgba(0,0,0,0.03); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-dark); }
 
 /* Utility classes */
 .flex { display: flex; }
@@ -105,56 +118,55 @@ input, select, textarea {
   background: rgba(255,255,255,0);
   transition: background 0.2s;
 }
-.btn:hover::after { background: rgba(255,255,255,0.12); }
+.btn:hover::after { background: rgba(255,255,255,0.1); }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-  color: white;
-  border-color: var(--primary);
-  box-shadow: 0 3px 12px rgba(31, 110, 69, 0.3);
+  background: linear-gradient(135deg, #D4AF37 0%, #F5E6B8 50%, #D4AF37 100%);
+  color: #1a1a2e;
+  border-color: var(--gold);
+  box-shadow: 0 3px 12px rgba(212, 175, 55, 0.35);
+  font-weight: 700;
 }
 .btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(31, 110, 69, 0.4);
-  border-color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(212, 175, 55, 0.5);
 }
 .btn-primary:active { transform: translateY(0); }
 
 .btn-accent {
-  background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent) 100%);
+  background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%);
   color: white;
-  border-color: var(--accent);
-  box-shadow: 0 3px 12px rgba(201, 168, 76, 0.35);
+  border-color: var(--gold);
+  box-shadow: 0 3px 12px rgba(212, 175, 55, 0.35);
 }
 .btn-accent:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(201, 168, 76, 0.5);
-  border-color: var(--accent-light);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
 }
 
 .btn-outline {
-  background: rgba(255,255,255,0.5);
-  color: var(--primary);
-  border-color: var(--primary);
+  background: rgba(255,255,255,0.6);
+  color: var(--charcoal);
+  border-color: var(--border-gold);
   backdrop-filter: blur(4px);
 }
 .btn-outline:hover {
-  background: var(--primary);
-  color: white;
+  background: var(--gold);
+  color: var(--charcoal);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(31, 110, 69, 0.25);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
 
 .btn-gold {
-  background: linear-gradient(135deg, var(--accent-dark) 0%, var(--accent-light) 100%);
-  color: #12291e;
-  border-color: var(--accent);
-  box-shadow: 0 3px 12px rgba(201, 168, 76, 0.4);
+  background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold-soft) 100%);
+  color: #1a1a2e;
+  border-color: var(--gold);
+  box-shadow: 0 3px 12px rgba(212, 175, 55, 0.4);
   font-weight: 700;
 }
 .btn-gold:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 24px rgba(201, 168, 76, 0.55);
+  box-shadow: 0 6px 24px rgba(212, 175, 55, 0.55);
 }
 
 .btn-danger {
@@ -181,12 +193,12 @@ input, select, textarea {
 
 /* Glass Card */
 .card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: var(--radius);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
   padding: 24px;
 }
 
@@ -201,7 +213,7 @@ input, select, textarea {
 .form-group label {
   font-size: 12px;
   font-weight: 700;
-  color: var(--primary);
+  color: var(--gold-dark);
   text-transform: uppercase;
   letter-spacing: 0.7px;
 }
@@ -212,16 +224,16 @@ input, select, textarea {
   border-radius: var(--radius-sm);
   font-size: 14px;
   color: var(--text-dark);
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.8);
   transition: all 0.2s;
   width: 100%;
   backdrop-filter: blur(4px);
 }
 
 .form-input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(31, 110, 69, 0.12);
-  background: rgba(255, 255, 255, 0.9);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+  background: rgba(255, 255, 255, 0.95);
   outline: none;
 }
 
@@ -244,23 +256,23 @@ input, select, textarea {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  color: var(--primary);
-  background: rgba(31, 110, 69, 0.06);
+  color: var(--gold-dark);
+  background: rgba(212, 175, 55, 0.08);
   border-bottom: 1px solid var(--border);
 }
 
 .data-table td {
   padding: 14px 16px;
-  border-bottom: 1px solid rgba(200, 230, 210, 0.4);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
   color: var(--text-medium);
   font-size: 14px;
 }
 
 .data-table tbody tr {
-  transition: background 0.18s, transform 0.15s;
+  transition: background 0.18s;
 }
 .data-table tbody tr:hover {
-  background: rgba(31, 110, 69, 0.06);
+  background: rgba(212, 175, 55, 0.06);
 }
 .data-table tbody tr:last-child td { border-bottom: none; }
 
@@ -276,7 +288,7 @@ input, select, textarea {
 }
 
 .badge-available { background: rgba(39, 174, 96, 0.15); color: #1a6b3c; border: 1px solid rgba(39,174,96,0.3); }
-.badge-under_offer { background: rgba(201, 168, 76, 0.15); color: #8a6700; border: 1px solid rgba(201,168,76,0.3); }
+.badge-under_offer { background: rgba(212, 175, 55, 0.15); color: #8a6700; border: 1px solid rgba(212,175,55,0.3); }
 .badge-sold { background: rgba(192, 57, 43, 0.12); color: #922b21; border: 1px solid rgba(192,57,43,0.25); }
 .badge-rented { background: rgba(41, 128, 185, 0.12); color: #1a5276; border: 1px solid rgba(41,128,185,0.25); }
 .badge-draft { background: rgba(120, 120, 120, 0.1); color: #555; border: 1px solid rgba(0,0,0,0.12); }
@@ -284,7 +296,7 @@ input, select, textarea {
 .badge-sale { background: rgba(39, 174, 96, 0.15); color: #1a6b3c; border: 1px solid rgba(39,174,96,0.3); }
 .badge-rent { background: rgba(41, 128, 185, 0.12); color: #1a5276; border: 1px solid rgba(41,128,185,0.25); }
 .badge-lease { background: rgba(113, 81, 192, 0.12); color: #5a2d8c; border: 1px solid rgba(113,81,192,0.25); }
-.badge-pending { background: rgba(201, 168, 76, 0.18); color: #8a6700; border: 1px solid rgba(201,168,76,0.35); }
+.badge-pending { background: rgba(212, 175, 55, 0.18); color: #8a6700; border: 1px solid rgba(212,175,55,0.35); }
 .badge-approved { background: rgba(39, 174, 96, 0.15); color: #1a6b3c; border: 1px solid rgba(39,174,96,0.3); }
 .badge-rejected { background: rgba(192, 57, 43, 0.12); color: #922b21; border: 1px solid rgba(192,57,43,0.25); }
 
@@ -292,8 +304,8 @@ input, select, textarea {
 .spinner {
   width: 44px;
   height: 44px;
-  border: 3px solid rgba(31, 110, 69, 0.15);
-  border-top-color: var(--primary);
+  border: 3px solid rgba(212, 175, 55, 0.15);
+  border-top-color: var(--gold);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   margin: 40px auto;
@@ -317,6 +329,7 @@ input, select, textarea {
 
 .empty-state h3 {
   font-size: 18px;
+  font-family: 'Playfair Display', serif;
   color: var(--text-medium);
   margin-bottom: 8px;
 }
@@ -326,7 +339,7 @@ input, select, textarea {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  background: var(--primary-dark);
+  background: var(--charcoal);
   color: white;
   padding: 14px 22px;
   border-radius: var(--radius);
@@ -335,7 +348,7 @@ input, select, textarea {
   z-index: 9999;
   animation: slideUp 0.3s ease;
   box-shadow: var(--shadow-lg);
-  border-left: 4px solid var(--accent);
+  border-left: 4px solid var(--gold);
 }
 
 .toast.success { background: #155724; border-left-color: #27ae60; }

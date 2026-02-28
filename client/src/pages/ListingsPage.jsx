@@ -1,7 +1,22 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { listings } from '../services/api';
 import './ListingsPage.css';
+
+// Fix leaflet default marker icons in Vite builds by providing explicit URLs
+const defaultMarkerIcon = L.icon({
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
+L.Marker.prototype.options.icon = defaultMarkerIcon;
 
 const PROPERTY_TYPES = [
   'apartment', 'house', 'villa', 'townhouse', 'penthouse',
@@ -75,6 +90,50 @@ function ListingCard({ p }) {
             )}
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+function PropertyMap({ properties }) {
+  const maltaCenter = [35.9375, 14.3754];
+  const mappableProperties = properties.filter(p => p.latitude && p.longitude);
+
+  return (
+    <div className="listings-map-section">
+      <h2>🗺️ Properties on Map</h2>
+      <div className="listings-map-container">
+        <MapContainer
+          center={maltaCenter}
+          zoom={11}
+          style={{ height: '100%', width: '100%' }}
+          scrollWheelZoom={false}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {mappableProperties.map(p => (
+            <Marker key={p.id} position={[parseFloat(p.latitude), parseFloat(p.longitude)]}>
+              <Popup>
+                <div style={{ minWidth: 160 }}>
+                  {p.images && p.images.length > 0 && (
+                    <img
+                      src={p.images[0]}
+                      alt={p.title}
+                      style={{ width: '100%', height: 90, objectFit: 'cover', borderRadius: 6, marginBottom: 6 }}
+                    />
+                  )}
+                  <strong style={{ display: 'block', fontSize: 14, marginBottom: 4 }}>{p.title}</strong>
+                  <span style={{ color: '#D4AF37', fontWeight: 700, fontSize: 15 }}>€{Number(p.price).toLocaleString()}</span>
+                  <div style={{ fontSize: 12, color: '#666', marginTop: 4 }}>
+                    {p.city || p.address}
+                  </div>
+                </div>
+              </Popup>
+            </Marker>
+          ))}
+        </MapContainer>
       </div>
     </div>
   );
@@ -238,108 +297,115 @@ function ListingsPage() {
           <DemandSection />
         </div>
       ) : (
-        <div className="listings-body">
-          {/* Filters sidebar */}
-          <aside className="listings-filters">
-            <div className="filter-header">
-              <h3>Filters</h3>
-              <button className="filter-clear" onClick={clearFilters}>Clear all</button>
-            </div>
+        <>
+          {/* Interactive Map */}
+          {!loading && propertyList.length > 0 && (
+            <PropertyMap properties={propertyList} />
+          )}
 
-            <div className="filter-group">
-              <label>Listing Type</label>
-              <select name="listingType" className="filter-select" value={filters.listingType} onChange={handleFilterChange}>
-                <option value="">All</option>
-                <option value="sale">For Sale</option>
-                <option value="rent">For Rent</option>
-                <option value="lease">For Lease</option>
-              </select>
-            </div>
-
-            <div className="filter-group">
-              <label>Property Type</label>
-              <select name="propertyType" className="filter-select" value={filters.propertyType} onChange={handleFilterChange}>
-                <option value="">All Types</option>
-                {PROPERTY_TYPES.map(t => (
-                  <option key={t} value={t} style={{ textTransform: 'capitalize' }}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="filter-group">
-              <label>Min Price (€)</label>
-              <input name="minPrice" type="number" className="filter-input" placeholder="e.g. 100000" value={filters.minPrice} onChange={handleFilterChange} />
-            </div>
-
-            <div className="filter-group">
-              <label>Max Price (€)</label>
-              <input name="maxPrice" type="number" className="filter-input" placeholder="e.g. 500000" value={filters.maxPrice} onChange={handleFilterChange} />
-            </div>
-
-            <div className="filter-group">
-              <label>Bedrooms</label>
-              <select name="bedrooms" className="filter-select" value={filters.bedrooms} onChange={handleFilterChange}>
-                <option value="">Any</option>
-                {[1, 2, 3, 4, 5].map(n => (
-                  <option key={n} value={n}>{n}+</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="filter-cta">
-              <button className="btn btn-primary w-full" onClick={() => fetchListings(1)}>
-                Search Properties
-              </button>
-            </div>
-          </aside>
-
-          {/* Results */}
-          <main className="listings-results">
-            <div className="listings-results-header">
-              <span className="listings-count">
-                {loading ? 'Loading…' : `${pagination.total} ${pagination.total === 1 ? 'property' : 'properties'} found`}
-              </span>
-            </div>
-
-            {loading ? (
-              <div className="listings-spinner" />
-            ) : propertyList.length === 0 ? (
-              <div className="listings-empty">
-                <div className="listings-empty-icon">🏠</div>
-                <h3>No properties found</h3>
-                <p>Try adjusting your filters or search terms.</p>
-                <button className="listings-btn-outline" onClick={clearFilters}>Clear filters</button>
+          <div className="listings-body">
+            {/* Filters sidebar */}
+            <aside className="listings-filters">
+              <div className="filter-header">
+                <h3>Filters</h3>
+                <button className="filter-clear" onClick={clearFilters}>Clear all</button>
               </div>
-            ) : (
-              <div className="listings-grid">
-                {propertyList.map(p => (
-                  <ListingCard key={p.id} p={p} />
-                ))}
-              </div>
-            )}
 
-            {/* Pagination */}
-            {pagination.totalPages > 1 && (
-              <div className="listings-pagination">
-                {pagination.page > 1 && (
-                  <button className="listings-page-btn" onClick={() => fetchListings(pagination.page - 1)}>← Prev</button>
-                )}
-                {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(pg => (
-                  <button
-                    key={pg}
-                    className={`listings-page-btn${pg === pagination.page ? ' active' : ''}`}
-                    onClick={() => fetchListings(pg)}
-                  >
-                    {pg}
-                  </button>
-                ))}
-                {pagination.page < pagination.totalPages && (
-                  <button className="listings-page-btn" onClick={() => fetchListings(pagination.page + 1)}>Next →</button>
-                )}
+              <div className="filter-group">
+                <label>Listing Type</label>
+                <select name="listingType" className="filter-select" value={filters.listingType} onChange={handleFilterChange}>
+                  <option value="">All</option>
+                  <option value="sale">For Sale</option>
+                  <option value="rent">For Rent</option>
+                  <option value="lease">For Lease</option>
+                </select>
               </div>
-            )}
-          </main>
-        </div>
+
+              <div className="filter-group">
+                <label>Property Type</label>
+                <select name="propertyType" className="filter-select" value={filters.propertyType} onChange={handleFilterChange}>
+                  <option value="">All Types</option>
+                  {PROPERTY_TYPES.map(t => (
+                    <option key={t} value={t} style={{ textTransform: 'capitalize' }}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="filter-group">
+                <label>Min Price (€)</label>
+                <input name="minPrice" type="number" className="filter-input" placeholder="e.g. 100000" value={filters.minPrice} onChange={handleFilterChange} />
+              </div>
+
+              <div className="filter-group">
+                <label>Max Price (€)</label>
+                <input name="maxPrice" type="number" className="filter-input" placeholder="e.g. 500000" value={filters.maxPrice} onChange={handleFilterChange} />
+              </div>
+
+              <div className="filter-group">
+                <label>Bedrooms</label>
+                <select name="bedrooms" className="filter-select" value={filters.bedrooms} onChange={handleFilterChange}>
+                  <option value="">Any</option>
+                  {[1, 2, 3, 4, 5].map(n => (
+                    <option key={n} value={n}>{n}+</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="filter-cta">
+                <button className="btn btn-primary w-full" onClick={() => fetchListings(1)}>
+                  Search Properties
+                </button>
+              </div>
+            </aside>
+
+            {/* Results */}
+            <main className="listings-results">
+              <div className="listings-results-header">
+                <span className="listings-count">
+                  {loading ? 'Loading…' : `${pagination.total} ${pagination.total === 1 ? 'property' : 'properties'} found`}
+                </span>
+              </div>
+
+              {loading ? (
+                <div className="listings-spinner" />
+              ) : propertyList.length === 0 ? (
+                <div className="listings-empty">
+                  <div className="listings-empty-icon">🏠</div>
+                  <h3>No properties found</h3>
+                  <p>Try adjusting your filters or search terms.</p>
+                  <button className="listings-btn-outline" onClick={clearFilters}>Clear filters</button>
+                </div>
+              ) : (
+                <div className="listings-grid">
+                  {propertyList.map(p => (
+                    <ListingCard key={p.id} p={p} />
+                  ))}
+                </div>
+              )}
+
+              {/* Pagination */}
+              {pagination.totalPages > 1 && (
+                <div className="listings-pagination">
+                  {pagination.page > 1 && (
+                    <button className="listings-page-btn" onClick={() => fetchListings(pagination.page - 1)}>← Prev</button>
+                  )}
+                  {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(pg => (
+                    <button
+                      key={pg}
+                      className={`listings-page-btn${pg === pagination.page ? ' active' : ''}`}
+                      onClick={() => fetchListings(pg)}
+                    >
+                      {pg}
+                    </button>
+                  ))}
+                  {pagination.page < pagination.totalPages && (
+                    <button className="listings-page-btn" onClick={() => fetchListings(pagination.page + 1)}>Next →</button>
+                  )}
+                </div>
+              )}
+            </main>
+          </div>
+        </>
       )}
 
       <footer className="listings-footer">

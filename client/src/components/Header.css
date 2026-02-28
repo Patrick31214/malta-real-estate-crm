@@ -1,15 +1,26 @@
 .app-header {
   height: var(--header-height);
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-gold);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 2px solid rgba(212, 175, 55, 0.3);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;
   flex-shrink: 0;
-  box-shadow: 0 2px 16px rgba(31, 110, 69, 0.08);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+  position: relative;
+}
+
+.app-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #D4AF37 30%, #F5E6B8 50%, #D4AF37 70%, transparent 100%);
 }
 
 .header-left {
@@ -19,9 +30,10 @@
 }
 
 .page-title {
-  font-size: 20px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
   font-weight: 700;
-  color: var(--primary);
+  color: var(--charcoal);
   letter-spacing: 0.2px;
 }
 
@@ -34,27 +46,28 @@
 .header-badge {
   font-size: 13px;
   font-weight: 600;
-  color: var(--primary);
-  background: rgba(201, 168, 76, 0.15);
-  padding: 5px 14px;
-  border-radius: 20px;
-  border: 1px solid var(--border-gold);
+  color: #1a1a2e;
+  background: rgba(212, 175, 55, 0.15);
+  padding: 6px 16px;
+  border-radius: 24px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
   letter-spacing: 0.3px;
   transition: all 0.2s;
 }
 .header-badge:hover {
-  background: rgba(201, 168, 76, 0.25);
+  background: rgba(212, 175, 55, 0.28);
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212,175,55,0.2);
 }
 
-/* Hamburger menu toggle — hidden on desktop */
+/* Hamburger menu toggle */
 .menu-toggle {
   display: none;
   background: none;
   border: none;
   font-size: 22px;
   cursor: pointer;
-  color: var(--primary);
+  color: var(--charcoal);
   padding: 6px 10px;
   border-radius: var(--radius-sm);
   line-height: 1;
@@ -62,14 +75,11 @@
 }
 
 .menu-toggle:hover {
-  background: rgba(31, 110, 69, 0.1);
+  background: rgba(212, 175, 55, 0.12);
 }
 
 @media (max-width: 768px) {
-  .app-header {
-    padding: 0 16px;
-  }
-
+  .app-header { padding: 0 16px; }
   .menu-toggle {
     display: flex;
     align-items: center;

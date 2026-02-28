@@ -1,22 +1,22 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(26, 26, 46, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   padding: 20px;
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(8px);
 }
 
 .modal-box {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: var(--radius);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 20px 60px rgba(31,110,69,0.2), 0 4px 20px rgba(0,0,0,0.15);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2), 0 4px 20px rgba(212,175,55,0.1);
   width: 100%;
   max-width: 700px;
   max-height: 90vh;
@@ -35,24 +35,25 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
   flex-shrink: 0;
-  background: rgba(31,110,69,0.04);
+  background: rgba(212, 175, 55, 0.04);
   border-radius: var(--radius) var(--radius) 0 0;
 }
 
 .modal-header h2 {
-  font-size: 18px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 20px;
   font-weight: 700;
-  color: var(--primary);
+  color: var(--charcoal);
 }
 
 .modal-close {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: rgba(31,110,69,0.08);
-  border: 1px solid var(--border);
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.2);
   cursor: pointer;
   font-size: 14px;
   display: flex;
@@ -80,7 +81,7 @@
   gap: 10px;
   justify-content: flex-end;
   padding-top: 16px;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid rgba(212, 175, 55, 0.12);
   margin-top: 8px;
 }
 
@@ -114,5 +115,5 @@
   width: 16px;
   height: 16px;
   cursor: pointer;
-  accent-color: var(--primary);
+  accent-color: var(--gold);
 }
