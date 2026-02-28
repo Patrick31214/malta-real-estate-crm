@@ -70,6 +70,11 @@ const Agent = sequelize.define('Agent', {
     type: DataTypes.BOOLEAN,
     defaultValue: true,
     field: 'is_active'
+  },
+  branchId: {
+    type: DataTypes.UUID,
+    allowNull: true,
+    field: 'branch_id'
   }
 }, {
   tableName: 'agents',
