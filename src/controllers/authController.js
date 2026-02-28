@@ -114,6 +114,7 @@ const login = async (req, res) => {
 
     // Save refresh token to database
     user.refreshToken = refreshToken;
+    user.lastLoginAt = new Date();
     await user.save();
 
     res.status(200).json({

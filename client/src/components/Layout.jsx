@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
-import AIChatbot from './AIChatbot';
 import './Layout.css';
 
 function Layout() {
@@ -20,7 +19,6 @@ function Layout() {
           <Outlet />
         </main>
       </div>
-      <AIChatbot />
     </div>
   );
 }

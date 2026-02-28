@@ -162,4 +162,39 @@ export const listings = {
   getOne: (id) => fetch(`${API_BASE}/listings/${id}`).then(r => r.json())
 };
 
-export default { auth, properties, owners, inquiries, agents, listings, activityLogs };
+// Public services (no auth required)
+export const servicesPublic = {
+  getPublic: (category) => {
+    const qs = category ? `?category=${encodeURIComponent(category)}` : '';
+    return fetch(`${API_BASE}/services/public${qs}`).then(r => r.json());
+  }
+};
+
+// CRM services (auth required)
+export const services = {
+  getAll: (params = {}) => {
+    const qs = new URLSearchParams(params).toString();
+    return request(`/services${qs ? '?' + qs : ''}`);
+  },
+  getOne: (id) => request(`/services/${id}`),
+  create: (data) => request('/services', { method: 'POST', body: JSON.stringify(data) }),
+  update: (id, data) => request(`/services/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  delete: (id) => request(`/services/${id}`, { method: 'DELETE' }),
+};
+
+// File upload
+export const upload = {
+  files: async (fileList) => {
+    const formData = new FormData();
+    Array.from(fileList).forEach(f => formData.append('files', f));
+    const token = localStorage.getItem('accessToken');
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      body: formData
+    });
+    return res.json();
+  }
+};
+
+export default { auth, properties, owners, inquiries, agents, listings, activityLogs, services, upload };

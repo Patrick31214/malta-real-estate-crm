@@ -226,7 +226,55 @@
   }
 }
 
-/* Charts */
+/* Activity feed */
+.activity-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.activity-item {
+  display: flex;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(212,175,55,0.06);
+  align-items: flex-start;
+}
+
+.activity-item:last-child { border-bottom: none; }
+
+.activity-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--emerald-light, #40916C);
+  flex-shrink: 0;
+  margin-top: 5px;
+  box-shadow: 0 0 6px rgba(64,145,108,0.4);
+}
+
+.activity-content {
+  flex: 1;
+  font-size: 13px;
+}
+
+.activity-action {
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: capitalize;
+}
+
+.activity-desc {
+  color: var(--text-secondary);
+}
+
+.activity-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
 .chart-empty {
   display: flex;
   align-items: center;

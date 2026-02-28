@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Building2, Users, UserCheck, MessageSquare, Activity, Globe, LogOut, Key, Calculator, Scale } from 'lucide-react';
+import { LayoutDashboard, Building2, Users, UserCheck, MessageSquare, Activity, Globe, LogOut, Key, Calculator, Scale, Waves } from 'lucide-react';
 import { auth } from '../services/api';
 import './Sidebar.css';
 
@@ -9,6 +9,7 @@ const navItems = [
   { to: '/owners', label: 'Owners', icon: Users },
   { to: '/agents', label: 'Agents', icon: UserCheck },
   { to: '/inquiries', label: 'Inquiries', icon: MessageSquare },
+  { to: '/services', label: 'Services', icon: Waves },
   { to: '/mortgage-calculator', label: 'Mortgage Calc', icon: Calculator },
 ];
 

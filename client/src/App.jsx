@@ -4,6 +4,7 @@ import { CurrencyProvider } from './contexts/CurrencyContext';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import PropertiesPage from './pages/PropertiesPage';
+import PropertyDetailPage from './pages/PropertyDetailPage';
 import OwnersPage from './pages/OwnersPage';
 import InquiriesPage from './pages/InquiriesPage';
 import AgentsPage from './pages/AgentsPage';
@@ -11,6 +12,7 @@ import ListingsPage from './pages/ListingsPage';
 import ActivityLogPage from './pages/ActivityLogPage';
 import MortgageCalculatorPage from './pages/MortgageCalculatorPage';
 import MaltaCompliancePage from './pages/MaltaCompliancePage';
+import ServicesPage from './pages/ServicesPage';
 import Layout from './components/Layout';
 import { auth } from './services/api';
 
@@ -52,9 +54,11 @@ function App() {
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard" element={<DashboardPage />} />
           <Route path="properties" element={<PropertiesPage />} />
+          <Route path="properties/:id" element={<PropertyDetailPage />} />
           <Route path="owners" element={<OwnersPage />} />
           <Route path="inquiries" element={<InquiriesPage />} />
           <Route path="agents" element={<AgentsPage />} />
+          <Route path="services" element={<ServicesPage />} />
           <Route path="activity-log" element={<ActivityLogPage />} />
           <Route path="mortgage-calculator" element={<MortgageCalculatorPage />} />
           <Route path="compliance" element={<MaltaCompliancePage />} />

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Building2, CheckCircle, Handshake, Users, Calculator } from 'lucide-react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
-import { properties, owners } from '../services/api';
+import { properties, owners, activityLogs } from '../services/api';
 import './DashboardPage.css';
 
 const STATUS_COLORS = {
@@ -120,14 +120,16 @@ function DashboardPage() {
   });
   const [recentProperties, setRecentProperties] = useState([]);
   const [allProperties, setAllProperties] = useState([]);
+  const [activityFeed, setActivityFeed] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchStats() {
       try {
-        const [propsRes, ownersRes] = await Promise.all([
+        const [propsRes, ownersRes, activityRes] = await Promise.all([
           properties.getAll({ limit: 100 }),
-          owners.getAll({ limit: 1 })
+          owners.getAll({ limit: 1 }),
+          activityLogs.getAll({ limit: 10 }).catch(() => ({ success: false }))
         ]);
 
         if (propsRes.success) {
@@ -143,6 +145,10 @@ function DashboardPage() {
           });
           setRecentProperties(props.slice(0, 5));
           setAllProperties(props);
+        }
+
+        if (activityRes.success) {
+          setActivityFeed(activityRes.data?.logs || activityRes.data || []);
         }
       } catch (err) {
         console.error('Failed to load dashboard stats:', err);
@@ -164,7 +170,7 @@ function DashboardPage() {
       {/* Stats grid */}
       <div className="stats-grid">
         <StatCard icon={Building2} label="Total Properties" value={stats.totalProperties} color="#1e3a5f" linkTo="/properties" />
-        <StatCard icon={CheckCircle} label="Available" value={stats.available} color="#27ae60" linkTo="/properties?status=available" />
+        <StatCard icon={CheckCircle} label="Available" value={stats.available} color="var(--emerald-primary, #2D6A4F)" linkTo="/properties?status=available" />
         <StatCard icon={Handshake} label="Under Offer" value={stats.underOffer} color="#e8a020" linkTo="/properties?status=under_offer" />
         <StatCard icon={Users} label="Owners" value={stats.totalOwners} color="#8e44ad" linkTo="/owners" />
       </div>
@@ -255,6 +261,31 @@ function DashboardPage() {
                 <h3>Properties by Type</h3>
               </div>
               <PriceTypeChart properties={allProperties} />
+            </div>
+          )}
+
+          {/* Activity feed */}
+          {activityFeed.length > 0 && (
+            <div className="card" style={{ marginTop: 24 }}>
+              <div className="section-header" style={{ marginBottom: 16 }}>
+                <h3>Recent Activity</h3>
+                <Link to="/activity-log" className="btn btn-outline btn-sm">View all</Link>
+              </div>
+              <div className="activity-feed">
+                {activityFeed.map((log, i) => (
+                  <div key={log.id || i} className="activity-item">
+                    <div className="activity-dot" />
+                    <div className="activity-content">
+                      <span className="activity-action">{log.action || log.type || 'Action'}</span>
+                      {log.description && <span className="activity-desc"> — {log.description}</span>}
+                      <div className="activity-meta">
+                        {log.user && <span>{log.user.firstName || log.user.email}</span>}
+                        {log.createdAt && <span>{new Date(log.createdAt).toLocaleString()}</span>}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </>

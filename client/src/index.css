@@ -24,10 +24,13 @@
   --glass-border: rgba(255, 255, 255, 0.15);
   --glass-shadow: rgba(0, 0, 0, 0.4);
   --glass-green: rgba(29, 185, 84, 0.12);
+  --emerald-primary: #2D6A4F;
+  --emerald-light: #40916C;
+  --emerald-glow: rgba(45, 106, 79, 0.3);
 }
 
 [data-theme="light"] {
-  --bg-primary: #F5F5F7;
+  --bg-primary: #EDECEA;
   --bg-secondary: #FFFFFF;
   --bg-tertiary: #EAEAEE;
   --text-primary: #0D0D0F;
@@ -45,6 +48,9 @@
   --glass-border: rgba(212, 175, 55, 0.2);
   --glass-shadow: rgba(0, 0, 0, 0.08);
   --glass-green: rgba(29, 185, 84, 0.08);
+  --emerald-primary: #2D6A4F;
+  --emerald-light: #40916C;
+  --emerald-glow: rgba(45, 106, 79, 0.15);
 }
 
 * {
@@ -223,6 +229,17 @@ input, select, textarea {
   box-shadow: 0 6px 18px rgba(192, 57, 43, 0.4);
 }
 
+.btn-warning {
+  background: linear-gradient(135deg, #c97a10 0%, var(--warning) 100%);
+  color: white;
+  border-color: var(--warning);
+  box-shadow: 0 3px 10px rgba(230, 126, 34, 0.3);
+}
+.btn-warning:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(230, 126, 34, 0.4);
+}
+
 .btn-sm {
   padding: 6px 14px;
   font-size: 13px;
@@ -343,6 +360,7 @@ input, select, textarea {
 .badge-rented { background: rgba(41, 128, 185, 0.12); color: #1a5276; border: 1px solid rgba(41,128,185,0.25); }
 .badge-draft { background: rgba(120, 120, 120, 0.1); color: #555; border: 1px solid rgba(0,0,0,0.12); }
 .badge-withdrawn { background: rgba(100, 100, 100, 0.08); color: #6c757d; border: 1px solid rgba(0,0,0,0.1); }
+.badge-off_market { background: rgba(80, 80, 80, 0.12); color: #4a4a55; border: 1px solid rgba(0,0,0,0.15); }
 .badge-sale { background: rgba(39, 174, 96, 0.15); color: #1a6b3c; border: 1px solid rgba(39,174,96,0.3); }
 .badge-rent { background: rgba(41, 128, 185, 0.12); color: #1a5276; border: 1px solid rgba(41,128,185,0.25); }
 .badge-lease { background: rgba(113, 81, 192, 0.12); color: #5a2d8c; border: 1px solid rgba(113,81,192,0.25); }

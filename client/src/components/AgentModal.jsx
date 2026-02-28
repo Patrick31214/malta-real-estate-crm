@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { agents } from '../services/api';
+import { useState, useEffect, useRef } from 'react';
+import { agents, upload } from '../services/api';
 import './Modal.css';
 
 const defaultForm = {
@@ -12,8 +12,10 @@ const defaultForm = {
 function AgentModal({ agent, onClose, onSaved }) {
   const [form, setForm] = useState(defaultForm);
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
   const [tempPassword, setTempPassword] = useState('');
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (agent) {
@@ -37,6 +39,20 @@ function AgentModal({ agent, onClose, onSaved }) {
 
   const handleChange = (e) => {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+  };
+
+  const handleProfileImageUpload = async (files) => {
+    if (!files || files.length === 0) return;
+    setUploading(true);
+    try {
+      const res = await upload.files(files);
+      const url = res?.data?.urls?.[0] || res?.urls?.[0];
+      if (url) setForm(f => ({ ...f, profileImageUrl: url }));
+    } catch {
+      setError('Image upload failed.');
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -180,14 +196,31 @@ function AgentModal({ agent, onClose, onSaved }) {
           <div className="form-group">
             <label>Profile Photo URL</label>
             <input name="profileImageUrl" type="url" className="form-input" value={form.profileImageUrl} onChange={handleChange} placeholder="https://example.com/photo.jpg" />
-            {form.profileImageUrl && (
-              <img
-                src={form.profileImageUrl}
-                alt="Preview"
-                onError={e => { e.target.style.display = 'none'; }}
-                style={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'cover', marginTop: 8, border: '2px solid var(--accent)' }}
+            <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 10 }}>
+              <button
+                type="button"
+                className="btn btn-outline btn-sm"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading}
+              >
+                {uploading ? '⏳ Uploading…' : '📷 Upload Photo'}
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                onChange={e => handleProfileImageUpload(e.target.files)}
               />
-            )}
+              {form.profileImageUrl && (
+                <img
+                  src={form.profileImageUrl}
+                  alt="Preview"
+                  onError={e => { e.target.style.display = 'none'; }}
+                  style={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--accent)' }}
+                />
+              )}
+            </div>
           </div>
 
           <div className="modal-footer">
