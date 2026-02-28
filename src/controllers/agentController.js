@@ -1,4 +1,4 @@
-const { Agent, User, Property } = require('../models');
+const { Agent, User, Property, sequelize } = require('../models');
 const { Op } = require('sequelize');
 const crypto = require('crypto');
 
@@ -27,7 +27,7 @@ const getAgents = async (req, res) => {
         {
           model: User,
           as: 'user',
-          attributes: ['id', 'firstName', 'lastName', 'email'],
+          attributes: ['id', 'firstName', 'lastName', 'email', 'isActive', 'isBlocked', 'blockedReason'],
           ...(search ? {
             where: {
               [Op.or]: [
@@ -40,6 +40,18 @@ const getAgents = async (req, res) => {
           } : {})
         }
       ],
+      attributes: {
+        include: [
+          [
+            sequelize.literal(`(SELECT COUNT(*) FROM "properties" WHERE "properties"."agentId" = "Agent"."id" AND "properties"."isActive" = true)`),
+            'propertiesCount'
+          ],
+          [
+            sequelize.literal(`(SELECT COUNT(*) FROM "inquiries" WHERE "inquiries"."agentId" = "Agent"."id")`),
+            'inquiriesCount'
+          ]
+        ]
+      },
       limit: parseInt(limit),
       offset,
       order: [['createdAt', 'DESC']]
