@@ -7,7 +7,7 @@
 /* Left panel – luxury dark charcoal with gold */
 .login-left {
   flex: 1;
-  background: linear-gradient(145deg, #1a1a2e 0%, #16213e 55%, #0f0f1a 100%);
+  background: linear-gradient(145deg, #0D0D0F 0%, #1A1A1D 55%, #0D0D0F 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,7 +59,7 @@
   font-weight: 800;
   margin-bottom: 12px;
   line-height: 1.2;
-  background: linear-gradient(135deg, #ffffff 0%, #F5E6B8 50%, #D4AF37 100%);
+  background: linear-gradient(135deg, #A67C00, #D4AF37, #F2C94C);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -108,7 +108,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(160deg, #FEFCF6 0%, #F8F4ED 100%);
+  background: var(--bg-secondary);
   padding: 48px 40px;
 }
 
@@ -125,12 +125,12 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 32px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: var(--text-primary);
   margin-bottom: 8px;
 }
 
 .login-header p {
-  color: var(--text-light);
+  color: var(--text-muted);
   font-size: 15px;
 }
 
@@ -153,15 +153,15 @@
 }
 
 .alert-success {
-  background: rgba(39, 174, 96, 0.08);
-  color: #155724;
-  border: 1px solid rgba(39,174,96,0.25);
+  background: rgba(29, 185, 84, 0.08);
+  color: var(--green-primary);
+  border: 1px solid rgba(29,185,84,0.25);
 }
 
 .login-footer {
   margin-top: 24px;
   text-align: center;
-  color: var(--text-light);
+  color: var(--text-muted);
   font-size: 12px;
 }
 

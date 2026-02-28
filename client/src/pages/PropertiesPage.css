@@ -31,7 +31,7 @@
 
 .result-count {
   font-size: 13px;
-  color: var(--text-light);
+  color: var(--text-muted);
   font-weight: 500;
   padding: 0 4px;
 }
@@ -53,19 +53,19 @@
 
 .prop-title {
   font-weight: 600;
-  color: var(--charcoal);
+  color: var(--text-primary);
   font-size: 14px;
 }
 
 .prop-location {
   font-size: 12px;
-  color: var(--text-light);
+  color: var(--text-muted);
   margin-top: 2px;
 }
 
 .prop-price {
   font-weight: 700;
-  color: var(--gold);
+  color: var(--gold-primary);
   font-size: 14px;
 }
 
@@ -79,9 +79,9 @@
 .page-btn {
   padding: 7px 14px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border-gold);
-  background: rgba(255,255,255,0.6);
-  color: var(--text-medium);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  color: var(--text-secondary);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -90,14 +90,14 @@
 
 .page-btn:hover {
   background: rgba(212,175,55,0.1);
-  border-color: var(--gold);
-  color: var(--charcoal);
+  border-color: var(--gold-primary);
+  color: var(--text-primary);
 }
 
 .page-btn.active {
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
-  color: var(--charcoal);
-  border-color: var(--gold);
+  background: linear-gradient(135deg, #A67C00, #D4AF37, #F2C94C);
+  color: #0D0D0F;
+  border-color: var(--gold-primary);
   font-weight: 700;
   box-shadow: 0 2px 10px rgba(212,175,55,0.3);
 }

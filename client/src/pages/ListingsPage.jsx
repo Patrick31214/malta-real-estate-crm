@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { listings } from '../services/api';
+import { useTheme } from '../contexts/ThemeContext';
 import './ListingsPage.css';
 
 // Fix leaflet default marker icons in Vite builds by providing explicit URLs
@@ -98,6 +99,10 @@ function ListingCard({ p }) {
 function PropertyMap({ properties }) {
   const maltaCenter = [35.9375, 14.3754];
   const mappableProperties = properties.filter(p => p.latitude && p.longitude);
+  const { theme } = useTheme();
+  const tileUrl = theme === 'dark'
+    ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+    : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
   return (
     <div className="listings-map-section">
@@ -110,8 +115,8 @@ function PropertyMap({ properties }) {
           scrollWheelZoom={false}
         >
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+            url={tileUrl}
           />
           {mappableProperties.map(p => (
             <Marker key={p.id} position={[parseFloat(p.latitude), parseFloat(p.longitude)]}>
