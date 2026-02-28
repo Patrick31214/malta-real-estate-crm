@@ -360,6 +360,7 @@ input, select, textarea {
 .badge-rented { background: rgba(41, 128, 185, 0.12); color: #1a5276; border: 1px solid rgba(41,128,185,0.25); }
 .badge-draft { background: rgba(120, 120, 120, 0.1); color: #555; border: 1px solid rgba(0,0,0,0.12); }
 .badge-withdrawn { background: rgba(100, 100, 100, 0.08); color: #6c757d; border: 1px solid rgba(0,0,0,0.1); }
+.badge-off_market { background: rgba(80, 80, 80, 0.12); color: #4a4a55; border: 1px solid rgba(0,0,0,0.15); }
 .badge-sale { background: rgba(39, 174, 96, 0.15); color: #1a6b3c; border: 1px solid rgba(39,174,96,0.3); }
 .badge-rent { background: rgba(41, 128, 185, 0.12); color: #1a5276; border: 1px solid rgba(41,128,185,0.25); }
 .badge-lease { background: rgba(113, 81, 192, 0.12); color: #5a2d8c; border: 1px solid rgba(113,81,192,0.25); }

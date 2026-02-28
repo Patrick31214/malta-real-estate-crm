@@ -21,7 +21,7 @@ router.get('/public', limiter, async (req, res) => {
 });
 
 // GET /api/services
-router.get('/', authenticateToken, limiter, async (req, res) => {
+router.get('/', limiter, authenticateToken, async (req, res) => {
   try {
     const { category } = req.query;
     const where = {};
@@ -34,7 +34,7 @@ router.get('/', authenticateToken, limiter, async (req, res) => {
 });
 
 // GET /api/services/:id
-router.get('/:id', authenticateToken, limiter, async (req, res) => {
+router.get('/:id', limiter, authenticateToken, async (req, res) => {
   try {
     const service = await Service.findByPk(req.params.id);
     if (!service) return res.status(404).json({ success: false, message: 'Service not found.' });
@@ -45,7 +45,7 @@ router.get('/:id', authenticateToken, limiter, async (req, res) => {
 });
 
 // POST /api/services
-router.post('/', authenticateToken, limiter, async (req, res) => {
+router.post('/', limiter, authenticateToken, async (req, res) => {
   try {
     const service = await Service.create(req.body);
     res.status(201).json({ success: true, data: { service } });
@@ -55,7 +55,7 @@ router.post('/', authenticateToken, limiter, async (req, res) => {
 });
 
 // PUT /api/services/:id
-router.put('/:id', authenticateToken, limiter, async (req, res) => {
+router.put('/:id', limiter, authenticateToken, async (req, res) => {
   try {
     const service = await Service.findByPk(req.params.id);
     if (!service) return res.status(404).json({ success: false, message: 'Service not found.' });
@@ -67,7 +67,7 @@ router.put('/:id', authenticateToken, limiter, async (req, res) => {
 });
 
 // DELETE /api/services/:id
-router.delete('/:id', authenticateToken, limiter, async (req, res) => {
+router.delete('/:id', limiter, authenticateToken, async (req, res) => {
   try {
     const service = await Service.findByPk(req.params.id);
     if (!service) return res.status(404).json({ success: false, message: 'Service not found.' });

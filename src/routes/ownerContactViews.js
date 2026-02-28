@@ -5,11 +5,11 @@ const { authenticateToken } = require('../middleware/auth');
 const rateLimit = require('../middleware/rateLimit');
 const { Op } = require('sequelize');
 
-const DAILY_VIEW_LIMIT = 50;
+const DAILY_VIEW_LIMIT = parseInt(process.env.OWNER_VIEW_LIMIT || '50', 10);
 const limiter = rateLimit({ windowMs: 60 * 1000, max: 100 });
 
 // Log a view of owner contact details
-router.post('/', authenticateToken, limiter, async (req, res) => {
+router.post('/', limiter, authenticateToken, async (req, res) => {
   try {
     const { ownerId, propertyId } = req.body;
     

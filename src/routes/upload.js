@@ -7,7 +7,7 @@ const rateLimit = require('../middleware/rateLimit');
 
 const limiter = rateLimit({ windowMs: 60 * 1000, max: 100 });
 
-router.post('/', authenticateToken, limiter, upload.array('files', 20), (req, res) => {
+router.post('/', limiter, authenticateToken, upload.array('files', 20), (req, res) => {
   try {
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ success: false, message: 'No files uploaded.' });

@@ -83,6 +83,7 @@ const i18n = {
     filter_property_type: 'Property Type', filter_min_price: 'Min Price (€)',
     filter_max_price: 'Max Price (€)', filter_bedrooms: 'Bedrooms',
     search_btn: 'Search Properties', clear_filters: 'Clear all',
+    wa_msg: (title, price, city) => `Hi, I'm interested in: ${title} - ${price} (${city}). Please provide more details.`,
   },
   MT: {
     hero_title: "Sib il-Proprjetà Perfetta Tiegħek f'Malta",
@@ -95,6 +96,7 @@ const i18n = {
     filter_property_type: "Tip ta' Proprjetà", filter_min_price: 'Prezz Minimu (€)',
     filter_max_price: 'Prezz Massimu (€)', filter_bedrooms: 'Kmamar tas-Sodda',
     search_btn: 'Ifittex Proprjetajiet', clear_filters: 'Ħassar kollox',
+    wa_msg: (title, price, city) => `Bongu, qed ninteressa ruħi fi: ${title} - ${price} (${city}). Jekk jogħġbok agħtini iktar dettalji.`,
   },
   IT: {
     hero_title: 'Trova la Tua Proprietà Ideale a Malta',
@@ -107,6 +109,7 @@ const i18n = {
     filter_property_type: 'Tipo Proprietà', filter_min_price: 'Prezzo Min (€)',
     filter_max_price: 'Prezzo Max (€)', filter_bedrooms: 'Camere da Letto',
     search_btn: 'Cerca Proprietà', clear_filters: 'Cancella tutto',
+    wa_msg: (title, price, city) => `Ciao, sono interessato a: ${title} - ${price} (${city}). Per favore forniscimi ulteriori dettagli.`,
   },
 };
 
@@ -181,7 +184,7 @@ function ModalForm({ title, subtitle, onClose }) {
 
 // ---- LISTING CARD ----
 
-function ListingCard({ p, onContactAgent, favorites, onToggleFavorite }) {
+function ListingCard({ p, onContactAgent, favorites, onToggleFavorite, t }) {
   const [imgError, setImgError] = useState(false);
   const { formatPrice } = useCurrency();
   const hasImage = p.images && p.images.length > 0 && !imgError;
@@ -195,10 +198,11 @@ function ListingCard({ p, onContactAgent, favorites, onToggleFavorite }) {
   const agentPhoto = p.agent?.profileImageUrl;
   const agentInitials = getInitials(agentName);
 
+  const waMsg = t?.wa_msg
+    ? t.wa_msg(p.title, formatPrice(p.price), p.city || 'Malta')
+    : `Hi, I'm interested in: ${p.title} - ${formatPrice(p.price)} (${p.city || 'Malta'}). Please provide more details.`;
   const waUrl = agentPhone
-    ? `https://wa.me/${agentPhone.replace(/\D/g, '')}?text=${encodeURIComponent(
-        `Hi, I'm interested in: ${p.title} - ${formatPrice(p.price)} (${p.city || 'Malta'}). Please provide more details.`
-      )}`
+    ? `https://wa.me/${agentPhone.replace(/\D/g, '')}?text=${encodeURIComponent(waMsg)}`
     : null;
 
   const rentalLabel = p.rentalType === 'short' ? 'Short Let' : p.rentalType === 'long' ? 'Long Let' : null;
@@ -432,6 +436,14 @@ function PropertyMapTab({ properties }) {
 
 // ---- SERVICE TAB ----
 
+function buildServicePlaceholders(category, title, emoji) {
+  return [
+    { id: `ph-1-${category}`, title: `${emoji} ${title} – Explorer`, price: 50,  duration: '2 hours',  location: 'Valletta',      description: "Discover Malta's stunning coastline and history." },
+    { id: `ph-2-${category}`, title: `${emoji} ${title} – Premium`,  price: 95,  duration: '4 hours',  location: 'Sliema',        description: 'Premium experience with a certified local guide.' },
+    { id: `ph-3-${category}`, title: `${emoji} ${title} – Full Day`, price: 150, duration: 'Full day', location: "St. Julian's", description: 'Complete Malta experience — the ultimate package.' },
+  ];
+}
+
 function ServiceTab({ category, title, emoji }) {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -446,14 +458,7 @@ function ServiceTab({ category, title, emoji }) {
       .finally(() => setLoading(false));
   }, [category]);
 
-  // Placeholder cards shown when API returns nothing
-  const placeholders = [
-    { id: `ph-1-${category}`, title: `${emoji} ${title} – Explorer`, price: 50,  duration: '2 hours',  location: 'Valletta',      description: 'Discover Malta\'s stunning coastline and history.' },
-    { id: `ph-2-${category}`, title: `${emoji} ${title} – Premium`,  price: 95,  duration: '4 hours',  location: 'Sliema',        description: 'Premium experience with a certified local guide.' },
-    { id: `ph-3-${category}`, title: `${emoji} ${title} – Full Day`, price: 150, duration: 'Full day', location: "St. Julian's", description: 'Complete Malta experience — the ultimate package.' },
-  ];
-
-  const displayServices = services.length > 0 ? services : placeholders;
+  const displayServices = services.length > 0 ? services : buildServicePlaceholders(category, title, emoji);
 
   return (
     <div className="service-tab">
@@ -582,7 +587,7 @@ function CalculatorsTab() {
 
 // ---- SAVED TAB ----
 
-function SavedTab({ favorites, allProperties, onContactAgent, onToggleFavorite }) {
+function SavedTab({ favorites, allProperties, onContactAgent, onToggleFavorite, t }) {
   const savedProps = allProperties.filter(p => favorites.includes(p.id));
 
   if (favorites.length === 0) {
@@ -605,7 +610,7 @@ function SavedTab({ favorites, allProperties, onContactAgent, onToggleFavorite }
       ) : (
         <div className="listings-grid">
           {savedProps.map(p => (
-            <ListingCard key={p.id} p={p} onContactAgent={onContactAgent} favorites={favorites} onToggleFavorite={onToggleFavorite} />
+          <ListingCard key={p.id} p={p} t={t} onContactAgent={onContactAgent} favorites={favorites} onToggleFavorite={onToggleFavorite} />
           ))}
         </div>
       )}
@@ -797,6 +802,7 @@ function ListingsPageInner() {
               allProperties={allLoadedProps}
               onContactAgent={p => setModal({ type: 'contact-agent', property: p })}
               onToggleFavorite={toggleFavorite}
+              t={t}
             />
           </div>
         )}
@@ -866,9 +872,10 @@ function ListingsPageInner() {
               ) : (
                 <div className="listings-grid">
                   {propertyList.map(p => (
-                    <ListingCard
+            <ListingCard
                       key={p.id}
                       p={p}
+                      t={t}
                       onContactAgent={prop => setModal({ type: 'contact-agent', property: prop })}
                       favorites={favorites}
                       onToggleFavorite={toggleFavorite}

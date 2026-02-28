@@ -19,6 +19,8 @@ const ownerContactViewsRoutes = require('./routes/ownerContactViews');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const INACTIVITY_THRESHOLD_DAYS = parseInt(process.env.INACTIVITY_THRESHOLD_DAYS || '3', 10);
+const HOUR_IN_MS = 60 * 60 * 1000;
 
 // Middleware
 // Allow the developer frontend (CLIENT_URL, usually localhost:3000 in dev mode)
@@ -120,19 +122,19 @@ const startServer = async () => {
     async function checkInactiveAccounts() {
       try {
         const { User } = require('./models');
-        const INACTIVITY_THRESHOLD_DAYS = parseInt(process.env.INACTIVITY_THRESHOLD_DAYS || '3', 10);
+        const { Op } = require('sequelize');
         const thresholdDate = new Date(Date.now() - INACTIVITY_THRESHOLD_DAYS * 24 * 60 * 60 * 1000);
         await User.update(
           {
             isBlocked: true,
             blockedAt: new Date(),
-            blockedReason: 'Auto-blocked: Inactive for 3+ days'
+            blockedReason: `Auto-blocked: Inactive for ${INACTIVITY_THRESHOLD_DAYS}+ days`
           },
           {
             where: {
               role: 'agent',
               isBlocked: false,
-              lastLoginAt: { [require('sequelize').Op.lt]: thresholdDate }
+              lastLoginAt: { [Op.lt]: thresholdDate }
             }
           }
         );
@@ -141,7 +143,6 @@ const startServer = async () => {
       }
     }
     checkInactiveAccounts();
-    const HOUR_IN_MS = 60 * 60 * 1000;
     setInterval(checkInactiveAccounts, HOUR_IN_MS);
     
     // Start listening
