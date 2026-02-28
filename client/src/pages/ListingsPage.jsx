@@ -66,7 +66,7 @@ function ListingCard({ p }) {
   );
 }
 
-
+function ListingsPage() {
   const [propertyList, setPropertyList] = useState([]);
   const [pagination, setPagination] = useState({ total: 0, page: 1, limit: 12, totalPages: 0 });
   const [loading, setLoading] = useState(true);
