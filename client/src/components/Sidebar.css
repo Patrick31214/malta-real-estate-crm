@@ -28,6 +28,9 @@
   font-size: 32px;
   line-height: 1;
   filter: drop-shadow(0 2px 8px rgba(212,175,55,0.5));
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .logo-text {
@@ -130,6 +133,9 @@
   text-align: center;
   flex-shrink: 0;
   transition: transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .nav-item:hover .nav-icon { transform: scale(1.15); }
 

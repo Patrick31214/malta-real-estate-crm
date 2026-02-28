@@ -1,17 +1,19 @@
 import { NavLink, useNavigate } from 'react-router-dom';
+import { LayoutDashboard, Building2, Users, UserCheck, MessageSquare, Activity, Globe, LogOut, Key, Calculator } from 'lucide-react';
 import { auth } from '../services/api';
 import './Sidebar.css';
 
 const navItems = [
-  { to: '/dashboard', label: 'Dashboard', icon: '📊' },
-  { to: '/properties', label: 'Properties', icon: '🏠' },
-  { to: '/owners', label: 'Owners', icon: '👤' },
-  { to: '/agents', label: 'Agents', icon: '👔' },
-  { to: '/inquiries', label: 'Inquiries', icon: '📋' }
+  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/properties', label: 'Properties', icon: Building2 },
+  { to: '/owners', label: 'Owners', icon: Users },
+  { to: '/agents', label: 'Agents', icon: UserCheck },
+  { to: '/inquiries', label: 'Inquiries', icon: MessageSquare }
 ];
 
 const adminNavItems = [
-  { to: '/activity-log', label: 'Activity Log', icon: '🔍' }
+  { to: '/activity-log', label: 'Activity Log', icon: Activity },
+  { to: '/mortgage-calculator', label: 'Mortgage Calc', icon: Calculator }
 ];
 
 function Sidebar({ onClose }) {
@@ -28,7 +30,9 @@ function Sidebar({ onClose }) {
     <aside className="sidebar">
       {/* Logo */}
       <div className="sidebar-logo">
-        <div className="logo-icon">🗝️</div>
+        <div className="logo-icon">
+          <Key size={28} strokeWidth={2} color="#D4AF37" />
+        </div>
         <div className="logo-text">
           <span className="logo-title">Golden Key Realty</span>
           <span className="logo-subtitle">Premium Real Estate CRM</span>
@@ -45,7 +49,7 @@ function Sidebar({ onClose }) {
             className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}
             onClick={onClose}
           >
-            <span className="nav-icon">{item.icon}</span>
+            <span className="nav-icon"><item.icon size={18} strokeWidth={1.75} /></span>
             <span className="nav-label">{item.label}</span>
           </NavLink>
         ))}
@@ -60,7 +64,7 @@ function Sidebar({ onClose }) {
                 className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}
                 onClick={onClose}
               >
-                <span className="nav-icon">{item.icon}</span>
+                <span className="nav-icon"><item.icon size={18} strokeWidth={1.75} /></span>
                 <span className="nav-label">{item.label}</span>
               </NavLink>
             ))}
@@ -75,7 +79,7 @@ function Sidebar({ onClose }) {
           className="nav-item"
           onClick={onClose}
         >
-          <span className="nav-icon">🌐</span>
+          <span className="nav-icon"><Globe size={18} strokeWidth={1.75} /></span>
           <span className="nav-label">Public Listings</span>
         </a>
       </nav>
@@ -96,7 +100,7 @@ function Sidebar({ onClose }) {
           </div>
         )}
         <button className="logout-btn" onClick={handleLogout} title="Logout">
-          🚪 Logout
+          <LogOut size={16} strokeWidth={1.75} /> Logout
         </button>
       </div>
     </aside>

@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Building2, CheckCircle, Handshake, Users, TrendingUp, Calculator } from 'lucide-react';
 import { properties, owners } from '../services/api';
 import './DashboardPage.css';
 
-function StatCard({ icon, label, value, color, linkTo }) {
+function StatCard({ icon: Icon, label, value, color, linkTo }) {
   return (
     <Link to={linkTo} className="stat-card" style={{ '--card-color': color }}>
-      <div className="stat-icon">{icon}</div>
+      <div className="stat-icon"><Icon size={26} strokeWidth={1.75} /></div>
       <div className="stat-info">
         <span className="stat-value">{value}</span>
         <span className="stat-label">{label}</span>
@@ -68,15 +69,15 @@ function DashboardPage() {
     <div className="dashboard">
       {/* Stats grid */}
       <div className="stats-grid">
-        <StatCard icon="🏠" label="Total Properties" value={stats.totalProperties} color="#1e3a5f" linkTo="/properties" />
-        <StatCard icon="✅" label="Available" value={stats.available} color="#27ae60" linkTo="/properties?status=available" />
-        <StatCard icon="🤝" label="Under Offer" value={stats.underOffer} color="#e8a020" linkTo="/properties?status=under_offer" />
-        <StatCard icon="👤" label="Owners" value={stats.totalOwners} color="#8e44ad" linkTo="/owners" />
+        <StatCard icon={Building2} label="Total Properties" value={stats.totalProperties} color="#1e3a5f" linkTo="/properties" />
+        <StatCard icon={CheckCircle} label="Available" value={stats.available} color="#27ae60" linkTo="/properties?status=available" />
+        <StatCard icon={Handshake} label="Under Offer" value={stats.underOffer} color="#e8a020" linkTo="/properties?status=under_offer" />
+        <StatCard icon={Users} label="Owners" value={stats.totalOwners} color="#8e44ad" linkTo="/owners" />
       </div>
 
       {isEmpty ? (
         <div className="dashboard-welcome card">
-          <div className="welcome-icon">🗝️</div>
+          <div className="welcome-icon"><Building2 size={48} strokeWidth={1.25} style={{color:'var(--gold-primary)'}} /></div>
           <h2>Welcome to Golden Key Realty CRM</h2>
           <p>
             Your premium CRM is up and running. Start by adding your first property owner and listing.
@@ -87,6 +88,9 @@ function DashboardPage() {
             </Link>
             <Link to="/properties" className="btn btn-outline btn-lg">
               View Properties
+            </Link>
+            <Link to="/mortgage-calculator" className="btn btn-outline btn-lg">
+              <Calculator size={18} strokeWidth={1.75} /> Mortgage Calculator
             </Link>
           </div>
         </div>
@@ -100,7 +104,7 @@ function DashboardPage() {
             </div>
             {recentProperties.length === 0 ? (
               <div className="empty-state">
-                <div className="empty-icon">🏠</div>
+                <div className="empty-icon"><Building2 size={32} strokeWidth={1.25} style={{color:'var(--text-muted)'}} /></div>
                 <p>No properties yet</p>
               </div>
             ) : (
