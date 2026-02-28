@@ -13,6 +13,10 @@ const agentRoutes = require('./routes/agents');
 const listingsRoutes = require('./routes/listings');
 const activityLogsRoutes = require('./routes/activityLogs');
 
+const servicesRoutes = require('./routes/services');
+const uploadRoutes = require('./routes/upload');
+const ownerContactViewsRoutes = require('./routes/ownerContactViews');
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -42,6 +46,7 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // API Routes
 app.use('/api/auth', authRoutes);
@@ -51,6 +56,9 @@ app.use('/api/inquiries', inquiryRoutes);
 app.use('/api/agents', agentRoutes);
 app.use('/api/listings', listingsRoutes);
 app.use('/api/activity-logs', activityLogsRoutes);
+app.use('/api/services', servicesRoutes);
+app.use('/api/upload', uploadRoutes);
+app.use('/api/owner-contact-views', ownerContactViewsRoutes);
 
 // Serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {
@@ -107,6 +115,34 @@ const startServer = async () => {
   try {
     // Connect to database
     await connectDB();
+
+    // Auto-block inactive accounts (3+ days without login)
+    async function checkInactiveAccounts() {
+      try {
+        const { User } = require('./models');
+        const INACTIVITY_THRESHOLD_DAYS = parseInt(process.env.INACTIVITY_THRESHOLD_DAYS || '3', 10);
+        const thresholdDate = new Date(Date.now() - INACTIVITY_THRESHOLD_DAYS * 24 * 60 * 60 * 1000);
+        await User.update(
+          {
+            isBlocked: true,
+            blockedAt: new Date(),
+            blockedReason: 'Auto-blocked: Inactive for 3+ days'
+          },
+          {
+            where: {
+              role: 'agent',
+              isBlocked: false,
+              lastLoginAt: { [require('sequelize').Op.lt]: thresholdDate }
+            }
+          }
+        );
+      } catch (err) {
+        console.error('Auto-block check error:', err.message);
+      }
+    }
+    checkInactiveAccounts();
+    const HOUR_IN_MS = 60 * 60 * 1000;
+    setInterval(checkInactiveAccounts, HOUR_IN_MS);
     
     // Start listening
     app.listen(PORT, () => {

@@ -7,6 +7,8 @@ const Inquiry = require('./Inquiry');
 const PropertyUpdateQueue = require('./PropertyUpdateQueue');
 const AutomatedContactLog = require('./AutomatedContactLog');
 const AgentActivityLog = require('./AgentActivityLog');
+const Service = require('./Service');
+const OwnerContactView = require('./OwnerContactView');
 
 // Define relationships
 
@@ -164,6 +166,18 @@ AgentActivityLog.belongsTo(User, {
   onUpdate: 'CASCADE'
 });
 
+// Agent - OwnerContactView
+Agent.hasMany(OwnerContactView, { foreignKey: 'agentId', as: 'ownerContactViews', onDelete: 'CASCADE' });
+OwnerContactView.belongsTo(Agent, { foreignKey: 'agentId', as: 'agent' });
+
+// Owner - OwnerContactView
+Owner.hasMany(OwnerContactView, { foreignKey: 'ownerId', as: 'contactViews', onDelete: 'CASCADE' });
+OwnerContactView.belongsTo(Owner, { foreignKey: 'ownerId', as: 'owner' });
+
+// Property - OwnerContactView
+Property.hasMany(OwnerContactView, { foreignKey: 'propertyId', as: 'ownerContactViews', onDelete: 'SET NULL' });
+OwnerContactView.belongsTo(Property, { foreignKey: 'propertyId', as: 'property' });
+
 module.exports = {
   sequelize,
   User,
@@ -173,5 +187,7 @@ module.exports = {
   Inquiry,
   PropertyUpdateQueue,
   AutomatedContactLog,
-  AgentActivityLog
+  AgentActivityLog,
+  Service,
+  OwnerContactView
 };

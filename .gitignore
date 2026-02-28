@@ -37,3 +37,10 @@ coverage/
 tmp/
 temp/
 *.bak
+
+# Uploads
+uploads/
+
+# Client build and dependencies
+client/node_modules/
+client/dist/

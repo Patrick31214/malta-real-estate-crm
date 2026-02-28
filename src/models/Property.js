@@ -233,7 +233,17 @@ const Property = sequelize.define('Property', {
     allowNull: false,
     defaultValue: 'pending',
     field: 'approval_status'
-  }
+  },
+  rentalType: {
+    type: DataTypes.ENUM('short', 'long'),
+    allowNull: true,
+    field: 'rental_type'
+  },
+  availableFrom: {
+    type: DataTypes.DATEONLY,
+    allowNull: true,
+    field: 'available_from'
+  },
 }, {
   tableName: 'properties',
   timestamps: true,

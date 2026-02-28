@@ -38,8 +38,16 @@ const authenticate = async (req, res, next) => {
       });
     }
 
+    if (user.isBlocked) {
+      return res.status(401).json({
+        success: false,
+        message: 'Account is blocked.'
+      });
+    }
+
     // Attach user to request
     req.user = {
+      id: user.id,
       userId: user.id,
       email: user.email,
       role: user.role
@@ -78,4 +86,4 @@ const authorize = (...roles) => {
   };
 };
 
-module.exports = { authenticate, authorize };
+module.exports = { authenticate, authorize, authenticateToken: authenticate };
