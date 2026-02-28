@@ -189,7 +189,29 @@
   30% { transform: translateY(-6px); }
 }
 
-/* Quick replies */
+/* Chat links */
+.chat-link {
+  color: #40916C;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.chat-link:hover {
+  color: #2D6A4F;
+}
+
+/* Bullet point items in messages */
+.chat-bullet-item {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  margin: 2px 0;
+}
+.chat-bullet-dot {
+  flex-shrink: 0;
+  line-height: 1.5;
+}
+
+/* Quick replies panel (legacy, kept for fallback) */
 .chatbot-quick-replies {
   display: flex;
   flex-wrap: wrap;
@@ -197,6 +219,14 @@
   padding: 8px 12px;
   border-top: 1px solid var(--glass-border);
   flex-shrink: 0;
+}
+
+/* Per-message quick reply buttons (inline, below each bot message) */
+.chatbot-msg-quick-replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 4px 0 6px 31px;
 }
 
 .chatbot-quick-btn {
