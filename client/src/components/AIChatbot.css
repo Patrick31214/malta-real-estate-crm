@@ -280,3 +280,67 @@
   }
   .chatbot-toggle { right: 16px; bottom: 16px; }
 }
+
+/* ── Listings (public website) variant — Emerald Green Glassmorphism ─────── */
+.chatbot-toggle-listings {
+  background: linear-gradient(135deg, #2D6A4F, #40916C);
+  box-shadow: 0 6px 24px rgba(45, 106, 79, 0.55);
+  z-index: 99999;
+}
+
+.chatbot-toggle-listings:hover {
+  box-shadow: 0 10px 32px rgba(45, 106, 79, 0.7);
+}
+
+.chatbot-window-listings {
+  background: rgba(15, 25, 20, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(64, 145, 108, 0.35);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(64, 145, 108, 0.15);
+  z-index: 99998;
+}
+
+.chatbot-window-listings .chatbot-header {
+  background: linear-gradient(135deg, rgba(45, 106, 79, 0.25), rgba(45, 106, 79, 0.08));
+  border-bottom: 1px solid rgba(64, 145, 108, 0.3);
+}
+
+.chatbot-avatar-listings {
+  background: linear-gradient(135deg, #2D6A4F, #40916C) !important;
+  color: #fff !important;
+}
+
+.chatbot-window-listings .chatbot-msg-user .chatbot-msg-bubble {
+  background: linear-gradient(135deg, #2D6A4F, #40916C);
+  color: #fff;
+}
+
+.chatbot-window-listings .chatbot-msg-avatar {
+  background: rgba(45, 106, 79, 0.25);
+  color: #40916C;
+}
+
+.chatbot-quick-btn-listings {
+  background: rgba(45, 106, 79, 0.15) !important;
+  border-color: rgba(64, 145, 108, 0.35) !important;
+  color: #52B788 !important;
+}
+
+.chatbot-quick-btn-listings:hover {
+  background: rgba(45, 106, 79, 0.28) !important;
+  border-color: #40916C !important;
+}
+
+.chatbot-send-listings {
+  background: linear-gradient(135deg, #2D6A4F, #40916C) !important;
+  color: #fff !important;
+}
+
+.chatbot-send-listings:hover:not(:disabled) {
+  box-shadow: 0 4px 12px rgba(45, 106, 79, 0.5) !important;
+}
+
+.chatbot-window-listings .chatbot-input:focus {
+  border-color: #40916C;
+}

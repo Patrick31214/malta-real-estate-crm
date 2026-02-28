@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import { listings } from '../services/api';
 import { useTheme } from '../contexts/ThemeContext';
 import { CurrencyProvider, useCurrency } from '../contexts/CurrencyContext';
+import AIChatbot from '../components/AIChatbot';
 import './ListingsPage.css';
 
 // Fix leaflet default marker icons in Vite builds
@@ -930,6 +931,9 @@ function ListingsPageInner() {
           onClose={() => setModal(null)}
         />
       )}
+
+      {/* ── AI Chatbot ── */}
+      <AIChatbot variant="listings" />
     </div>
   );
 }
