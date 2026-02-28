@@ -11,12 +11,12 @@
 }
 
 .stat-card {
-  background: rgba(255, 255, 255, 0.6);
+  background: var(--glass-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: var(--radius);
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px var(--glass-shadow);
   padding: 20px;
   display: flex;
   align-items: center;
@@ -34,7 +34,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--gold), var(--gold-soft), var(--gold));
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-bright));
 }
 
 .stat-card:hover {
@@ -47,7 +47,7 @@
   width: 52px;
   height: 52px;
   border-radius: 14px;
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-bright));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,21 +65,21 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 32px;
   font-weight: 800;
-  color: var(--gold);
+  color: var(--gold-primary);
   line-height: 1;
   margin-bottom: 4px;
 }
 
 .stat-label {
   font-size: 12px;
-  color: var(--text-light);
+  color: var(--text-muted);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.8px;
 }
 
 .stat-arrow {
-  color: var(--gold);
+  color: var(--gold-primary);
   font-size: 18px;
   opacity: 0.5;
   transition: all 0.2s;
@@ -105,12 +105,12 @@
 .dashboard-welcome h2 {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 28px;
-  color: var(--charcoal);
+  color: var(--text-primary);
   margin-bottom: 12px;
 }
 
 .dashboard-welcome p {
-  color: var(--text-light);
+  color: var(--text-muted);
   max-width: 440px;
   margin: 0 auto 28px;
   line-height: 1.7;
@@ -134,7 +134,7 @@
 .quick-stats h3 {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 18px;
-  color: var(--charcoal);
+  color: var(--text-primary);
   margin-bottom: 16px;
 }
 
@@ -171,13 +171,13 @@
 .status-name {
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-medium);
+  color: var(--text-secondary);
 }
 
 .status-count {
   font-size: 13px;
   font-weight: 700;
-  color: var(--charcoal);
+  color: var(--text-primary);
   background: rgba(212,175,55,0.12);
   padding: 2px 8px;
   border-radius: 10px;
@@ -198,19 +198,19 @@
 
 .prop-title {
   font-weight: 600;
-  color: var(--charcoal);
+  color: var(--text-primary);
   font-size: 14px;
 }
 
 .prop-location {
   font-size: 12px;
-  color: var(--text-light);
+  color: var(--text-muted);
   margin-top: 2px;
 }
 
 .prop-price {
   font-weight: 700;
-  color: var(--gold);
+  color: var(--gold-primary);
   font-size: 14px;
 }
 

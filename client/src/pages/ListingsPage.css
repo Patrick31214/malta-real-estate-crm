@@ -1,17 +1,16 @@
-/* ======== LISTINGS PAGE – Luxury Gold Theme ======== */
+/* ======== LISTINGS PAGE – Luxury Gold Glassmorphism Theme ======== */
 
 .listings-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #FEFCF6 0%, #F8F4ED 25%, #FFF8E7 50%, #F5E6B8 75%, #FEFCF6 100%);
-  background-attachment: fixed;
+  background: var(--bg-primary);
   font-family: 'Inter', sans-serif;
 }
 
 /* ---- Header ---- */
 .listings-header {
-  background: rgba(26, 26, 46, 0.97);
+  background: var(--bg-secondary);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(212,175,55,0.3);
+  border-bottom: 1px solid var(--glass-border);
   position: sticky;
   top: 0;
   z-index: 50;
@@ -42,7 +41,7 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 20px;
   font-weight: 700;
-  background: linear-gradient(135deg, #ffffff 0%, #F5E6B8 100%);
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-bright));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -59,7 +58,7 @@
 .listings-login-link {
   font-size: 13px;
   font-weight: 600;
-  color: var(--gold);
+  color: var(--gold-primary);
   padding: 8px 20px;
   border: 1px solid rgba(212,175,55,0.4);
   border-radius: 24px;
@@ -73,7 +72,7 @@
 
 /* ---- Hero ---- */
 .listings-hero {
-  background: linear-gradient(135deg, var(--charcoal) 0%, var(--charcoal-mid) 60%, var(--charcoal) 100%);
+  background: var(--bg-secondary);
   padding: 72px 32px 48px;
   text-align: center;
   position: relative;
@@ -92,7 +91,7 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: clamp(28px, 5vw, 52px);
   font-weight: 800;
-  background: linear-gradient(135deg, #ffffff 0%, var(--gold-soft) 50%, var(--gold) 100%);
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-bright));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -102,7 +101,7 @@
 
 .listings-hero p {
   font-size: 17px;
-  color: rgba(255,255,255,0.65);
+  color: var(--text-secondary);
   margin-bottom: 32px;
   max-width: 540px;
   margin-left: auto;
@@ -120,22 +119,22 @@
   width: 100%;
   padding: 16px 24px;
   border-radius: 50px;
-  border: 1.5px solid rgba(212,175,55,0.35);
-  background: rgba(255,255,255,0.12);
+  border: 1.5px solid var(--glass-border);
+  background: var(--glass-bg);
   backdrop-filter: blur(16px);
-  color: white;
+  color: var(--text-primary);
   font-size: 15px;
   font-family: 'Inter', sans-serif;
   transition: all 0.3s;
 }
 
 .listings-search-input::placeholder {
-  color: rgba(255,255,255,0.45);
+  color: var(--text-muted);
 }
 
 .listings-search-input:focus {
-  background: rgba(255,255,255,0.18);
-  border-color: rgba(212,175,55,0.6);
+  background: var(--glass-bg);
+  border-color: var(--gold-primary);
   box-shadow: 0 0 0 4px rgba(212,175,55,0.15);
   outline: none;
 }
@@ -151,9 +150,9 @@
 .listings-tab {
   padding: 10px 24px;
   border-radius: 24px;
-  border: 1px solid rgba(212,175,55,0.3);
+  border: 1px solid var(--glass-border);
   background: transparent;
-  color: rgba(255,255,255,0.6);
+  color: var(--text-muted);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -163,13 +162,13 @@
 
 .listings-tab:hover {
   background: rgba(212,175,55,0.1);
-  color: rgba(255,255,255,0.9);
+  color: var(--text-primary);
 }
 
 .listings-tab.active {
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
-  color: var(--charcoal);
-  border-color: var(--gold);
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-bright));
+  color: #0D0D0F;
+  border-color: var(--gold-primary);
   font-weight: 700;
   box-shadow: 0 4px 16px rgba(212,175,55,0.4);
 }
@@ -184,7 +183,7 @@
 .listings-map-section h2 {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 22px;
-  color: var(--charcoal);
+  color: var(--text-primary);
   margin-bottom: 16px;
 }
 
@@ -216,11 +215,11 @@
 
 /* ---- Filters sidebar ---- */
 .listings-filters {
-  background: rgba(255,255,255,0.65);
+  background: var(--glass-bg);
   backdrop-filter: blur(20px);
   border-radius: 16px;
-  border: 1px solid rgba(212,175,55,0.2);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px var(--glass-shadow);
   padding: 24px;
   position: sticky;
   top: 80px;
@@ -232,18 +231,18 @@
   justify-content: space-between;
   margin-bottom: 20px;
   padding-bottom: 14px;
-  border-bottom: 1px solid rgba(212,175,55,0.15);
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .filter-header h3 {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 18px;
-  color: var(--charcoal);
+  color: var(--text-primary);
 }
 
 .filter-clear {
   font-size: 12px;
-  color: var(--gold);
+  color: var(--gold-primary);
   background: none;
   border: none;
   cursor: pointer;
@@ -263,7 +262,7 @@
   display: block;
   font-size: 11px;
   font-weight: 700;
-  color: var(--gold-dark);
+  color: var(--gold-deep);
   text-transform: uppercase;
   letter-spacing: 0.8px;
   margin-bottom: 6px;
@@ -273,18 +272,18 @@
 .filter-input {
   width: 100%;
   padding: 9px 12px;
-  border: 1.5px solid rgba(212,175,55,0.2);
+  border: 1.5px solid var(--glass-border);
   border-radius: 10px;
-  background: rgba(255,255,255,0.8);
+  background: var(--glass-bg);
   font-size: 13px;
-  color: var(--charcoal);
+  color: var(--text-primary);
   font-family: 'Inter', sans-serif;
   transition: all 0.2s;
 }
 
 .filter-select:focus,
 .filter-input:focus {
-  border-color: var(--gold);
+  border-color: var(--gold-primary);
   box-shadow: 0 0 0 3px rgba(212,175,55,0.1);
   outline: none;
 }
@@ -308,7 +307,7 @@
 
 .listings-count {
   font-size: 14px;
-  color: var(--text-medium);
+  color: var(--text-secondary);
   font-weight: 600;
 }
 
@@ -330,9 +329,9 @@
 .listings-empty {
   text-align: center;
   padding: 80px 20px;
-  background: rgba(255,255,255,0.55);
+  background: var(--glass-bg);
   border-radius: 16px;
-  border: 1px solid rgba(212,175,55,0.15);
+  border: 1px solid var(--glass-border);
 }
 
 .listings-empty-icon {
@@ -343,12 +342,12 @@
 .listings-empty h3 {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 22px;
-  color: var(--charcoal);
+  color: var(--text-primary);
   margin-bottom: 8px;
 }
 
 .listings-empty p {
-  color: var(--text-light);
+  color: var(--text-muted);
   margin-bottom: 20px;
 }
 
@@ -357,7 +356,7 @@
   border-radius: 24px;
   border: 1.5px solid rgba(212,175,55,0.4);
   background: transparent;
-  color: var(--gold-dark);
+  color: var(--gold-deep);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -378,11 +377,11 @@
 
 /* ---- Listing Card ---- */
 .listing-card {
-  background: rgba(255,255,255,0.7);
+  background: var(--glass-bg);
   backdrop-filter: blur(16px);
   border-radius: 16px;
-  border: 1px solid rgba(212,175,55,0.18);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 24px var(--glass-shadow);
   overflow: hidden;
   transition: all 0.3s ease;
   display: flex;
@@ -399,7 +398,7 @@
   position: relative;
   height: 200px;
   overflow: hidden;
-  background: linear-gradient(135deg, #F8F4ED, #FFF8E7);
+  background: var(--bg-tertiary);
 }
 
 .listing-img img {
@@ -420,7 +419,7 @@
   align-items: center;
   justify-content: center;
   font-size: 56px;
-  background: linear-gradient(135deg, #F8F4ED 0%, #FFF8E7 100%);
+  background: var(--bg-tertiary);
   color: rgba(212,175,55,0.5);
 }
 
@@ -464,21 +463,21 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 22px;
   font-weight: 800;
-  color: var(--gold);
+  color: var(--gold-primary);
   letter-spacing: -0.5px;
 }
 
 .listing-title {
   font-size: 15px;
   font-weight: 700;
-  color: var(--charcoal);
+  color: var(--text-primary);
   line-height: 1.4;
   margin: 0;
 }
 
 .listing-location {
   font-size: 13px;
-  color: var(--text-light);
+  color: var(--text-muted);
   display: flex;
   align-items: center;
   gap: 4px;
@@ -493,8 +492,8 @@
 
 .listing-features span {
   font-size: 12px;
-  color: var(--text-medium);
-  background: rgba(212,175,55,0.08);
+  color: var(--text-secondary);
+  background: var(--glass-green);
   padding: 4px 10px;
   border-radius: 20px;
   border: 1px solid rgba(212,175,55,0.15);
@@ -503,7 +502,7 @@
 
 .listing-desc {
   font-size: 13px;
-  color: var(--text-light);
+  color: var(--text-muted);
   line-height: 1.5;
   margin-top: 4px;
 }
@@ -511,7 +510,7 @@
 .listing-agent {
   margin-top: auto;
   padding-top: 12px;
-  border-top: 1px solid rgba(212,175,55,0.12);
+  border-top: 1px solid var(--glass-border);
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -520,13 +519,13 @@
 .listing-agent-name {
   font-size: 12px;
   font-weight: 600;
-  color: var(--text-medium);
+  color: var(--text-secondary);
 }
 
 .listing-agent-phone,
 .listing-agent-email {
   font-size: 12px;
-  color: var(--gold);
+  color: var(--gold-primary);
   text-decoration: none;
   font-weight: 500;
   transition: opacity 0.2s;
@@ -549,9 +548,9 @@
 .listings-page-btn {
   padding: 8px 16px;
   border-radius: 10px;
-  border: 1px solid rgba(212,175,55,0.25);
-  background: rgba(255,255,255,0.65);
-  color: var(--text-medium);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  color: var(--text-secondary);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -561,25 +560,25 @@
 
 .listings-page-btn:hover {
   background: rgba(212,175,55,0.1);
-  border-color: var(--gold);
+  border-color: var(--gold-primary);
 }
 
 .listings-page-btn.active {
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
-  color: var(--charcoal);
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-bright));
+  color: #0D0D0F;
   font-weight: 700;
-  border-color: var(--gold);
+  border-color: var(--gold-primary);
   box-shadow: 0 2px 10px rgba(212,175,55,0.3);
 }
 
 /* ---- Demand section ---- */
 .demand-section {
-  background: rgba(255,255,255,0.55);
+  background: var(--glass-bg);
   backdrop-filter: blur(16px);
   border-radius: 20px;
-  border: 1px solid rgba(212,175,55,0.18);
+  border: 1px solid var(--glass-border);
   padding: 36px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+  box-shadow: 0 8px 32px var(--glass-shadow);
 }
 
 .demand-header {
@@ -590,12 +589,12 @@
 .demand-header h2 {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 28px;
-  color: var(--charcoal);
+  color: var(--text-primary);
   margin-bottom: 8px;
 }
 
 .demand-header p {
-  color: var(--text-light);
+  color: var(--text-muted);
   font-size: 15px;
   margin-bottom: 20px;
 }
@@ -610,9 +609,9 @@
 .demand-filter-btn {
   padding: 8px 18px;
   border-radius: 20px;
-  border: 1px solid rgba(212,175,55,0.25);
+  border: 1px solid var(--glass-border);
   background: transparent;
-  color: var(--text-medium);
+  color: var(--text-secondary);
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -625,10 +624,10 @@
 }
 
 .demand-filter-btn.active {
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
-  color: var(--charcoal);
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-bright));
+  color: #0D0D0F;
   font-weight: 700;
-  border-color: var(--gold);
+  border-color: var(--gold-primary);
 }
 
 .demand-legend {
@@ -638,7 +637,7 @@
   flex-wrap: wrap;
   margin-bottom: 24px;
   font-size: 13px;
-  color: var(--text-medium);
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
@@ -655,14 +654,14 @@
   gap: 12px;
   padding: 16px;
   border-radius: 12px;
-  border: 1px solid rgba(212,175,55,0.15);
-  background: rgba(255,255,255,0.7);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
   transition: all 0.2s;
 }
 
 .demand-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 24px var(--glass-shadow);
 }
 
 .demand-card-icon {
@@ -671,19 +670,19 @@
 
 .demand-area-name {
   font-weight: 700;
-  color: var(--charcoal);
+  color: var(--text-primary);
   font-size: 15px;
 }
 
 .demand-level {
   font-size: 12px;
-  color: var(--text-light);
+  color: var(--text-muted);
   font-weight: 500;
 }
 
 .demand-price {
   font-size: 13px;
-  color: var(--gold);
+  color: var(--gold-primary);
   font-weight: 600;
   margin-top: 2px;
 }
@@ -695,9 +694,9 @@
   padding: 18px 20px;
   background: rgba(212,175,55,0.07);
   border-radius: 12px;
-  border: 1px solid rgba(212,175,55,0.15);
+  border: 1px solid var(--glass-border);
   font-size: 14px;
-  color: var(--text-medium);
+  color: var(--text-secondary);
   line-height: 1.6;
 }
 
@@ -710,14 +709,14 @@
 .listings-footer {
   text-align: center;
   padding: 28px;
-  background: rgba(26,26,46,0.97);
-  color: rgba(255,255,255,0.5);
+  background: var(--bg-secondary);
+  color: var(--text-muted);
   font-size: 13px;
-  border-top: 1px solid rgba(212,175,55,0.2);
+  border-top: 1px solid var(--glass-border);
 }
 
 .listings-footer a {
-  color: var(--gold);
+  color: var(--gold-primary);
   font-weight: 600;
 }
 

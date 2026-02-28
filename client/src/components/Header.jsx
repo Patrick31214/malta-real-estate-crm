@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom';
+import { useTheme } from '../contexts/ThemeContext';
 import './Header.css';
 
 const pageTitles = {
@@ -13,6 +14,7 @@ const pageTitles = {
 function Header({ onMenuClick }) {
   const location = useLocation();
   const title = pageTitles[location.pathname] || 'Golden Key Realty';
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <header className="app-header">
@@ -23,6 +25,13 @@ function Header({ onMenuClick }) {
         <h1 className="page-title">{title}</h1>
       </div>
       <div className="header-right">
+        <button
+          className="theme-toggle"
+          onClick={toggleTheme}
+          title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+        >
+          {theme === 'dark' ? '☀️' : '🌙'}
+        </button>
         <span className="header-badge">🗝️ Golden Key Realty</span>
       </div>
     </header>

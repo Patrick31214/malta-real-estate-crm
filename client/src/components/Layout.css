@@ -16,8 +16,7 @@
   flex: 1;
   overflow-y: auto;
   padding: 28px 32px;
-  background: var(--bg-gradient);
-  background-attachment: fixed;
+  background: var(--bg-primary);
   min-height: 100%;
 }
 

@@ -22,7 +22,7 @@
 
 .result-count {
   font-size: 13px;
-  color: var(--text-light);
+  color: var(--text-muted);
   font-weight: 500;
 }
 
@@ -47,9 +47,9 @@
 .page-btn {
   padding: 7px 14px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border-gold);
-  background: rgba(255,255,255,0.6);
-  color: var(--text-medium);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  color: var(--text-secondary);
   font-size: 14px;
   cursor: pointer;
   transition: all 0.2s;
@@ -57,12 +57,12 @@
 
 .page-btn:hover {
   background: rgba(212,175,55,0.1);
-  border-color: var(--gold);
+  border-color: var(--gold-primary);
 }
 
 .page-btn.active {
-  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
-  color: var(--charcoal);
-  border-color: var(--gold);
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-bright));
+  color: #0D0D0F;
+  border-color: var(--gold-primary);
   font-weight: 700;
 }
