@@ -10,6 +10,7 @@ import InquiriesPage from './pages/InquiriesPage';
 import AgentsPage from './pages/AgentsPage';
 import ListingsPage from './pages/ListingsPage';
 import ActivityLogPage from './pages/ActivityLogPage';
+import AgentActivityPage from './pages/AgentActivityPage';
 import MortgageCalculatorPage from './pages/MortgageCalculatorPage';
 import MaltaCompliancePage from './pages/MaltaCompliancePage';
 import ServicesPage from './pages/ServicesPage';
@@ -60,6 +61,7 @@ function App() {
           <Route path="agents" element={<AgentsPage />} />
           <Route path="services" element={<ServicesPage />} />
           <Route path="activity-log" element={<ActivityLogPage />} />
+          <Route path="agents/:id/activity" element={<AgentActivityPage />} />
           <Route path="mortgage-calculator" element={<MortgageCalculatorPage />} />
           <Route path="compliance" element={<MaltaCompliancePage />} />
         </Route>

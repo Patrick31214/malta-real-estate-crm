@@ -26,13 +26,16 @@
   --glass-green: rgba(29, 185, 84, 0.12);
   --emerald-primary: #2D6A4F;
   --emerald-light: #40916C;
+  --emerald-dark: #1B4332;
   --emerald-glow: rgba(45, 106, 79, 0.3);
+  --emerald-glass: rgba(45, 106, 79, 0.15);
+  --emerald-gradient: linear-gradient(135deg, #2D6A4F, #40916C);
 }
 
 [data-theme="light"] {
-  --bg-primary: #EDECEA;
-  --bg-secondary: #FFFFFF;
-  --bg-tertiary: #EAEAEE;
+  --bg-primary: #F0F5F0;
+  --bg-secondary: rgba(255,255,255,0.95);
+  --bg-tertiary: rgba(45, 106, 79, 0.07);
   --text-primary: #0D0D0F;
   --text-secondary: #2B2B31;
   --text-muted: #6B6B75;
@@ -50,7 +53,10 @@
   --glass-green: rgba(29, 185, 84, 0.08);
   --emerald-primary: #2D6A4F;
   --emerald-light: #40916C;
+  --emerald-dark: #1B4332;
   --emerald-glow: rgba(45, 106, 79, 0.15);
+  --emerald-glass: rgba(45, 106, 79, 0.08);
+  --emerald-gradient: linear-gradient(135deg, #2D6A4F, #40916C);
 }
 
 * {
@@ -430,4 +436,75 @@ input, select, textarea {
 /* Responsive */
 @media (max-width: 768px) {
   :root { --sidebar-width: 0px; }
+}
+
+/* ===== EMERALD THEME UTILITIES (Section 2 & 11) ===== */
+
+/* Emerald button */
+.btn-emerald {
+  background: var(--emerald-gradient);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-emerald:hover {
+  opacity: 0.9;
+  box-shadow: 0 4px 16px var(--emerald-glow);
+  transform: translateY(-1px);
+}
+
+/* Emerald badge */
+.badge-emerald {
+  background: var(--emerald-gradient);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Form focus state – emerald instead of default blue */
+.form-input:focus,
+.form-select:focus,
+textarea:focus {
+  border-color: var(--emerald-light) !important;
+  box-shadow: 0 0 0 3px var(--emerald-glow) !important;
+  outline: none !important;
+}
+
+/* Primary buttons use emerald gradient */
+.btn-primary {
+  background: var(--emerald-gradient, linear-gradient(135deg, #2D6A4F, #40916C)) !important;
+  color: white !important;
+  border: none;
+}
+.btn-primary:hover {
+  opacity: 0.9;
+  box-shadow: 0 4px 16px var(--emerald-glow, rgba(45, 106, 79, 0.3));
+  transform: translateY(-1px);
+}
+
+/* Available status badge – emerald */
+.status-available,
+.badge-available {
+  background: var(--emerald-gradient) !important;
+  color: white !important;
+}
+
+/* Dropdown backgrounds (Section 11.1) */
+select.form-select,
+select.form-input {
+  background: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+}
+select option {
+  background: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Light mode glassmorphism cards */
+[data-theme="light"] .card {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(45, 106, 79, 0.12) !important;
 }
