@@ -41,7 +41,7 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 20px;
   font-weight: 700;
-  background: linear-gradient(135deg, #A67C00, #D4AF37, #F2C94C);
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-bright));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -91,7 +91,7 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: clamp(28px, 5vw, 52px);
   font-weight: 800;
-  background: linear-gradient(135deg, #A67C00, #D4AF37, #F2C94C);
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-bright));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -166,7 +166,7 @@
 }
 
 .listings-tab.active {
-  background: linear-gradient(135deg, #A67C00, #D4AF37, #F2C94C);
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-bright));
   color: #0D0D0F;
   border-color: var(--gold-primary);
   font-weight: 700;
@@ -564,7 +564,7 @@
 }
 
 .listings-page-btn.active {
-  background: linear-gradient(135deg, #A67C00, #D4AF37, #F2C94C);
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-bright));
   color: #0D0D0F;
   font-weight: 700;
   border-color: var(--gold-primary);
@@ -624,7 +624,7 @@
 }
 
 .demand-filter-btn.active {
-  background: linear-gradient(135deg, #A67C00, #D4AF37, #F2C94C);
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-bright));
   color: #0D0D0F;
   font-weight: 700;
   border-color: var(--gold-primary);

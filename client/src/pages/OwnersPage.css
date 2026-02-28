@@ -61,7 +61,7 @@
 }
 
 .page-btn.active {
-  background: linear-gradient(135deg, #A67C00, #D4AF37, #F2C94C);
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-bright));
   color: #0D0D0F;
   border-color: var(--gold-primary);
   font-weight: 700;

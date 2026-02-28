@@ -34,7 +34,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(135deg, #A67C00, #D4AF37, #F2C94C);
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-bright));
 }
 
 .stat-card:hover {
@@ -47,7 +47,7 @@
   width: 52px;
   height: 52px;
   border-radius: 14px;
-  background: linear-gradient(135deg, #A67C00, #D4AF37, #F2C94C);
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold-primary), var(--gold-bright));
   display: flex;
   align-items: center;
   justify-content: center;
