@@ -27,6 +27,16 @@
   display: flex;
   align-items: center;
   gap: 14px;
+  flex-shrink: 0;
+}
+
+.header-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 0 24px;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .page-title {
@@ -43,6 +53,36 @@
   gap: 12px;
 }
 
+.currency-select {
+  background: var(--glass-bg);
+  border: 1.5px solid var(--glass-border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.currency-select:hover {
+  border-color: var(--gold-primary);
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.currency-select:focus {
+  outline: none;
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15);
+}
+
+.currency-select option {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+
 .header-badge {
   font-size: 13px;
   font-weight: 600;
@@ -53,6 +93,9 @@
   border: 1px solid rgba(212, 175, 55, 0.3);
   letter-spacing: 0.3px;
   transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 .header-badge:hover {
   background: rgba(212, 175, 55, 0.28);
