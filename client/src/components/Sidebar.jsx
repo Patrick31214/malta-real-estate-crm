@@ -1,6 +1,7 @@
+import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Building2, Users, UserCheck, MessageSquare, Activity, Globe, LogOut, Key, Calculator, Scale, Waves, GitBranch } from 'lucide-react';
-import { auth } from '../services/api';
+import { auth, inquiries } from '../services/api';
 import './Sidebar.css';
 
 const navItems = [
@@ -21,6 +22,15 @@ const adminNavItems = [
 
 function Sidebar({ onClose }) {
   const navigate = useNavigate();
+  const [newInquiryCount, setNewInquiryCount] = useState(0);
+
+  useEffect(() => {
+    if (auth.isAuthenticated()) {
+      inquiries.getAll({ status: 'new', limit: 1 }).then(res => {
+        if (res?.success) setNewInquiryCount(res.data.pagination?.total || 0);
+      }).catch(() => {});
+    }
+  }, []);
 
   const handleLogout = async () => {
     await auth.logout();
@@ -54,6 +64,9 @@ function Sidebar({ onClose }) {
           >
             <span className="nav-icon"><item.icon size={18} strokeWidth={1.75} /></span>
             <span className="nav-label">{item.label}</span>
+            {item.to === '/inquiries' && newInquiryCount > 0 && (
+              <span className="nav-badge">{newInquiryCount}</span>
+            )}
           </NavLink>
         ))}
 

@@ -1,16 +1,21 @@
 import { useState, useEffect, useRef } from 'react';
-import { agents, upload } from '../services/api';
+import { agents, branches, upload } from '../services/api';
 import './Modal.css';
+
+const ROLES = ['agent', 'manager', 'employee'];
+const SUB_ROLES = ['Secretary', 'Receptionist', 'Accountant', 'Marketing'];
 
 const defaultForm = {
   firstName: '', lastName: '', email: '',
   licenseNumber: '', specialization: '', commissionRate: '',
   phone: '', mobile: '', officeAddress: '', bio: '',
-  languages: 'English', yearsExperience: '', profileImageUrl: ''
+  languages: 'English', yearsExperience: '', profileImageUrl: '',
+  role: 'agent', branchId: '', managerName: '', subRole: ''
 };
 
 function AgentModal({ agent, onClose, onSaved }) {
   const [form, setForm] = useState(defaultForm);
+  const [branchList, setBranchList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
@@ -18,6 +23,10 @@ function AgentModal({ agent, onClose, onSaved }) {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
+    branches.getAll().then(res => {
+      if (res?.success) setBranchList(res.data?.branches || res.data || []);
+    }).catch(() => {});
+
     if (agent) {
       setForm({
         firstName: agent.user?.firstName || '',
@@ -32,7 +41,11 @@ function AgentModal({ agent, onClose, onSaved }) {
         bio: agent.bio || '',
         languages: (agent.languages || ['English']).join(', '),
         yearsExperience: agent.yearsExperience || '',
-        profileImageUrl: agent.profileImageUrl || ''
+        profileImageUrl: agent.profileImageUrl || '',
+        role: agent.user?.role || 'agent',
+        branchId: agent.branchId || '',
+        managerName: agent.managerName || '',
+        subRole: agent.subRole || ''
       });
     }
   }, [agent]);
@@ -64,7 +77,10 @@ function AgentModal({ agent, onClose, onSaved }) {
         ...form,
         commissionRate: form.commissionRate !== '' ? parseFloat(form.commissionRate) : 0,
         yearsExperience: form.yearsExperience !== '' ? parseInt(form.yearsExperience) : 0,
-        languages: form.languages.split(',').map(l => l.trim()).filter(Boolean)
+        languages: form.languages.split(',').map(l => l.trim()).filter(Boolean),
+        branchId: form.branchId || null,
+        subRole: form.subRole || null,
+        managerName: form.managerName || null
       };
 
       const res = agent
@@ -143,6 +159,38 @@ function AgentModal({ agent, onClose, onSaved }) {
           <div className="form-group">
             <label>Email *</label>
             <input name="email" type="email" className="form-input" value={form.email} onChange={handleChange} required placeholder="maria.borg@agency.mt" />
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>Role</label>
+              <select name="role" className="form-input" value={form.role} onChange={handleChange}>
+                {ROLES.map(r => <option key={r} value={r}>{r.charAt(0).toUpperCase() + r.slice(1)}</option>)}
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Branch</label>
+              <select name="branchId" className="form-input" value={form.branchId} onChange={handleChange}>
+                <option value="">No branch assigned</option>
+                {branchList.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
+              </select>
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group flex-2">
+              <label>Manager Name</label>
+              <input name="managerName" className="form-input" value={form.managerName} onChange={handleChange} placeholder="Assigned manager's name" />
+            </div>
+            {form.role === 'employee' && (
+              <div className="form-group">
+                <label>Sub-role</label>
+                <select name="subRole" className="form-input" value={form.subRole} onChange={handleChange}>
+                  <option value="">Select sub-role…</option>
+                  {SUB_ROLES.map(sr => <option key={sr} value={sr}>{sr}</option>)}
+                </select>
+              </div>
+            )}
           </div>
 
           <div className="form-row">

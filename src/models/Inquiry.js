@@ -9,7 +9,7 @@ const Inquiry = sequelize.define('Inquiry', {
   },
   propertyId: {
     type: DataTypes.UUID,
-    allowNull: false,
+    allowNull: true,
     field: 'property_id'
   },
   agentId: {
@@ -54,12 +54,16 @@ const Inquiry = sequelize.define('Inquiry', {
   status: {
     type: DataTypes.ENUM(
       'new',
+      'assigned',
       'contacted',
       'in_progress',
       'viewing_scheduled',
+      'matched',
       'offer_made',
       'completed',
-      'cancelled'
+      'resolved',
+      'cancelled',
+      'on_hold'
     ),
     allowNull: false,
     defaultValue: 'new'

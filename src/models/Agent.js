@@ -75,6 +75,16 @@ const Agent = sequelize.define('Agent', {
     type: DataTypes.UUID,
     allowNull: true,
     field: 'branch_id'
+  },
+  managerName: {
+    type: DataTypes.STRING(200),
+    allowNull: true,
+    field: 'manager_name'
+  },
+  subRole: {
+    type: DataTypes.STRING(100),
+    allowNull: true,
+    field: 'sub_role'
   }
 }, {
   tableName: 'agents',

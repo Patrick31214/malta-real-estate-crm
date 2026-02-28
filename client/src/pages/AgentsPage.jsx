@@ -177,7 +177,10 @@ function AgentsPage() {
                         <button className="btn btn-outline btn-sm" onClick={() => { setEditAgent(a); setModalOpen(true); }}>Edit</button>
                         {isAdmin && (
                           <button
-                            className={`btn btn-sm ${a.user?.isBlocked ? 'btn-accent' : 'btn-warning'}`}
+                            className={`btn btn-sm`}
+                            style={a.user?.isBlocked
+                              ? { background: '#10b981', color: '#fff', borderColor: '#10b981' }
+                              : { background: '#dc2626', color: '#fff', borderColor: '#dc2626' }}
                             onClick={() => handleBlock(a.id, !!a.user?.isBlocked)}
                             title={a.user?.isBlocked ? 'Unblock this agent' : 'Block this agent'}
                           >

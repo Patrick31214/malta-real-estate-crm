@@ -98,7 +98,8 @@ const createAgent = async (req, res) => {
       firstName, lastName, email,
       licenseNumber, specialization, commissionRate,
       phone, mobile, officeAddress, bio,
-      languages, yearsExperience
+      languages, yearsExperience,
+      role, branchId, managerName, subRole
     } = req.body;
 
     if (!firstName || !lastName || !email) {
@@ -120,7 +121,7 @@ const createAgent = async (req, res) => {
       lastName,
       email,
       password: tempPassword,
-      role: 'agent'
+      role: ['agent', 'manager', 'employee'].includes(role) ? role : 'agent'
     });
 
     // Create the Agent profile
@@ -135,7 +136,10 @@ const createAgent = async (req, res) => {
       bio: bio || null,
       languages: languages || ['English'],
       yearsExperience: yearsExperience || 0,
-      isActive: true
+      isActive: true,
+      branchId: branchId || null,
+      managerName: managerName || null,
+      subRole: subRole || null
     });
 
     const result = await Agent.findOne({
@@ -173,11 +177,12 @@ const updateAgent = async (req, res) => {
       firstName, lastName, email,
       licenseNumber, specialization, commissionRate,
       phone, mobile, officeAddress, bio,
-      languages, yearsExperience, isActive
+      languages, yearsExperience, isActive,
+      role, branchId, managerName, subRole
     } = req.body;
 
-    // Update linked user's name/email if provided
-    if (firstName || lastName || email) {
+    // Update linked user's name/email/role if provided
+    if (firstName || lastName || email || role) {
       const userUpdates = {};
       if (firstName) userUpdates.firstName = firstName;
       if (lastName) userUpdates.lastName = lastName;
@@ -188,6 +193,7 @@ const updateAgent = async (req, res) => {
         }
         userUpdates.email = email;
       }
+      if (role && ['agent', 'manager', 'employee'].includes(role)) userUpdates.role = role;
       if (Object.keys(userUpdates).length > 0) {
         await agent.user.update(userUpdates);
       }
@@ -205,6 +211,9 @@ const updateAgent = async (req, res) => {
     if (languages !== undefined) agentUpdates.languages = languages;
     if (yearsExperience !== undefined) agentUpdates.yearsExperience = yearsExperience;
     if (isActive !== undefined) agentUpdates.isActive = isActive;
+    if (branchId !== undefined) agentUpdates.branchId = branchId || null;
+    if (managerName !== undefined) agentUpdates.managerName = managerName || null;
+    if (subRole !== undefined) agentUpdates.subRole = subRole || null;
 
     await agent.update(agentUpdates);
 
