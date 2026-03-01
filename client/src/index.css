@@ -372,7 +372,7 @@ input, select, textarea {
 }
 
 .badge-available { background: rgba(184, 115, 51, 0.15); color: #7A4A2A; border: 1px solid rgba(184,115,51,0.3); }
-.badge-under_offer { background: rgba(196, 135, 90, 0.15); color: #8a6700; border: 1px solid rgba(196,135,90,0.3); }
+.badge-under_offer { background: rgba(196, 135, 90, 0.15); color: #7A4A2A; border: 1px solid rgba(196,135,90,0.3); }
 .badge-sold { background: rgba(192, 57, 43, 0.12); color: #922b21; border: 1px solid rgba(192,57,43,0.25); }
 .badge-rented { background: rgba(107, 80, 64, 0.12); color: #5C3D2E; border: 1px solid rgba(107,80,64,0.25); }
 .badge-draft { background: rgba(120, 120, 120, 0.1); color: #555; border: 1px solid rgba(0,0,0,0.12); }
@@ -381,7 +381,7 @@ input, select, textarea {
 .badge-sale { background: rgba(184, 115, 51, 0.15); color: #7A4A2A; border: 1px solid rgba(184,115,51,0.3); }
 .badge-rent { background: rgba(107, 80, 64, 0.12); color: #5C3D2E; border: 1px solid rgba(107,80,64,0.25); }
 .badge-lease { background: rgba(113, 81, 192, 0.12); color: #5a2d8c; border: 1px solid rgba(113,81,192,0.25); }
-.badge-pending { background: rgba(196, 135, 90, 0.18); color: #8a6700; border: 1px solid rgba(196,135,90,0.35); }
+.badge-pending { background: rgba(196, 135, 90, 0.18); color: #7A4A2A; border: 1px solid rgba(196,135,90,0.35); }
 .badge-approved { background: rgba(184, 115, 51, 0.15); color: #7A4A2A; border: 1px solid rgba(184,115,51,0.3); }
 .badge-rejected { background: rgba(192, 57, 43, 0.12); color: #922b21; border: 1px solid rgba(192,57,43,0.25); }
 
