@@ -82,22 +82,14 @@ function App() {
           path="/"
           element={
             auth.isAuthenticated()
-              ? <Navigate to="/dashboard" replace />
+              ? <ThemeProvider storageKey="gkr-crm-theme" applyToDocument={true}>
+                  <CurrencyProvider>
+                    <Layout />
+                  </CurrencyProvider>
+                </ThemeProvider>
               : <ThemeProvider storageKey="gkr-web-theme" applyToDocument={true}>
                   <HomePage />
                 </ThemeProvider>
-          }
-        />
-        <Route
-          path="/"
-          element={
-            <ThemeProvider storageKey="gkr-crm-theme" applyToDocument={true}>
-              <CurrencyProvider>
-                <ProtectedRoute>
-                  <Layout />
-                </ProtectedRoute>
-              </CurrencyProvider>
-            </ThemeProvider>
           }
         >
           <Route index element={<Navigate to="/dashboard" replace />} />
