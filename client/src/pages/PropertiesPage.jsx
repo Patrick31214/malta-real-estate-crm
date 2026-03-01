@@ -311,6 +311,7 @@ function PropertiesPage() {
                         {p.title}
                       </div>
                       <div className="prop-location">📍 {p.address}, {p.city}</div>
+                      {p.availableFrom && <div style={{ fontSize: 11, color: '#888', marginTop: 2 }}>📅 {new Date(p.availableFrom).toLocaleDateString()}</div>}
                     </td>
                     <td style={{textTransform:'capitalize'}}>{p.propertyType}</td>
                     <td><span className={`badge badge-${p.listingType}`}>{p.listingType}</span></td>

@@ -14,6 +14,20 @@ module.exports = {
       return;
     }
 
+    // Fetch branches by name (gracefully handle missing branches)
+    let branches = [];
+    try {
+      branches = await queryInterface.sequelize.query(
+        `SELECT id, name FROM branches WHERE name IN ('Malta HQ', 'Gozo Office', 'Sliema Branch')`,
+        { type: Sequelize.QueryTypes.SELECT }
+      );
+    } catch (e) {
+      console.log('Branches table not found or query failed, skipping branch assignment.');
+    }
+
+    const branchByName = {};
+    for (const b of branches) branchByName[b.name] = b.id;
+
     const agentIds = {
       agent1: uuidv4(),
       agent2: uuidv4(),
@@ -35,6 +49,8 @@ module.exports = {
         languages: ['English', 'Maltese', 'Italian'],
         years_experience: 10,
         is_active: true,
+        ...(branchByName['Malta HQ'] ? { branch_id: branchByName['Malta HQ'] } : {}),
+        manager_name: 'Admin User',
         created_at: new Date(),
         updated_at: new Date()
       },
@@ -52,6 +68,8 @@ module.exports = {
         languages: ['English', 'Spanish', 'Maltese'],
         years_experience: 8,
         is_active: true,
+        ...(branchByName['Gozo Office'] ? { branch_id: branchByName['Gozo Office'] } : {}),
+        manager_name: 'Admin User',
         created_at: new Date(),
         updated_at: new Date()
       },
@@ -69,6 +87,8 @@ module.exports = {
         languages: ['English', 'Maltese', 'French', 'German'],
         years_experience: 12,
         is_active: true,
+        ...(branchByName['Sliema Branch'] ? { branch_id: branchByName['Sliema Branch'] } : {}),
+        manager_name: 'Admin User',
         created_at: new Date(),
         updated_at: new Date()
       }
