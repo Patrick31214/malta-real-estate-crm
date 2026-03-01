@@ -136,7 +136,8 @@ export const inquiries = {
   getOne: (id) => request(`/inquiries/${id}`),
   create: (data) => request('/inquiries', { method: 'POST', body: JSON.stringify(data) }),
   update: (id, data) => request(`/inquiries/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  delete: (id) => request(`/inquiries/${id}`, { method: 'DELETE' })
+  delete: (id) => request(`/inquiries/${id}`, { method: 'DELETE' }),
+  getTrend: () => request('/inquiries/trend'),
 };
 
 // Agents
