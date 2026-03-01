@@ -49,11 +49,11 @@ const getAgents = async (req, res) => {
       attributes: {
         include: [
           [
-            sequelize.literal(`(SELECT COUNT(*) FROM "properties" WHERE "properties"."agentId" = "Agent"."id" AND "properties"."isActive" = true)`),
+            sequelize.literal(`(SELECT COUNT(*) FROM "properties" WHERE "properties"."agent_id" = "Agent"."id" AND "properties"."is_active" = true)`),
             'propertiesCount'
           ],
           [
-            sequelize.literal(`(SELECT COUNT(*) FROM "inquiries" WHERE "inquiries"."agentId" = "Agent"."id")`),
+            sequelize.literal(`(SELECT COUNT(*) FROM "inquiries" WHERE "inquiries"."agent_id" = "Agent"."id")`),
             'inquiriesCount'
           ]
         ]
