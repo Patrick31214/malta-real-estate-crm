@@ -119,6 +119,26 @@ const Inquiry = sequelize.define('Inquiry', {
     type: DataTypes.DATE,
     allowNull: true,
     field: 'followed_up_at'
+  },
+  numberOfPeople: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    field: 'number_of_people'
+  },
+  hasPets: {
+    type: DataTypes.BOOLEAN,
+    allowNull: true,
+    field: 'has_pets'
+  },
+  numberOfAdults: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    field: 'number_of_adults'
+  },
+  numberOfChildren: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    field: 'number_of_children'
   }
 }, {
   tableName: 'inquiries',

@@ -4,7 +4,16 @@ import './Modal.css';
 
 const PROPERTY_TYPES = ['apartment', 'house', 'villa', 'townhouse', 'penthouse', 'maisonette', 'farmhouse', 'bungalow', 'warehouse', 'commercial', 'office', 'land', 'garage', 'other'];
 const STATUSES = ['available', 'under_offer', 'sold', 'rented', 'withdrawn', 'draft'];
-const MALTA_CITIES = ['Valletta', 'Sliema', 'St. Julian\'s', 'Mdina', 'Rabat', 'Mosta', 'Naxxar', 'Birkirkara', 'Qormi', 'Marsaskala', 'Mellieha', 'Gozo', 'Other'];
+const MALTA_CITIES = [
+  'Valletta', 'Sliema', 'St. Julian\'s', 'Mdina', 'Rabat', 'Mosta', 'Naxxar', 'Birkirkara',
+  'Qormi', 'Marsaskala', 'Mellieha', 'Gozo', 'Marsaxlokk', 'Żabbar', 'Żejtun', 'Żurrieq',
+  'Birgu', 'Bormla', 'Isla', 'Gżira', 'Msida', 'Pietà', 'Floriana', 'Hamrun', 'Marsa',
+  'Tarxien', 'Luqa', 'Kirkop', 'Żebbuġ', 'Siggiewi', 'Qrendi', 'Mqabba', 'Gudja', 'Għaxaq',
+  'Birzebbuga', 'Fgura', 'Paola', 'Sgħajtar', 'San Ġwann', 'Swieqi', 'Pembroke',
+  'St. Paul\'s Bay', 'Bugibba', 'Qawra', 'Xemxija', 'Victoria', 'Sannat', 'Xewkija',
+  'Kerċem', 'Munxar', 'Xlendi', 'Marsalforn', 'Nadur', 'Xagħra', 'Żebbuġ (Gozo)',
+  'Gharb', 'San Lawrenz', 'Other',
+];
 
 const FEATURE_LIST = [
   'Sea View', 'Sea Front', 'Pool', 'Private Pool', 'Garden', 'Terrace', 'Roof Terrace', 'Balcony',
@@ -26,6 +35,10 @@ const defaultForm = {
   yearBuilt: '', renovatedYear: '', energyRating: '', furnished: '',
   parkingSpaces: '', garage: false,
   videoUrl: '', virtualTourUrl: '',
+  childrenFriendly: false,
+  postedToWebsite: false,
+  postedToFacebook: false,
+  postedToInstagram: false,
   features: defaultFeatures(),
 };
 
@@ -48,7 +61,7 @@ function PropertyModal({ property, onClose, onSaved }) {
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef(null);
 
-  const [sections, setSections] = useState({ location: true, specs: false, features: false, media: false });
+  const [sections, setSections] = useState({ location: true, specs: false, features: false, publishing: true, media: false });
   const toggleSection = name => setSections(s => ({ ...s, [name]: !s[name] }));
 
   useEffect(() => {
@@ -89,6 +102,10 @@ function PropertyModal({ property, onClose, onSaved }) {
         garage: property.garage || false,
         videoUrl: property.videoUrl || '',
         virtualTourUrl: property.virtualTourUrl || '',
+        childrenFriendly: property.childrenFriendly || false,
+        postedToWebsite: property.postedToWebsite || false,
+        postedToFacebook: property.postedToFacebook || false,
+        postedToInstagram: property.postedToInstagram || false,
         features: { ...defaultFeatures(), ...(property.features || {}) },
       });
     }
@@ -192,7 +209,7 @@ function PropertyModal({ property, onClose, onSaved }) {
 
   return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className="modal-box" style={{ maxWidth: 780 }}>
+      <div className="modal-box" style={{ width: '95vw', maxWidth: '1400px', height: '90vh' }}>
         <div className="modal-header">
           <h2>{property ? 'Edit Property' : 'Add New Property'}</h2>
           <button className="modal-close" onClick={onClose}>✕</button>
@@ -410,6 +427,31 @@ function PropertyModal({ property, onClose, onSaved }) {
                     &nbsp;{feat}
                   </label>
                 ))}
+              </div>
+            </div>
+          )}
+
+          {/* ── Publishing ── */}
+          <SectionHeader title="📢 Publishing" open={sections.publishing} onToggle={() => toggleSection('publishing')} />
+          {sections.publishing && (
+            <div className="collapsible-section">
+              <div className="features-grid">
+                <label className="feature-checkbox">
+                  <input type="checkbox" name="childrenFriendly" checked={form.childrenFriendly} onChange={handleChange} />
+                  &nbsp;Children Friendly <em style={{fontSize:11,color:'var(--text-muted)'}}>(CRM only)</em>
+                </label>
+                <label className="feature-checkbox">
+                  <input type="checkbox" name="postedToWebsite" checked={form.postedToWebsite} onChange={handleChange} />
+                  &nbsp;Posted to Website
+                </label>
+                <label className="feature-checkbox">
+                  <input type="checkbox" name="postedToFacebook" checked={form.postedToFacebook} onChange={handleChange} />
+                  &nbsp;Posted to Facebook
+                </label>
+                <label className="feature-checkbox">
+                  <input type="checkbox" name="postedToInstagram" checked={form.postedToInstagram} onChange={handleChange} />
+                  &nbsp;Posted to Instagram
+                </label>
               </div>
             </div>
           )}

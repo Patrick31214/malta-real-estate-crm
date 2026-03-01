@@ -59,6 +59,73 @@ const Owner = sequelize.define('Owner', {
     type: DataTypes.TEXT,
     allowNull: true
   },
+  title: {
+    type: DataTypes.STRING(20),
+    allowNull: true
+  },
+  whatsapp: {
+    type: DataTypes.STRING(30),
+    allowNull: true
+  },
+  idCardNumber: {
+    type: DataTypes.STRING(50),
+    allowNull: true,
+    field: 'id_card_number'
+  },
+  passportNumber: {
+    type: DataTypes.STRING(50),
+    allowNull: true,
+    field: 'passport_number'
+  },
+  nationality: {
+    type: DataTypes.STRING(50),
+    allowNull: true
+  },
+  dateOfBirth: {
+    type: DataTypes.DATEONLY,
+    allowNull: true,
+    field: 'date_of_birth'
+  },
+  preferredLanguage: {
+    type: DataTypes.STRING(30),
+    allowNull: true,
+    field: 'preferred_language'
+  },
+  preferredContactMethod: {
+    type: DataTypes.STRING(20),
+    allowNull: true,
+    field: 'preferred_contact_method'
+  },
+  companyReg: {
+    type: DataTypes.STRING(100),
+    allowNull: true,
+    field: 'company_reg'
+  },
+  companyEmail: {
+    type: DataTypes.STRING(100),
+    allowNull: true,
+    field: 'company_email'
+  },
+  companyPhone: {
+    type: DataTypes.STRING(30),
+    allowNull: true,
+    field: 'company_phone'
+  },
+  companyAddress: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+    field: 'company_address'
+  },
+  vatNumber: {
+    type: DataTypes.STRING(50),
+    allowNull: true,
+    field: 'vat_number'
+  },
+  relatedContacts: {
+    type: DataTypes.JSONB,
+    defaultValue: [],
+    field: 'related_contacts'
+  },
   isActive: {
     type: DataTypes.BOOLEAN,
     defaultValue: true,

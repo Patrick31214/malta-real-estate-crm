@@ -7,6 +7,7 @@ const EMPTY_FORM = { name: '', city: '', country: '', address: '', phone: '', em
 function BranchesPage() {
   const [branchList, setBranchList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [editBranch, setEditBranch] = useState(null);
   const [form, setForm] = useState(EMPTY_FORM);
@@ -23,13 +24,19 @@ function BranchesPage() {
 
   const fetchBranches = useCallback(async () => {
     setLoading(true);
+    setFetchError('');
     try {
       const res = await branches.getAll();
       if (res.success) {
         setBranchList(res.data.branches ?? res.data ?? []);
+      } else {
+        setFetchError(res.message || 'Failed to load branches. Please try again.');
+        setBranchList([]);
       }
     } catch (err) {
       console.error(err);
+      setFetchError('Unable to connect to the server. Please check your connection and try again.');
+      setBranchList([]);
     } finally {
       setLoading(false);
     }
@@ -119,6 +126,15 @@ function BranchesPage() {
       {/* Cards */}
       {loading ? (
         <div className="spinner" />
+      ) : fetchError ? (
+        <div className="empty-state">
+          <div className="empty-icon">⚠️</div>
+          <h3>Could not load branches</h3>
+          <p style={{ color: 'var(--danger, #e53e3e)' }}>{fetchError}</p>
+          <button className="btn btn-outline" onClick={fetchBranches} style={{ marginTop: 16 }}>
+            🔄 Try Again
+          </button>
+        </div>
       ) : branchList.length === 0 ? (
         <div className="empty-state">
           <div className="empty-icon">🏢</div>

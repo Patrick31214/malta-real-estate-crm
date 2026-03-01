@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Building2, Users, UserCheck, MessageSquare, Activity, Globe, LogOut, Key, Calculator, Scale, Waves, GitBranch } from 'lucide-react';
+import { LayoutDashboard, Building2, Users, UserCheck, MessageSquare, Activity, Globe, LogOut, Key, Calculator, Scale, Waves, GitBranch, FileText, BookOpen, Camera, CalendarDays, Bell, Search, HelpCircle, Handshake } from 'lucide-react';
 import { auth, inquiries } from '../services/api';
 import './Sidebar.css';
 
@@ -18,6 +18,21 @@ const navItems = [
 const adminNavItems = [
   { to: '/activity-log', label: 'Activity Log', icon: Activity },
   { to: '/compliance', label: 'Malta Compliance', icon: Scale },
+];
+
+const filesNavItems = [
+  { to: '/files/contracts', label: 'Contracts', icon: FileText },
+  { to: '/files/courses', label: 'Courses & Classes', icon: BookOpen },
+  { to: '/files/team-pictures', label: 'Team Pictures', icon: Camera },
+  { to: '/files/events', label: 'Company Events', icon: CalendarDays },
+  { to: '/files/announcements', label: 'Announcements', icon: Bell },
+];
+
+const inquiryNavItems = [
+  { to: '/inquiries/property', label: 'Property Inquiries', icon: Search },
+  { to: '/inquiries/general', label: 'General Inquiries', icon: HelpCircle },
+  { to: '/inquiries/affiliates', label: 'Affiliate Applications', icon: Users },
+  { to: '/inquiries/partnerships', label: 'Partnership Inquiries', icon: Handshake },
 ];
 
 function Sidebar({ onClose }) {
@@ -87,6 +102,32 @@ function Sidebar({ onClose }) {
           </>
         )}
 
+        <p className="nav-section-title" style={{ marginTop: 16 }}>Files & Documents</p>
+        {filesNavItems.map((item) => (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            className={({ isActive }) => `nav-item nav-item-sub${isActive ? ' active' : ''}`}
+            onClick={onClose}
+          >
+            <span className="nav-icon"><item.icon size={16} strokeWidth={1.75} /></span>
+            <span className="nav-label">{item.label}</span>
+          </NavLink>
+        ))}
+
+        <p className="nav-section-title" style={{ marginTop: 16 }}>Inquiries</p>
+        {inquiryNavItems.map((item) => (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            className={({ isActive }) => `nav-item nav-item-sub${isActive ? ' active' : ''}`}
+            onClick={onClose}
+          >
+            <span className="nav-icon"><item.icon size={16} strokeWidth={1.75} /></span>
+            <span className="nav-label">{item.label}</span>
+          </NavLink>
+        ))}
+
         <p className="nav-section-title" style={{ marginTop: 16 }}>Website</p>
         <a
           href="/listings"
@@ -124,3 +165,4 @@ function Sidebar({ onClose }) {
 }
 
 export default Sidebar;
+
