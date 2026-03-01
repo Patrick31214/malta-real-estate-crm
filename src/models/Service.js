@@ -21,6 +21,20 @@ const Service = sequelize.define('Service', {
   available: { type: DataTypes.BOOLEAN, defaultValue: true },
   featured: { type: DataTypes.BOOLEAN, defaultValue: false },
   isActive: { type: DataTypes.BOOLEAN, defaultValue: true, field: 'is_active' },
+  partnershipType: {
+    type: DataTypes.ENUM('company', 'individual', 'none'),
+    allowNull: false,
+    defaultValue: 'none',
+    field: 'partnership_type'
+  },
+  partnerCompanyName: { type: DataTypes.STRING(255), allowNull: true, field: 'partner_company_name' },
+  partnerCompanyReg: { type: DataTypes.STRING(100), allowNull: true, field: 'partner_company_reg' },
+  partnerContactName: { type: DataTypes.STRING(255), allowNull: true, field: 'partner_contact_name' },
+  partnerContactPhone: { type: DataTypes.STRING(50), allowNull: true, field: 'partner_contact_phone' },
+  partnerContactEmail: { type: DataTypes.STRING(255), allowNull: true, field: 'partner_contact_email' },
+  commissionDetails: { type: DataTypes.TEXT, allowNull: true, field: 'commission_details' },
+  contractFile: { type: DataTypes.STRING(500), allowNull: true, field: 'contract_file' },
+  listedBy: { type: DataTypes.UUID, allowNull: true, field: 'listed_by' },
 }, {
   tableName: 'services',
   timestamps: true,

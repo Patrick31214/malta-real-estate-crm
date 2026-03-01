@@ -145,11 +145,22 @@ function getInitials(name) {
 
 // ---- MODAL FORM ----
 
-function ModalForm({ title, subtitle, onClose, propertyId, source }) {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
+const defaultForm = {
+  name: '', email: '', phone: '', message: '',
+  viewingDate: '', viewingTime: '', numberOfPeople: 1, hasPets: '',
+  numberOfAdults: '', numberOfChildren: '', childrenAges: '',
+  nationality: '', gender: '', relationshipStatus: '', budgetRange: '',
+  hearAboutUs: '', countryOfResidence: '',
+};
+
+function ModalForm({ title, subtitle, onClose, propertyId, source, listingType }) {
+  const [form, setForm] = useState(defaultForm);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [optionalOpen, setOptionalOpen] = useState(false);
+
+  const set = (field) => (e) => setForm(f => ({ ...f, [field]: e.target.value }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -162,6 +173,19 @@ function ModalForm({ title, subtitle, onClose, propertyId, source }) {
         message: form.message,
         source: source || 'website',
         status: 'new',
+        preferredViewingDate: form.viewingDate || undefined,
+        preferredViewingTime: form.viewingTime || undefined,
+        numberOfPeople: form.numberOfPeople,
+        hasPets: form.hasPets,
+        numberOfAdults: form.numberOfAdults || undefined,
+        numberOfChildren: form.numberOfChildren || undefined,
+        childrenAges: form.childrenAges || undefined,
+        nationality: form.nationality || undefined,
+        gender: form.gender || undefined,
+        relationshipStatus: form.relationshipStatus || undefined,
+        budgetRange: form.budgetRange || undefined,
+        hearAboutUs: form.hearAboutUs || undefined,
+        countryOfResidence: form.countryOfResidence || undefined,
       };
       if (form.phone) body.clientPhone = form.phone;
       if (propertyId) body.propertyId = propertyId;
@@ -183,9 +207,14 @@ function ModalForm({ title, subtitle, onClose, propertyId, source }) {
     }
   };
 
+  const isRent = listingType === 'rent';
+  const budgetOptions = isRent
+    ? ['Under €500/mo', '€500–1000/mo', '€1000–2000/mo', '€2000+/mo']
+    : ['Under €200k', '€200k–500k', '€500k–1m', '€1m+'];
+
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-box" onClick={e => e.stopPropagation()}>
+      <div className="modal-box" style={{ maxHeight: '90vh', overflowY: 'auto' }} onClick={e => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
         <h2 className="modal-title">{title}</h2>
         {subtitle && <p className="modal-subtitle">{subtitle}</p>}
@@ -199,10 +228,95 @@ function ModalForm({ title, subtitle, onClose, propertyId, source }) {
         ) : (
           <form onSubmit={handleSubmit} className="modal-form">
             {submitError && <div style={{ color: 'var(--error, #ef4444)', marginBottom: 8, fontSize: 14 }}>{submitError}</div>}
-            <input required placeholder="Full Name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
-            <input required type="email" placeholder="Email Address" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
-            <input placeholder="Phone Number" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} />
-            <textarea placeholder="Your message…" rows={4} value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} />
+
+            {/* Required section */}
+            <div style={{ background: 'rgba(16,185,129,0.1)', borderRadius: 8, padding: '12px', marginBottom: 12 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#10b981', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 1 }}>Required Information</div>
+              <input required placeholder="Full Name *" value={form.name} onChange={set('name')} />
+              <input required type="email" placeholder="Email Address *" value={form.email} onChange={set('email')} />
+              <input required type="tel" placeholder="Phone Number *" value={form.phone} onChange={set('phone')} />
+              <textarea required placeholder="Your message… *" rows={3} value={form.message} onChange={set('message')} />
+              <label style={{ fontSize: 12, color: '#ccc', display: 'block', marginBottom: 4 }}>Preferred Viewing Date *</label>
+              <input required type="date" value={form.viewingDate} onChange={set('viewingDate')} />
+              <label style={{ fontSize: 12, color: '#ccc', display: 'block', marginBottom: 4 }}>Preferred Viewing Time *</label>
+              <select required value={form.viewingTime} onChange={set('viewingTime')}>
+                <option value="">Select time…</option>
+                <option value="morning">Morning</option>
+                <option value="afternoon">Afternoon</option>
+                <option value="evening">Evening</option>
+              </select>
+              <label style={{ fontSize: 12, color: '#ccc', display: 'block', marginBottom: 4 }}>Number of People for Viewing *</label>
+              <input required type="number" min="1" placeholder="Number of people *" value={form.numberOfPeople} onChange={set('numberOfPeople')} />
+              <div style={{ marginTop: 8 }}>
+                <label style={{ fontSize: 12, color: '#ccc', display: 'block', marginBottom: 4 }}>Do You Have Pets? *</label>
+                <label style={{ marginRight: 16, fontSize: 14 }}>
+                  <input required type="radio" name="hasPets" value="yes" checked={form.hasPets === 'yes'} onChange={set('hasPets')} style={{ width: 'auto', marginRight: 4 }} /> Yes
+                </label>
+                <label style={{ fontSize: 14 }}>
+                  <input required type="radio" name="hasPets" value="no" checked={form.hasPets === 'no'} onChange={set('hasPets')} style={{ width: 'auto', marginRight: 4 }} /> No
+                </label>
+              </div>
+            </div>
+
+            {/* Optional section */}
+            <div style={{ border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, marginBottom: 12 }}>
+              <button
+                type="button"
+                onClick={() => setOptionalOpen(o => !o)}
+                style={{ width: '100%', background: 'none', border: 'none', color: '#ccc', padding: '10px 12px', textAlign: 'left', cursor: 'pointer', fontSize: 13, fontWeight: 600, display: 'flex', justifyContent: 'space-between' }}
+              >
+                <span>Optional Details</span>
+                <span>{optionalOpen ? '▲' : '▼'}</span>
+              </button>
+              {optionalOpen && (
+                <div style={{ padding: '0 12px 12px' }}>
+                  <label style={{ fontSize: 12, color: '#aaa' }}>Number of Adults (Optional)</label>
+                  <input type="number" min="0" placeholder="Adults" value={form.numberOfAdults} onChange={set('numberOfAdults')} />
+                  <label style={{ fontSize: 12, color: '#aaa' }}>Number of Children (Optional)</label>
+                  <input type="number" min="0" placeholder="Children" value={form.numberOfChildren} onChange={set('numberOfChildren')} />
+                  {Number(form.numberOfChildren) > 0 && (
+                    <>
+                      <label style={{ fontSize: 12, color: '#aaa' }}>Children Ages (Optional)</label>
+                      <input type="text" placeholder="e.g. 3, 7, 12" value={form.childrenAges} onChange={set('childrenAges')} />
+                    </>
+                  )}
+                  <label style={{ fontSize: 12, color: '#aaa' }}>Nationality (Optional)</label>
+                  <input type="text" placeholder="Nationality" value={form.nationality} onChange={set('nationality')} />
+                  <label style={{ fontSize: 12, color: '#aaa' }}>Gender (Optional)</label>
+                  <select value={form.gender} onChange={set('gender')}>
+                    <option value="">Prefer not to say</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <label style={{ fontSize: 12, color: '#aaa' }}>Relationship Status (Optional)</label>
+                  <select value={form.relationshipStatus} onChange={set('relationshipStatus')}>
+                    <option value="">Prefer not to say</option>
+                    <option value="single">Single</option>
+                    <option value="couple">Couple</option>
+                    <option value="family">Family</option>
+                    <option value="friends">Friends</option>
+                  </select>
+                  <label style={{ fontSize: 12, color: '#aaa' }}>Budget Range (Optional)</label>
+                  <select value={form.budgetRange} onChange={set('budgetRange')}>
+                    <option value="">Select range…</option>
+                    {budgetOptions.map(o => <option key={o} value={o}>{o}</option>)}
+                  </select>
+                  <label style={{ fontSize: 12, color: '#aaa' }}>How Did You Hear About Us? (Optional)</label>
+                  <select value={form.hearAboutUs} onChange={set('hearAboutUs')}>
+                    <option value="">Select…</option>
+                    <option value="google">Google</option>
+                    <option value="social_media">Social Media</option>
+                    <option value="friend">Friend</option>
+                    <option value="agent">Agent</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <label style={{ fontSize: 12, color: '#aaa' }}>Current Country of Residence (Optional)</label>
+                  <input type="text" placeholder="Country of Residence" value={form.countryOfResidence} onChange={set('countryOfResidence')} />
+                </div>
+              )}
+            </div>
+
             <button type="submit" className="btn-gold" disabled={loading}>
               {loading ? 'Sending…' : 'Send Message'}
             </button>
@@ -964,6 +1078,7 @@ function ListingsPageInner() {
           onClose={() => setModal(null)}
           propertyId={modal.property.id}
           source="website"
+          listingType={modal.property.listingType}
         />
       )}
 

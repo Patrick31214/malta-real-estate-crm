@@ -12,7 +12,7 @@ function OwnersPage() {
   const [search, setSearch] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [editOwner, setEditOwner] = useState(null);
-  const [viewOwner, setViewOwner] = useState(null);
+  const [revealedContactId, setRevealedContactId] = useState(null);
   const [toast, setToast] = useState(null);
 
   const showToast = (msg, type = 'success') => {
@@ -106,6 +106,7 @@ function OwnersPage() {
               </thead>
               <tbody>
                 {ownerList.map(o => (
+                  <>
                   <tr key={o.id}>
                     <td>
                       <div className="owner-name-cell">
@@ -114,7 +115,7 @@ function OwnersPage() {
                         </div>
                         <div>
                           <div className="owner-name">{o.firstName} {o.lastName}</div>
-                          {o.notes && <div className="owner-note">{o.notes.slice(0, 40)}{o.notes.length > 40 ? '…' : ''}</div>}
+                          {o.propertiesCount != null && <div className="owner-note">{o.propertiesCount} {o.propertiesCount === 1 ? 'property' : 'properties'}</div>}
                         </div>
                       </div>
                     </td>
@@ -122,6 +123,12 @@ function OwnersPage() {
                     <td>{o.companyName || '—'}</td>
                     <td>
                       <div className="action-btns">
+                        <button
+                          className="btn btn-outline btn-sm"
+                          title={revealedContactId === o.id ? 'Hide contact' : 'Show contact'}
+                          onClick={() => setRevealedContactId(revealedContactId === o.id ? null : o.id)}
+                        >👁</button>
+                        <button className="btn btn-outline btn-sm" title="Edit" onClick={() => { setEditOwner(o); setModalOpen(true); }}>✏️</button>
                         <button className="btn btn-outline btn-sm" onClick={() => navigate(`/properties?ownerId=${o.id}`)}>🏠 Properties</button>
                         <button className="btn btn-outline btn-sm" onClick={() => setViewOwner(o)}>👁 View</button>
                         <button className="btn btn-outline btn-sm" onClick={() => { setEditOwner(o); setModalOpen(true); }}>Edit</button>
@@ -129,6 +136,15 @@ function OwnersPage() {
                       </div>
                     </td>
                   </tr>
+                  {revealedContactId === o.id && (
+                    <tr key={`${o.id}-contact`} className="owner-contact-row">
+                      <td colSpan={4}>
+                        <span style={{marginRight:16}}>📞 {o.phone || '—'}</span>
+                        <span>✉️ {o.email || '—'}</span>
+                      </td>
+                    </tr>
+                  )}
+                  </>
                 ))}
               </tbody>
             </table>
@@ -149,15 +165,6 @@ function OwnersPage() {
             </button>
           ))}
         </div>
-      )}
-
-      {/* View Modal */}
-      {viewOwner && (
-        <OwnerModal
-          owner={viewOwner}
-          onClose={() => setViewOwner(null)}
-          onSaved={() => setViewOwner(null)}
-        />
       )}
 
       {/* Edit Modal */}

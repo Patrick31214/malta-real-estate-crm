@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Building2, CheckCircle, Handshake, Users, Calculator, MapPin, MessageSquare, UserCheck, GitBranch } from 'lucide-react';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
+import { properties, owners, activityLogs, branches, inquiries, agents } from '../services/api';
 import {
   Building2, TrendingUp, Tag, Home, Key, Waves,
   MessageSquare, Bell, CheckCircle2, ClipboardCheck,
@@ -236,6 +239,15 @@ function DashboardPage() {
   const [annForm,       setAnnForm]       = useState({ title: '', body: '', priority: 'normal' });
   const [annSubmitting, setAnnSubmitting] = useState(false);
   const [stats, setStats] = useState({
+    totalProperties: 0,
+    totalOwners: 0,
+    available: 0,
+    sold: 0,
+    rented: 0,
+    underOffer: 0,
+    totalInquiries: 0,
+    totalAgents: 0,
+    totalBranches: 0,
     totalProperties: 0, newThisWeek: 0,
     forSale: 0, forRent: 0, forShortLet: 0,
     totalInquiries: 0, newToday: 0, openInquiries: 0, resolvedMonth: 0,
@@ -249,6 +261,40 @@ function DashboardPage() {
   useEffect(() => {
     async function load() {
       try {
+        const [propsRes, ownersRes, activityRes, branchesRes, inquiriesRes, agentsRes] = await Promise.all([
+          properties.getAll({ limit: 100 }),
+          owners.getAll({ limit: 1 }),
+          activityLogs.getAll({ limit: 10 }).catch(() => ({ success: false })),
+          branches.getAll().catch(() => ({ success: false })),
+          inquiries.getAll({ limit: 1 }).catch(() => ({ success: false })),
+          agents.getAll({ limit: 1 }).catch(() => ({ success: false }))
+        ]);
+
+        if (propsRes.success) {
+          const props = propsRes.data.properties;
+          const total = propsRes.data.pagination.total;
+          setStats({
+            totalProperties: total,
+            totalOwners: ownersRes.success ? ownersRes.data.pagination.total : 0,
+            available: props.filter(p => p.status === 'available').length,
+            sold: props.filter(p => p.status === 'sold').length,
+            rented: props.filter(p => p.status === 'rented').length,
+            underOffer: props.filter(p => p.status === 'under_offer').length,
+            totalInquiries: inquiriesRes.success ? (inquiriesRes.data?.pagination?.total ?? 0) : 0,
+            totalAgents: agentsRes.success ? (agentsRes.data?.pagination?.total ?? 0) : 0,
+            totalBranches: branchesRes.success ? (Array.isArray(branchesRes.data?.branches) ? branchesRes.data.branches.length : (Array.isArray(branchesRes.data) ? branchesRes.data.length : 0)) : 0,
+          });
+          setAllProperties(props);
+        }
+
+        if (activityRes.success) {
+          setActivityFeed(activityRes.data?.logs || activityRes.data || []);
+        }
+
+        if (branchesRes.success) {
+          const branchList = branchesRes.data?.branches || branchesRes.data || [];
+          setBranchData(Array.isArray(branchList) ? branchList : []);
+        }
         const [propsRes, inqRes, ownersRes, branchesRes, agentsRes, annRes] = await Promise.all([
           properties.getAll({ limit: 200 }).catch(() => ({ success: false })),
           inquiries.getAll({ limit: 200 }).catch(() => ({ success: false })),
@@ -335,6 +381,15 @@ function DashboardPage() {
 
   return (
     <div className="dashboard">
+      {/* Stats grid */}
+      <div className="stats-grid">
+        <StatCard icon={Building2} label="Total Properties" value={stats.totalProperties} color="#1e3a5f" linkTo="/dashboard/properties" />
+        <StatCard icon={CheckCircle} label="Available" value={stats.available} color="var(--emerald-primary, #2D6A4F)" linkTo="/dashboard/properties" />
+        <StatCard icon={Handshake} label="Under Offer" value={stats.underOffer} color="#e8a020" linkTo="/dashboard/properties" />
+        <StatCard icon={Users} label="Owners" value={stats.totalOwners} color="#8e44ad" linkTo="/dashboard/owners" />
+        <StatCard icon={MessageSquare} label="Inquiries" value={stats.totalInquiries} color="#0e7490" linkTo="/dashboard/inquiries" />
+        <StatCard icon={UserCheck} label="Agents" value={stats.totalAgents} color="#2D6A4F" linkTo="/dashboard/agents" />
+        <StatCard icon={GitBranch} label="Branches" value={stats.totalBranches} color="#D4AF37" linkTo="/dashboard/branches" />
       {/* ── HEADER ───────────────────────────────────────── */}
       <div className="dash-header">
         <h1 className="dash-title">Command Center</h1>
