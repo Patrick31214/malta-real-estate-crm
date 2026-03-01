@@ -3,17 +3,27 @@ import { inquiries } from '../services/api';
 import InquiryModal from '../components/InquiryModal';
 import './InquiriesPage.css';
 
-const STATUSES = ['new', 'contacted', 'in_progress', 'viewing_scheduled', 'offer_made', 'completed', 'cancelled'];
+const STATUSES = ['new', 'assigned', 'in_progress', 'viewing_scheduled', 'matched', 'resolved', 'cancelled', 'on_hold'];
 const PRIORITIES = ['low', 'medium', 'high', 'urgent'];
+const SOURCES = ['website', 'phone', 'walk_in', 'email', 'referral', 'chatbot', 'whatsapp'];
 
 const PRIORITY_ICON = { low: '🟢', medium: '🟡', high: '🟠', urgent: '🔴' };
+const STATUS_ICON = {
+  new: '🔴', assigned: '🟠', in_progress: '🟡',
+  viewing_scheduled: '🔵', matched: '🟢', resolved: '✅',
+  cancelled: '❌', on_hold: '⏸️'
+};
+const SOURCE_ICON = {
+  website: '🌐', phone: '📞', walk_in: '🚶', email: '📧',
+  referral: '🤝', chatbot: '🤖', whatsapp: '💬'
+};
 
 function InquiriesPage() {
   const [inquiryList, setInquiryList] = useState([]);
   const [pagination, setPagination] = useState({ total: 0, page: 1, limit: 20, totalPages: 0 });
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [filters, setFilters] = useState({ status: '', priority: '' });
+  const [filters, setFilters] = useState({ status: '', priority: '', source: '' });
   const [modalOpen, setModalOpen] = useState(false);
   const [editInquiry, setEditInquiry] = useState(null);
   const [toast, setToast] = useState(null);
@@ -30,6 +40,7 @@ function InquiriesPage() {
       if (search) params.search = search;
       if (filters.status) params.status = filters.status;
       if (filters.priority) params.priority = filters.priority;
+      if (filters.source) params.source = filters.source;
 
       const res = await inquiries.getAll(params);
       if (res.success) {
@@ -84,6 +95,10 @@ function InquiriesPage() {
             <option value="">All Priorities</option>
             {PRIORITIES.map(p => <option key={p} value={p}>{p}</option>)}
           </select>
+          <select className="form-input filter-select" value={filters.source} onChange={e => setFilters({...filters, source: e.target.value})}>
+            <option value="">All Sources</option>
+            {SOURCES.map(s => <option key={s} value={s}>{SOURCE_ICON[s]} {s.replace(/_/g, ' ')}</option>)}
+          </select>
         </div>
         <button className="btn btn-primary" onClick={() => { setEditInquiry(null); setModalOpen(true); }}>
           + Add Inquiry
@@ -115,6 +130,7 @@ function InquiriesPage() {
                   <th>Client</th>
                   <th>Property</th>
                   <th>Type</th>
+                  <th>Source</th>
                   <th>Priority</th>
                   <th>Status</th>
                   <th>Date</th>
@@ -138,11 +154,20 @@ function InquiriesPage() {
                     </td>
                     <td style={{textTransform:'capitalize'}}>{(inq.inquiryType || '').replace(/_/g, ' ')}</td>
                     <td>
+                      <span className="inq-source-chip">
+                        {SOURCE_ICON[inq.source] || '🌐'} {(inq.source || 'website').replace(/_/g, ' ')}
+                      </span>
+                    </td>
+                    <td>
                       <span className={`badge badge-priority-${inq.priority}`}>
                         {PRIORITY_ICON[inq.priority]} {inq.priority}
                       </span>
                     </td>
-                    <td><span className={`badge badge-inq-${inq.status}`}>{(inq.status || '').replace(/_/g, ' ')}</span></td>
+                    <td>
+                      <span className={`badge badge-inq-${inq.status}`}>
+                        {STATUS_ICON[inq.status]} {(inq.status || '').replace(/_/g, ' ')}
+                      </span>
+                    </td>
                     <td className="inq-date">{new Date(inq.createdAt).toLocaleDateString()}</td>
                     <td>
                       <div className="action-btns">

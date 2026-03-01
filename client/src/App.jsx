@@ -9,11 +9,15 @@ import OwnersPage from './pages/OwnersPage';
 import InquiriesPage from './pages/InquiriesPage';
 import AgentsPage from './pages/AgentsPage';
 import ListingsPage from './pages/ListingsPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsPage from './pages/TermsPage';
+import CookiesPage from './pages/CookiesPage';
 import ActivityLogPage from './pages/ActivityLogPage';
 import AgentActivityPage from './pages/AgentActivityPage';
 import MortgageCalculatorPage from './pages/MortgageCalculatorPage';
 import MaltaCompliancePage from './pages/MaltaCompliancePage';
 import ServicesPage from './pages/ServicesPage';
+import BranchesPage from './pages/BranchesPage';
 import Layout from './components/Layout';
 import { auth } from './services/api';
 
@@ -40,6 +44,21 @@ function App() {
             <ListingsPage />
           </ThemeProvider>
         } />
+        <Route path="/privacy-policy" element={
+          <ThemeProvider storageKey="gkr-web-theme" applyToDocument={true}>
+            <PrivacyPolicyPage />
+          </ThemeProvider>
+        } />
+        <Route path="/terms" element={
+          <ThemeProvider storageKey="gkr-web-theme" applyToDocument={true}>
+            <TermsPage />
+          </ThemeProvider>
+        } />
+        <Route path="/cookies" element={
+          <ThemeProvider storageKey="gkr-web-theme" applyToDocument={true}>
+            <CookiesPage />
+          </ThemeProvider>
+        } />
         <Route
           path="/"
           element={
@@ -60,6 +79,7 @@ function App() {
           <Route path="inquiries" element={<InquiriesPage />} />
           <Route path="agents" element={<AgentsPage />} />
           <Route path="services" element={<ServicesPage />} />
+          <Route path="branches" element={<BranchesPage />} />
           <Route path="activity-log" element={<ActivityLogPage />} />
           <Route path="agents/:id/activity" element={<AgentActivityPage />} />
           <Route path="mortgage-calculator" element={<MortgageCalculatorPage />} />

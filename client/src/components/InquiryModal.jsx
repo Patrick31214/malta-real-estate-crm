@@ -3,8 +3,9 @@ import { inquiries, properties } from '../services/api';
 import './Modal.css';
 
 const INQUIRY_TYPES = ['viewing_request', 'information_request', 'make_offer', 'callback_request', 'general'];
-const STATUSES = ['new', 'contacted', 'in_progress', 'viewing_scheduled', 'offer_made', 'completed', 'cancelled'];
+const STATUSES = ['new', 'assigned', 'in_progress', 'viewing_scheduled', 'matched', 'resolved', 'cancelled', 'on_hold'];
 const PRIORITIES = ['low', 'medium', 'high', 'urgent'];
+const SOURCES = ['website', 'phone', 'walk_in', 'email', 'referral', 'chatbot', 'whatsapp'];
 
 const defaultForm = {
   clientName: '', clientEmail: '', clientPhone: '',
@@ -101,9 +102,9 @@ function InquiryModal({ inquiry, onClose, onSaved }) {
 
           <div className="form-row">
             <div className="form-group flex-2">
-              <label>Property *</label>
-              <select name="propertyId" className="form-input" value={form.propertyId} onChange={handleChange} required>
-                <option value="">Select property…</option>
+              <label>Property <span style={{fontWeight:400,color:'var(--text-light)'}}>(optional)</span></label>
+              <select name="propertyId" className="form-input" value={form.propertyId} onChange={handleChange}>
+                <option value="">No specific property…</option>
                 {propertyList.map(p => (
                   <option key={p.id} value={p.id}>{p.title} — {p.city}</option>
                 ))}
@@ -126,7 +127,9 @@ function InquiryModal({ inquiry, onClose, onSaved }) {
             </div>
             <div className="form-group">
               <label>Source</label>
-              <input name="source" className="form-input" value={form.source} onChange={handleChange} placeholder="website" />
+              <select name="source" className="form-input" value={form.source} onChange={handleChange}>
+                {SOURCES.map(s => <option key={s} value={s}>{s.replace(/_/g, ' ')}</option>)}
+              </select>
             </div>
           </div>
 

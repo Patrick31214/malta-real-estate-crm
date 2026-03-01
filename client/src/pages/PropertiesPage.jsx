@@ -7,6 +7,16 @@ import './PropertiesPage.css';
 const PROPERTY_TYPES = ['apartment', 'house', 'villa', 'townhouse', 'penthouse', 'maisonette', 'farmhouse', 'commercial', 'office', 'land', 'garage', 'other'];
 const STATUSES = ['available', 'under_offer', 'sold', 'rented', 'withdrawn', 'draft', 'off_market'];
 
+const EMPTY_ADVANCED = {
+  minPrice: '',
+  maxPrice: '',
+  minBedrooms: '',
+  maxBedrooms: '',
+  minBathrooms: '',
+  furnished: '',
+  city: ''
+};
+
 function PropertiesPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -19,9 +29,13 @@ function PropertiesPage() {
     propertyType: '',
     listingType: ''
   });
+  const [advancedOpen, setAdvancedOpen] = useState(false);
+  const [advanced, setAdvanced] = useState(EMPTY_ADVANCED);
   const [modalOpen, setModalOpen] = useState(false);
   const [editProperty, setEditProperty] = useState(null);
   const [toast, setToast] = useState(null);
+
+  const activeAdvancedCount = Object.values(advanced).filter(v => v !== '').length;
 
   const user = auth.getUser();
   const isAdmin = user && (user.role === 'admin' || user.role === 'manager');
@@ -39,6 +53,13 @@ function PropertiesPage() {
       if (filters.status) params.status = filters.status;
       if (filters.propertyType) params.propertyType = filters.propertyType;
       if (filters.listingType) params.listingType = filters.listingType;
+      if (advanced.minPrice) params.minPrice = advanced.minPrice;
+      if (advanced.maxPrice) params.maxPrice = advanced.maxPrice;
+      if (advanced.minBedrooms) params.minBedrooms = advanced.minBedrooms;
+      if (advanced.maxBedrooms) params.maxBedrooms = advanced.maxBedrooms;
+      if (advanced.minBathrooms) params.minBathrooms = advanced.minBathrooms;
+      if (advanced.furnished) params.furnished = advanced.furnished;
+      if (advanced.city) params.city = advanced.city;
 
       const res = await properties.getAll(params);
       if (res.success) {
@@ -50,7 +71,7 @@ function PropertiesPage() {
     } finally {
       setLoading(false);
     }
-  }, [search, filters]);
+  }, [search, filters, advanced]);
 
   useEffect(() => {
     const timer = setTimeout(() => fetchProperties(1), 300);
@@ -124,7 +145,115 @@ function PropertiesPage() {
         </button>
       </div>
 
-      {/* Count */}
+      {/* Advanced Filter Toggle */}
+      <div className="advanced-filter-bar">
+        <button
+          className={`btn-advanced-toggle${advancedOpen ? ' open' : ''}`}
+          onClick={() => setAdvancedOpen(o => !o)}
+        >
+          <span>⚙ Advanced Filters</span>
+          {activeAdvancedCount > 0 && !advancedOpen && (
+            <span className="filter-badge">{activeAdvancedCount}</span>
+          )}
+          <span className="toggle-chevron">{advancedOpen ? '▲' : '▼'}</span>
+        </button>
+      </div>
+
+      {/* Advanced Filter Panel */}
+      {advancedOpen && (
+        <div className="advanced-filter-panel">
+          <div className="advanced-filter-grid">
+            <div className="filter-field">
+              <label>Min Price (€)</label>
+              <input
+                type="number"
+                className="form-input"
+                placeholder="e.g. 50000"
+                value={advanced.minPrice}
+                onChange={e => setAdvanced(a => ({ ...a, minPrice: e.target.value }))}
+                min="0"
+              />
+            </div>
+            <div className="filter-field">
+              <label>Max Price (€)</label>
+              <input
+                type="number"
+                className="form-input"
+                placeholder="e.g. 500000"
+                value={advanced.maxPrice}
+                onChange={e => setAdvanced(a => ({ ...a, maxPrice: e.target.value }))}
+                min="0"
+              />
+            </div>
+            <div className="filter-field">
+              <label>Min Bedrooms</label>
+              <input
+                type="number"
+                className="form-input"
+                placeholder="e.g. 1"
+                value={advanced.minBedrooms}
+                onChange={e => setAdvanced(a => ({ ...a, minBedrooms: e.target.value }))}
+                min="0"
+              />
+            </div>
+            <div className="filter-field">
+              <label>Max Bedrooms</label>
+              <input
+                type="number"
+                className="form-input"
+                placeholder="e.g. 5"
+                value={advanced.maxBedrooms}
+                onChange={e => setAdvanced(a => ({ ...a, maxBedrooms: e.target.value }))}
+                min="0"
+              />
+            </div>
+            <div className="filter-field">
+              <label>Min Bathrooms</label>
+              <input
+                type="number"
+                className="form-input"
+                placeholder="e.g. 1"
+                value={advanced.minBathrooms}
+                onChange={e => setAdvanced(a => ({ ...a, minBathrooms: e.target.value }))}
+                min="0"
+              />
+            </div>
+            <div className="filter-field">
+              <label>Furnished</label>
+              <select
+                className="form-input"
+                value={advanced.furnished}
+                onChange={e => setAdvanced(a => ({ ...a, furnished: e.target.value }))}
+              >
+                <option value="">Any</option>
+                <option value="furnished">Furnished</option>
+                <option value="unfurnished">Unfurnished</option>
+                <option value="part_furnished">Part Furnished</option>
+              </select>
+            </div>
+            <div className="filter-field filter-field-wide">
+              <label>City</label>
+              <input
+                type="text"
+                className="form-input"
+                placeholder="e.g. Valletta, Sliema…"
+                value={advanced.city}
+                onChange={e => setAdvanced(a => ({ ...a, city: e.target.value }))}
+              />
+            </div>
+            <div className="filter-field filter-field-action">
+              <button
+                className="btn-clear-filters"
+                onClick={() => setAdvanced(EMPTY_ADVANCED)}
+                disabled={activeAdvancedCount === 0}
+              >
+                ✕ Clear All Filters
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="result-count">
         {pagination.total} {pagination.total === 1 ? 'property' : 'properties'} found
       </div>

@@ -197,4 +197,13 @@ export const upload = {
   }
 };
 
-export default { auth, properties, owners, inquiries, agents, listings, activityLogs, services, upload };
+// Branches
+export const branches = {
+  getAll: () => request('/branches'),
+  getOne: (id) => request(`/branches/${id}`),
+  create: (data) => request('/branches', { method: 'POST', body: JSON.stringify(data) }),
+  update: (id, data) => request(`/branches/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  delete: (id) => request(`/branches/${id}`, { method: 'DELETE' }),
+};
+
+export default { auth, properties, owners, inquiries, agents, listings, activityLogs, services, upload, branches };

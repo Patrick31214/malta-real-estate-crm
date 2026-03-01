@@ -130,3 +130,132 @@
   }
   .search-input { max-width: 100%; }
 }
+
+/* Advanced Filter Panel */
+.advanced-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-advanced-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid rgba(16, 185, 129, 0.4);
+  background: rgba(16, 185, 129, 0.06);
+  color: #10b981;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.btn-advanced-toggle:hover,
+.btn-advanced-toggle.open {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.12);
+}
+
+.toggle-chevron {
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.filter-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: #10b981;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.advanced-filter-panel {
+  background: rgba(16, 185, 129, 0.04);
+  border: 1.5px solid rgba(16, 185, 129, 0.2);
+  border-radius: var(--radius);
+  padding: 18px 20px 14px;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.advanced-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px 14px;
+  align-items: end;
+}
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.filter-field label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #10b981;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filter-field .form-input {
+  font-size: 13px;
+}
+
+.filter-field-wide {
+  grid-column: span 2;
+}
+
+.filter-field-action {
+  display: flex;
+  align-items: flex-end;
+}
+
+.btn-clear-filters {
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid #10b981;
+  background: #10b981;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.btn-clear-filters:hover:not(:disabled) {
+  background: #059669;
+  border-color: #059669;
+}
+
+.btn-clear-filters:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .advanced-filter-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .filter-field-wide {
+    grid-column: span 2;
+  }
+}

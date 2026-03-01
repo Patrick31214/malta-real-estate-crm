@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Building2, CheckCircle, Handshake, Users, Calculator } from 'lucide-react';
+import { Building2, CheckCircle, Handshake, Users, Calculator, MapPin, MessageSquare } from 'lucide-react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
-import { properties, owners, activityLogs } from '../services/api';
+import { properties, owners, activityLogs, branches, inquiries } from '../services/api';
 import './DashboardPage.css';
 
 const STATUS_COLORS = {
@@ -116,19 +116,23 @@ function DashboardPage() {
     available: 0,
     sold: 0,
     rented: 0,
-    underOffer: 0
+    underOffer: 0,
+    totalInquiries: 0
   });
   const [allProperties, setAllProperties] = useState([]);
   const [activityFeed, setActivityFeed] = useState([]);
+  const [branchData, setBranchData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchStats() {
       try {
-        const [propsRes, ownersRes, activityRes] = await Promise.all([
+        const [propsRes, ownersRes, activityRes, branchesRes, inquiriesRes] = await Promise.all([
           properties.getAll({ limit: 100 }),
           owners.getAll({ limit: 1 }),
-          activityLogs.getAll({ limit: 10 }).catch(() => ({ success: false }))
+          activityLogs.getAll({ limit: 10 }).catch(() => ({ success: false })),
+          branches.getAll().catch(() => ({ success: false })),
+          inquiries.getAll({ limit: 1 }).catch(() => ({ success: false }))
         ]);
 
         if (propsRes.success) {
@@ -140,13 +144,19 @@ function DashboardPage() {
             available: props.filter(p => p.status === 'available').length,
             sold: props.filter(p => p.status === 'sold').length,
             rented: props.filter(p => p.status === 'rented').length,
-            underOffer: props.filter(p => p.status === 'under_offer').length
+            underOffer: props.filter(p => p.status === 'under_offer').length,
+            totalInquiries: inquiriesRes.success ? (inquiriesRes.data?.pagination?.total ?? 0) : 0
           });
           setAllProperties(props);
         }
 
         if (activityRes.success) {
           setActivityFeed(activityRes.data?.logs || activityRes.data || []);
+        }
+
+        if (branchesRes.success) {
+          const branchList = branchesRes.data?.branches || branchesRes.data || [];
+          setBranchData(Array.isArray(branchList) ? branchList : []);
         }
       } catch (err) {
         console.error('Failed to load dashboard stats:', err);
@@ -171,6 +181,7 @@ function DashboardPage() {
         <StatCard icon={CheckCircle} label="Available" value={stats.available} color="var(--emerald-primary, #2D6A4F)" linkTo="/properties?status=available" />
         <StatCard icon={Handshake} label="Under Offer" value={stats.underOffer} color="#e8a020" linkTo="/properties?status=under_offer" />
         <StatCard icon={Users} label="Owners" value={stats.totalOwners} color="#8e44ad" linkTo="/owners" />
+        <StatCard icon={MessageSquare} label="Inquiries" value={stats.totalInquiries} color="#0e7490" linkTo="/inquiries" />
       </div>
 
       {isEmpty ? (
@@ -249,6 +260,43 @@ function DashboardPage() {
               </div>
             </div>
           )}
+
+          {/* Branches Overview */}
+          <div className="card" style={{ marginTop: 24 }}>
+            <div className="section-header" style={{ marginBottom: 16 }}>
+              <h3>Branches Overview</h3>
+              <Link to="/branches" className="btn btn-outline btn-sm">View all</Link>
+            </div>
+            <div style={{ marginBottom: 12 }}>
+              <span style={{ fontSize: 14, color: 'var(--text-muted)' }}>
+                Total branches: <strong style={{ color: 'var(--text-primary)' }}>{branchData.length}</strong>
+              </span>
+            </div>
+            {branchData.length === 0 ? (
+              <p style={{ color: 'var(--text-muted)', fontSize: 14 }}>No branches found.</p>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {branchData.slice(0, 3).map(branch => (
+                  <div key={branch.id} style={{
+                    display: 'flex', alignItems: 'center', gap: 10,
+                    padding: '10px 12px', borderRadius: 8,
+                    background: 'var(--bg-secondary)', border: '1px solid var(--glass-border)'
+                  }}>
+                    <MapPin size={16} style={{ color: 'var(--emerald-primary, #2D6A4F)', flexShrink: 0 }} />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontWeight: 600, fontSize: 14, color: 'var(--text-primary)' }}>{branch.name}</div>
+                      <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{branch.city}{branch.country ? `, ${branch.country}` : ''}</div>
+                    </div>
+                    {branch.agentCount != null && (
+                      <span style={{ fontSize: 12, color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
+                        {branch.agentCount} agent{branch.agentCount !== 1 ? 's' : ''}
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </>
       )}
     </div>

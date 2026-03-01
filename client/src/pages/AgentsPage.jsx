@@ -114,7 +114,8 @@ function AgentsPage() {
                   <th>Email</th>
                   <th>Phone / Mobile</th>
                   <th>License</th>
-                  <th>Specialization</th>
+                  <th>Branch / Manager</th>
+                  <th>Performance</th>
                   <th>Commission</th>
                   <th>Exp.</th>
                   <th>Status</th>
@@ -150,8 +151,22 @@ function AgentsPage() {
                       {!a.phone && !a.mobile && '—'}
                     </td>
                     <td>{a.licenseNumber || '—'}</td>
-                    <td style={{ maxWidth: 180 }}>
-                      <span className="spec-cell">{a.specialization || '—'}</span>
+                    <td>
+                      <div className="agent-branch-cell">
+                        {a.branchId && <div className="agent-branch">🏢 {a.branchId}</div>}
+                        {a.managerName && <div className="agent-manager">👤 {a.managerName}</div>}
+                        {!a.branchId && !a.managerName && <span className="text-muted-sm">—</span>}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="agent-metrics">
+                        <span className="metric-chip" title="Properties listed">
+                          🏠 {a.propertiesCount != null ? Number(a.propertiesCount) : 0}
+                        </span>
+                        <span className="metric-chip" title="Inquiries handled">
+                          💬 {a.inquiriesCount != null ? Number(a.inquiriesCount) : 0}
+                        </span>
+                      </div>
                     </td>
                     <td>{a.commissionRate ? `${a.commissionRate}%` : '—'}</td>
                     <td>{a.yearsExperience ? `${a.yearsExperience}y` : '—'}</td>
@@ -177,7 +192,10 @@ function AgentsPage() {
                         <button className="btn btn-outline btn-sm" onClick={() => { setEditAgent(a); setModalOpen(true); }}>Edit</button>
                         {isAdmin && (
                           <button
-                            className={`btn btn-sm ${a.user?.isBlocked ? 'btn-accent' : 'btn-warning'}`}
+                            className={`btn btn-sm`}
+                            style={a.user?.isBlocked
+                              ? { background: '#10b981', color: '#fff', borderColor: '#10b981' }
+                              : { background: '#dc2626', color: '#fff', borderColor: '#dc2626' }}
                             onClick={() => handleBlock(a.id, !!a.user?.isBlocked)}
                             title={a.user?.isBlocked ? 'Unblock this agent' : 'Block this agent'}
                           >

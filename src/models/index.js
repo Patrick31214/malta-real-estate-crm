@@ -9,6 +9,7 @@ const AutomatedContactLog = require('./AutomatedContactLog');
 const AgentActivityLog = require('./AgentActivityLog');
 const Service = require('./Service');
 const OwnerContactView = require('./OwnerContactView');
+const Branch = require('./Branch');
 
 // Define relationships
 
@@ -178,6 +179,14 @@ OwnerContactView.belongsTo(Owner, { foreignKey: 'ownerId', as: 'owner' });
 Property.hasMany(OwnerContactView, { foreignKey: 'propertyId', as: 'ownerContactViews', onDelete: 'SET NULL' });
 OwnerContactView.belongsTo(Property, { foreignKey: 'propertyId', as: 'property' });
 
+// Branch - User (manager) relationship
+Branch.belongsTo(User, { foreignKey: 'managerId', as: 'manager' });
+User.hasMany(Branch, { foreignKey: 'managerId', as: 'managedBranches' });
+
+// Branch - Agent relationship
+Branch.hasMany(Agent, { foreignKey: 'branchId', as: 'agents' });
+Agent.belongsTo(Branch, { foreignKey: 'branchId', as: 'branch' });
+
 module.exports = {
   sequelize,
   User,
@@ -189,5 +198,6 @@ module.exports = {
   AutomatedContactLog,
   AgentActivityLog,
   Service,
-  OwnerContactView
+  OwnerContactView,
+  Branch
 };

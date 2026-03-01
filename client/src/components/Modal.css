@@ -190,3 +190,90 @@
   border: 1px solid rgba(192,57,43,0.25);
 }
 
+/* Collapsible sections */
+.collapsible-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  margin: 14px 0 0;
+  border-radius: var(--radius-sm);
+  background: rgba(212, 175, 55, 0.07);
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.collapsible-header:hover {
+  background: rgba(212, 175, 55, 0.14);
+}
+
+.collapsible-header .chevron {
+  font-size: 11px;
+  transition: transform 0.2s;
+  color: var(--text-muted);
+}
+
+.collapsible-header .chevron.open {
+  transform: rotate(180deg);
+}
+
+.collapsible-section {
+  border: 1px solid var(--glass-border);
+  border-top: none;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  padding: 14px 12px 4px;
+  margin-bottom: 4px;
+}
+
+/* Features grid */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 8px 12px;
+  padding-bottom: 8px;
+}
+
+.feature-checkbox {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.feature-checkbox input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  accent-color: var(--gold-primary);
+  flex-shrink: 0;
+}
+
+/* Drag-over state for upload area */
+.upload-drop-area.drag-over {
+  border-color: var(--gold-primary);
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--text-primary);
+}
+
+/* Pending (not-yet-uploaded) image indicator */
+.image-preview-item.pending-image {
+  border-color: var(--gold-primary);
+  opacity: 0.85;
+}
+.form-group-checkbox-aligned {
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 2px;
+}
+
+.form-group-inline-no-margin {
+  margin-bottom: 0;
+}
+
