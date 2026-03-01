@@ -7,10 +7,10 @@ import {
 } from 'recharts';
 import { properties } from '../services/api';
 
-const COLORS = ['#8A5A32', '#B8864E', '#D4AF37', '#c0392b', '#2980b9', '#8e44ad'];
+const COLORS = ['#8A5A32', '#B8864E', '#C4875A', '#c0392b', '#2980b9', '#8e44ad'];
 const STATUS_COLORS = {
   available: '#B8864E',
-  under_offer: '#D4AF37',
+  under_offer: '#C4875A',
   sold: '#c0392b',
   rented: '#2980b9',
 };
@@ -126,7 +126,7 @@ function DashboardPropertiesPage() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 16, marginBottom: 24 }}>
         <StatBox label="Total" value={total} color="#8A5A32" />
         <StatBox label="Available" value={counts.available} color="#B8864E" />
-        <StatBox label="Under Offer" value={counts.under_offer} color="#D4AF37" />
+        <StatBox label="Under Offer" value={counts.under_offer} color="#C4875A" />
         <StatBox label="Sold" value={counts.sold} color="#c0392b" />
         <StatBox label="Rented" value={counts.rented} color="#2980b9" />
       </div>

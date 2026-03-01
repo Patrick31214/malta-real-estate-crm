@@ -218,7 +218,7 @@ function PropertiesPage() {
 
       {/* Owner filter banner */}
       {ownerId && (
-        <div className="alert" style={{ background: 'var(--accent-soft, #fef9e7)', border: '1px solid var(--accent, #D4AF37)', borderRadius: 8, padding: '10px 16px', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 10 }}>
+        <div className="alert" style={{ background: 'var(--accent-soft, #fef9e7)', border: '1px solid var(--accent, #C4875A)', borderRadius: 8, padding: '10px 16px', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 10 }}>
           <span>🏠 Showing properties for owner ID: <strong>{ownerId}</strong></span>
           <Link to="/properties" className="btn btn-outline btn-sm" style={{ marginLeft: 'auto' }}>Clear filter</Link>
         </div>

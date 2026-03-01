@@ -566,7 +566,7 @@ function PropertyMapTab({ properties }) {
                       <img src={p.images[0]} alt={p.title} style={{ width: '100%', height: 80, objectFit: 'cover', borderRadius: 6, marginBottom: 6 }} />
                     )}
                     <strong style={{ display: 'block', fontSize: 14, marginBottom: 4 }}>{p.title}</strong>
-                    <span style={{ color: '#D4AF37', fontWeight: 700 }}>{formatPrice(p.price)}</span>
+                    <span style={{ color: '#C4875A', fontWeight: 700 }}>{formatPrice(p.price)}</span>
                     <div style={{ fontSize: 12, color: '#666', marginTop: 4 }}>{p.city || p.address}</div>
                     <div style={{ fontSize: 11, color: '#888', textTransform: 'capitalize' }}>{p.propertyType} · {p.listingType}</div>
                   </div>

@@ -59,7 +59,7 @@ function FileManagerPage({ category }) {
       {/* Header */}
       <div className="fm-header">
         <div className="fm-header-icon">
-          <FolderOpen size={28} color="#D4AF37" strokeWidth={1.5} />
+          <FolderOpen size={28} color="#C4875A" strokeWidth={1.5} />
         </div>
         <div>
           <h1 className="fm-title">{label}</h1>

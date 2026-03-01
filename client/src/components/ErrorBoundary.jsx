@@ -30,14 +30,14 @@ class ErrorBoundary extends Component {
           textAlign: 'center',
         }}>
           <div style={{
-            border: '1px solid rgba(212,175,55,0.3)',
+            border: '1px solid rgba(196,135,90,0.3)',
             borderRadius: 12,
             padding: '2.5rem',
             maxWidth: 480,
             background: 'rgba(138,90,50,0.08)',
           }}>
             <div style={{ fontSize: 48, marginBottom: 16 }}>⚠️</div>
-            <h2 style={{ color: '#D4AF37', marginBottom: 8, fontSize: '1.4rem' }}>
+            <h2 style={{ color: '#C4875A', marginBottom: 8, fontSize: '1.4rem' }}>
               Something went wrong
             </h2>
             <p style={{ color: '#c4a882', marginBottom: 24, fontSize: '0.9rem' }}>
@@ -62,9 +62,9 @@ class ErrorBoundary extends Component {
               onClick={() => window.location.reload()}
               style={{
                 background: 'linear-gradient(135deg, #8A5A32, #B8864E)',
-                border: '1px solid rgba(212,175,55,0.4)',
+                border: '1px solid rgba(196,135,90,0.4)',
                 borderRadius: 8,
-                color: '#D4AF37',
+                color: '#C4875A',
                 padding: '0.6rem 1.5rem',
                 cursor: 'pointer',
                 fontSize: '0.9rem',

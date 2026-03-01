@@ -62,7 +62,7 @@ function PartnersPage() {
       <div style={{ maxWidth: 640, width: '100%' }}>
         {/* Header */}
         <div style={{ marginBottom: 16 }}>
-          <Link to="/" style={{ color: '#D4AF37', textDecoration: 'none', fontSize: 14 }}>← Back to Home</Link>
+          <Link to="/" style={{ color: '#C4875A', textDecoration: 'none', fontSize: 14 }}>← Back to Home</Link>
         </div>
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
           <div style={{
@@ -72,8 +72,8 @@ function PartnersPage() {
             width: 72,
             height: 72,
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #D4AF37, #F0D060)',
-            boxShadow: '0 4px 20px rgba(212,175,55,0.4)',
+            background: 'linear-gradient(135deg, #C4875A, #D4A87A)',
+            boxShadow: '0 4px 20px rgba(196,135,90,0.4)',
             marginBottom: 20,
           }}>
             <Handshake size={32} color="#6B3D1E" strokeWidth={2} />
@@ -101,13 +101,13 @@ function PartnersPage() {
 
         {/* Card */}
         <div style={{
-          background: 'rgba(212,175,55,0.06)',
-          border: '1px solid rgba(212,175,55,0.2)',
+          background: 'rgba(196,135,90,0.06)',
+          border: '1px solid rgba(196,135,90,0.2)',
           borderRadius: 20,
           padding: '40px 48px',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          boxShadow: '0 8px 40px rgba(212,175,55,0.15)',
+          boxShadow: '0 8px 40px rgba(196,135,90,0.15)',
         }}>
           {submitted ? (
             <div style={{ textAlign: 'center', padding: '24px 0' }}>
@@ -115,7 +115,7 @@ function PartnersPage() {
               <h2 style={{
                 fontFamily: "'Playfair Display', Georgia, serif",
                 fontSize: 24,
-                color: '#D4AF37',
+                color: '#C4875A',
                 marginBottom: 12,
               }}>
                 Inquiry Received!
@@ -229,7 +229,7 @@ const labelStyle = {
   display: 'block',
   fontSize: 11,
   fontWeight: 700,
-  color: '#D4AF37',
+  color: '#C4875A',
   textTransform: 'uppercase',
   letterSpacing: '0.8px',
   marginBottom: 6,
@@ -239,7 +239,7 @@ const inputStyle = {
   width: '100%',
   padding: '12px 16px',
   background: 'rgba(255,255,255,0.06)',
-  border: '1.5px solid rgba(212,175,55,0.25)',
+  border: '1.5px solid rgba(196,135,90,0.25)',
   borderRadius: 10,
   color: '#FFFFFF',
   fontSize: 15,
@@ -251,7 +251,7 @@ const inputStyle = {
 const submitButtonStyle = {
   width: '100%',
   padding: '14px 24px',
-  background: 'linear-gradient(135deg, #D4AF37, #F0D060)',
+  background: 'linear-gradient(135deg, #C4875A, #D4A87A)',
   border: 'none',
   borderRadius: 12,
   color: '#6B3D1E',
@@ -259,7 +259,7 @@ const submitButtonStyle = {
   fontWeight: 700,
   cursor: 'pointer',
   fontFamily: 'inherit',
-  boxShadow: '0 4px 20px rgba(212,175,55,0.35)',
+  boxShadow: '0 4px 20px rgba(196,135,90,0.35)',
   transition: 'opacity 0.2s',
 };
 

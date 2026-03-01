@@ -193,8 +193,8 @@ function MortgageCalculatorPage() {
                       contentStyle={{ background: 'var(--bg-secondary)', border: '1px solid var(--glass-border)', borderRadius: 8, fontSize: 12 }}
                       formatter={(v, n) => [`€${v}k`, n === 'propValue' ? 'Property Value' : 'Cumulative Net Rent']}
                     />
-                    <Bar dataKey="propValue" fill="#D4AF37" name="propValue" radius={[4,4,0,0]} />
-                    <Bar dataKey="cumulativeRent" fill="#1DB954" name="cumulativeRent" radius={[4,4,0,0]} />
+                    <Bar dataKey="propValue" fill="#C4875A" name="propValue" radius={[4,4,0,0]} />
+                    <Bar dataKey="cumulativeRent" fill="#B87333" name="cumulativeRent" radius={[4,4,0,0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>

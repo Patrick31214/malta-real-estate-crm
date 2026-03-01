@@ -517,7 +517,7 @@ function DashboardPage() {
             <div className="chat-list" ref={chatListRef}>
               {activeChannelAnnList.length === 0 ? (
                 <div className="chat-empty">
-                  <Megaphone size={28} strokeWidth={1.25} style={{ color: 'rgba(212,175,55,0.4)' }} />
+                  <Megaphone size={28} strokeWidth={1.25} style={{ color: 'rgba(196,135,90,0.4)' }} />
                   <p>No messages in this channel yet.</p>
                 </div>
               ) : (

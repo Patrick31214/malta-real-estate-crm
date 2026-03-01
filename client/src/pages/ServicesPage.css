@@ -84,10 +84,10 @@
 /* Category badges */
 .badge-cat-boat_tour { background: rgba(41, 128, 185, 0.12); color: #1a5276; border: 1px solid rgba(41,128,185,0.25); }
 .badge-cat-car_rental { background: rgba(192, 57, 43, 0.1); color: #922b21; border: 1px solid rgba(192,57,43,0.2); }
-.badge-cat-bike_rental { background: rgba(39, 174, 96, 0.12); color: #1a6b3c; border: 1px solid rgba(39,174,96,0.25); }
-.badge-cat-guided_tour { background: rgba(212, 175, 55, 0.15); color: #8a6700; border: 1px solid rgba(212,175,55,0.3); }
+.badge-cat-bike_rental { background: rgba(184, 115, 51, 0.12); color: #7A4A2A; border: 1px solid rgba(184,115,51,0.25); }
+.badge-cat-guided_tour { background: rgba(196, 135, 90, 0.15); color: #8a6700; border: 1px solid rgba(196,135,90,0.3); }
 .badge-cat-other { background: rgba(120, 120, 120, 0.1); color: #555; border: 1px solid rgba(0,0,0,0.12); }
-.badge-featured { background: rgba(212, 175, 55, 0.15); color: #8a6700; border: 1px solid rgba(212,175,55,0.3); font-size: 10px; margin-left: 4px; }
+.badge-featured { background: rgba(196, 135, 90, 0.15); color: #8a6700; border: 1px solid rgba(196,135,90,0.3); font-size: 10px; margin-left: 4px; }
 
 @media (max-width: 768px) {
   .services-tabs { gap: 6px; }

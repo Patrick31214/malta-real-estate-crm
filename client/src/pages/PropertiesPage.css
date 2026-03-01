@@ -305,7 +305,7 @@
   font-weight: 700;
   padding: 1px 5px;
   border-radius: 4px;
-  background: rgba(212, 175, 55, 0.2);
+  background: rgba(196, 135, 90, 0.2);
   color: var(--gold-primary);
   letter-spacing: 0.5px;
   margin-left: auto;
@@ -421,7 +421,7 @@
   right: 10px;
   padding: 3px 8px;
   border-radius: 10px;
-  background: rgba(212, 175, 55, 0.85);
+  background: rgba(196, 135, 90, 0.85);
   color: #0D0D0F;
   font-size: 11px;
   font-weight: 700;
@@ -448,9 +448,9 @@
   text-transform: capitalize;
   padding: 2px 8px;
   border-radius: 8px;
-  background: rgba(212, 175, 55, 0.12);
+  background: rgba(196, 135, 90, 0.12);
   color: var(--gold-primary);
-  border: 1px solid rgba(212, 175, 55, 0.25);
+  border: 1px solid rgba(196, 135, 90, 0.25);
 }
 
 .card-status-badge {
@@ -657,7 +657,7 @@
 }
 
 .page-btn:hover {
-  background: rgba(212, 175, 55, 0.1);
+  background: rgba(196, 135, 90, 0.1);
   border-color: var(--gold-primary);
   color: var(--text-primary);
 }
@@ -667,7 +667,7 @@
   color: #0D0D0F;
   border-color: var(--gold-primary);
   font-weight: 700;
-  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 2px 10px rgba(196, 135, 90, 0.3);
 }
 
 /* ── Responsive ───────────────────────────────────────── */

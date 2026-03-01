@@ -16,7 +16,7 @@
 
 .global-search-trigger:hover {
   border-color: var(--gold-primary);
-  background: rgba(212, 175, 55, 0.08);
+  background: rgba(196, 135, 90, 0.08);
   color: var(--text-secondary);
 }
 

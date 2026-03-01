@@ -30,7 +30,7 @@
 
 .branch-card:hover {
   border-color: var(--gold-primary);
-  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.12);
+  box-shadow: 0 4px 20px rgba(196, 135, 90, 0.12);
 }
 
 .branch-card-header {

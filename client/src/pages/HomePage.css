@@ -12,8 +12,8 @@
   --green-dark: #8A5A32;
   --green-mid: #B8864E;
   --green-light: #52B788;
-  --gold: #D4AF37;
-  --gold-light: #F0D060;
+  --gold: #C4875A;
+  --gold-light: #D4A87A;
   --black-deep: #0A0A0A;
   --black-mid: #1A1A2E;
   --glass-bg: rgba(138, 90, 50, 0.1);
@@ -21,8 +21,8 @@
   --glass-hover-bg: rgba(138, 90, 50, 0.2);
   --shadow-green: 0 4px 15px rgba(138, 90, 50, 0.3);
   --shadow-green-hover: 0 8px 25px rgba(138, 90, 50, 0.5);
-  --shadow-gold: 0 4px 15px rgba(212, 175, 55, 0.3);
-  --shadow-gold-hover: 0 8px 25px rgba(212, 175, 55, 0.5);
+  --shadow-gold: 0 4px 15px rgba(196, 135, 90, 0.3);
+  --shadow-gold-hover: 0 8px 25px rgba(196, 135, 90, 0.5);
   --transition: all 0.3s ease;
 }
 
@@ -214,8 +214,8 @@
 .hp-hero-badge {
   display: inline-block;
   padding: 6px 18px;
-  background: rgba(212, 175, 55, 0.15);
-  border: 1px solid rgba(212, 175, 55, 0.35);
+  background: rgba(196, 135, 90, 0.15);
+  border: 1px solid rgba(196, 135, 90, 0.35);
   border-radius: 50px;
   color: var(--gold-light);
   font-size: 0.8rem;
@@ -284,7 +284,7 @@
   font-size: 1rem;
   font-weight: 600;
   border-radius: 10px;
-  border: 1px solid rgba(212, 175, 55, 0.35);
+  border: 1px solid rgba(196, 135, 90, 0.35);
   backdrop-filter: blur(10px);
   box-shadow: var(--shadow-green);
   transition: var(--transition);
@@ -397,16 +397,16 @@
   overflow: hidden;
 }
 
-.hp-prop-img-1 { background: linear-gradient(135deg, #6B3D1E 0%, #B8864E 50%, #D4AF37 100%); }
+.hp-prop-img-1 { background: linear-gradient(135deg, #6B3D1E 0%, #B8864E 50%, #C4875A 100%); }
 .hp-prop-img-2 { background: linear-gradient(135deg, #1A1A2E 0%, #8A5A32 50%, #52B788 100%); }
-.hp-prop-img-3 { background: linear-gradient(135deg, #3D2010 0%, #8A5A32 40%, #F0D060 100%); }
+.hp-prop-img-3 { background: linear-gradient(135deg, #3D2010 0%, #8A5A32 40%, #D4A87A 100%); }
 
 .hp-prop-badge {
   position: absolute;
   top: 12px;
   left: 12px;
   padding: 4px 10px;
-  background: rgba(212, 175, 55, 0.85);
+  background: rgba(196, 135, 90, 0.85);
   color: #0A0A0A;
   font-size: 0.72rem;
   font-weight: 700;

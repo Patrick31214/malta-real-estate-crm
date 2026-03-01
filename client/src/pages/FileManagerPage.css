@@ -1,6 +1,6 @@
 /* ──────────────────────────────────────────────────
    File Manager Page
-   Palette: emerald (#8A5A32 / #B8864E), black, gold (#D4AF37)
+   Palette: emerald (#8A5A32 / #B8864E), black, gold (#C4875A)
 ────────────────────────────────────────────────── */
 
 .fm-page {
@@ -151,7 +151,7 @@
 }
 .fm-file-icon--pdf  { color: #e74c3c; }
 .fm-file-icon--docx { color: #2980b9; }
-.fm-file-icon--img  { color: #27ae60; }
+.fm-file-icon--img  { color: #B87333; }
 .fm-file-icon--mp4  { color: #9b59b6; }
 .fm-file-info {
   flex: 1;
@@ -176,11 +176,11 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(212, 175, 55, 0.1);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: rgba(196, 135, 90, 0.1);
+  border: 1px solid rgba(196, 135, 90, 0.3);
   border-radius: 8px;
   padding: 6px 14px;
-  color: #D4AF37;
+  color: #C4875A;
   font-size: 12px;
   font-weight: 600;
   cursor: not-allowed;
@@ -193,7 +193,7 @@
   opacity: 1;
 }
 .fm-download-btn:not(:disabled):hover {
-  background: rgba(212, 175, 55, 0.18);
+  background: rgba(196, 135, 90, 0.18);
 }
 .fm-demo-note {
   font-size: 11px;

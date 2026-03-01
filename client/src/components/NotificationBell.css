@@ -20,9 +20,9 @@
 }
 
 .notif-bell-btn:hover {
-  background: rgba(212, 175, 55, 0.15);
+  background: rgba(196, 135, 90, 0.15);
   border-color: var(--gold-primary);
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 12px rgba(196, 135, 90, 0.3);
   transform: scale(1.05);
 }
 
@@ -129,7 +129,7 @@
 
 .notif-item.unread .notif-dot {
   background: var(--gold-primary);
-  box-shadow: 0 0 6px rgba(212, 175, 55, 0.5);
+  box-shadow: 0 0 6px rgba(196, 135, 90, 0.5);
 }
 
 .notif-content { flex: 1; }

@@ -7,10 +7,10 @@ import {
 } from 'recharts';
 import { inquiries } from '../services/api';
 
-const COLORS = ['#8A5A32', '#B8864E', '#D4AF37', '#c0392b', '#2980b9'];
+const COLORS = ['#8A5A32', '#B8864E', '#C4875A', '#c0392b', '#2980b9'];
 const STATUS_COLORS = {
   new: '#B8864E',
-  in_progress: '#D4AF37',
+  in_progress: '#C4875A',
   resolved: '#2980b9',
   closed: '#888',
 };
@@ -105,7 +105,7 @@ function DashboardInquiriesPage() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 16, marginBottom: 24 }}>
         <StatBox label="Total" value={total} color="#8A5A32" />
         <StatBox label="New" value={counts.new} color="#B8864E" />
-        <StatBox label="In Progress" value={counts.in_progress} color="#D4AF37" />
+        <StatBox label="In Progress" value={counts.in_progress} color="#C4875A" />
         <StatBox label="Resolved" value={counts.resolved} color="#2980b9" />
         <StatBox label="Closed" value={counts.closed} color="#888" />
       </div>

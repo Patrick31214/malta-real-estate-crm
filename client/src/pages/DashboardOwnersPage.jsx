@@ -6,7 +6,7 @@ import {
 } from 'recharts';
 import { owners } from '../services/api';
 
-const COLORS = ['#8A5A32', '#B8864E', '#D4AF37', '#c0392b', '#2980b9', '#8e44ad'];
+const COLORS = ['#8A5A32', '#B8864E', '#C4875A', '#c0392b', '#2980b9', '#8e44ad'];
 
 const tooltipStyle = {
   background: 'var(--bg-secondary)',
@@ -83,7 +83,7 @@ function DashboardOwnersPage() {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 24 }}>
         <StatBox label="Total Owners" value={total} color="#8A5A32" />
-        <StatBox label="With Company" value={withCompany} color="#D4AF37" />
+        <StatBox label="With Company" value={withCompany} color="#C4875A" />
         <StatBox label="With Properties" value={withProperties} color="#B8864E" />
       </div>
 

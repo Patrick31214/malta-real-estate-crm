@@ -60,7 +60,7 @@ function Sidebar({ onClose }) {
       {/* Logo */}
       <div className="sidebar-logo">
         <div className="logo-icon">
-          <Key size={28} strokeWidth={2} color="#D4AF37" />
+          <Key size={28} strokeWidth={2} color="#C4875A" />
         </div>
         <div className="logo-text">
           <span className="logo-title">Golden Key Realty</span>

@@ -54,7 +54,7 @@ function Header({ onMenuClick }) {
           {theme === 'dark' ? <Sun size={18} strokeWidth={1.75} /> : <Moon size={18} strokeWidth={1.75} />}
         </button>
         <span className="header-badge">
-          <KeyRound size={14} strokeWidth={2} style={{ color: '#D4AF37' }} /> Golden Key Realty
+          <KeyRound size={14} strokeWidth={2} style={{ color: '#C4875A' }} /> Golden Key Realty
         </span>
       </div>
     </header>

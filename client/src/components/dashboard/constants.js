@@ -3,14 +3,14 @@ import { Anchor, Car, Activity, Compass, Settings2 } from 'lucide-react';
 // ─── colour tokens ───────────────────────────────────────────────
 export const E_DARK = '#8A5A32';
 export const E_MID  = '#B8864E';
-export const GOLD   = '#D4AF37';
-export const GOLD2  = '#B8962E';
+export const GOLD   = '#C4875A';
+export const GOLD2  = '#A07650';
 
 export const STATUS_COLORS = {
   available:   '#B8864E',
-  under_offer: '#D4AF37',
+  under_offer: '#C4875A',
   sold:        '#c0392b',
-  rented:      '#2980b9',
+  rented:      '#6B5040',
   draft:       '#666',
   withdrawn:   '#888',
 };
@@ -26,7 +26,7 @@ export const TOOLTIP_STYLE = {
 // ─── priority config ─────────────────────────────────────────────
 export const PRIORITY_CONFIG = {
   low:    { color: '#888888', bg: 'rgba(136,136,136,0.15)', label: 'Low',    pulse: false },
-  normal: { color: '#2980b9', bg: 'rgba(41,128,185,0.15)',  label: 'Normal', pulse: false },
+  normal: { color: '#6B5040', bg: 'rgba(107,80,64,0.15)',  label: 'Normal', pulse: false },
   high:   { color: '#e67e22', bg: 'rgba(230,126,34,0.15)',  label: 'High',   pulse: false },
   urgent: { color: '#c0392b', bg: 'rgba(192,57,43,0.15)',   label: 'Urgent', pulse: true  },
 };

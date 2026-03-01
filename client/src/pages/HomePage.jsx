@@ -276,7 +276,7 @@ export default function HomePage() {
           <svg viewBox="0 0 1440 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
             <defs>
               <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.6" />
+                <stop offset="0%" stopColor="#C4875A" stopOpacity="0.6" />
                 <stop offset="100%" stopColor="#B8864E" stopOpacity="0.6" />
               </linearGradient>
             </defs>

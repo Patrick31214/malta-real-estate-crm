@@ -6,7 +6,7 @@ import {
 } from 'recharts';
 import { branches } from '../services/api';
 
-const COLORS = ['#8A5A32', '#B8864E', '#D4AF37', '#c0392b', '#2980b9', '#8e44ad'];
+const COLORS = ['#8A5A32', '#B8864E', '#C4875A', '#c0392b', '#2980b9', '#8e44ad'];
 
 const tooltipStyle = {
   background: 'var(--bg-secondary)',
@@ -93,7 +93,7 @@ function DashboardBranchesPage() {
               <Tooltip contentStyle={tooltipStyle} />
               <Legend wrapperStyle={{ fontSize: 11 }} />
               <Bar dataKey="agents" name="Agents" fill="#8A5A32" radius={[4, 4, 0, 0]} stackId="a" />
-              <Bar dataKey="properties" name="Properties" fill="#D4AF37" radius={[4, 4, 0, 0]} stackId="a" />
+              <Bar dataKey="properties" name="Properties" fill="#C4875A" radius={[4, 4, 0, 0]} stackId="a" />
             </BarChart>
           </ResponsiveContainer>
         </div>

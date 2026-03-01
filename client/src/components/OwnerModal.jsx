@@ -281,7 +281,7 @@ function OwnerModal({ owner, onClose, onSaved }) {
           {sections.contacts && (
             <div className="collapsible-section">
               {form.relatedContacts.map((contact, idx) => (
-                <div key={idx} style={{ border: '1px solid var(--glass-border)', borderRadius: 8, padding: '12px', marginBottom: 10, background: 'rgba(212,175,55,0.03)' }}>
+                <div key={idx} style={{ border: '1px solid var(--glass-border)', borderRadius: 8, padding: '12px', marginBottom: 10, background: 'rgba(196,135,90,0.03)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                     <strong style={{ fontSize: 13 }}>Contact #{idx + 1}</strong>
                     <button type="button" className="btn btn-danger btn-sm" onClick={() => removeContact(idx)}>Remove</button>

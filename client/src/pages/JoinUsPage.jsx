@@ -61,7 +61,7 @@ function JoinUsPage() {
       <div style={{ maxWidth: 600, width: '100%' }}>
         {/* Header */}
         <div style={{ marginBottom: 16 }}>
-          <Link to="/" style={{ color: '#D4AF37', textDecoration: 'none', fontSize: 14 }}>← Back to Home</Link>
+          <Link to="/" style={{ color: '#C4875A', textDecoration: 'none', fontSize: 14 }}>← Back to Home</Link>
         </div>
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
           <div style={{
@@ -75,7 +75,7 @@ function JoinUsPage() {
             boxShadow: '0 4px 20px rgba(138,90,50,0.5)',
             marginBottom: 20,
           }}>
-            <Key size={32} color="#D4AF37" strokeWidth={2} />
+            <Key size={32} color="#C4875A" strokeWidth={2} />
           </div>
           <h1 style={{
             fontFamily: "'Playfair Display', Georgia, serif",
@@ -114,7 +114,7 @@ function JoinUsPage() {
               <h2 style={{
                 fontFamily: "'Playfair Display', Georgia, serif",
                 fontSize: 24,
-                color: '#D4AF37',
+                color: '#C4875A',
                 marginBottom: 12,
               }}>
                 Application Received!
@@ -212,7 +212,7 @@ const labelStyle = {
   display: 'block',
   fontSize: 11,
   fontWeight: 700,
-  color: '#D4AF37',
+  color: '#C4875A',
   textTransform: 'uppercase',
   letterSpacing: '0.8px',
   marginBottom: 6,

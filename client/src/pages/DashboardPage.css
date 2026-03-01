@@ -1,6 +1,6 @@
 /* ──────────────────────────────────────────────────
    Dashboard — Command Center
-   Palette: emerald (#8A5A32 / #B8864E), black, gold (#D4AF37)
+   Palette: emerald (#8A5A32 / #B8864E), black, gold (#C4875A)
 ────────────────────────────────────────────────── */
 
 /* ── layout wrapper ──────────────────────────────── */
@@ -58,11 +58,11 @@
   width: 4px;
   height: 22px;
   border-radius: 2px;
-  background: linear-gradient(180deg, #D4AF37, #B8962E);
+  background: linear-gradient(180deg, #C4875A, #A07650);
   flex-shrink: 0;
 }
 .dash-section-icon {
-  color: #D4AF37;
+  color: #C4875A;
   flex-shrink: 0;
 }
 .dash-section-title {
@@ -81,7 +81,7 @@
   transition: color 0.2s;
   white-space: nowrap;
 }
-.dash-section-link:hover { color: #D4AF37; }
+.dash-section-link:hover { color: #C4875A; }
 
 /* ── stat cards row ──────────────────────────────── */
 .dash-cards-row {
@@ -116,7 +116,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--accent, #8A5A32), #D4AF37);
+  background: linear-gradient(90deg, var(--accent, #8A5A32), #C4875A);
   border-radius: 14px 14px 0 0;
 }
 .dash-stat-card:hover {
@@ -146,7 +146,7 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 28px;
   font-weight: 800;
-  color: #D4AF37;
+  color: #C4875A;
   line-height: 1;
   margin-bottom: 4px;
   overflow: hidden;
@@ -174,13 +174,13 @@
   text-overflow: ellipsis;
 }
 .dash-stat-arrow {
-  color: rgba(212, 175, 55, 0.5);
+  color: rgba(196, 135, 90, 0.5);
   font-size: 22px;
   line-height: 1;
   transition: all 0.2s;
 }
 .dash-stat-card:hover .dash-stat-arrow {
-  color: #D4AF37;
+  color: #C4875A;
   transform: translateX(3px);
 }
 
@@ -269,7 +269,7 @@
   text-align: center;
   padding: 24px 0;
 }
-.dash-feed-empty-icon { color: rgba(212, 175, 55, 0.4); }
+.dash-feed-empty-icon { color: rgba(196, 135, 90, 0.4); }
 .dash-feed-empty-text { font-size: 16px; font-weight: 600; color: var(--text-secondary); margin: 0; }
 .dash-feed-empty-sub  { font-size: 13px; color: var(--text-muted); margin: 0; max-width: 380px; }
 .dash-feed-list { display: flex; flex-direction: column; gap: 14px; }
@@ -376,7 +376,7 @@
 .dash-footer-brand {
   font-family: 'Playfair Display', Georgia, serif;
   font-weight: 700;
-  color: #D4AF37;
+  color: #C4875A;
   letter-spacing: 0.3px;
 }
 .dash-footer-sep {
@@ -404,7 +404,7 @@
   border-radius: 12px;
   font-size: 10px;
   font-weight: 600;
-  color: rgba(212, 175, 55, 0.6);
+  color: rgba(196, 135, 90, 0.6);
   background: none;
   border: 1px solid transparent;
   cursor: pointer;
@@ -415,13 +415,13 @@
   font-family: inherit;
 }
 .chat-channel-tab:hover {
-  color: #D4AF37;
-  background: rgba(212, 175, 55, 0.1);
+  color: #C4875A;
+  background: rgba(196, 135, 90, 0.1);
 }
 .chat-channel-tab--active {
-  color: #D4AF37;
-  background: rgba(212, 175, 55, 0.12);
-  border-color: rgba(212, 175, 55, 0.3);
+  color: #C4875A;
+  background: rgba(196, 135, 90, 0.12);
+  border-color: rgba(196, 135, 90, 0.3);
 }
 
 /* ── registrations list ──────────────────────────── */
@@ -456,8 +456,8 @@
   color: #B8864E;
 }
 .dash-reg-type-badge--inquiry {
-  background: rgba(212, 175, 55, 0.15);
-  color: #D4AF37;
+  background: rgba(196, 135, 90, 0.15);
+  color: #C4875A;
 }
 .dash-reg-name {
   flex: 1;
@@ -532,14 +532,14 @@
   gap: 8px;
   font-size: 13px;
   font-weight: 700;
-  color: #D4AF37;
+  color: #C4875A;
   letter-spacing: 0.3px;
   text-transform: uppercase;
 }
 .chat-sidebar-toggle {
   background: none;
   border: none;
-  color: rgba(212, 175, 55, 0.7);
+  color: rgba(196, 135, 90, 0.7);
   cursor: pointer;
   padding: 4px;
   border-radius: 6px;
@@ -549,7 +549,7 @@
   transition: color 0.2s, background 0.2s;
   line-height: 1;
 }
-.chat-sidebar-toggle:hover { color: #D4AF37; background: rgba(212, 175, 55, 0.1); }
+.chat-sidebar-toggle:hover { color: #C4875A; background: rgba(196, 135, 90, 0.1); }
 
 /* Chat message list */
 .chat-list {
@@ -588,7 +588,7 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #8A5A32, #D4AF37);
+  background: linear-gradient(135deg, #8A5A32, #C4875A);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -707,7 +707,7 @@
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #8A5A32, #D4AF37);
+  background: linear-gradient(135deg, #8A5A32, #C4875A);
   border: none;
   color: #fff;
   cursor: pointer;
@@ -756,7 +756,7 @@
   padding: 14px 16px;
   font-size: 14px;
   font-weight: 700;
-  color: #D4AF37;
+  color: #C4875A;
   border-bottom: 1px solid rgba(138, 90, 50, 0.2);
 }
 .chat-list--mobile {
