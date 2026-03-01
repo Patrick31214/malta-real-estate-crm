@@ -51,6 +51,8 @@ router.get('/', async (req, res) => {
         'id', 'title', 'description', 'propertyType', 'listingType', 'rentalType', 'status',
         'price', 'currency', 'bedrooms', 'bathrooms', 'squareMeters',
         'address', 'city', 'country', 'latitude', 'longitude',
+        'features', 'images', 'viewCount', 'createdAt',
+        'rentalType', 'availableFrom', 'updatedAt', 'furnished', 'featured'
         'features', 'images', 'viewCount', 'availableFrom', 'createdAt', 'updatedAt'
       ],
       include: [
@@ -103,6 +105,8 @@ router.get('/:id', async (req, res) => {
         'id', 'title', 'description', 'propertyType', 'listingType', 'rentalType', 'status',
         'price', 'currency', 'bedrooms', 'bathrooms', 'squareMeters',
         'address', 'city', 'country', 'latitude', 'longitude',
+        'features', 'images', 'viewCount', 'createdAt',
+        'rentalType', 'availableFrom', 'updatedAt', 'furnished', 'featured'
         'features', 'images', 'viewCount', 'availableFrom', 'createdAt', 'updatedAt'
       ],
       include: [

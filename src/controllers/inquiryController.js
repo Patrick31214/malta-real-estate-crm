@@ -26,6 +26,7 @@ const getInquiries = async (req, res) => {
     if (status) where.status = status;
     if (priority) where.priority = priority;
     if (propertyId) where.propertyId = propertyId;
+    if (type) where.inquiryType = type;
     const VALID_INQUIRY_TYPES = Inquiry.rawAttributes.inquiryType.values;
     if (type) {
       if (!VALID_INQUIRY_TYPES.includes(type)) {
@@ -37,6 +38,7 @@ const getInquiries = async (req, res) => {
     if (dateFrom || dateTo) {
       where.createdAt = {};
       if (dateFrom) where.createdAt[Op.gte] = new Date(dateFrom);
+      if (dateTo) where.createdAt[Op.lte] = new Date(dateTo + 'T23:59:59.999Z');
       if (dateTo) where.createdAt[Op.lte] = new Date(dateTo);
     }
     if (search) {
