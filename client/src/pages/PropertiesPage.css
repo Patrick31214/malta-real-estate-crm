@@ -28,8 +28,8 @@
 
 /* ── Search Panel ─────────────────────────────────────── */
 .search-panel {
-  background: rgba(45, 106, 79, 0.05);
-  border: 1px solid rgba(45, 106, 79, 0.15);
+  background: rgba(138, 90, 50, 0.05);
+  border: 1px solid rgba(138, 90, 50, 0.15);
   border-radius: 16px;
   padding: 20px;
   display: flex;
@@ -353,7 +353,7 @@
 
 .property-card {
   background: var(--glass-bg);
-  border: 1px solid rgba(45, 106, 79, 0.2);
+  border: 1px solid rgba(138, 90, 50, 0.2);
   border-radius: 14px;
   overflow: hidden;
   display: flex;
@@ -395,7 +395,7 @@
   align-items: center;
   justify-content: center;
   font-size: 48px;
-  background: linear-gradient(135deg, rgba(45, 106, 79, 0.1), rgba(16, 185, 129, 0.05));
+  background: linear-gradient(135deg, rgba(138, 90, 50, 0.1), rgba(16, 185, 129, 0.05));
 }
 
 .card-listing-badge {

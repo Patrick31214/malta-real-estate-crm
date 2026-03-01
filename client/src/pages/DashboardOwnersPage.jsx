@@ -6,7 +6,7 @@ import {
 } from 'recharts';
 import { owners } from '../services/api';
 
-const COLORS = ['#2D6A4F', '#40916C', '#D4AF37', '#c0392b', '#2980b9', '#8e44ad'];
+const COLORS = ['#8A5A32', '#B8864E', '#D4AF37', '#c0392b', '#2980b9', '#8e44ad'];
 
 const tooltipStyle = {
   background: 'var(--bg-secondary)',
@@ -82,9 +82,9 @@ function DashboardOwnersPage() {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 24 }}>
-        <StatBox label="Total Owners" value={total} color="#2D6A4F" />
+        <StatBox label="Total Owners" value={total} color="#8A5A32" />
         <StatBox label="With Company" value={withCompany} color="#D4AF37" />
-        <StatBox label="With Properties" value={withProperties} color="#40916C" />
+        <StatBox label="With Properties" value={withProperties} color="#B8864E" />
       </div>
 
       {topOwners.length > 0 && (
@@ -125,7 +125,7 @@ function DashboardOwnersPage() {
                     </td>
                     <td style={{ padding: '10px 12px', color: 'var(--text-muted)' }}>{owner.company || '—'}</td>
                     <td style={{ padding: '10px 12px', color: 'var(--text-muted)' }}>{owner.city || '—'}</td>
-                    <td style={{ padding: '10px 12px', color: '#40916C', fontWeight: 600 }}>
+                    <td style={{ padding: '10px 12px', color: '#B8864E', fontWeight: 600 }}>
                       {owner.propertyCount || owner._count?.properties || 0}
                     </td>
                   </tr>

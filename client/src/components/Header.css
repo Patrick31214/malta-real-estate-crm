@@ -3,7 +3,7 @@
   background: rgba(10, 10, 10, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(45, 106, 79, 0.2);
+  border-bottom: 1px solid rgba(138, 90, 50, 0.2);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -149,10 +149,10 @@
 /* Search input glassmorphism */
 .header-search input,
 .search-input {
-  background: rgba(45, 106, 79, 0.08);
+  background: rgba(138, 90, 50, 0.08);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(45, 106, 79, 0.2);
+  border: 1px solid rgba(138, 90, 50, 0.2);
   border-radius: 8px;
   color: var(--text-primary);
   padding: 8px 14px;
@@ -164,9 +164,9 @@
 .header-search input:focus,
 .search-input:focus {
   outline: none;
-  border-color: #40916C;
-  box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.2);
-  background: rgba(45, 106, 79, 0.12);
+  border-color: #B8864E;
+  box-shadow: 0 0 0 3px rgba(138, 90, 50, 0.2);
+  background: rgba(138, 90, 50, 0.12);
 }
 
 /* Notification bell glassmorphism */
@@ -188,9 +188,9 @@
 
 .notification-btn:hover,
 .bell-btn:hover {
-  background: rgba(45, 106, 79, 0.15);
-  border-color: rgba(45, 106, 79, 0.3);
-  box-shadow: 0 4px 15px rgba(45, 106, 79, 0.2);
+  background: rgba(138, 90, 50, 0.15);
+  border-color: rgba(138, 90, 50, 0.3);
+  box-shadow: 0 4px 15px rgba(138, 90, 50, 0.2);
   transform: scale(1.05);
 }
 

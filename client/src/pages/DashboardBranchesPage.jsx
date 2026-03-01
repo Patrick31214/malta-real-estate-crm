@@ -6,7 +6,7 @@ import {
 } from 'recharts';
 import { branches } from '../services/api';
 
-const COLORS = ['#2D6A4F', '#40916C', '#D4AF37', '#c0392b', '#2980b9', '#8e44ad'];
+const COLORS = ['#8A5A32', '#B8864E', '#D4AF37', '#c0392b', '#2980b9', '#8e44ad'];
 
 const tooltipStyle = {
   background: 'var(--bg-secondary)',
@@ -78,8 +78,8 @@ function DashboardBranchesPage() {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 24 }}>
-        <StatBox label="Total Branches" value={data.length} color="#2D6A4F" />
-        <StatBox label="Active" value={active} color="#40916C" />
+        <StatBox label="Total Branches" value={data.length} color="#8A5A32" />
+        <StatBox label="Active" value={active} color="#B8864E" />
       </div>
 
       {chartData.length > 0 && (
@@ -92,7 +92,7 @@ function DashboardBranchesPage() {
               <YAxis tick={{ fontSize: 11, fill: 'var(--text-muted)' }} allowDecimals={false} />
               <Tooltip contentStyle={tooltipStyle} />
               <Legend wrapperStyle={{ fontSize: 11 }} />
-              <Bar dataKey="agents" name="Agents" fill="#2D6A4F" radius={[4, 4, 0, 0]} stackId="a" />
+              <Bar dataKey="agents" name="Agents" fill="#8A5A32" radius={[4, 4, 0, 0]} stackId="a" />
               <Bar dataKey="properties" name="Properties" fill="#D4AF37" radius={[4, 4, 0, 0]} stackId="a" />
             </BarChart>
           </ResponsiveContainer>
@@ -120,14 +120,14 @@ function DashboardBranchesPage() {
                       ? `${branch.manager.firstName || ''} ${branch.manager.lastName || ''}`.trim() || branch.manager.email || '—'
                       : '—'}
                   </td>
-                  <td style={{ padding: '10px 12px', color: '#40916C', fontWeight: 600 }}>
+                  <td style={{ padding: '10px 12px', color: '#B8864E', fontWeight: 600 }}>
                     {branch.agentCount || branch._count?.agents || 0}
                   </td>
                   <td style={{ padding: '10px 12px' }}>
                     <span style={{
                       padding: '2px 8px', borderRadius: 99, fontSize: 11, fontWeight: 600,
-                      background: branch.status === 'inactive' ? '#88888822' : '#40916C22',
-                      color: branch.status === 'inactive' ? '#888' : '#40916C',
+                      background: branch.status === 'inactive' ? '#88888822' : '#B8864E22',
+                      color: branch.status === 'inactive' ? '#888' : '#B8864E',
                     }}>
                       {branch.status || 'active'}
                     </span>

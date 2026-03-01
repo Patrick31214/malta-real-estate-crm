@@ -6,7 +6,7 @@ import {
 } from 'recharts';
 import { agents, properties, inquiries } from '../services/api';
 
-const COLORS = ['#2D6A4F', '#40916C', '#D4AF37', '#c0392b', '#2980b9', '#8e44ad'];
+const COLORS = ['#8A5A32', '#B8864E', '#D4AF37', '#c0392b', '#2980b9', '#8e44ad'];
 
 const tooltipStyle = {
   background: 'var(--bg-secondary)',
@@ -84,8 +84,8 @@ function DashboardAgentsPage() {
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 24 }}>
-        <StatBox label="Total Agents" value={agentList.length} color="#2D6A4F" />
-        <StatBox label="Total Properties" value={totalProps} color="#40916C" />
+        <StatBox label="Total Agents" value={agentList.length} color="#8A5A32" />
+        <StatBox label="Total Properties" value={totalProps} color="#B8864E" />
         <StatBox label="Total Inquiries" value={totalInqs} color="#D4AF37" />
       </div>
 
@@ -127,7 +127,7 @@ function DashboardAgentsPage() {
                       {`${agent.firstName || ''} ${agent.lastName || ''}`.trim() || '—'}
                     </td>
                     <td style={{ padding: '10px 12px', color: 'var(--text-muted)' }}>{agent.email || '—'}</td>
-                    <td style={{ padding: '10px 12px', color: '#40916C', fontWeight: 600 }}>
+                    <td style={{ padding: '10px 12px', color: '#B8864E', fontWeight: 600 }}>
                       {agent.propertyCount || agent._count?.properties || 0}
                     </td>
                     <td style={{ padding: '10px 12px', color: '#D4AF37', fontWeight: 600 }}>

@@ -4,7 +4,7 @@ export default function TermsPage() {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#fff' }}>
       {/* Header */}
-      <header style={{ background: '#1B4332', color: '#fff', padding: '3rem 1.5rem 2rem', textAlign: 'center' }}>
+      <header style={{ background: '#6B3D1E', color: '#fff', padding: '3rem 1.5rem 2rem', textAlign: 'center' }}>
         <h1 style={{ fontSize: '2.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>Terms &amp; Conditions</h1>
         <p style={{ color: '#a7f3d0', fontSize: '1rem' }}>Last updated: January 2025</p>
         <a href="/listings" style={{ display: 'inline-block', marginTop: '1rem', color: '#6ee7b7', fontSize: '0.875rem', textDecoration: 'underline' }}>
@@ -15,7 +15,7 @@ export default function TermsPage() {
       {/* Content */}
       <main style={{ flex: 1, maxWidth: '800px', margin: '0 auto', padding: '2.5rem 1.5rem', width: '100%', color: '#1a1a1a' }}>
         <section style={{ marginBottom: '2rem' }}>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#1B4332', marginBottom: '0.75rem' }}>Agreement</h2>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#6B3D1E', marginBottom: '0.75rem' }}>Agreement</h2>
           <p style={{ lineHeight: 1.7, marginBottom: '0.5rem' }}>
             By accessing or using the Golden Key Realty website or services, you agree to be bound by these Terms &amp; Conditions. Please read them carefully before proceeding.
           </p>
@@ -25,7 +25,7 @@ export default function TermsPage() {
         </section>
 
         <section style={{ marginBottom: '2rem' }}>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#1B4332', marginBottom: '0.75rem' }}>Service Terms</h2>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#6B3D1E', marginBottom: '0.75rem' }}>Service Terms</h2>
           <p style={{ lineHeight: 1.7, marginBottom: '0.5rem' }}>
             Golden Key Realty provides real estate agency services including property listings, buyer and seller representation, and property management across Malta and Gozo.
           </p>
@@ -38,7 +38,7 @@ export default function TermsPage() {
         </section>
 
         <section style={{ marginBottom: '2rem' }}>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#1B4332', marginBottom: '0.75rem' }}>User Obligations</h2>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#6B3D1E', marginBottom: '0.75rem' }}>User Obligations</h2>
           <p style={{ lineHeight: 1.7, marginBottom: '0.5rem' }}>
             Users must provide accurate and truthful information when submitting inquiries or registering for services. Misrepresentation may result in termination of services.
           </p>
@@ -51,7 +51,7 @@ export default function TermsPage() {
         </section>
 
         <section style={{ marginBottom: '2rem' }}>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#1B4332', marginBottom: '0.75rem' }}>Limitation of Liability</h2>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#6B3D1E', marginBottom: '0.75rem' }}>Limitation of Liability</h2>
           <p style={{ lineHeight: 1.7, marginBottom: '0.5rem' }}>
             Golden Key Realty shall not be liable for any indirect, incidental, or consequential damages arising from your use of our website or services.
           </p>
@@ -61,7 +61,7 @@ export default function TermsPage() {
         </section>
 
         <section style={{ marginBottom: '2rem' }}>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#1B4332', marginBottom: '0.75rem' }}>Governing Law</h2>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#6B3D1E', marginBottom: '0.75rem' }}>Governing Law</h2>
           <p style={{ lineHeight: 1.7, marginBottom: '0.5rem' }}>
             These Terms &amp; Conditions are governed by and construed in accordance with the laws of Malta, without regard to its conflict of law principles.
           </p>

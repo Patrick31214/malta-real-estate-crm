@@ -1,5 +1,5 @@
 .footer {
-  background-color: #1B4332;
+  background-color: #6B3D1E;
   color: #e5e7eb;
   border-top: 3px solid #10B981;
   padding: 48px 64px 24px;
@@ -95,7 +95,7 @@
 }
 
 .footer-bottom {
-  border-top: 1px solid #2d6a4f;
+  border-top: 1px solid #8A5A32;
   padding-top: 20px;
   display: flex;
   flex-wrap: wrap;

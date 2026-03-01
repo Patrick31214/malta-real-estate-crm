@@ -7,9 +7,9 @@ import {
 } from 'recharts';
 import { properties } from '../services/api';
 
-const COLORS = ['#2D6A4F', '#40916C', '#D4AF37', '#c0392b', '#2980b9', '#8e44ad'];
+const COLORS = ['#8A5A32', '#B8864E', '#D4AF37', '#c0392b', '#2980b9', '#8e44ad'];
 const STATUS_COLORS = {
-  available: '#40916C',
+  available: '#B8864E',
   under_offer: '#D4AF37',
   sold: '#c0392b',
   rented: '#2980b9',
@@ -124,8 +124,8 @@ function DashboardPropertiesPage() {
 
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 16, marginBottom: 24 }}>
-        <StatBox label="Total" value={total} color="#2D6A4F" />
-        <StatBox label="Available" value={counts.available} color="#40916C" />
+        <StatBox label="Total" value={total} color="#8A5A32" />
+        <StatBox label="Available" value={counts.available} color="#B8864E" />
         <StatBox label="Under Offer" value={counts.under_offer} color="#D4AF37" />
         <StatBox label="Sold" value={counts.sold} color="#c0392b" />
         <StatBox label="Rented" value={counts.rented} color="#2980b9" />
@@ -140,7 +140,7 @@ function DashboardPropertiesPage() {
             <XAxis dataKey="date" tick={{ fontSize: 10, fill: 'var(--text-muted)' }} interval={4} />
             <YAxis tick={{ fontSize: 11, fill: 'var(--text-muted)' }} allowDecimals={false} />
             <Tooltip contentStyle={tooltipStyle} />
-            <Line type="monotone" dataKey="count" stroke="#40916C" strokeWidth={2} dot={false} name="New Listings" />
+            <Line type="monotone" dataKey="count" stroke="#B8864E" strokeWidth={2} dot={false} name="New Listings" />
           </LineChart>
         </ResponsiveContainer>
       </div>
