@@ -25,7 +25,6 @@ import DashboardAgentsPage from './pages/DashboardAgentsPage';
 import DashboardOwnersPage from './pages/DashboardOwnersPage';
 import DashboardBranchesPage from './pages/DashboardBranchesPage';
 import FileManagerPage from './pages/FileManagerPage';
-import FileManagerPage from './pages/FileManagerPage';
 import JoinUsPage from './pages/JoinUsPage';
 import PartnersPage from './pages/PartnersPage';
 import Layout from './components/Layout';
@@ -137,4 +136,3 @@ function App() {
 }
 
 export default App;
-
