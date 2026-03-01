@@ -46,14 +46,12 @@ router.get('/', async (req, res) => {
 
     const { count, rows } = await Property.findAndCountAll({
       where,
-      // Only expose non-sensitive fields to the public
       attributes: [
         'id', 'title', 'description', 'propertyType', 'listingType', 'rentalType', 'status',
         'price', 'currency', 'bedrooms', 'bathrooms', 'squareMeters',
         'address', 'city', 'country', 'latitude', 'longitude',
-        'features', 'images', 'viewCount', 'createdAt',
-        'rentalType', 'availableFrom', 'updatedAt', 'furnished', 'featured'
-        'features', 'images', 'viewCount', 'availableFrom', 'createdAt', 'updatedAt'
+        'features', 'images', 'viewCount', 'availableFrom', 'furnished', 'featured',
+        'createdAt', 'updatedAt'
       ],
       include: [
         {
@@ -105,9 +103,8 @@ router.get('/:id', async (req, res) => {
         'id', 'title', 'description', 'propertyType', 'listingType', 'rentalType', 'status',
         'price', 'currency', 'bedrooms', 'bathrooms', 'squareMeters',
         'address', 'city', 'country', 'latitude', 'longitude',
-        'features', 'images', 'viewCount', 'createdAt',
-        'rentalType', 'availableFrom', 'updatedAt', 'furnished', 'featured'
-        'features', 'images', 'viewCount', 'availableFrom', 'createdAt', 'updatedAt'
+        'features', 'images', 'viewCount', 'availableFrom', 'furnished', 'featured',
+        'createdAt', 'updatedAt'
       ],
       include: [
         {
