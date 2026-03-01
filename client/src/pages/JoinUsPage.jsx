@@ -52,7 +52,7 @@ function JoinUsPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0A0A0A 0%, #1B4332 40%, #0A0A0A 100%)',
+      background: 'linear-gradient(135deg, #0A0A0A 0%, #6B3D1E 40%, #0A0A0A 100%)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -71,8 +71,8 @@ function JoinUsPage() {
             width: 72,
             height: 72,
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #2D6A4F, #40916C)',
-            boxShadow: '0 4px 20px rgba(45,106,79,0.5)',
+            background: 'linear-gradient(135deg, #8A5A32, #B8864E)',
+            boxShadow: '0 4px 20px rgba(138,90,50,0.5)',
             marginBottom: 20,
           }}>
             <Key size={32} color="#D4AF37" strokeWidth={2} />
@@ -100,13 +100,13 @@ function JoinUsPage() {
 
         {/* Card */}
         <div style={{
-          background: 'rgba(45,106,79,0.08)',
-          border: '1px solid rgba(45,106,79,0.25)',
+          background: 'rgba(138,90,50,0.08)',
+          border: '1px solid rgba(138,90,50,0.25)',
           borderRadius: 20,
           padding: '40px 48px',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          boxShadow: '0 8px 40px rgba(45,106,79,0.2)',
+          boxShadow: '0 8px 40px rgba(138,90,50,0.2)',
         }}>
           {submitted ? (
             <div style={{ textAlign: 'center', padding: '24px 0' }}>
@@ -222,7 +222,7 @@ const inputStyle = {
   width: '100%',
   padding: '12px 16px',
   background: 'rgba(255,255,255,0.06)',
-  border: '1.5px solid rgba(45,106,79,0.3)',
+  border: '1.5px solid rgba(138,90,50,0.3)',
   borderRadius: 10,
   color: '#FFFFFF',
   fontSize: 15,
@@ -234,7 +234,7 @@ const inputStyle = {
 const submitButtonStyle = {
   width: '100%',
   padding: '14px 24px',
-  background: 'linear-gradient(135deg, #2D6A4F, #40916C)',
+  background: 'linear-gradient(135deg, #8A5A32, #B8864E)',
   border: 'none',
   borderRadius: 12,
   color: '#FFFFFF',
@@ -242,7 +242,7 @@ const submitButtonStyle = {
   fontWeight: 700,
   cursor: 'pointer',
   fontFamily: 'inherit',
-  boxShadow: '0 4px 20px rgba(45,106,79,0.4)',
+  boxShadow: '0 4px 20px rgba(138,90,50,0.4)',
   transition: 'opacity 0.2s',
 };
 

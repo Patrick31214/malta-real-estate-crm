@@ -69,7 +69,7 @@
 }
 
 .gallery-thumb:hover {
-  border-color: var(--emerald-light, #40916C);
+  border-color: var(--emerald-light, #B8864E);
   transform: scale(1.05);
 }
 

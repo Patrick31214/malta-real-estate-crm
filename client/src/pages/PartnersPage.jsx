@@ -53,7 +53,7 @@ function PartnersPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0A0A0A 0%, #1A1A2E 40%, #1B4332 100%)',
+      background: 'linear-gradient(135deg, #0A0A0A 0%, #1A1A2E 40%, #6B3D1E 100%)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -76,7 +76,7 @@ function PartnersPage() {
             boxShadow: '0 4px 20px rgba(212,175,55,0.4)',
             marginBottom: 20,
           }}>
-            <Handshake size={32} color="#1B4332" strokeWidth={2} />
+            <Handshake size={32} color="#6B3D1E" strokeWidth={2} />
           </div>
           <h1 style={{
             fontFamily: "'Playfair Display', Georgia, serif",
@@ -254,7 +254,7 @@ const submitButtonStyle = {
   background: 'linear-gradient(135deg, #D4AF37, #F0D060)',
   border: 'none',
   borderRadius: 12,
-  color: '#1B4332',
+  color: '#6B3D1E',
   fontSize: 16,
   fontWeight: 700,
   cursor: 'pointer',

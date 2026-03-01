@@ -23,8 +23,8 @@ class ErrorBoundary extends Component {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          background: '#0a140f',
-          color: '#e8f5e9',
+          background: '#3C2010',
+          color: '#fff5e6',
           fontFamily: 'inherit',
           padding: '2rem',
           textAlign: 'center',
@@ -34,13 +34,13 @@ class ErrorBoundary extends Component {
             borderRadius: 12,
             padding: '2.5rem',
             maxWidth: 480,
-            background: 'rgba(45,106,79,0.08)',
+            background: 'rgba(138,90,50,0.08)',
           }}>
             <div style={{ fontSize: 48, marginBottom: 16 }}>⚠️</div>
             <h2 style={{ color: '#D4AF37', marginBottom: 8, fontSize: '1.4rem' }}>
               Something went wrong
             </h2>
-            <p style={{ color: '#8aab99', marginBottom: 24, fontSize: '0.9rem' }}>
+            <p style={{ color: '#c4a882', marginBottom: 24, fontSize: '0.9rem' }}>
               An unexpected error occurred. Please try reloading the page.
             </p>
             {import.meta.env.DEV && this.state.error && (
@@ -61,7 +61,7 @@ class ErrorBoundary extends Component {
             <button
               onClick={() => window.location.reload()}
               style={{
-                background: 'linear-gradient(135deg, #2D6A4F, #40916C)',
+                background: 'linear-gradient(135deg, #8A5A32, #B8864E)',
                 border: '1px solid rgba(212,175,55,0.4)',
                 borderRadius: 8,
                 color: '#D4AF37',

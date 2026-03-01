@@ -4,7 +4,7 @@ export default function CookiesPage() {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#fff' }}>
       {/* Header */}
-      <header style={{ background: '#1B4332', color: '#fff', padding: '3rem 1.5rem 2rem', textAlign: 'center' }}>
+      <header style={{ background: '#6B3D1E', color: '#fff', padding: '3rem 1.5rem 2rem', textAlign: 'center' }}>
         <h1 style={{ fontSize: '2.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>Cookie Policy</h1>
         <p style={{ color: '#a7f3d0', fontSize: '1rem' }}>Last updated: January 2025</p>
         <a href="/listings" style={{ display: 'inline-block', marginTop: '1rem', color: '#6ee7b7', fontSize: '0.875rem', textDecoration: 'underline' }}>
@@ -15,7 +15,7 @@ export default function CookiesPage() {
       {/* Content */}
       <main style={{ flex: 1, maxWidth: '800px', margin: '0 auto', padding: '2.5rem 1.5rem', width: '100%', color: '#1a1a1a' }}>
         <section style={{ marginBottom: '2rem' }}>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#1B4332', marginBottom: '0.75rem' }}>What Are Cookies</h2>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#6B3D1E', marginBottom: '0.75rem' }}>What Are Cookies</h2>
           <p style={{ lineHeight: 1.7, marginBottom: '0.5rem' }}>
             Cookies are small text files that are stored on your device when you visit a website. They help websites remember your preferences and improve your browsing experience.
           </p>
@@ -25,7 +25,7 @@ export default function CookiesPage() {
         </section>
 
         <section style={{ marginBottom: '2rem' }}>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#1B4332', marginBottom: '0.75rem' }}>Types of Cookies We Use</h2>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#6B3D1E', marginBottom: '0.75rem' }}>Types of Cookies We Use</h2>
           <p style={{ lineHeight: 1.7, marginBottom: '0.5rem' }}>
             <strong>Essential cookies</strong> are necessary for the basic functioning of our website, such as maintaining your session when you log into our CRM portal.
           </p>
@@ -38,7 +38,7 @@ export default function CookiesPage() {
         </section>
 
         <section style={{ marginBottom: '2rem' }}>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#1B4332', marginBottom: '0.75rem' }}>Managing Cookies</h2>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#6B3D1E', marginBottom: '0.75rem' }}>Managing Cookies</h2>
           <p style={{ lineHeight: 1.7, marginBottom: '0.5rem' }}>
             You can control and manage cookies through your browser settings. Most browsers allow you to view, delete, or block cookies from specific websites.
           </p>
@@ -51,7 +51,7 @@ export default function CookiesPage() {
         </section>
 
         <section style={{ marginBottom: '2rem' }}>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#1B4332', marginBottom: '0.75rem' }}>Third-Party Cookies</h2>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#6B3D1E', marginBottom: '0.75rem' }}>Third-Party Cookies</h2>
           <p style={{ lineHeight: 1.7, marginBottom: '0.5rem' }}>
             We may use third-party services such as Google Analytics or social media plugins that set their own cookies on your device to track engagement and usage patterns.
           </p>

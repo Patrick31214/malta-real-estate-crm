@@ -1,13 +1,13 @@
 import { Anchor, Car, Activity, Compass, Settings2 } from 'lucide-react';
 
 // ─── colour tokens ───────────────────────────────────────────────
-export const E_DARK = '#2D6A4F';
-export const E_MID  = '#40916C';
+export const E_DARK = '#8A5A32';
+export const E_MID  = '#B8864E';
 export const GOLD   = '#D4AF37';
 export const GOLD2  = '#B8962E';
 
 export const STATUS_COLORS = {
-  available:   '#40916C',
+  available:   '#B8864E',
   under_offer: '#D4AF37',
   sold:        '#c0392b',
   rented:      '#2980b9',
@@ -16,10 +16,10 @@ export const STATUS_COLORS = {
 };
 
 export const TOOLTIP_STYLE = {
-  background: 'rgba(10,20,15,0.95)',
-  border: `1px solid rgba(45,106,79,0.35)`,
+  background: 'rgba(60,35,15,0.95)',
+  border: `1px solid rgba(138,90,50,0.35)`,
   borderRadius: 8,
-  color: '#e8f5e9',
+  color: '#fff5e6',
   fontSize: 12,
 };
 
