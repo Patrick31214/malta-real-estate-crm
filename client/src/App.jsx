@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { CurrencyProvider } from './contexts/CurrencyContext';
 import LoginPage from './pages/LoginPage';
+import HomePage from './pages/HomePage';
 import DashboardPage from './pages/DashboardPage';
 import PropertiesPage from './pages/PropertiesPage';
 import PropertyDetailPage from './pages/PropertyDetailPage';
@@ -72,6 +73,16 @@ function App() {
             <PartnersPage />
           </ThemeProvider>
         } />
+        <Route
+          path="/"
+          element={
+            auth.isAuthenticated()
+              ? <Navigate to="/dashboard" replace />
+              : <ThemeProvider storageKey="gkr-web-theme" applyToDocument={true}>
+                  <HomePage />
+                </ThemeProvider>
+          }
+        />
         <Route
           path="/"
           element={
