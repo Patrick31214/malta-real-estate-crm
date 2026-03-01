@@ -233,7 +233,7 @@
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(45, 106, 79, 0.2);
   border-radius: 14px;
-  padding: 40px 24px;
+  padding: 24px;
 }
 .dash-feed-empty {
   display: flex;
@@ -241,6 +241,7 @@
   align-items: center;
   gap: 10px;
   text-align: center;
+  padding: 24px 0;
 }
 .dash-feed-empty-icon {
   color: rgba(212, 175, 55, 0.4);
@@ -259,6 +260,133 @@
 }
 .dash-feed-cta {
   margin-top: 8px;
+}
+
+/* ── announcement feed list ──────────────────────── */
+.dash-feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── announcement card ───────────────────────────── */
+.ann-card {
+  background: rgba(45, 106, 79, 0.06);
+  border: 1px solid rgba(45, 106, 79, 0.18);
+  border-radius: 12px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: box-shadow 0.2s ease;
+}
+.ann-card:hover {
+  box-shadow: 0 4px 16px rgba(45, 106, 79, 0.2);
+}
+.ann-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.ann-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  flex: 1;
+  min-width: 0;
+}
+.ann-priority-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ann-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  animation: ann-pulse 1.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes ann-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.75); }
+}
+.ann-card-body {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap;
+}
+.ann-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ── announcement actions & form ─────────────────── */
+.dash-ann-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.dash-ann-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.dash-ann-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dash-ann-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.dash-ann-input {
+  background: rgba(45, 106, 79, 0.08);
+  border: 1px solid rgba(45, 106, 79, 0.25);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--text-primary);
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+}
+.dash-ann-input:focus {
+  border-color: #40916C;
+  box-shadow: 0 0 0 3px rgba(64, 145, 108, 0.15);
+}
+.dash-ann-textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+.dash-ann-select {
+  appearance: none;
+  cursor: pointer;
+}
+.dash-ann-form-footer {
+  display: flex;
+  justify-content: flex-end;
 }
 
 /* ── skeleton ────────────────────────────────────── */

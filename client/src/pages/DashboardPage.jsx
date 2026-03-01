@@ -10,8 +10,16 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend,
   LineChart, Line,
 } from 'recharts';
-import { properties, owners, branches, inquiries, agents, auth } from '../services/api';
+import { properties, owners, branches, inquiries, agents, auth, announcements } from '../services/api';
 import './DashboardPage.css';
+
+// ─── priority config ─────────────────────────────────────────────
+const PRIORITY_CONFIG = {
+  low:    { color: '#888888', bg: 'rgba(136,136,136,0.15)', label: 'Low',    pulse: false },
+  normal: { color: '#2980b9', bg: 'rgba(41,128,185,0.15)',  label: 'Normal', pulse: false },
+  high:   { color: '#e67e22', bg: 'rgba(230,126,34,0.15)',  label: 'High',   pulse: false },
+  urgent: { color: '#c0392b', bg: 'rgba(192,57,43,0.15)',   label: 'Urgent', pulse: true  },
+};
 
 // ─── colour tokens ───────────────────────────────────────────────
 const E_DARK  = '#2D6A4F';
@@ -186,11 +194,47 @@ function InquiryLine({ trendData }) {
   );
 }
 
+// ─── announcement card ────────────────────────────────────────────
+function AnnouncementCard({ ann }) {
+  const p = ann.priority || 'normal';
+  const badge = PRIORITY_CONFIG[p] || PRIORITY_CONFIG.normal;
+  const authorName = ann.author?.name || ann.authorName || ann.createdBy?.name || 'Unknown';
+  const date = ann.createdAt
+    ? new Date(ann.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+    : '';
+  return (
+    <div className="ann-card">
+      <div className="ann-card-header">
+        <span className="ann-card-title">{ann.title}</span>
+        <span
+          className="ann-priority-badge"
+          style={{ color: badge.color, background: badge.bg, border: `1px solid ${badge.color}55` }}
+        >
+          {badge.pulse && <span className="ann-pulse-dot" style={{ background: badge.color }} />}
+          {badge.label}
+        </span>
+      </div>
+      <p className="ann-card-body">{ann.body || ann.content || ann.message}</p>
+      {(authorName || date) && (
+        <div className="ann-card-meta">
+          {authorName && <span>{authorName}</span>}
+          {authorName && date && <span>·</span>}
+          {date && <span>{date}</span>}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── main component ──────────────────────────────────────────────
 function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [propList,   setPropList]   = useState([]);
   const [inqList,    setInqList]    = useState([]);
+  const [annList,    setAnnList]    = useState([]);
+  const [showAnnForm,   setShowAnnForm]   = useState(false);
+  const [annForm,       setAnnForm]       = useState({ title: '', body: '', priority: 'normal' });
+  const [annSubmitting, setAnnSubmitting] = useState(false);
   const [stats, setStats] = useState({
     totalProperties: 0, newThisWeek: 0,
     forSale: 0, forRent: 0, forShortLet: 0,
@@ -205,12 +249,13 @@ function DashboardPage() {
   useEffect(() => {
     async function load() {
       try {
-        const [propsRes, inqRes, ownersRes, branchesRes, agentsRes] = await Promise.all([
+        const [propsRes, inqRes, ownersRes, branchesRes, agentsRes, annRes] = await Promise.all([
           properties.getAll({ limit: 200 }).catch(() => ({ success: false })),
           inquiries.getAll({ limit: 200 }).catch(() => ({ success: false })),
           owners.getAll({ limit: 1 }).catch(() => ({ success: false })),
           branches.getAll().catch(() => ({ success: false })),
           agents.getAll({ limit: 1 }).catch(() => ({ success: false })),
+          announcements.getAll().catch(() => ({ success: false })),
         ]);
 
         const props = propsRes.success ? (propsRes.data?.properties || []) : [];
@@ -218,6 +263,12 @@ function DashboardPage() {
 
         setPropList(props);
         setInqList(inqs);
+
+        const anns = annRes.success
+          ? (Array.isArray(annRes.data) ? annRes.data : (annRes.data?.announcements || []))
+          : [];
+        setAnnList(anns);
+
         setStats({
           totalProperties: propsRes.success ? (propsRes.data?.pagination?.total ?? props.length) : 0,
           newThisWeek:     props.filter(p => isThisWeek(p.createdAt)).length,
@@ -244,6 +295,30 @@ function DashboardPage() {
     }
     load();
   }, []);
+
+  async function loadAnnouncements() {
+    const res = await announcements.getAll().catch(() => ({ success: false }));
+    const anns = res.success
+      ? (Array.isArray(res.data) ? res.data : (res.data?.announcements || []))
+      : [];
+    setAnnList(anns);
+  }
+
+  async function handleAnnSubmit(e) {
+    e.preventDefault();
+    if (!annForm.title.trim() || !annForm.body.trim()) return;
+    setAnnSubmitting(true);
+    try {
+      await announcements.create(annForm);
+      setAnnForm({ title: '', body: '', priority: 'normal' });
+      setShowAnnForm(false);
+      await loadAnnouncements();
+    } catch (err) {
+      console.error('Failed to create announcement:', err);
+    } finally {
+      setAnnSubmitting(false);
+    }
+  }
 
   // ── skeleton ────────────────────────────────────────────────
   if (loading) {
@@ -336,19 +411,79 @@ function DashboardPage() {
       {/* ── COMPANY FEED ─────────────────────────────────── */}
       <section className="dash-section">
         <SectionHeading icon={Megaphone} title="Company Feed" />
-        <div className="dash-feed-card">
-          <div className="dash-feed-empty">
-            <Megaphone size={36} strokeWidth={1.25} className="dash-feed-empty-icon" />
-            <p className="dash-feed-empty-text">No announcements yet.</p>
-            <p className="dash-feed-empty-sub">
-              Stay tuned — company-wide announcements will appear here.
-            </p>
-            {isAdmin && (
-              <button className="btn btn-primary dash-feed-cta" disabled>
-                + Create Announcement
-              </button>
-            )}
+
+        {isAdmin && (
+          <div className="dash-ann-actions">
+            <button
+              className="btn btn-primary"
+              onClick={() => setShowAnnForm(f => !f)}
+            >
+              {showAnnForm ? '✕ Cancel' : '+ Create Announcement'}
+            </button>
           </div>
+        )}
+
+        {isAdmin && showAnnForm && (
+          <form className="dash-ann-form dash-chart-card" onSubmit={handleAnnSubmit}>
+            <div className="dash-ann-form-group">
+              <label className="dash-ann-label">Title</label>
+              <input
+                className="dash-ann-input"
+                type="text"
+                placeholder="Announcement title…"
+                value={annForm.title}
+                onChange={e => setAnnForm(f => ({ ...f, title: e.target.value }))}
+                required
+              />
+            </div>
+            <div className="dash-ann-form-group">
+              <label className="dash-ann-label">Body</label>
+              <textarea
+                className="dash-ann-input dash-ann-textarea"
+                placeholder="Write your announcement…"
+                value={annForm.body}
+                onChange={e => setAnnForm(f => ({ ...f, body: e.target.value }))}
+                rows={4}
+                required
+              />
+            </div>
+            <div className="dash-ann-form-group">
+              <label className="dash-ann-label">Priority</label>
+              <select
+                className="dash-ann-input dash-ann-select"
+                value={annForm.priority}
+                onChange={e => setAnnForm(f => ({ ...f, priority: e.target.value }))}
+              >
+                <option value="low">Low</option>
+                <option value="normal">Normal</option>
+                <option value="high">High</option>
+                <option value="urgent">Urgent</option>
+              </select>
+            </div>
+            <div className="dash-ann-form-footer">
+              <button type="submit" className="btn btn-primary" disabled={annSubmitting}>
+                {annSubmitting ? 'Posting…' : 'Post Announcement'}
+              </button>
+            </div>
+          </form>
+        )}
+
+        <div className="dash-feed-card">
+          {annList.length === 0 ? (
+            <div className="dash-feed-empty">
+              <Megaphone size={36} strokeWidth={1.25} className="dash-feed-empty-icon" />
+              <p className="dash-feed-empty-text">No announcements yet.</p>
+              <p className="dash-feed-empty-sub">
+                Stay tuned — company-wide announcements will appear here.
+              </p>
+            </div>
+          ) : (
+            <div className="dash-feed-list">
+              {annList.map(ann => (
+                <AnnouncementCard key={ann._id || ann.id || ann.title} ann={ann} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </div>
