@@ -6,7 +6,7 @@ import {
 } from 'recharts';
 import { branches } from '../services/api';
 
-const COLORS = ['#8A5A32', '#B8864E', '#D4AF37', '#c0392b', '#2980b9', '#8e44ad'];
+const COLORS = ['#8A5A32', '#B8864E', '#D4AF37', '#c0392b', '#5C3519', '#E8C98A'];
 
 const tooltipStyle = {
   background: 'var(--bg-secondary)',
