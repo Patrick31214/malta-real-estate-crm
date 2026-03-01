@@ -7,14 +7,58 @@ import './PropertiesPage.css';
 const PROPERTY_TYPES = ['apartment', 'house', 'villa', 'townhouse', 'penthouse', 'maisonette', 'farmhouse', 'commercial', 'office', 'land', 'garage', 'other'];
 const STATUSES = ['available', 'under_offer', 'sold', 'rented', 'withdrawn', 'draft', 'off_market'];
 
-const EMPTY_ADVANCED = {
-  minPrice: '',
-  maxPrice: '',
-  minBedrooms: '',
-  maxBedrooms: '',
-  minBathrooms: '',
-  furnished: '',
-  city: ''
+const MALTA_CITIES = [
+  'Valletta', 'Sliema', "St. Julian's", 'Mdina', 'Rabat', 'Mosta', 'Naxxar', 'Birkirkara',
+  'Qormi', 'Marsaskala', 'Mellieha', 'Gozo', 'Marsaxlokk', 'Żabbar', 'Żejtun', 'Żurrieq',
+  'Birgu', 'Bormla', 'Isla', 'Gżira', 'Msida', 'Pietà', 'Floriana', 'Hamrun', 'Marsa',
+  'Tarxien', 'Luqa', 'Kirkop', 'Żebbuġ', 'Siggiewi', 'Qrendi', 'Mqabba', 'Gudja', 'Għaxaq',
+  'Birzebbuga', 'Fgura', 'Paola', 'San Ġwann', 'Swieqi', 'Pembroke',
+  "St. Paul's Bay", 'Bugibba', 'Qawra', 'Xemxija', 'Victoria', 'Sannat', 'Xewkija',
+  'Kerċem', 'Munxar', 'Xlendi', 'Marsalforn', 'Nadur', 'Xagħra', 'Żebbuġ (Gozo)',
+  'Gharb', 'San Lawrenz', 'Other',
+];
+
+const LISTING_TABS = [
+  { label: 'All', value: '' },
+  { label: 'For Sale', value: 'sale' },
+  { label: 'For Rent', value: 'rent' },
+  { label: 'Short Let', value: 'short_let' },
+  { label: 'Long Let', value: 'long_let' },
+];
+
+const FILTER_FEATURES = [
+  'Sea View', 'Pool', 'Garden', 'Terrace', 'Balcony', 'Elevator', 'AC', 'Parking',
+  'Pet Friendly', 'Furnished', 'Smart Home', 'Solar Panels', 'Gym', 'BBQ',
+  'Near Schools', 'Near Transport', 'Near Shops', 'Quiet Area', 'Gated Community',
+  'Children Friendly',
+];
+
+const SORT_OPTIONS = [
+  { label: 'Date Newest', value: 'date_desc' },
+  { label: 'Date Oldest', value: 'date_asc' },
+  { label: 'Price Low→High', value: 'price_asc' },
+  { label: 'Price High→Low', value: 'price_desc' },
+  { label: 'Bedrooms', value: 'bedrooms_desc' },
+];
+
+const STATUS_COLORS = {
+  available: '#10b981',
+  under_offer: '#f59e0b',
+  sold: '#ef4444',
+  rented: '#6366f1',
+  withdrawn: '#6b7280',
+  draft: '#9ca3af',
+  off_market: '#374151',
+};
+
+const featureKey = name => name.toLowerCase().replace(/[\s/]+/g, '_').replace(/[^a-z0-9_]/g, '');
+
+const listingLabel = lt => {
+  if (lt === 'sale') return 'For Sale';
+  if (lt === 'rent') return 'For Rent';
+  if (lt === 'short_let') return 'Short Let';
+  if (lt === 'long_let') return 'Long Let';
+  return lt || '';
 };
 
 function PropertiesPage() {
@@ -24,21 +68,26 @@ function PropertiesPage() {
   const [pagination, setPagination] = useState({ total: 0, page: 1, limit: 20, totalPages: 0 });
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [filters, setFilters] = useState({
-    status: searchParams.get('status') || '',
-    propertyType: '',
-    listingType: ''
-  });
-  const [advancedOpen, setAdvancedOpen] = useState(false);
-  const [advanced, setAdvanced] = useState(EMPTY_ADVANCED);
+  const [listingType, setListingType] = useState('');
+  const [propertyType, setPropertyType] = useState('');
+  const [status, setStatus] = useState(searchParams.get('status') || '');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
+  const [minBedrooms, setMinBedrooms] = useState('');
+  const [minBathrooms, setMinBathrooms] = useState('');
+  const [city, setCity] = useState('');
+  const [sortBy, setSortBy] = useState('date_desc');
+  const [activeFeatures, setActiveFeatures] = useState({});
+  const [moreFiltersOpen, setMoreFiltersOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [editProperty, setEditProperty] = useState(null);
   const [toast, setToast] = useState(null);
-
-  const activeAdvancedCount = Object.values(advanced).filter(v => v !== '').length;
+  const [shareOpen, setShareOpen] = useState(null);
 
   const user = auth.getUser();
   const isAdmin = user && (user.role === 'admin' || user.role === 'manager');
+
+  const activeFeatureKeys = Object.keys(activeFeatures).filter(k => activeFeatures[k]);
 
   const showToast = (msg, type = 'success') => {
     setToast({ msg, type });
@@ -50,16 +99,17 @@ function PropertiesPage() {
     try {
       const params = { page, limit: 20 };
       if (search) params.search = search;
-      if (filters.status) params.status = filters.status;
-      if (filters.propertyType) params.propertyType = filters.propertyType;
-      if (filters.listingType) params.listingType = filters.listingType;
-      if (advanced.minPrice) params.minPrice = advanced.minPrice;
-      if (advanced.maxPrice) params.maxPrice = advanced.maxPrice;
-      if (advanced.minBedrooms) params.minBedrooms = advanced.minBedrooms;
-      if (advanced.maxBedrooms) params.maxBedrooms = advanced.maxBedrooms;
-      if (advanced.minBathrooms) params.minBathrooms = advanced.minBathrooms;
-      if (advanced.furnished) params.furnished = advanced.furnished;
-      if (advanced.city) params.city = advanced.city;
+      if (status) params.status = status;
+      if (propertyType) params.propertyType = propertyType;
+      if (listingType) params.listingType = listingType;
+      if (minPrice) params.minPrice = minPrice;
+      if (maxPrice) params.maxPrice = maxPrice;
+      if (minBedrooms) params.minBedrooms = minBedrooms;
+      if (minBathrooms) params.minBathrooms = minBathrooms;
+      if (city) params.city = city;
+      if (sortBy) params.sortBy = sortBy;
+      const featKeys = Object.keys(activeFeatures).filter(k => activeFeatures[k]);
+      if (featKeys.length > 0) params.features = featKeys.join(',');
 
       const res = await properties.getAll(params);
       if (res.success) {
@@ -71,7 +121,7 @@ function PropertiesPage() {
     } finally {
       setLoading(false);
     }
-  }, [search, filters, advanced]);
+  }, [search, status, propertyType, listingType, minPrice, maxPrice, minBedrooms, minBathrooms, city, sortBy, activeFeatures]);
 
   useEffect(() => {
     const timer = setTimeout(() => fetchProperties(1), 300);
@@ -87,10 +137,10 @@ function PropertiesPage() {
     }
   };
 
-  const handleApprove = async (id, status) => {
-    const res = await properties.approve(id, status);
+  const handleApprove = async (id, approveStatus) => {
+    const res = await properties.approve(id, approveStatus);
     if (res.success) {
-      showToast(`Property ${status}.`);
+      showToast(`Property ${approveStatus}.`);
       fetchProperties(pagination.page);
     } else {
       showToast(res.message || 'Failed to update.', 'error');
@@ -122,258 +172,316 @@ function PropertiesPage() {
     }
   };
 
+  const toggleFeature = (key) => {
+    setActiveFeatures(f => ({ ...f, [key]: !f[key] }));
+  };
+
+  const handleCopyLink = (id) => {
+    const url = `${window.location.origin}/properties/${id}`;
+    navigator.clipboard.writeText(url).then(() => showToast('Link copied!')).catch(() => showToast('Copy failed.', 'error'));
+    setShareOpen(null);
+  };
+
+  const clearAllFilters = () => {
+    setSearch('');
+    setListingType('');
+    setPropertyType('');
+    setStatus('');
+    setMinPrice('');
+    setMaxPrice('');
+    setMinBedrooms('');
+    setMinBathrooms('');
+    setCity('');
+    setSortBy('date_desc');
+    setActiveFeatures({});
+  };
+
+  const activeFilterCount = [listingType, propertyType, status, minPrice, maxPrice, minBedrooms, minBathrooms, city].filter(Boolean).length + activeFeatureKeys.length;
+
+  const bedroomPills = ['1', '2', '3', '4', '5+'];
+  const bathroomPills = ['1', '2', '3+'];
+
   return (
     <div className="properties-page">
-      {/* Toolbar */}
-      <div className="page-toolbar">
-        <div className="toolbar-left">
-          <input
-            type="search"
-            className="form-input search-input"
-            placeholder="🔍  Search by title, address, city…"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-          />
-          <select className="form-input filter-select" value={filters.status} onChange={e => setFilters({...filters, status: e.target.value})}>
-            <option value="">All Statuses</option>
-            {STATUSES.map(s => <option key={s} value={s}>{s.replace('_', ' ')}</option>)}
-          </select>
-          <select className="form-input filter-select" value={filters.propertyType} onChange={e => setFilters({...filters, propertyType: e.target.value})}>
-            <option value="">All Types</option>
-            {PROPERTY_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
-          </select>
-          <select className="form-input filter-select" value={filters.listingType} onChange={e => setFilters({...filters, listingType: e.target.value})}>
-            <option value="">For Sale & Rent</option>
-            <option value="sale">For Sale</option>
-            <option value="rent">For Rent</option>
-            <option value="lease">Lease</option>
-          </select>
+      {/* Header */}
+      <div className="page-header-row">
+        <div>
+          <h1 className="page-title">Properties</h1>
+          <p className="page-subtitle">{pagination.total} {pagination.total === 1 ? 'property' : 'properties'} found</p>
         </div>
         <button className="btn btn-primary" onClick={() => { setEditProperty(null); setModalOpen(true); }}>
           + Add Property
         </button>
       </div>
 
-      {/* Advanced Filter Toggle */}
-      <div className="advanced-filter-bar">
-        <button
-          className={`btn-advanced-toggle${advancedOpen ? ' open' : ''}`}
-          onClick={() => setAdvancedOpen(o => !o)}
-        >
-          <span>⚙ Advanced Filters</span>
-          {activeAdvancedCount > 0 && !advancedOpen && (
-            <span className="filter-badge">{activeAdvancedCount}</span>
-          )}
-          <span className="toggle-chevron">{advancedOpen ? '▲' : '▼'}</span>
-        </button>
-      </div>
-
-      {/* Advanced Filter Panel */}
-      {advancedOpen && (
-        <div className="advanced-filter-panel">
-          <div className="advanced-filter-grid">
-            <div className="filter-field">
-              <label>Min Price (€)</label>
-              <input
-                type="number"
-                className="form-input"
-                placeholder="e.g. 50000"
-                value={advanced.minPrice}
-                onChange={e => setAdvanced(a => ({ ...a, minPrice: e.target.value }))}
-                min="0"
-              />
-            </div>
-            <div className="filter-field">
-              <label>Max Price (€)</label>
-              <input
-                type="number"
-                className="form-input"
-                placeholder="e.g. 500000"
-                value={advanced.maxPrice}
-                onChange={e => setAdvanced(a => ({ ...a, maxPrice: e.target.value }))}
-                min="0"
-              />
-            </div>
-            <div className="filter-field">
-              <label>Min Bedrooms</label>
-              <input
-                type="number"
-                className="form-input"
-                placeholder="e.g. 1"
-                value={advanced.minBedrooms}
-                onChange={e => setAdvanced(a => ({ ...a, minBedrooms: e.target.value }))}
-                min="0"
-              />
-            </div>
-            <div className="filter-field">
-              <label>Max Bedrooms</label>
-              <input
-                type="number"
-                className="form-input"
-                placeholder="e.g. 5"
-                value={advanced.maxBedrooms}
-                onChange={e => setAdvanced(a => ({ ...a, maxBedrooms: e.target.value }))}
-                min="0"
-              />
-            </div>
-            <div className="filter-field">
-              <label>Min Bathrooms</label>
-              <input
-                type="number"
-                className="form-input"
-                placeholder="e.g. 1"
-                value={advanced.minBathrooms}
-                onChange={e => setAdvanced(a => ({ ...a, minBathrooms: e.target.value }))}
-                min="0"
-              />
-            </div>
-            <div className="filter-field">
-              <label>Furnished</label>
-              <select
-                className="form-input"
-                value={advanced.furnished}
-                onChange={e => setAdvanced(a => ({ ...a, furnished: e.target.value }))}
-              >
-                <option value="">Any</option>
-                <option value="furnished">Furnished</option>
-                <option value="unfurnished">Unfurnished</option>
-                <option value="part_furnished">Part Furnished</option>
-              </select>
-            </div>
-            <div className="filter-field filter-field-wide">
-              <label>City</label>
-              <input
-                type="text"
-                className="form-input"
-                placeholder="e.g. Valletta, Sliema…"
-                value={advanced.city}
-                onChange={e => setAdvanced(a => ({ ...a, city: e.target.value }))}
-              />
-            </div>
-            <div className="filter-field filter-field-action">
-              <button
-                className="btn-clear-filters"
-                onClick={() => setAdvanced(EMPTY_ADVANCED)}
-                disabled={activeAdvancedCount === 0}
-              >
-                ✕ Clear All Filters
-              </button>
-            </div>
+      {/* Search Panel */}
+      <div className="search-panel">
+        {/* Search bar + Sort */}
+        <div className="search-bar-row">
+          <div className="search-bar-wrap">
+            <span className="search-icon">🔍</span>
+            <input
+              type="search"
+              className="search-bar-input"
+              placeholder="Search by title, description, location…"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+          </div>
+          <div className="sort-row">
+            <label className="sort-label">Sort:</label>
+            <select className="form-input sort-select" value={sortBy} onChange={e => setSortBy(e.target.value)}>
+              {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+            </select>
           </div>
         </div>
-      )}
 
-      <div className="result-count">
-        {pagination.total} {pagination.total === 1 ? 'property' : 'properties'} found
-      </div>
-
-      {/* Table */}
-      <div className="card table-card">
-        {loading ? (
-          <div className="spinner" />
-        ) : propertyList.length === 0 ? (
-          <div className="empty-state">
-            <div className="empty-icon">🏠</div>
-            <h3>No properties found</h3>
-            <p>Add your first property to get started.</p>
-            <button className="btn btn-primary" onClick={() => setModalOpen(true)} style={{marginTop:16}}>
-              + Add Property
+        {/* Listing Type Tabs */}
+        <div className="listing-tabs">
+          {LISTING_TABS.map(tab => (
+            <button
+              key={tab.value}
+              className={`listing-tab${listingType === tab.value ? ' active' : ''}`}
+              onClick={() => setListingType(tab.value)}
+            >
+              {tab.label}
             </button>
+          ))}
+        </div>
+
+        {/* Type + Price + Location row */}
+        <div className="filter-row">
+          <div className="filter-group">
+            <label className="filter-label">Property Type</label>
+            <select className="form-input filter-input" value={propertyType} onChange={e => setPropertyType(e.target.value)}>
+              <option value="">All Types</option>
+              {PROPERTY_TYPES.map(t => <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
+            </select>
           </div>
-        ) : (
-          <div className="table-container">
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th style={{width:60}}></th>
-                  <th>Property</th>
-                  <th>Type</th>
-                  <th>Listing</th>
-                  <th>Price</th>
-                  <th>Beds/Baths</th>
-                  <th>Status</th>
-                  <th>Approval</th>
-                  <th>Website</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {propertyList.map(p => (
-                  <tr key={p.id}>
-                    <td style={{padding:'8px 8px'}}>
-                      {p.images && p.images[0] ? (
-                        <img
-                          src={p.images[0]}
-                          alt={p.title}
-                          style={{width:60,height:60,objectFit:'cover',borderRadius:8,display:'block',cursor:'pointer'}}
-                          onClick={() => navigate(`/properties/${p.id}`)}
-                        />
-                      ) : (
-                        <div style={{width:60,height:60,borderRadius:8,background:'var(--bg-tertiary)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:22}}>🏠</div>
-                      )}
-                    </td>
-                    <td>
-                      <div
-                        className="prop-title prop-title-link"
-                        onClick={() => navigate(`/properties/${p.id}`)}
-                        style={{cursor:'pointer'}}
-                      >
-                        {p.title}
-                      </div>
-                      <div className="prop-location">📍 {p.address}, {p.city}</div>
-                    </td>
-                    <td style={{textTransform:'capitalize'}}>{p.propertyType}</td>
-                    <td><span className={`badge badge-${p.listingType}`}>{p.listingType}</span></td>
-                    <td className="prop-price">€{Number(p.price).toLocaleString()}</td>
-                    <td>
-                      {p.bedrooms != null ? `🛏 ${p.bedrooms}` : '—'}
-                      {p.bathrooms != null ? ` 🚿 ${p.bathrooms}` : ''}
-                    </td>
-                    <td>
-                      <select
-                        className="status-quick-select"
-                        value={p.status}
-                        onChange={e => handleStatusChange(p.id, e.target.value)}
-                      >
-                        {STATUSES.map(s => (
-                          <option key={s} value={s}>{s.replace(/_/g, ' ')}</option>
-                        ))}
-                      </select>
-                    </td>
-                    <td>
-                      <span className={`badge badge-${p.approvalStatus || 'pending'}`}>
-                        {p.approvalStatus || 'pending'}
-                      </span>
-                    </td>
-                    <td>
-                      <button
-                        className={`btn btn-sm${p.postedToWebsite ? ' btn-accent' : ' btn-outline'}`}
-                        title={p.postedToWebsite ? 'Posted to website — click to unpublish' : 'Not on website — click to publish'}
-                        onClick={() => handleToggleWebsite(p.id, p.postedToWebsite)}
-                        style={{ fontSize: 11, whiteSpace: 'nowrap' }}
-                      >
-                        {p.postedToWebsite ? '🌐 Live' : '🌐 Off'}
-                      </button>
-                    </td>
-                    <td>
-                      <div className="action-btns">
-                        <button className="btn btn-outline btn-sm" onClick={() => { setEditProperty(p); setModalOpen(true); }}>Edit</button>
-                        {isAdmin && p.approvalStatus !== 'approved' && (
-                          <button className="btn btn-sm btn-accent" onClick={() => handleApprove(p.id, 'approved')} title="Approve listing">✓ Approve</button>
-                        )}
-                        {isAdmin && p.approvalStatus !== 'rejected' && (
-                          <button className="btn btn-sm btn-danger" style={{fontSize:'11px'}} onClick={() => handleApprove(p.id, 'rejected')} title="Reject listing">✗ Reject</button>
-                        )}
-                        <button className="btn btn-danger btn-sm" onClick={() => handleDelete(p.id)}>Del</button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="filter-group">
+            <label className="filter-label">Min Price €</label>
+            <input type="number" className="form-input filter-input" placeholder="e.g. 50,000" value={minPrice} onChange={e => setMinPrice(e.target.value)} min="0" />
+          </div>
+          <div className="filter-group">
+            <label className="filter-label">Max Price €</label>
+            <input type="number" className="form-input filter-input" placeholder="e.g. 500,000" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} min="0" />
+          </div>
+          <div className="filter-group filter-group-wide">
+            <label className="filter-label">Location</label>
+            <select className="form-input filter-input" value={city} onChange={e => setCity(e.target.value)}>
+              <option value="">All Localities</option>
+              {MALTA_CITIES.map(c => <option key={c} value={c}>{c}</option>)}
+            </select>
+          </div>
+        </div>
+
+        {/* Bedrooms + Bathrooms + Status row */}
+        <div className="pills-row">
+          <div className="pill-group">
+            <span className="filter-label">Bedrooms</span>
+            {bedroomPills.map(n => {
+              const val = n === '5+' ? '5' : n;
+              return (
+                <button
+                  key={n}
+                  className={`pill${minBedrooms === val ? ' active' : ''}`}
+                  onClick={() => setMinBedrooms(prev => prev === val ? '' : val)}
+                >
+                  {n}
+                </button>
+              );
+            })}
+          </div>
+          <div className="pill-group">
+            <span className="filter-label">Bathrooms</span>
+            {bathroomPills.map(n => {
+              const val = n === '3+' ? '3' : n;
+              return (
+                <button
+                  key={n}
+                  className={`pill${minBathrooms === val ? ' active' : ''}`}
+                  onClick={() => setMinBathrooms(prev => prev === val ? '' : val)}
+                >
+                  {n}
+                </button>
+              );
+            })}
+          </div>
+          <div className="pill-group pill-group-status">
+            <span className="filter-label">Status</span>
+            <select className="form-input filter-input" value={status} onChange={e => setStatus(e.target.value)}>
+              <option value="">All Statuses</option>
+              {STATUSES.map(s => <option key={s} value={s}>{s.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</option>)}
+            </select>
+          </div>
+        </div>
+
+        {/* More Filters toggle */}
+        <button className="more-filters-toggle" onClick={() => setMoreFiltersOpen(o => !o)}>
+          <span>
+            ⚙ More Filters
+            {activeFeatureKeys.length > 0 && <span className="filter-badge">{activeFeatureKeys.length}</span>}
+          </span>
+          <span className="toggle-chevron">{moreFiltersOpen ? '▲' : '▼'}</span>
+        </button>
+
+        {moreFiltersOpen && (
+          <div className="more-filters-panel">
+            <div className="features-grid">
+              {FILTER_FEATURES.map(f => {
+                const key = featureKey(f);
+                return (
+                  <label key={key} className={`feature-checkbox${activeFeatures[key] ? ' checked' : ''}`}>
+                    <input
+                      type="checkbox"
+                      checked={!!activeFeatures[key]}
+                      onChange={() => toggleFeature(key)}
+                    />
+                    {f}
+                    {f === 'Children Friendly' && <span className="crm-only-badge">CRM</span>}
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Active filters summary */}
+        {(activeFilterCount > 0 || search) && (
+          <div className="active-filters-row">
+            <span className="active-filters-label">
+              {activeFilterCount} filter{activeFilterCount !== 1 ? 's' : ''} active
+            </span>
+            <button className="btn-clear-all" onClick={clearAllFilters}>✕ Clear All</button>
           </div>
         )}
       </div>
+
+      {/* Card Grid */}
+      {loading ? (
+        <div className="spinner" />
+      ) : propertyList.length === 0 ? (
+        <div className="card">
+          <div className="empty-state">
+            <div className="empty-icon">🏠</div>
+            <h3>No properties found</h3>
+            <p>Add your first property or adjust your filters.</p>
+            <button className="btn btn-primary" onClick={() => setModalOpen(true)} style={{ marginTop: 16 }}>
+              + Add Property
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="property-card-grid">
+          {propertyList.map(p => (
+            <div key={p.id} className="property-card">
+              {/* Image */}
+              <div className="card-image" onClick={() => navigate(`/properties/${p.id}`)}>
+                {p.images && p.images[0] ? (
+                  <img src={p.images[0]} alt={p.title} className="card-img" />
+                ) : (
+                  <div className="card-img-placeholder"><span>🏠</span></div>
+                )}
+                {p.listingType && (
+                  <span className={`card-listing-badge card-listing-${p.listingType}`}>
+                    {listingLabel(p.listingType)}
+                  </span>
+                )}
+                {p.featured && <span className="card-featured-badge">⭐ Featured</span>}
+              </div>
+
+              {/* Body */}
+              <div className="card-body">
+                <div className="card-type-row">
+                  <span className="card-type-badge">{p.propertyType}</span>
+                  <span
+                    className="card-status-badge"
+                    style={{ background: STATUS_COLORS[p.status] || '#6b7280' }}
+                  >
+                    {(p.status || 'draft').replace(/_/g, ' ')}
+                  </span>
+                </div>
+
+                <div className="card-title" onClick={() => navigate(`/properties/${p.id}`)}>
+                  {p.title}
+                </div>
+                <div className="card-location">📍 {[p.address, p.city].filter(Boolean).join(', ')}</div>
+                <div className="card-price">€{Number(p.price || 0).toLocaleString()}</div>
+
+                <div className="card-specs">
+                  {p.bedrooms != null && <span>🛏 {p.bedrooms} bed{p.bedrooms !== 1 ? 's' : ''}</span>}
+                  {p.bathrooms != null && <span>🚿 {p.bathrooms} bath{p.bathrooms !== 1 ? 's' : ''}</span>}
+                  {p.squareMeters && <span>📐 {p.squareMeters}m²</span>}
+                </div>
+
+                {p.availableFrom && (
+                  <div className="card-available">
+                    📅 Available: {new Date(p.availableFrom).toLocaleDateString()}
+                  </div>
+                )}
+
+                {/* Action buttons */}
+                <div className="card-actions">
+                  <button
+                    className={`card-btn-website${p.postedToWebsite ? ' active' : ''}`}
+                    title={p.postedToWebsite ? 'Live on website — click to unpublish' : 'Not on website — click to publish'}
+                    onClick={() => handleToggleWebsite(p.id, p.postedToWebsite)}
+                  >
+                    🌐
+                  </button>
+
+                  <div className="share-wrap">
+                    <button
+                      className="card-btn card-btn-outline"
+                      onClick={() => setShareOpen(shareOpen === p.id ? null : p.id)}
+                    >
+                      🔗 Share
+                    </button>
+                    {shareOpen === p.id && (
+                      <div className="share-dropdown">
+                        <button onClick={() => handleCopyLink(p.id)}>📋 Copy Link</button>
+                      </div>
+                    )}
+                  </div>
+
+                  <button
+                    className="card-btn card-btn-outline"
+                    onClick={() => { setEditProperty(p); setModalOpen(true); }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="card-btn card-btn-primary"
+                    onClick={() => navigate(`/properties/${p.id}`)}
+                  >
+                    View
+                  </button>
+                </div>
+
+                {/* Status + admin actions */}
+                <div className="card-admin-row">
+                  <select
+                    className="status-quick-select"
+                    value={p.status}
+                    onChange={e => handleStatusChange(p.id, e.target.value)}
+                  >
+                    {STATUSES.map(s => (
+                      <option key={s} value={s}>{s.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</option>
+                    ))}
+                  </select>
+                  {isAdmin && p.approvalStatus !== 'approved' && (
+                    <button className="btn btn-sm btn-accent" onClick={() => handleApprove(p.id, 'approved')}>✓</button>
+                  )}
+                  {isAdmin && p.approvalStatus !== 'rejected' && (
+                    <button className="btn btn-sm btn-danger" onClick={() => handleApprove(p.id, 'rejected')}>✗</button>
+                  )}
+                  <button className="btn btn-danger btn-sm" onClick={() => handleDelete(p.id)}>Del</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Pagination */}
       {pagination.totalPages > 1 && (
