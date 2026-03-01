@@ -26,7 +26,13 @@ const getInquiries = async (req, res) => {
     if (status) where.status = status;
     if (priority) where.priority = priority;
     if (propertyId) where.propertyId = propertyId;
-    if (type) where.inquiryType = type;
+    const VALID_INQUIRY_TYPES = Inquiry.rawAttributes.inquiryType.values;
+    if (type) {
+      if (!VALID_INQUIRY_TYPES.includes(type)) {
+        return res.status(400).json({ success: false, message: `Invalid inquiry type: "${type}".` });
+      }
+      where.inquiryType = type;
+    }
     if (source) where.source = source;
     if (dateFrom || dateTo) {
       where.createdAt = {};

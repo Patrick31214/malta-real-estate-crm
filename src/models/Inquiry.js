@@ -45,7 +45,10 @@ const Inquiry = sequelize.define('Inquiry', {
       'information_request',
       'make_offer',
       'callback_request',
-      'general'
+      'general',
+      'property',
+      'affiliate',
+      'partnership'
     ),
     allowNull: false,
     defaultValue: 'general',
