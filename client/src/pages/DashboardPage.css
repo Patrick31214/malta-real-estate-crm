@@ -386,6 +386,101 @@
   color: var(--text-muted);
 }
 
+/* ── channel tabs ────────────────────────────────── */
+.chat-channel-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(45, 106, 79, 0.2);
+  overflow-x: auto;
+  flex-shrink: 0;
+}
+.chat-channel-tabs::-webkit-scrollbar { height: 0; }
+.chat-channel-tab {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(212, 175, 55, 0.6);
+  background: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-family: inherit;
+}
+.chat-channel-tab:hover {
+  color: #D4AF37;
+  background: rgba(212, 175, 55, 0.1);
+}
+.chat-channel-tab--active {
+  color: #D4AF37;
+  background: rgba(212, 175, 55, 0.12);
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+/* ── registrations list ──────────────────────────── */
+.dash-reg-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dash-reg-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  background: rgba(45, 106, 79, 0.06);
+  border: 1px solid rgba(45, 106, 79, 0.15);
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+.dash-reg-item:hover { background: rgba(45, 106, 79, 0.1); }
+.dash-reg-type-badge {
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.dash-reg-type-badge--property {
+  background: rgba(64, 145, 108, 0.15);
+  color: #40916C;
+}
+.dash-reg-type-badge--inquiry {
+  background: rgba(212, 175, 55, 0.15);
+  color: #D4AF37;
+}
+.dash-reg-name {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text-primary);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dash-reg-status {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+.dash-reg-date {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
 /* ── legacy helpers ──────────────────────────────── */
 .stats-grid {
   display: grid;
@@ -403,8 +498,8 @@
   flex-shrink: 0;
   position: sticky;
   top: 0;
-  --chat-sidebar-header-offset: 100px;
-  max-height: calc(100vh - var(--chat-sidebar-header-offset));
+  height: calc(100vh - 120px);
+  max-height: calc(100vh - 120px);
   background: rgba(10, 22, 16, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -418,6 +513,7 @@
 }
 .dash-chat-sidebar--minimized {
   max-height: 52px;
+  height: 52px;
 }
 
 /* Sidebar header */
@@ -459,6 +555,7 @@
 .chat-list {
   flex: 1;
   overflow-y: auto;
+  min-height: 0; /* Critical for flex overflow */
   padding: 12px;
   display: flex;
   flex-direction: column;

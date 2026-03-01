@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Building2, CheckCircle, Handshake, Users, MessageSquare, UserCheck,
@@ -89,18 +89,43 @@ const SERVICE_CATEGORY_CONFIG = {
   other:       { icon: Settings2, label: 'Other' },
 };
 
-// Generate mock inquiry trend for last 7 days
-function mockInquiryTrend() {
+// Compute real inquiry trend from inqList for last 7 days
+function computeInquiryTrend(inqList) {
   const days = [];
   for (let i = 6; i >= 0; i--) {
     const d = new Date();
     d.setDate(d.getDate() - i);
+    const dateStr = d.toDateString();
+    const count = inqList.filter(inq => inq.createdAt && new Date(inq.createdAt).toDateString() === dateStr).length;
     days.push({
       day: d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric' }),
-      inquiries: Math.floor(Math.random() * 8) + 1,
+      inquiries: count,
     });
   }
   return days;
+}
+
+// ─── channel config ──────────────────────────────────────────────
+const CHANNELS = [
+  { id: 'all',         label: 'Team',     icon: Users      },
+  { id: 'managers',    label: 'Managers', icon: Briefcase  },
+  { id: 'rental_team', label: 'Rentals',  icon: Home       },
+  { id: 'employees',   label: 'Staff',    icon: UserCheck  },
+  { id: 'partners',    label: 'Partners', icon: Handshake  },
+];
+
+function isChannelVisible(channelId, user) {
+  if (!user) return channelId === 'all' || channelId === 'partners';
+  const role = user.role;
+  const isAdminOrMgr = role === 'admin' || role === 'manager';
+  switch (channelId) {
+    case 'all':         return true;
+    case 'managers':    return isAdminOrMgr;
+    case 'rental_team': return isAdminOrMgr || (role === 'agent' && (user.subRole || '').includes('rental'));
+    case 'employees':   return isAdminOrMgr || role === 'employee';
+    case 'partners':    return true;
+    default:            return false;
+  }
 }
 
 // ─── skeleton loader ─────────────────────────────────────────────
@@ -277,6 +302,27 @@ function OutreachDonut({ agentViews, aiContacts }) {
   );
 }
 
+function RegistrationsChart({ propList, inqList, agentList }) {
+  const data = [
+    { name: 'Properties', count: propList.filter(p => isThisMonth(p.createdAt)).length },
+    { name: 'Inquiries',  count: inqList.filter(i => isThisMonth(i.createdAt)).length  },
+    { name: 'Agents',     count: agentList.filter(a => isThisMonth(a.createdAt)).length },
+  ];
+  const total = data.reduce((s, d) => s + d.count, 0);
+  if (total === 0) return <div className="chart-empty">No registrations this month</div>;
+  return (
+    <ResponsiveContainer width="100%" height={210}>
+      <BarChart data={data} margin={{ top: 4, right: 8, bottom: 4, left: -20 }}>
+        <CartesianGrid strokeDasharray="3 3" stroke="rgba(64,145,108,0.1)" />
+        <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#8aab99' }} />
+        <YAxis tick={{ fontSize: 11, fill: '#8aab99' }} allowDecimals={false} />
+        <Tooltip contentStyle={TOOLTIP_STYLE} formatter={v => [`${v} registered`, 'Count']} />
+        <Bar dataKey="count" fill={E_MID} radius={[4, 4, 0, 0]} />
+      </BarChart>
+    </ResponsiveContainer>
+  );
+}
+
 // ─── chat bubble ──────────────────────────────────────────────────
 function ChatBubble({ ann }) {
   const p = ann.priority || 'normal';
@@ -355,6 +401,7 @@ function DashboardPage() {
   // Chat sidebar
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [activeChannel, setActiveChannel] = useState('all');
   const chatListRef = useRef(null);
 
   const [annForm,       setAnnForm]       = useState({ title: '', body: '', priority: 'normal' });
@@ -371,10 +418,24 @@ function DashboardPage() {
   const [aiStats,       setAiStats]       = useState({
     totalAI: 0, totalAgent: 0, thisMonthAI: 0, thisMonthAgent: 0,
   });
-  const [trendData] = useState(() => mockInquiryTrend());
 
   const user = auth.getUser();
   const isAdmin = user?.role === 'admin' || user?.role === 'manager';
+
+  // Real inquiry trend from loaded data
+  const trendData = useMemo(() => computeInquiryTrend(inqList), [inqList]);
+
+  // Announcements filtered to the active channel
+  const activeChannelAnnList = useMemo(
+    () => annList.filter(ann => (ann.targetType || 'all') === activeChannel),
+    [annList, activeChannel]
+  );
+
+  // Visible channels for this user
+  const visibleChannels = useMemo(
+    () => CHANNELS.filter(ch => isChannelVisible(ch.id, user)),
+    [user]
+  );
 
   useEffect(() => {
     async function load() {
@@ -468,6 +529,7 @@ function DashboardPage() {
         title: trimmed.length > MAX_ANN_TITLE_LEN ? trimmed.substring(0, MAX_ANN_TITLE_LEN - 3) + '…' : trimmed,
         body: trimmed,
         priority: annForm.priority,
+        targetType: activeChannel,
       });
       setAnnForm({ title: '', body: '', priority: 'normal' });
       await loadAnnouncements();
@@ -503,13 +565,9 @@ function DashboardPage() {
     }
     return top;
   }, null);
-  const totalAgentCount = stats.totalAgents || agentList.length || 1;
-  const avgPropsPerAgent = stats.totalProperties > 0
-    ? (stats.totalProperties / totalAgentCount).toFixed(1)
-    : '0.0';
-  const avgInqPerAgent = stats.totalInquiries > 0
-    ? (stats.totalInquiries / totalAgentCount).toFixed(1)
-    : '0.0';
+  const safeAgentCount   = Math.max(stats.totalAgents || agentList.length, 1);
+  const avgPropsPerAgent = (stats.totalProperties / safeAgentCount).toFixed(1);
+  const avgInqPerAgent   = (stats.totalInquiries  / safeAgentCount).toFixed(1);
 
   // ── services metrics ───────────────────────────────────────────
   const activeServices = serviceList.filter(s => s.isActive !== false).length;
@@ -518,6 +576,29 @@ function DashboardPage() {
     map[cat] = (map[cat] || 0) + 1;
     return map;
   }, {});
+
+  // ── registrations metrics ──────────────────────────────────────
+  const propsThisMonth = propList.filter(p => isThisMonth(p.createdAt)).length;
+  const inqsThisMonth  = inqList.filter(i => isThisMonth(i.createdAt)).length;
+  const recentRegistrations = [
+    ...propList.map(p => ({
+      type: 'property',
+      id: p.id,
+      name: p.title || p.address || 'Property',
+      date: p.createdAt,
+      status: p.status,
+    })),
+    ...inqList.map(i => ({
+      type: 'inquiry',
+      id: i.id,
+      name: i.name || i.clientName || i.propertyTitle || 'Inquiry',
+      date: i.createdAt,
+      status: i.status,
+    })),
+  ]
+    .filter(r => r.date)
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 10);
 
   // ── skeleton ────────────────────────────────────────────────
   if (loading) {
@@ -570,6 +651,36 @@ function DashboardPage() {
           <div className="dash-cards-row dash-cards-row--narrow">
             <StatCard icon={BarChart2}    label="Deals This Month" value={dealsThisMonth}        linkTo="/dashboard/properties"               accent={GOLD2}  />
           </div>
+        </section>
+
+        {/* ── REGISTRATIONS ────────────────────────────────── */}
+        <section className="dash-section">
+          <SectionHeading icon={ClipboardCheck} title="Registrations" linkTo="/dashboard/properties" />
+          <div className="dash-cards-row">
+            <StatCard icon={Building2}    label="Properties This Month" value={propsThisMonth}           linkTo="/dashboard/properties" accent={E_DARK} />
+            <StatCard icon={MessageSquare} label="Inquiries This Month"  value={inqsThisMonth}            linkTo="/dashboard/inquiries"  accent={GOLD}   />
+            <StatCard icon={Users}        label="Total Owners"           value={stats.totalOwners}        linkTo="/dashboard/owners"     accent={E_MID}  sub="All time" />
+            <StatCard icon={Handshake}    label="Deals This Month"       value={dealsThisMonth}           linkTo="/dashboard/properties" accent={GOLD2}  />
+            <StatCard icon={UserCheck}    label="Active Agents"          value={activeAgents}             linkTo="/dashboard/agents"     accent={E_MID}  />
+            <StatCard icon={UserCheck}    label="Owner Contacts / Month" value={ownerOutreach.thisMonth}  linkTo="/dashboard/owners"     accent={GOLD}   />
+          </div>
+          {recentRegistrations.length > 0 && (
+            <div className="dash-reg-list">
+              {recentRegistrations.map((r, idx) => (
+                <div key={r.id || idx} className="dash-reg-item">
+                  {r.type === 'property'
+                    ? <Building2 size={15} color={E_MID} strokeWidth={1.75} />
+                    : <MessageSquare size={15} color={GOLD} strokeWidth={1.75} />}
+                  <span className={`dash-reg-type-badge dash-reg-type-badge--${r.type}`}>{r.type}</span>
+                  <span className="dash-reg-name">{r.name}</span>
+                  <span className="dash-reg-status">{r.status?.replace(/_/g, ' ')}</span>
+                  <span className="dash-reg-date">
+                    {r.date ? new Date(r.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : ''}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
 
         {/* ── ROW 3: INQUIRIES ─────────────────────────────── */}
@@ -651,7 +762,6 @@ function DashboardPage() {
             <div className="dash-chart-card">
               <h3 className="dash-chart-title">Inquiries — Last 7 Days</h3>
               <InquiryLine trendData={trendData} />
-              <p className="dash-chart-note">* Placeholder trend — real time-series data coming soon</p>
             </div>
             <div className="dash-chart-card">
               <h3 className="dash-chart-title">Deals by Type</h3>
@@ -660,6 +770,10 @@ function DashboardPage() {
             <div className="dash-chart-card">
               <h3 className="dash-chart-title">Owner Outreach — Agent vs AI</h3>
               <OutreachDonut agentViews={ownerOutreach.total} aiContacts={aiStats.totalAI} />
+            </div>
+            <div className="dash-chart-card">
+              <h3 className="dash-chart-title">Registrations This Month</h3>
+              <RegistrationsChart propList={propList} inqList={inqList} agentList={agentList} />
             </div>
           </div>
         </section>
@@ -677,7 +791,7 @@ function DashboardPage() {
         <div className="chat-sidebar-header">
           <span className="chat-sidebar-title">
             <Megaphone size={15} strokeWidth={1.75} />
-            Team Channel
+            Channels
           </span>
           <button
             className="chat-sidebar-toggle"
@@ -691,14 +805,31 @@ function DashboardPage() {
 
         {!sidebarMinimized && (
           <>
+            <div className="chat-channel-tabs">
+              {visibleChannels.map(ch => {
+                const ChIcon = ch.icon;
+                return (
+                  <button
+                    key={ch.id}
+                    className={`chat-channel-tab${activeChannel === ch.id ? ' chat-channel-tab--active' : ''}`}
+                    onClick={() => setActiveChannel(ch.id)}
+                    title={ch.label}
+                  >
+                    <ChIcon size={11} strokeWidth={2} />
+                    {ch.label}
+                  </button>
+                );
+              })}
+            </div>
+
             <div className="chat-list" ref={chatListRef}>
-              {annList.length === 0 ? (
+              {activeChannelAnnList.length === 0 ? (
                 <div className="chat-empty">
                   <Megaphone size={28} strokeWidth={1.25} style={{ color: 'rgba(212,175,55,0.4)' }} />
-                  <p>No announcements yet.</p>
+                  <p>No messages in this channel yet.</p>
                 </div>
               ) : (
-                [...annList].reverse().map(ann => (
+                [...activeChannelAnnList].reverse().map(ann => (
                   <ChatBubble key={ann._id || ann.id || ann.title + ann.createdAt} ann={ann} />
                 ))
               )}
@@ -745,16 +876,32 @@ function DashboardPage() {
       {mobileSidebarOpen && (
         <div className="chat-mobile-drawer">
           <div className="chat-mobile-drawer-header">
-            <span>📢 Team Channel</span>
+            <span>📢 Channels</span>
             <button onClick={() => setMobileSidebarOpen(false)} className="chat-sidebar-toggle">
               <X size={16} />
             </button>
           </div>
+          <div className="chat-channel-tabs">
+            {visibleChannels.map(ch => {
+              const ChIcon = ch.icon;
+              return (
+                <button
+                  key={ch.id}
+                  className={`chat-channel-tab${activeChannel === ch.id ? ' chat-channel-tab--active' : ''}`}
+                  onClick={() => setActiveChannel(ch.id)}
+                  title={ch.label}
+                >
+                  <ChIcon size={11} strokeWidth={2} />
+                  {ch.label}
+                </button>
+              );
+            })}
+          </div>
           <div className="chat-list chat-list--mobile" ref={chatListRef}>
-            {annList.length === 0 ? (
-              <div className="chat-empty"><p>No announcements yet.</p></div>
+            {activeChannelAnnList.length === 0 ? (
+              <div className="chat-empty"><p>No messages in this channel yet.</p></div>
             ) : (
-              [...annList].reverse().map(ann => (
+              [...activeChannelAnnList].reverse().map(ann => (
                 <ChatBubble key={ann._id || ann.id || ann.title + ann.createdAt} ann={ann} />
               ))
             )}
