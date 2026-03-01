@@ -417,7 +417,7 @@ function DashboardPage() {
           newThisWeek:     props.filter(p => isThisWeek(p.createdAt)).length,
           forSale:         props.filter(p => p.listingType === 'sale').length,
           forRent:         props.filter(p => p.listingType === 'rent').length,
-          forShortLet:     props.filter(p => p.listingType === 'lease').length,
+          forShortLet:     props.filter(p => p.listingType === 'short_let' || p.listingType === 'lease').length,
           available:       props.filter(p => p.status === 'available').length,
           underOffer:      props.filter(p => p.status === 'under_offer').length,
           sold:            props.filter(p => p.status === 'sold').length,
@@ -504,8 +504,12 @@ function DashboardPage() {
     return top;
   }, null);
   const totalAgentCount = stats.totalAgents || agentList.length || 1;
-  const avgPropsPerAgent = (stats.totalProperties / totalAgentCount).toFixed(1);
-  const avgInqPerAgent   = (stats.totalInquiries / totalAgentCount).toFixed(1);
+  const avgPropsPerAgent = stats.totalProperties > 0
+    ? (stats.totalProperties / totalAgentCount).toFixed(1)
+    : '0.0';
+  const avgInqPerAgent = stats.totalInquiries > 0
+    ? (stats.totalInquiries / totalAgentCount).toFixed(1)
+    : '0.0';
 
   // ── services metrics ───────────────────────────────────────────
   const activeServices = serviceList.filter(s => s.isActive !== false).length;
@@ -540,31 +544,31 @@ function DashboardPage() {
 
         {/* ── ROW 1: PROPERTIES ────────────────────────────── */}
         <section className="dash-section">
-          <SectionHeading icon={Building2} title="Properties" linkTo="/properties" />
+          <SectionHeading icon={Building2} title="Properties" linkTo="/dashboard/properties" />
           <div className="dash-cards-row">
-            <StatCard icon={Building2}  label="Total Properties" value={stats.totalProperties}  linkTo="/properties"                       accent={E_DARK} />
-            <StatCard icon={TrendingUp} label="New This Week"    value={stats.newThisWeek}       linkTo="/properties"                       accent={E_MID}  />
-            <StatCard icon={CheckCircle} label="Available"       value={stats.available}          linkTo="/properties?status=available"      accent={E_MID}  />
-            <StatCard icon={Handshake}  label="Under Offer"      value={stats.underOffer}         linkTo="/properties?status=under_offer"    accent={GOLD}   />
+            <StatCard icon={Building2}  label="Total Properties" value={stats.totalProperties}  linkTo="/dashboard/properties"                       accent={E_DARK} />
+            <StatCard icon={TrendingUp} label="New This Week"    value={stats.newThisWeek}       linkTo="/dashboard/properties"                       accent={E_MID}  />
+            <StatCard icon={CheckCircle} label="Available"       value={stats.available}          linkTo="/dashboard/properties"      accent={E_MID}  />
+            <StatCard icon={Handshake}  label="Under Offer"      value={stats.underOffer}         linkTo="/dashboard/properties"    accent={GOLD}   />
           </div>
           <div className="dash-cards-row">
-            <StatCard icon={Tag}   label="For Sale"    value={stats.forSale}     linkTo="/properties?listingType=sale"      accent={GOLD}  />
-            <StatCard icon={Home}  label="For Rent"    value={stats.forRent}     linkTo="/properties?listingType=rent"      accent={GOLD2} />
-            <StatCard icon={Waves} label="Short Let"   value={stats.forShortLet} linkTo="/properties?listingType=lease"     accent={E_MID} />
+            <StatCard icon={Tag}   label="For Sale"    value={stats.forSale}     linkTo="/dashboard/properties"      accent={GOLD}  />
+            <StatCard icon={Home}  label="For Rent"    value={stats.forRent}     linkTo="/dashboard/properties"      accent={GOLD2} />
+            <StatCard icon={Waves} label="Short Let"   value={stats.forShortLet} linkTo="/dashboard/properties"     accent={E_MID} />
           </div>
         </section>
 
         {/* ── ROW 2: DEALS & REVENUE ────────────────────────── */}
         <section className="dash-section">
-          <SectionHeading icon={DollarSign} title="Deals &amp; Revenue" linkTo="/properties" />
+          <SectionHeading icon={DollarSign} title="Deals & Revenue" linkTo="/dashboard/properties" />
           <div className="dash-cards-row">
-            <StatCard icon={CheckCircle2} label="Sales Closed"   value={soldProps.length}      linkTo="/properties?status=sold"   accent="#c0392b" sub={fmtEur(salesRevenue)} />
-            <StatCard icon={Key}          label="Long Lets"       value={longLetProps.length}   linkTo="/properties?status=rented" accent="#2980b9" sub={fmtEur(longLetRevenue)} />
-            <StatCard icon={Waves}        label="Short Lets"      value={shortLetProps.length}  linkTo="/properties?status=rented" accent={GOLD}    sub={fmtEur(shortLetRevenue)} />
-            <StatCard icon={Euro}         label="Total Revenue"   value={fmtEur(totalRevenue)}  linkTo="/properties"               accent={E_MID}  />
+            <StatCard icon={CheckCircle2} label="Sales Closed"   value={soldProps.length}      linkTo="/dashboard/properties"   accent="#c0392b" sub={fmtEur(salesRevenue)} />
+            <StatCard icon={Key}          label="Long Lets"       value={longLetProps.length}   linkTo="/dashboard/properties" accent="#2980b9" sub={fmtEur(longLetRevenue)} />
+            <StatCard icon={Waves}        label="Short Lets"      value={shortLetProps.length}  linkTo="/dashboard/properties" accent={GOLD}    sub={fmtEur(shortLetRevenue)} />
+            <StatCard icon={Euro}         label="Total Revenue"   value={fmtEur(totalRevenue)}  linkTo="/dashboard/properties"               accent={E_MID}  />
           </div>
           <div className="dash-cards-row dash-cards-row--narrow">
-            <StatCard icon={BarChart2}    label="Deals This Month" value={dealsThisMonth}        linkTo="/properties"               accent={GOLD2}  />
+            <StatCard icon={BarChart2}    label="Deals This Month" value={dealsThisMonth}        linkTo="/dashboard/properties"               accent={GOLD2}  />
           </div>
         </section>
 
@@ -659,6 +663,13 @@ function DashboardPage() {
             </div>
           </div>
         </section>
+
+        {/* ── FOOTER ───────────────────────────────────────── */}
+        <footer className="dash-footer">
+          <span className="dash-footer-brand">Golden Key Realty</span>
+          <span className="dash-footer-sep">·</span>
+          <span className="dash-footer-copy">© 2025 All rights reserved</span>
+        </footer>
       </div>
 
       {/* ── CHAT SIDEBAR ─────────────────────────────────── */}
