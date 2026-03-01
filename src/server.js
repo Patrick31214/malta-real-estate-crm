@@ -137,7 +137,10 @@ const startServer = async () => {
             where: {
               role: 'agent',
               isBlocked: false,
-              lastLoginAt: { [Op.lt]: thresholdDate }
+              [Op.or]: [
+                { lastLoginAt: { [Op.lt]: thresholdDate } },
+                { lastLoginAt: null }
+              ]
             }
           }
         );

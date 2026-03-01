@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { properties, auth } from '../services/api';
 import PropertyModal from '../components/PropertyModal';
 import './PropertiesPage.css';
@@ -220,7 +220,7 @@ function PropertiesPage() {
       {ownerId && (
         <div className="alert" style={{ background: 'var(--accent-soft, #fef9e7)', border: '1px solid var(--accent, #D4AF37)', borderRadius: 8, padding: '10px 16px', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 10 }}>
           <span>🏠 Showing properties for owner ID: <strong>{ownerId}</strong></span>
-          <a href="/properties" className="btn btn-outline btn-sm" style={{ marginLeft: 'auto' }}>Clear filter</a>
+          <Link to="/properties" className="btn btn-outline btn-sm" style={{ marginLeft: 'auto' }}>Clear filter</Link>
         </div>
       )}
 

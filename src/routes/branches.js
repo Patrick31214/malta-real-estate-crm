@@ -8,8 +8,8 @@ const limiter = rateLimit({ windowMs: 60 * 1000, max: 100 });
 
 router.get('/', limiter, authenticate, getBranches);
 router.get('/:id', limiter, authenticate, getBranch);
-router.post('/', limiter, authenticate, authorize('admin'), createBranch);
-router.put('/:id', limiter, authenticate, authorize('admin'), updateBranch);
-router.delete('/:id', limiter, authenticate, authorize('admin'), deleteBranch);
+router.post('/', limiter, authenticate, authorize('admin', 'manager'), createBranch);
+router.put('/:id', limiter, authenticate, authorize('admin', 'manager'), updateBranch);
+router.delete('/:id', limiter, authenticate, authorize('admin', 'manager'), deleteBranch);
 
 module.exports = router;
