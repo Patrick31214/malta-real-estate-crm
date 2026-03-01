@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Handshake } from 'lucide-react';
 
 function PartnersPage() {
@@ -11,14 +12,42 @@ function PartnersPage() {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/inquiries/public', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          inquiryType: 'partnership',
+          clientName: form.contactName,
+          clientEmail: form.email,
+          clientPhone: form.phone,
+          message: form.message,
+          source: 'website',
+          notes: `Company: ${form.company}, Partnership Type: ${form.partnershipType}`,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubmitted(true);
+      } else {
+        setError(data.message || 'Submission failed. Please try again.');
+      }
+    } catch {
+      setError('Network error. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -32,6 +61,9 @@ function PartnersPage() {
     }}>
       <div style={{ maxWidth: 640, width: '100%' }}>
         {/* Header */}
+        <div style={{ marginBottom: 16 }}>
+          <Link to="/" style={{ color: '#D4AF37', textDecoration: 'none', fontSize: 14 }}>← Back to Home</Link>
+        </div>
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
           <div style={{
             display: 'inline-flex',
@@ -94,6 +126,11 @@ function PartnersPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
+              {error && (
+                <div style={{ marginBottom: 16, padding: '12px 16px', background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 8, color: '#f87171', fontSize: 14 }}>
+                  ⚠️ {error}
+                </div>
+              )}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
                 <div>
                   <label style={labelStyle}>Company Name *</label>
@@ -177,8 +214,8 @@ function PartnersPage() {
                 />
               </div>
 
-              <button type="submit" style={submitButtonStyle}>
-                Submit Partnership Inquiry
+              <button type="submit" disabled={loading} style={{ ...submitButtonStyle, opacity: loading ? 0.7 : 1 }}>
+                {loading ? 'Submitting…' : 'Submit Partnership Inquiry'}
               </button>
             </form>
           )}

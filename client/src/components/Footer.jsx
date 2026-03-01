@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Key } from 'lucide-react';
 import './Footer.css';
 
@@ -28,11 +29,11 @@ export default function Footer() {
         <div>
           <h3 className="footer-col-title">Quick Links</h3>
           <ul className="footer-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#properties">Properties</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#about">About Us</a></li>
-            <li><a href="#contact">Contact Us</a></li>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/listings">Properties</Link></li>
+            <li><a href="/#services">Services</a></li>
+            <li><a href="/#about">About Us</a></li>
+            <li><a href="/#contact">Contact Us</a></li>
           </ul>
         </div>
 
@@ -40,9 +41,9 @@ export default function Footer() {
         <div>
           <h3 className="footer-col-title">Legal</h3>
           <ul className="footer-links">
-            <li><a href="/privacy-policy">Privacy Policy</a></li>
-            <li><a href="/terms">Terms &amp; Conditions</a></li>
-            <li><a href="/cookies">Cookie Policy</a></li>
+            <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+            <li><Link to="/terms">Terms &amp; Conditions</Link></li>
+            <li><Link to="/cookies">Cookie Policy</Link></li>
             <li><a href="#">GDPR Notice</a></li>
           </ul>
         </div>
