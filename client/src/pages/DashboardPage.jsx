@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Building2, CheckCircle, Handshake, Users, Calculator, MapPin, MessageSquare } from 'lucide-react';
+import { Building2, CheckCircle, Handshake, Users, Calculator, MapPin, MessageSquare, UserCheck, GitBranch } from 'lucide-react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
-import { properties, owners, activityLogs, branches, inquiries } from '../services/api';
+import { properties, owners, activityLogs, branches, inquiries, agents } from '../services/api';
 import './DashboardPage.css';
 
 const STATUS_COLORS = {
@@ -117,7 +117,9 @@ function DashboardPage() {
     sold: 0,
     rented: 0,
     underOffer: 0,
-    totalInquiries: 0
+    totalInquiries: 0,
+    totalAgents: 0,
+    totalBranches: 0,
   });
   const [allProperties, setAllProperties] = useState([]);
   const [activityFeed, setActivityFeed] = useState([]);
@@ -127,12 +129,13 @@ function DashboardPage() {
   useEffect(() => {
     async function fetchStats() {
       try {
-        const [propsRes, ownersRes, activityRes, branchesRes, inquiriesRes] = await Promise.all([
+        const [propsRes, ownersRes, activityRes, branchesRes, inquiriesRes, agentsRes] = await Promise.all([
           properties.getAll({ limit: 100 }),
           owners.getAll({ limit: 1 }),
           activityLogs.getAll({ limit: 10 }).catch(() => ({ success: false })),
           branches.getAll().catch(() => ({ success: false })),
-          inquiries.getAll({ limit: 1 }).catch(() => ({ success: false }))
+          inquiries.getAll({ limit: 1 }).catch(() => ({ success: false })),
+          agents.getAll({ limit: 1 }).catch(() => ({ success: false }))
         ]);
 
         if (propsRes.success) {
@@ -145,7 +148,9 @@ function DashboardPage() {
             sold: props.filter(p => p.status === 'sold').length,
             rented: props.filter(p => p.status === 'rented').length,
             underOffer: props.filter(p => p.status === 'under_offer').length,
-            totalInquiries: inquiriesRes.success ? (inquiriesRes.data?.pagination?.total ?? 0) : 0
+            totalInquiries: inquiriesRes.success ? (inquiriesRes.data?.pagination?.total ?? 0) : 0,
+            totalAgents: agentsRes.success ? (agentsRes.data?.pagination?.total ?? 0) : 0,
+            totalBranches: branchesRes.success ? (Array.isArray(branchesRes.data?.branches) ? branchesRes.data.branches.length : (Array.isArray(branchesRes.data) ? branchesRes.data.length : 0)) : 0,
           });
           setAllProperties(props);
         }
@@ -177,11 +182,13 @@ function DashboardPage() {
     <div className="dashboard">
       {/* Stats grid */}
       <div className="stats-grid">
-        <StatCard icon={Building2} label="Total Properties" value={stats.totalProperties} color="#1e3a5f" linkTo="/properties" />
-        <StatCard icon={CheckCircle} label="Available" value={stats.available} color="var(--emerald-primary, #2D6A4F)" linkTo="/properties?status=available" />
-        <StatCard icon={Handshake} label="Under Offer" value={stats.underOffer} color="#e8a020" linkTo="/properties?status=under_offer" />
-        <StatCard icon={Users} label="Owners" value={stats.totalOwners} color="#8e44ad" linkTo="/owners" />
-        <StatCard icon={MessageSquare} label="Inquiries" value={stats.totalInquiries} color="#0e7490" linkTo="/inquiries" />
+        <StatCard icon={Building2} label="Total Properties" value={stats.totalProperties} color="#1e3a5f" linkTo="/dashboard/properties" />
+        <StatCard icon={CheckCircle} label="Available" value={stats.available} color="var(--emerald-primary, #2D6A4F)" linkTo="/dashboard/properties" />
+        <StatCard icon={Handshake} label="Under Offer" value={stats.underOffer} color="#e8a020" linkTo="/dashboard/properties" />
+        <StatCard icon={Users} label="Owners" value={stats.totalOwners} color="#8e44ad" linkTo="/dashboard/owners" />
+        <StatCard icon={MessageSquare} label="Inquiries" value={stats.totalInquiries} color="#0e7490" linkTo="/dashboard/inquiries" />
+        <StatCard icon={UserCheck} label="Agents" value={stats.totalAgents} color="#2D6A4F" linkTo="/dashboard/agents" />
+        <StatCard icon={GitBranch} label="Branches" value={stats.totalBranches} color="#D4AF37" linkTo="/dashboard/branches" />
       </div>
 
       {isEmpty ? (

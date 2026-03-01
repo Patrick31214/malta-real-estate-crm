@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Building2, Users, UserCheck, MessageSquare, Activity, Globe, LogOut, Key, Calculator, Scale, Waves, GitBranch } from 'lucide-react';
+import { LayoutDashboard, Building2, Users, UserCheck, MessageSquare, Activity, Globe, LogOut, Key, Calculator, Scale, Waves, GitBranch, FolderOpen } from 'lucide-react';
 import { auth, inquiries } from '../services/api';
 import './Sidebar.css';
 
@@ -13,6 +13,7 @@ const navItems = [
   { to: '/services', label: 'Services', icon: Waves },
   { to: '/branches', label: 'Branches', icon: GitBranch },
   { to: '/mortgage-calculator', label: 'Mortgage Calc', icon: Calculator },
+  { to: '/file-manager', label: 'File Manager', icon: FolderOpen },
 ];
 
 const adminNavItems = [

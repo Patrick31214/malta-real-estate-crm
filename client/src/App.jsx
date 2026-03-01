@@ -18,6 +18,12 @@ import MortgageCalculatorPage from './pages/MortgageCalculatorPage';
 import MaltaCompliancePage from './pages/MaltaCompliancePage';
 import ServicesPage from './pages/ServicesPage';
 import BranchesPage from './pages/BranchesPage';
+import DashboardPropertiesPage from './pages/DashboardPropertiesPage';
+import DashboardInquiriesPage from './pages/DashboardInquiriesPage';
+import DashboardAgentsPage from './pages/DashboardAgentsPage';
+import DashboardOwnersPage from './pages/DashboardOwnersPage';
+import DashboardBranchesPage from './pages/DashboardBranchesPage';
+import FileManagerPage from './pages/FileManagerPage';
 import Layout from './components/Layout';
 import { auth } from './services/api';
 
@@ -84,6 +90,12 @@ function App() {
           <Route path="agents/:id/activity" element={<AgentActivityPage />} />
           <Route path="mortgage-calculator" element={<MortgageCalculatorPage />} />
           <Route path="compliance" element={<MaltaCompliancePage />} />
+          <Route path="dashboard/properties" element={<DashboardPropertiesPage />} />
+          <Route path="dashboard/inquiries" element={<DashboardInquiriesPage />} />
+          <Route path="dashboard/agents" element={<DashboardAgentsPage />} />
+          <Route path="dashboard/owners" element={<DashboardOwnersPage />} />
+          <Route path="dashboard/branches" element={<DashboardBranchesPage />} />
+          <Route path="file-manager" element={<FileManagerPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
