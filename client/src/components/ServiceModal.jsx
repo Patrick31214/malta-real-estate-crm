@@ -1,10 +1,12 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { services, upload } from '../services/api';
+import { services, upload, auth } from '../services/api';
 import './Modal.css';
 
 const CATEGORIES = ['boat_tour', 'car_rental', 'bike_rental', 'guided_tour', 'other'];
 const CURRENCIES = ['EUR', 'USD', 'GBP'];
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+const PARTNERSHIP_TYPES = ['none', 'company', 'individual'];
 
 const defaultForm = {
   title: '',
@@ -28,6 +30,14 @@ const defaultForm = {
   available: true,
   featured: false,
   images: [],
+  partnershipType: 'none',
+  partnerCompanyName: '',
+  partnerCompanyReg: '',
+  partnerContactName: '',
+  partnerContactPhone: '',
+  partnerContactEmail: '',
+  commissionDetails: '',
+  contractFile: '',
 };
 
 function SectionHeader({ title, open, onToggle }) {
@@ -47,7 +57,7 @@ function ServiceModal({ service, onClose, onSaved }) {
   const [pendingFiles, setPendingFiles] = useState([]);
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef(null);
-  const [sections, setSections] = useState({ basic: true, details: false, contact: false, media: false });
+  const [sections, setSections] = useState({ basic: true, details: false, contact: false, media: false, partnership: false });
   const toggleSection = name => setSections(s => ({ ...s, [name]: !s[name] }));
 
   useEffect(() => {
@@ -74,6 +84,14 @@ function ServiceModal({ service, onClose, onSaved }) {
         available: service.available !== false,
         featured: service.featured || false,
         images: Array.isArray(service.images) ? service.images : [],
+        partnershipType: service.partnershipType || 'none',
+        partnerCompanyName: service.partnerCompanyName || '',
+        partnerCompanyReg: service.partnerCompanyReg || '',
+        partnerContactName: service.partnerContactName || '',
+        partnerContactPhone: service.partnerContactPhone || '',
+        partnerContactEmail: service.partnerContactEmail || '',
+        commissionDetails: service.commissionDetails || '',
+        contractFile: service.contractFile || '',
       });
     }
   }, [service]);
@@ -153,6 +171,7 @@ function ServiceModal({ service, onClose, onSaved }) {
         price: form.price !== '' ? Number(form.price) : 0,
         maxParticipants: form.maxParticipants !== '' ? Number(form.maxParticipants) : null,
         images: [...form.images, ...uploadedUrls],
+        listedBy: !service ? (auth.getUser()?.id || null) : undefined,
       };
       const res = service
         ? await services.update(service.id, payload)
@@ -370,6 +389,70 @@ function ServiceModal({ service, onClose, onSaved }) {
                     ))}
                   </div>
                 )}
+              </div>
+            </div>
+          )}
+
+          <SectionHeader title="🤝 Partnership & Commission" open={sections.partnership} onToggle={() => toggleSection('partnership')} />
+          {sections.partnership && (
+            <div className="form-section">
+              <div className="form-group">
+                <label>Partnership Type</label>
+                <select name="partnershipType" className="form-input" value={form.partnershipType} onChange={handleChange}>
+                  {PARTNERSHIP_TYPES.map(t => <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
+                </select>
+              </div>
+              {form.partnershipType === 'company' && (
+                <>
+                  <div className="form-row">
+                    <div className="form-group flex-2">
+                      <label>Company Name</label>
+                      <input name="partnerCompanyName" className="form-input" value={form.partnerCompanyName} onChange={handleChange} placeholder="Partner Company Ltd" />
+                    </div>
+                    <div className="form-group">
+                      <label>Company Registration</label>
+                      <input name="partnerCompanyReg" className="form-input" value={form.partnerCompanyReg} onChange={handleChange} placeholder="C12345" />
+                    </div>
+                  </div>
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Contact Name</label>
+                      <input name="partnerContactName" className="form-input" value={form.partnerContactName} onChange={handleChange} placeholder="Contact person" />
+                    </div>
+                    <div className="form-group">
+                      <label>Contact Phone</label>
+                      <input name="partnerContactPhone" className="form-input" value={form.partnerContactPhone} onChange={handleChange} placeholder="+356 9900 0000" />
+                    </div>
+                    <div className="form-group">
+                      <label>Contact Email</label>
+                      <input name="partnerContactEmail" type="email" className="form-input" value={form.partnerContactEmail} onChange={handleChange} placeholder="partner@company.mt" />
+                    </div>
+                  </div>
+                </>
+              )}
+              {form.partnershipType === 'individual' && (
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Contact Name</label>
+                    <input name="partnerContactName" className="form-input" value={form.partnerContactName} onChange={handleChange} placeholder="Individual partner name" />
+                  </div>
+                  <div className="form-group">
+                    <label>Contact Phone</label>
+                    <input name="partnerContactPhone" className="form-input" value={form.partnerContactPhone} onChange={handleChange} placeholder="+356 9900 0000" />
+                  </div>
+                  <div className="form-group">
+                    <label>Contact Email</label>
+                    <input name="partnerContactEmail" type="email" className="form-input" value={form.partnerContactEmail} onChange={handleChange} placeholder="partner@email.com" />
+                  </div>
+                </div>
+              )}
+              <div className="form-group">
+                <label>Commission / Revenue Share Details</label>
+                <textarea name="commissionDetails" className="form-input" rows={3} value={form.commissionDetails} onChange={handleChange} placeholder="e.g. 15% commission on bookings, paid monthly…" style={{ resize: 'vertical' }} />
+              </div>
+              <div className="form-group">
+                <label>Contract File (PDF URL or path)</label>
+                <input name="contractFile" className="form-input" value={form.contractFile} onChange={handleChange} placeholder="/uploads/contracts/contract-001.pdf" />
               </div>
             </div>
           )}
