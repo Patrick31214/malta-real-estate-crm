@@ -10,7 +10,7 @@ export const STATUS_COLORS = {
   available:   '#B8864E',
   under_offer: '#D4AF37',
   sold:        '#c0392b',
-  rented:      '#2980b9',
+  rented:      '#5C3519',
   draft:       '#666',
   withdrawn:   '#888',
 };
@@ -26,7 +26,7 @@ export const TOOLTIP_STYLE = {
 // ─── priority config ─────────────────────────────────────────────
 export const PRIORITY_CONFIG = {
   low:    { color: '#888888', bg: 'rgba(136,136,136,0.15)', label: 'Low',    pulse: false },
-  normal: { color: '#2980b9', bg: 'rgba(41,128,185,0.15)',  label: 'Normal', pulse: false },
+  normal: { color: '#A07848', bg: 'rgba(160,120,72,0.15)',  label: 'Normal', pulse: false },
   high:   { color: '#e67e22', bg: 'rgba(230,126,34,0.15)',  label: 'High',   pulse: false },
   urgent: { color: '#c0392b', bg: 'rgba(192,57,43,0.15)',   label: 'Urgent', pulse: true  },
 };

@@ -150,9 +150,9 @@
   justify-content: center;
 }
 .fm-file-icon--pdf  { color: #e74c3c; }
-.fm-file-icon--docx { color: #2980b9; }
+.fm-file-icon--docx { color: #B8864E; }
 .fm-file-icon--img  { color: #C4954A; }
-.fm-file-icon--mp4  { color: #9b59b6; }
+.fm-file-icon--mp4  { color: #D4AF37; }
 .fm-file-info {
   flex: 1;
   min-width: 0;

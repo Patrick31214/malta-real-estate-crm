@@ -105,7 +105,7 @@
   --success: var(--green-primary, #C4954A);
   --danger: #c0392b;
   --warning: #e67e22;
-  --info: #2980b9;
+  --info: #A07848;
   --text-dark: var(--text-primary, #2C1A0E);
   --text-medium: var(--text-secondary, #4A2C17);
   --text-light: var(--text-muted, #7A5C3C);
@@ -385,13 +385,13 @@ input, select, textarea {
 .badge-available { background: rgba(196, 149, 74, 0.18); color: #6B3D1E; border: 1px solid rgba(196,149,74,0.35); }
 .badge-under_offer { background: rgba(212, 175, 55, 0.15); color: #8a6700; border: 1px solid rgba(212,175,55,0.3); }
 .badge-sold { background: rgba(192, 57, 43, 0.12); color: #922b21; border: 1px solid rgba(192,57,43,0.25); }
-.badge-rented { background: rgba(41, 128, 185, 0.12); color: #1a5276; border: 1px solid rgba(41,128,185,0.25); }
+.badge-rented { background: rgba(92, 53, 25, 0.12); color: #5C3519; border: 1px solid rgba(92,53,25,0.25); }
 .badge-draft { background: rgba(120, 120, 120, 0.1); color: #555; border: 1px solid rgba(0,0,0,0.12); }
 .badge-withdrawn { background: rgba(100, 100, 100, 0.08); color: #6c757d; border: 1px solid rgba(0,0,0,0.1); }
 .badge-off_market { background: rgba(80, 80, 80, 0.12); color: #4a4a55; border: 1px solid rgba(0,0,0,0.15); }
 .badge-sale { background: rgba(196, 149, 74, 0.15); color: #6B3D1E; border: 1px solid rgba(196,149,74,0.30); }
-.badge-rent { background: rgba(41, 128, 185, 0.12); color: #1a5276; border: 1px solid rgba(41,128,185,0.25); }
-.badge-lease { background: rgba(113, 81, 192, 0.12); color: #5a2d8c; border: 1px solid rgba(113,81,192,0.25); }
+.badge-rent { background: rgba(92, 53, 25, 0.12); color: #5C3519; border: 1px solid rgba(92,53,25,0.25); }
+.badge-lease { background: rgba(138, 90, 50, 0.12); color: #5C3519; border: 1px solid rgba(138,90,50,0.25); }
 .badge-pending { background: rgba(212, 175, 55, 0.18); color: #8a6700; border: 1px solid rgba(212,175,55,0.35); }
 .badge-approved { background: rgba(196, 149, 74, 0.15); color: #6B3D1E; border: 1px solid rgba(196,149,74,0.30); }
 .badge-rejected { background: rgba(192, 57, 43, 0.12); color: #922b21; border: 1px solid rgba(192,57,43,0.25); }

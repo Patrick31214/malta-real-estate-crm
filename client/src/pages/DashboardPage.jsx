@@ -336,7 +336,7 @@ function DashboardPage() {
           <SectionHeading icon={DollarSign} title="Deals & Revenue" linkTo="/properties" />
           <div className="dash-cards-row">
             <StatCard icon={CheckCircle2} label="Sales Closed"  value={soldProps.length}     linkTo="/properties" accent="#c0392b" sub={fmtEur(salesRevenue)} />
-            <StatCard icon={Home}         label="Long Lets"      value={longLetProps.length}  linkTo="/properties" accent="#2980b9" sub={fmtEur(longLetRevenue)} />
+            <StatCard icon={Home}         label="Long Lets"      value={longLetProps.length}  linkTo="/properties" accent="#5C3519" sub={fmtEur(longLetRevenue)} />
             <StatCard icon={Waves}        label="Short Lets"     value={shortLetProps.length} linkTo="/properties" accent={GOLD}    sub={fmtEur(shortLetRevenue)} />
             <StatCard icon={Euro}         label="Total Revenue"  value={fmtEur(totalRevenue)} linkTo="/properties" accent={E_MID}  />
           </div>
@@ -392,7 +392,7 @@ function DashboardPage() {
           <div className="dash-cards-row">
             <StatCard icon={UserCheck} label="Agent-Viewed Contacts" value={ownerOutreach.total}    linkTo="/owners" accent={E_MID}  />
             <StatCard icon={UserCheck} label="Contacts This Month"   value={ownerOutreach.thisMonth} linkTo="/owners" accent={GOLD}   />
-            <StatCard icon={Bot}       label="AI Automated Contacts" value={aiStats.totalAI}         linkTo="/owners" accent="#8e44ad" />
+            <StatCard icon={Bot}       label="AI Automated Contacts" value={aiStats.totalAI}         linkTo="/owners" accent="#C4954A" />
             <StatCard icon={Activity}  label="Agent-Initiated Comms" value={aiStats.totalAgent}      linkTo="/owners" accent={GOLD2}  />
           </div>
         </section>

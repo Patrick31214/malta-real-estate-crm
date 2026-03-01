@@ -477,9 +477,9 @@
   backdrop-filter: blur(8px);
 }
 
-.listing-badge-sale  { background: rgba(39,174,96,0.9);  color: white; }
-.listing-badge-rent  { background: rgba(41,128,185,0.9);  color: white; }
-.listing-badge-lease { background: rgba(113,81,192,0.9);  color: white; }
+.listing-badge-sale  { background: rgba(184,134,78,0.9);  color: white; }
+.listing-badge-rent  { background: rgba(92,53,25,0.9);    color: white; }
+.listing-badge-lease { background: rgba(138,90,50,0.9);   color: white; }
 
 .listing-badge-rental {
   position: absolute;

@@ -20,7 +20,7 @@ export function DealsBar({ propList }) {
         <Tooltip contentStyle={TOOLTIP_STYLE} formatter={v => [`${v} deals`, 'Count']} />
         <Bar dataKey="count" radius={[4, 4, 0, 0]}>
           <Cell fill="#c0392b" />
-          <Cell fill="#2980b9" />
+          <Cell fill="#5C3519" />
           <Cell fill={GOLD} />
         </Bar>
       </BarChart>
