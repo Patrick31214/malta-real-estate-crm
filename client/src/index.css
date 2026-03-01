@@ -6,69 +6,13 @@
 
 /* ===== THEME VARIABLES ===== */
 [data-theme="dark"] {
-  /* Backgrounds: near-black warm dark */
-  --bg-primary: #0F0D0A;
-  --bg-secondary: #1C1812;
-  --bg-tertiary: #2A2117;
-  /* Text: champagne / sandy beige tones */
-  --text-primary: #F7E4CE;
-  --text-secondary: rgba(247, 228, 206, 0.78);
-  --text-muted: rgba(247, 228, 206, 0.50);
-  /* Gold brand palette */
-  --gold-primary: #D4AF37;
-  --gold-bright: #F2C94C;
-  --gold-deep: #A67C00;
-  --gold-soft: #E6B65C;
-  /* Brown accent (replaces green) — caramel / sandy beige */
-  --green-primary: #C4954A;
-  --green-soft: #D4B08C;
-  --green-dark: #3C2010;
-  --green-muted: #A07848;
-  /* Glass effects: warm translucent */
-  --glass-bg: rgba(255, 225, 175, 0.07);
-  --glass-border: rgba(196, 149, 74, 0.25);
-  --glass-shadow: rgba(0, 0, 0, 0.50);
-  --glass-green: rgba(196, 149, 74, 0.10);
-  /* Emerald → mahogany/caramel luxury brown */
-  --emerald-primary: #8A5A32;
-  --emerald-light: #C4954A;
-  --emerald-dark: #5C3519;
-  --emerald-glow: rgba(138, 90, 50, 0.35);
-  --emerald-glass: rgba(138, 90, 50, 0.18);
-  --emerald-gradient: linear-gradient(135deg, #8A5A32, #C4954A);
-}
-
-[data-theme="light"] {
-  /* Backgrounds: warm cream / beige */
-  --bg-primary: #F5EADB;
-  --bg-secondary: #FFFBF5;
-  --bg-tertiary: rgba(139, 90, 43, 0.06);
-  /* Text: rich dark browns — espresso / chocolate */
-  --text-primary: #2C1A0E;
-  --text-secondary: #4A2C17;
-  --text-muted: #7A5C3C;
-  /* Gold brand palette */
-  --gold-primary: #D4AF37;
-  --gold-bright: #F2C94C;
-  --gold-deep: #A67C00;
-  --gold-soft: #E6B65C;
-  /* Brown accent (replaces green) — mahogany / espresso */
-  --green-primary: #6B3D1E;
-  --green-soft: #8A5A32;
-  --green-dark: #FEF5E4;
-  --green-muted: #7A5238;
-  /* Glass effects: warm semi-transparent cream */
-  --glass-bg: rgba(255, 248, 230, 0.65);
-  --glass-border: rgba(139, 90, 43, 0.15);
-  --glass-shadow: rgba(80, 40, 10, 0.10);
-  --glass-green: rgba(139, 90, 43, 0.08);
-  /* Emerald → mahogany luxury brown */
-  --emerald-primary: #8A5A32;
-  --emerald-light: #B8864E;
-  --emerald-dark: #5C3519;
-  --emerald-glow: rgba(138, 90, 50, 0.18);
-  --emerald-glass: rgba(138, 90, 50, 0.08);
-  --emerald-gradient: linear-gradient(135deg, #6B3D1E, #8A5A32);
+  --bg-primary: var(--bg-primary-dark);
+  --bg-secondary: var(--bg-secondary-dark);
+  --text-primary: var(--text-primary-dark);
+  --text-secondary: var(--text-secondary-dark);
+  --glass-bg: var(--glass-bg-dark);
+  --glass-border: var(--glass-border-dark);
+  --glass-shadow: var(--glass-shadow-dark);
 }
 
 * {
@@ -76,52 +20,53 @@
 }
 
 :root {
-  /* Luxury Brown & Gold Brand Variables */
-  --emerald-primary: #8A5A32;
-  --emerald-light: #C4954A;
-  --emerald-dark: #5C3519;
-  --gold-primary: #D4AF37;
-  --gold-light: #F0D060;
-  --black-primary: #0F0D0A;
-  --black-secondary: #1C1812;
-  --glass-bg: rgba(196, 149, 74, 0.08);
-  --glass-border: rgba(196, 149, 74, 0.20);
-  --glass-shadow: 0 4px 15px rgba(80, 40, 10, 0.25);
-  /* Golden Key Realty – Luxury Brown Glassmorphism Palette */
-  --gold: var(--gold-primary, #D4AF37);
-  --gold-dark: var(--gold-deep, #A67C00);
-  --charcoal: var(--text-primary, #2C1A0E);
-  --charcoal-mid: var(--bg-tertiary, #2A2117);
-  --cream: var(--bg-primary, #F5EADB);
-  --pearl: var(--bg-secondary, #FFFBF5);
-  --warm-honey: var(--bg-tertiary, #FEF5E4);
-  /* Legacy aliases */
-  --primary: var(--bg-secondary, #1C1812);
-  --primary-light: var(--bg-tertiary, #2A2117);
-  --primary-dark: var(--bg-primary, #0F0D0A);
-  --accent: var(--gold-primary, #D4AF37);
-  --accent-light: var(--gold-soft, #E6B65C);
-  --accent-dark: var(--gold-deep, #A67C00);
-  --success: var(--green-primary, #C4954A);
-  --danger: #c0392b;
-  --warning: #e67e22;
-  --info: #A07848;
-  --text-dark: var(--text-primary, #2C1A0E);
-  --text-medium: var(--text-secondary, #4A2C17);
-  --text-light: var(--text-muted, #7A5C3C);
-  --bg-page: var(--bg-primary, #F5EADB);
-  --bg-gradient: var(--bg-primary, #F5EADB);
-  --bg-card: var(--glass-bg, rgba(255, 248, 230, 0.65));
-  --bg-sidebar: var(--bg-secondary, #1C1812);
-  --border: var(--glass-border, rgba(196, 149, 74, 0.20));
-  --border-gold: rgba(212, 175, 55, 0.35);
-  --shadow: 0 2px 12px rgba(80, 40, 10, 0.08);
-  --shadow-lg: 0 8px 32px rgba(80, 40, 10, 0.12);
-  --shadow-gold: 0 4px 20px rgba(212, 175, 55, 0.3);
-  --radius: 16px;
-  --radius-sm: 10px;
-  --sidebar-width: 264px;
-  --header-height: 68px;
+  /* Base Colors - Minimal Luxury Palette */
+  --color-primary-brown: #7A6B5F;      /* Primary Brown */
+  --color-secondary-brown: #6B5F52;    /* Secondary Brown */
+  --color-accent-brown: #8B7D6F;       /* Accent Brown */
+  --color-muted-gold: #B8A57F;         /* Muted Gold */
+  --color-text-dark: #3A3A3A;          /* Dark Text */
+  --color-text-light: #E8E8E8;         /* Light Text */
+
+  /* Glassmorphism Properties */
+  --glass-blur: 12px;                  /* Subtle blur effect */
+  --glass-border-opacity: 0.15;        /* Subtle border opacity */
+  --glass-shadow-opacity: 0.12;        /* Soft shadow opacity */
+
+  /* Light Theme Variables */
+  --bg-primary-light: #E8DFD5;         /* Light Warm Beige */
+  --bg-secondary-light: #F0E8E0;       /* Slightly darker beige */
+  --text-primary-light: var(--color-text-dark);
+  --text-secondary-light: var(--color-primary-brown);
+  --glass-bg-light: rgba(255, 255, 255, 0.15);
+  --glass-border-light: rgba(122, 107, 95, var(--glass-border-opacity));
+  --glass-shadow-light: rgba(122, 107, 95, var(--glass-shadow-opacity));
+
+  /* Dark Theme Variables */
+  --bg-primary-dark: #2A2420;          /* Dark Warm Taupe */
+  --bg-secondary-dark: #3A3530;        /* Slightly lighter taupe */
+  --text-primary-dark: var(--color-text-light);
+  --text-secondary-dark: var(--color-muted-gold);
+  --glass-bg-dark: rgba(0, 0, 0, 0.15);
+  --glass-border-dark: rgba(184, 165, 127, var(--glass-border-opacity));
+  --glass-shadow-dark: rgba(184, 165, 127, var(--glass-shadow-opacity));
+
+  /* Dynamic Theme Variables (controlled by data-theme attribute) */
+  --bg-primary: var(--bg-primary-light);
+  --bg-secondary: var(--bg-secondary-light);
+  --text-primary: var(--text-primary-light);
+  --text-secondary: var(--text-secondary-light);
+  --glass-bg: var(--glass-bg-light);
+  --glass-border: var(--glass-border-light);
+  --glass-shadow: var(--glass-shadow-light);
+
+  /* Gradients */
+  --luxury-gradient: linear-gradient(135deg, var(--color-primary-brown), var(--color-accent-brown));
+  --luxury-gradient-hover: linear-gradient(135deg, var(--color-secondary-brown), var(--color-muted-gold));
+
+  /* Sidebar width and other layout variables */
+  --sidebar-width: 280px;
+  --radius: 8px;
 }
 
 body {
