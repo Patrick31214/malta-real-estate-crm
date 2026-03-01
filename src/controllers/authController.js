@@ -104,6 +104,7 @@ const login = async (req, res) => {
       return res.status(403).json({
         success: false,
         message: 'Your account has been blocked. Please contact administrator.'
+        message: 'Your account has been blocked. Contact administrator.'
       });
     }
 

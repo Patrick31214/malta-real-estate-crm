@@ -1,4 +1,6 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { listings as listingsApi, servicesPublic } from '../services/api';
 import './HomePage.css';
 
 /* ─── Static data ─────────────────────────────────────────────── */
@@ -110,19 +112,83 @@ const TESTIMONIALS = [
 
 /* ─── Component ───────────────────────────────────────────────── */
 export default function HomePage() {
+  const [featuredProperties, setFeaturedProperties] = useState(null);
+  const [apiServices, setApiServices] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [contactForm, setContactForm] = useState({ name: '', email: '', phone: '', message: '' });
+  const [contactSubmitting, setContactSubmitting] = useState(false);
+  const [contactResult, setContactResult] = useState(null); // 'success' | 'error'
+
+  useEffect(() => {
+    listingsApi.getAll({ featured: true, limit: 6 })
+      .then(data => {
+        if (data?.success && data?.data?.properties?.length > 0) {
+          setFeaturedProperties(data.data.properties);
+        }
+      })
+      .catch(() => {});
+    servicesPublic.getPublic()
+      .then(data => {
+        if (data?.success && data?.data?.services?.length > 0) {
+          setApiServices(data.data.services);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const displayProperties = featuredProperties || PROPERTIES;
+  const displayServices = apiServices
+    ? apiServices.slice(0, 4).map(s => ({ icon: s.emoji || '🏠', title: s.name, desc: s.description }))
+    : SERVICES;
+
+  const handleContactChange = (e) => {
+    setContactForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    setContactSubmitting(true);
+    setContactResult(null);
+    try {
+      const res = await fetch('/api/inquiries/public', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          inquiryType: 'general',
+          clientName: contactForm.name,
+          clientEmail: contactForm.email,
+          clientPhone: contactForm.phone,
+          message: contactForm.message,
+          source: 'website',
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setContactResult('success');
+        setContactForm({ name: '', email: '', phone: '', message: '' });
+      } else {
+        setContactResult('error');
+      }
+    } catch {
+      setContactResult('error');
+    } finally {
+      setContactSubmitting(false);
+    }
+  };
+
   return (
     <div className="hp-page">
       {/* ── Navigation ── */}
       <nav className="hp-nav">
-        <a href="/" className="hp-nav-logo">
+        <Link to="/" className="hp-nav-logo">
           <span className="hp-nav-logo-icon">🔑</span>
           Golden Key Realty
-        </a>
+        </Link>
 
-        <ul className="hp-nav-links">
+        <ul className={`hp-nav-links${mobileMenuOpen ? ' open' : ''}`}>
           {/* Home */}
           <li className="hp-nav-item">
-            <a href="/" className="hp-nav-link">Home</a>
+            <Link to="/" className="hp-nav-link">Home</Link>
           </li>
 
           {/* Properties mega */}
@@ -131,12 +197,12 @@ export default function HomePage() {
               Properties <span className="hp-nav-chevron">▾</span>
             </span>
             <div className="hp-mega-menu">
-              <a href="/listings?type=sale">For Sale</a>
-              <a href="/listings?type=long-let">For Rent (Long Let)</a>
-              <a href="/listings?type=short-let">Short Let</a>
-              <a href="/listings?type=commercial">Commercial</a>
+              <Link to="/listings?type=sale">For Sale</Link>
+              <Link to="/listings?type=long-let">For Rent (Long Let)</Link>
+              <Link to="/listings?type=short-let">Short Let</Link>
+              <Link to="/listings?type=commercial">Commercial</Link>
               <hr />
-              <a href="/listings" className="hp-mega-see-all">Browse All →</a>
+              <Link to="/listings" className="hp-mega-see-all">Browse All →</Link>
             </div>
           </li>
 
@@ -164,7 +230,7 @@ export default function HomePage() {
               <a href="/#about">About Us</a>
               <a href="/#team">Our Team</a>
               <a href="/#branches">Our Branches</a>
-              <a href="/join-us">Careers</a>
+              <Link to="/join-us">Careers</Link>
             </div>
           </li>
 
@@ -186,11 +252,19 @@ export default function HomePage() {
               Join Us <span className="hp-nav-chevron">▾</span>
             </span>
             <div className="hp-mega-menu">
-              <a href="/join-us">Become an Affiliate</a>
-              <a href="/partners">Partner With Us</a>
+              <Link to="/join-us">Become an Affiliate</Link>
+              <Link to="/partners">Partner With Us</Link>
             </div>
           </li>
         </ul>
+
+        <button
+          className="hp-mobile-toggle"
+          aria-label="Toggle navigation"
+          onClick={() => setMobileMenuOpen(prev => !prev)}
+        >
+          {mobileMenuOpen ? '✕' : '☰'}
+        </button>
 
         <Link to="/login" className="hp-nav-login">🔐 Login</Link>
       </nav>
@@ -273,23 +347,44 @@ export default function HomePage() {
           </p>
 
           <div className="hp-props-grid">
-            {PROPERTIES.map((p) => (
-              <div key={p.id} className="hp-prop-card">
-                <div className={`hp-prop-img ${p.imgClass}`}>
-                  <span className="hp-prop-badge">{p.badge}</span>
-                  <span>{p.emoji}</span>
-                </div>
-                <div className="hp-prop-body">
-                  <div className="hp-prop-title">{p.title}</div>
-                  <div className="hp-prop-location">📍 {p.location}</div>
-                  <div className="hp-prop-price">{p.price}</div>
-                  <div className="hp-prop-meta">
-                    <span>🛏 {p.beds} beds</span>
-                    <span>🚿 {p.baths} baths</span>
+            {displayProperties.map((p) => {
+              const isApi = featuredProperties !== null;
+              const image = isApi ? (p.images?.[0] || null) : null;
+              let badge, location, price, beds, baths;
+              if (isApi) {
+                badge = p.listingType === 'sale' ? 'For Sale' : p.rentalType === 'long_let' ? 'Long Let' : 'Short Let';
+                location = p.city ? `${p.city}, Malta` : 'Malta';
+                price = p.price ? `€${Number(p.price).toLocaleString()}${p.listingType === 'rent' ? ' / mo' : ''}` : 'Price on request';
+                beds = p.bedrooms;
+                baths = p.bathrooms;
+              } else {
+                badge = p.badge;
+                location = p.location;
+                price = p.price;
+                beds = p.beds;
+                baths = p.baths;
+              }
+              return (
+                <Link key={p.id} to={`/listings?property=${p.id}`} className="hp-prop-card" style={{ textDecoration: 'none' }}>
+                  <div
+                    className={`hp-prop-img${!isApi ? ` ${p.imgClass}` : ''}`}
+                    style={image ? { backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
+                  >
+                    <span className="hp-prop-badge">{badge}</span>
+                    {!image && <span>{isApi ? '🏠' : p.emoji}</span>}
                   </div>
-                </div>
-              </div>
-            ))}
+                  <div className="hp-prop-body">
+                    <div className="hp-prop-title">{p.title}</div>
+                    <div className="hp-prop-location">📍 {location}</div>
+                    <div className="hp-prop-price">{price}</div>
+                    <div className="hp-prop-meta">
+                      {beds && <span>🛏 {beds} beds</span>}
+                      {baths && <span>🚿 {baths} baths</span>}
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
 
           <div className="hp-center">
@@ -306,7 +401,7 @@ export default function HomePage() {
             Beyond property — a complete lifestyle solution in Malta
           </p>
           <div className="hp-services-grid">
-            {SERVICES.map((s) => (
+            {displayServices.map((s) => (
               <div key={s.title} className="hp-service-card">
                 <div className="hp-service-icon">{s.icon}</div>
                 <div className="hp-service-title">{s.title}</div>
@@ -424,6 +519,79 @@ export default function HomePage() {
               </a>
             </div>
           </div>
+
+          {/* Contact form */}
+          <div className="hp-contact-form-wrap" style={{ marginTop: '2rem' }}>
+            {contactResult === 'success' ? (
+              <div className="hp-contact-form-success">
+                ✅ Message sent! Our team will get back to you shortly.
+              </div>
+            ) : (
+              <form className="hp-contact-form" onSubmit={handleContactSubmit}>
+                {contactResult === 'error' && (
+                  <div className="hp-contact-form-error">
+                    ⚠️ Something went wrong. Please try again or contact us directly.
+                  </div>
+                )}
+                <div className="hp-contact-form-row">
+                  <div>
+                    <label className="hp-contact-form-label">Full Name *</label>
+                    <input
+                      className="hp-contact-form-input"
+                      name="name"
+                      value={contactForm.name}
+                      onChange={handleContactChange}
+                      required
+                      placeholder="Your name"
+                    />
+                  </div>
+                  <div>
+                    <label className="hp-contact-form-label">Email *</label>
+                    <input
+                      className="hp-contact-form-input"
+                      name="email"
+                      type="email"
+                      value={contactForm.email}
+                      onChange={handleContactChange}
+                      required
+                      placeholder="you@example.com"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="hp-contact-form-label">Phone</label>
+                  <input
+                    className="hp-contact-form-input"
+                    name="phone"
+                    value={contactForm.phone}
+                    onChange={handleContactChange}
+                    placeholder="+356 ..."
+                  />
+                </div>
+                <div>
+                  <label className="hp-contact-form-label">Message *</label>
+                  <textarea
+                    className="hp-contact-form-input"
+                    name="message"
+                    value={contactForm.message}
+                    onChange={handleContactChange}
+                    required
+                    rows={4}
+                    placeholder="How can we help you?"
+                    style={{ resize: 'vertical' }}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="hp-btn-primary"
+                  disabled={contactSubmitting}
+                  style={{ marginTop: '0.5rem' }}
+                >
+                  {contactSubmitting ? 'Sending…' : '📩 Send Message'}
+                </button>
+              </form>
+            )}
+          </div>
         </div>
       </div>
 
@@ -432,7 +600,7 @@ export default function HomePage() {
         <div className="hp-footer-grid">
           {/* Col 1 — Brand */}
           <div>
-            <a href="/" className="hp-footer-logo">🔑 Golden Key Realty</a>
+            <Link to="/" className="hp-footer-logo">🔑 Golden Key Realty</Link>
             <p className="hp-footer-tagline">
               Your trusted partner for premium properties across the Maltese islands.
             </p>
@@ -450,12 +618,12 @@ export default function HomePage() {
           <div>
             <div className="hp-footer-col-title">Quick Links</div>
             <ul className="hp-footer-links">
-              <li><a href="/">Home</a></li>
-              <li><a href="/listings">Properties</a></li>
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/listings">Properties</Link></li>
               <li><a href="/#services">Services</a></li>
               <li><a href="/#about">About Us</a></li>
               <li><a href="/#contact">Contact Us</a></li>
-              <li><a href="/join-us">Join Us</a></li>
+              <li><Link to="/join-us">Join Us</Link></li>
             </ul>
           </div>
 
@@ -463,10 +631,10 @@ export default function HomePage() {
           <div>
             <div className="hp-footer-col-title">Legal</div>
             <ul className="hp-footer-links">
-              <li><a href="/privacy-policy">Privacy Policy</a></li>
-              <li><a href="/terms">Terms &amp; Conditions</a></li>
-              <li><a href="/cookies">Cookie Policy</a></li>
-              <li><a href="/#">GDPR Notice</a></li>
+              <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+              <li><Link to="/terms">Terms &amp; Conditions</Link></li>
+              <li><Link to="/cookies">Cookie Policy</Link></li>
+              <li><a href="#">GDPR Notice</a></li>
             </ul>
           </div>
 

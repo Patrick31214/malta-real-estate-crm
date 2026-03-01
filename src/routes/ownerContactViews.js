@@ -8,6 +8,21 @@ const { Op } = require('sequelize');
 const DAILY_VIEW_LIMIT = parseInt(process.env.OWNER_VIEW_LIMIT || '50', 10);
 const limiter = rateLimit({ windowMs: 60 * 1000, max: 100 });
 
+// GET /api/owner-contact-views/summary
+router.get('/summary', limiter, authenticateToken, async (req, res) => {
+  try {
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const [total, thisMonth] = await Promise.all([
+      OwnerContactView.count(),
+      OwnerContactView.count({ where: { viewedAt: { [Op.gte]: startOfMonth } } }),
+    ]);
+    res.json({ success: true, data: { total, thisMonth } });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // Log a view of owner contact details
 router.post('/', limiter, authenticateToken, async (req, res) => {
   try {

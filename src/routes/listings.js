@@ -48,11 +48,12 @@ router.get('/', async (req, res) => {
       where,
       // Only expose non-sensitive fields to the public
       attributes: [
-        'id', 'title', 'description', 'propertyType', 'listingType', 'status',
+        'id', 'title', 'description', 'propertyType', 'listingType', 'rentalType', 'status',
         'price', 'currency', 'bedrooms', 'bathrooms', 'squareMeters',
         'address', 'city', 'country', 'latitude', 'longitude',
         'features', 'images', 'viewCount', 'createdAt',
         'rentalType', 'availableFrom', 'updatedAt', 'furnished', 'featured'
+        'features', 'images', 'viewCount', 'availableFrom', 'createdAt', 'updatedAt'
       ],
       include: [
         {
@@ -101,11 +102,12 @@ router.get('/:id', async (req, res) => {
     const property = await Property.findOne({
       where: { id: req.params.id, isActive: true, status: 'available', approvalStatus: 'approved' },
       attributes: [
-        'id', 'title', 'description', 'propertyType', 'listingType', 'status',
+        'id', 'title', 'description', 'propertyType', 'listingType', 'rentalType', 'status',
         'price', 'currency', 'bedrooms', 'bathrooms', 'squareMeters',
         'address', 'city', 'country', 'latitude', 'longitude',
         'features', 'images', 'viewCount', 'createdAt',
         'rentalType', 'availableFrom', 'updatedAt', 'furnished', 'featured'
+        'features', 'images', 'viewCount', 'availableFrom', 'createdAt', 'updatedAt'
       ],
       include: [
         {

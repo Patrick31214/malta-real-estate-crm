@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { MapContainer, TileLayer, CircleMarker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -867,11 +868,13 @@ function ListingsPageInner() {
       <header className="listings-header">
         <div className="listings-header-inner">
           <div className="listings-logo">
-            <span className="listings-logo-icon">🗝️</span>
-            <div>
-              <div className="listings-logo-title">Golden Key Realty</div>
-              <div className="listings-logo-sub">Malta's Premium Property Portal</div>
-            </div>
+            <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: 'inherit' }}>
+              <span className="listings-logo-icon">🗝️</span>
+              <div>
+                <div className="listings-logo-title">Golden Key Realty</div>
+                <div className="listings-logo-sub">Malta's Premium Property Portal</div>
+              </div>
+            </Link>
           </div>
           <div className="listings-header-actions">
             <select className="header-select" value={lang} onChange={e => changeLang(e.target.value)} title="Language">
