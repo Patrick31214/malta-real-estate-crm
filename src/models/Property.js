@@ -34,6 +34,8 @@ const Property = sequelize.define('Property', {
       'penthouse',
       'maisonette',
       'farmhouse',
+      'bungalow',
+      'warehouse',
       'commercial',
       'office',
       'land',

@@ -300,8 +300,8 @@ function PropertyModal({ property, onClose, onSaved }) {
                 <label>Rental Type</label>
                 <select name="rentalType" className="form-input" value={form.rentalType} onChange={handleChange}>
                   <option value="">Select…</option>
-                  <option value="short_let">Short Let</option>
-                  <option value="long_let">Long Let</option>
+                  <option value="short">Short Let</option>
+                  <option value="long">Long Let</option>
                 </select>
               </div>
               <div className="form-group">
@@ -393,8 +393,8 @@ function PropertyModal({ property, onClose, onSaved }) {
                   <select name="furnished" className="form-input" value={form.furnished} onChange={handleChange}>
                     <option value="">Select…</option>
                     <option value="furnished">Furnished</option>
+                    <option value="semi-furnished">Part Furnished</option>
                     <option value="unfurnished">Unfurnished</option>
-                    <option value="part_furnished">Part Furnished</option>
                   </select>
                 </div>
                 <div className="form-group">

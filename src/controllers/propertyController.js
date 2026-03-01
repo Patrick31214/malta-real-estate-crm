@@ -106,8 +106,15 @@ const createProperty = async (req, res) => {
   try {
     // Properties created by agents start as 'pending' approval
     const propertyData = { ...req.body };
+    // Transform features from object {sea_view: true, pool: false} to array ['sea_view']
+    if (propertyData.features && typeof propertyData.features === 'object' && !Array.isArray(propertyData.features)) {
+      propertyData.features = Object.keys(propertyData.features).filter(k => propertyData.features[k]);
+    }
     if (req.user && req.user.role === 'agent') {
       propertyData.approvalStatus = 'pending';
+    } else {
+      // Admin and manager creations are auto-approved so they can publish to the website
+      propertyData.approvalStatus = 'approved';
     }
     const property = await Property.create(propertyData);
     res.status(201).json({ success: true, message: 'Property created successfully.', data: { property } });
@@ -130,6 +137,10 @@ const updateProperty = async (req, res) => {
 
     // Agents cannot change approvalStatus; only admin/manager can
     const updates = { ...req.body };
+    // Transform features from object {sea_view: true, pool: false} to array ['sea_view']
+    if (updates.features && typeof updates.features === 'object' && !Array.isArray(updates.features)) {
+      updates.features = Object.keys(updates.features).filter(k => updates.features[k]);
+    }
     if (req.user && req.user.role === 'agent') {
       delete updates.approvalStatus;
     }
