@@ -83,9 +83,11 @@ function AgentsPage() {
             onChange={e => setSearch(e.target.value)}
           />
         </div>
-        <button className="btn btn-primary" onClick={() => { setEditAgent(null); setModalOpen(true); }}>
-          + Add Agent
-        </button>
+        {isAdmin && (
+          <button className="btn btn-primary" onClick={() => { setEditAgent(null); setModalOpen(true); }}>
+            + Add Agent
+          </button>
+        )}
       </div>
 
       <div className="result-count">
@@ -101,9 +103,11 @@ function AgentsPage() {
             <div className="empty-icon">👔</div>
             <h3>No agents yet</h3>
             <p>Add your first real estate agent to assign them to properties.</p>
-            <button className="btn btn-primary" onClick={() => setModalOpen(true)} style={{ marginTop: 16 }}>
-              + Add Agent
-            </button>
+            {isAdmin && (
+              <button className="btn btn-primary" onClick={() => setModalOpen(true)} style={{ marginTop: 16 }}>
+                + Add Agent
+              </button>
+            )}
           </div>
         ) : (
           <div className="table-container">
@@ -115,6 +119,7 @@ function AgentsPage() {
                   <th>Phone / Mobile</th>
                   <th>License</th>
                   <th>Branch / Manager</th>
+                  <th>Role</th>
                   <th>Performance</th>
                   <th>Commission</th>
                   <th>Exp.</th>
@@ -159,6 +164,10 @@ function AgentsPage() {
                       </div>
                     </td>
                     <td>
+                      <span style={{ textTransform: 'capitalize' }}>{a.user?.role || '—'}</span>
+                      {a.subRole && <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{a.subRole}</div>}
+                    </td>
+                    <td>
                       <div className="agent-metrics">
                         <span className="metric-chip" title="Properties listed">
                           🏠 {a.propertiesCount != null ? Number(a.propertiesCount) : 0}
@@ -189,7 +198,9 @@ function AgentsPage() {
                     </td>
                     <td>
                       <div className="action-btns">
-                        <button className="btn btn-outline btn-sm" onClick={() => { setEditAgent(a); setModalOpen(true); }}>Edit</button>
+                        {isAdmin && (
+                          <button className="btn btn-outline btn-sm" onClick={() => { setEditAgent(a); setModalOpen(true); }}>Edit</button>
+                        )}
                         {isAdmin && (
                           <button
                             className={`btn btn-sm`}
@@ -202,7 +213,9 @@ function AgentsPage() {
                             {a.user?.isBlocked ? '🔓 Unblock' : '🔒 Block'}
                           </button>
                         )}
-                        <button className="btn btn-danger btn-sm" onClick={() => handleDelete(a.id)}>Del</button>
+                        {isAdmin && (
+                          <button className="btn btn-danger btn-sm" onClick={() => handleDelete(a.id)}>Del</button>
+                        )}
                       </div>
                     </td>
                   </tr>

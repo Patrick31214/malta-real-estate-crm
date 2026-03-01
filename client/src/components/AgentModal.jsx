@@ -132,7 +132,7 @@ function AgentModal({ agent, onClose, onSaved }) {
 
   return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className="modal-box">
+      <div className="modal-box" style={{ width: '95vw', maxWidth: 900, maxHeight: '90vh', overflowY: 'auto' }}>
         <div className="modal-header">
           <h2>{agent ? 'Edit Agent' : 'Add New Agent'}</h2>
           <button className="modal-close" onClick={onClose}>✕</button>

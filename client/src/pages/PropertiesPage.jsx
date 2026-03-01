@@ -71,6 +71,7 @@ function PropertiesPage() {
   const [listingType, setListingType] = useState('');
   const [propertyType, setPropertyType] = useState('');
   const [status, setStatus] = useState(searchParams.get('status') || '');
+  const [ownerId] = useState(searchParams.get('ownerId') || '');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   const [minBedrooms, setMinBedrooms] = useState('');
@@ -107,6 +108,7 @@ function PropertiesPage() {
       if (minBedrooms) params.minBedrooms = minBedrooms;
       if (minBathrooms) params.minBathrooms = minBathrooms;
       if (city) params.city = city;
+      if (ownerId) params.ownerId = ownerId;
       if (sortBy) params.sortBy = sortBy;
       const featKeys = Object.keys(activeFeatures).filter(k => activeFeatures[k]);
       if (featKeys.length > 0) params.features = featKeys.join(',');
@@ -121,7 +123,7 @@ function PropertiesPage() {
     } finally {
       setLoading(false);
     }
-  }, [search, status, propertyType, listingType, minPrice, maxPrice, minBedrooms, minBathrooms, city, sortBy, activeFeatures]);
+  }, [search, status, propertyType, listingType, minPrice, maxPrice, minBedrooms, minBathrooms, city, ownerId, sortBy, activeFeatures]);
 
   useEffect(() => {
     const timer = setTimeout(() => fetchProperties(1), 300);
@@ -213,6 +215,14 @@ function PropertiesPage() {
           + Add Property
         </button>
       </div>
+
+      {/* Owner filter banner */}
+      {ownerId && (
+        <div className="alert" style={{ background: 'var(--accent-soft, #fef9e7)', border: '1px solid var(--accent, #D4AF37)', borderRadius: 8, padding: '10px 16px', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span>🏠 Showing properties for owner ID: <strong>{ownerId}</strong></span>
+          <a href="/properties" className="btn btn-outline btn-sm" style={{ marginLeft: 'auto' }}>Clear filter</a>
+        </div>
+      )}
 
       {/* Search Panel */}
       <div className="search-panel">
