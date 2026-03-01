@@ -28,6 +28,7 @@ import FileManagerPage from './pages/FileManagerPage';
 import JoinUsPage from './pages/JoinUsPage';
 import PartnersPage from './pages/PartnersPage';
 import Layout from './components/Layout';
+import ErrorBoundary from './components/ErrorBoundary';
 import { auth } from './services/api';
 
 function ProtectedRoute({ children }) {
@@ -63,6 +64,7 @@ function CatchAll() {
 function App() {
   return (
     <BrowserRouter>
+      <ErrorBoundary>
       <Routes>
         <Route path="/login" element={
           <ThemeProvider storageKey="gkr-crm-theme" applyToDocument={true}>
@@ -136,6 +138,7 @@ function App() {
         </Route>
         <Route path="*" element={<CatchAll />} />
       </Routes>
+      </ErrorBoundary>
     </BrowserRouter>
   );
 }
