@@ -77,8 +77,16 @@ export const auth = {
 
   logout: () => {
     const refreshToken = localStorage.getItem('refreshToken');
+    const accessToken = localStorage.getItem('accessToken');
     clearTokens();
-    return request('/auth/logout', { method: 'POST', body: JSON.stringify({ refreshToken }) });
+    return fetch(`${API_BASE}/auth/logout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {})
+      },
+      body: JSON.stringify({ refreshToken })
+    }).then(r => r.json()).catch(() => ({ success: true }));
   },
 
   setTokens,
