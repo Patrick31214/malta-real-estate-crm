@@ -51,14 +51,15 @@ router.get('/', async (req, res) => {
         'id', 'title', 'description', 'propertyType', 'listingType', 'status',
         'price', 'currency', 'bedrooms', 'bathrooms', 'squareMeters',
         'address', 'city', 'country', 'latitude', 'longitude',
-        'features', 'images', 'viewCount', 'createdAt'
+        'features', 'images', 'viewCount', 'createdAt',
+        'rentalType', 'availableFrom', 'updatedAt', 'furnished', 'featured'
       ],
       include: [
         {
           model: Agent,
           as: 'agent',
           required: false,
-          attributes: ['id', 'phone', 'mobile', 'specialization'],
+          attributes: ['id', 'phone', 'mobile', 'specialization', 'profileImageUrl'],
           include: [
             {
               model: User,
@@ -103,14 +104,15 @@ router.get('/:id', async (req, res) => {
         'id', 'title', 'description', 'propertyType', 'listingType', 'status',
         'price', 'currency', 'bedrooms', 'bathrooms', 'squareMeters',
         'address', 'city', 'country', 'latitude', 'longitude',
-        'features', 'images', 'viewCount', 'createdAt'
+        'features', 'images', 'viewCount', 'createdAt',
+        'rentalType', 'availableFrom', 'updatedAt', 'furnished', 'featured'
       ],
       include: [
         {
           model: Agent,
           as: 'agent',
           required: false,
-          attributes: ['id', 'phone', 'mobile', 'specialization'],
+          attributes: ['id', 'phone', 'mobile', 'specialization', 'profileImageUrl'],
           include: [
             {
               model: User,

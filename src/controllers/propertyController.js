@@ -13,10 +13,12 @@ const getProperties = async (req, res) => {
       status,
       propertyType,
       listingType,
+      rentalType,
       city,
       minPrice,
       maxPrice,
       bedrooms,
+      ownerId,
       search
     } = req.query;
 
@@ -26,8 +28,10 @@ const getProperties = async (req, res) => {
     if (status) where.status = status;
     if (propertyType) where.propertyType = propertyType;
     if (listingType) where.listingType = listingType;
+    if (rentalType) where.rentalType = rentalType;
     if (city) where.city = { [Op.iLike]: `%${city}%` };
-    if (bedrooms) where.bedrooms = parseInt(bedrooms);
+    if (bedrooms) where.bedrooms = { [Op.gte]: parseInt(bedrooms) };
+    if (ownerId) where.ownerId = ownerId;
     if (minPrice || maxPrice) {
       where.price = {};
       if (minPrice) where.price[Op.gte] = parseFloat(minPrice);
