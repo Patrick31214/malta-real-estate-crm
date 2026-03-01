@@ -6,7 +6,7 @@ import {
 } from 'recharts';
 import { owners } from '../services/api';
 
-const COLORS = ['#8A5A32', '#B8864E', '#C4875A', '#c0392b', '#2980b9', '#8e44ad'];
+const COLORS = ['#8A5A32', '#B8864E', '#C4875A', '#c0392b', '#6B5040', '#7A5C3A'];
 
 const tooltipStyle = {
   background: 'var(--bg-secondary)',

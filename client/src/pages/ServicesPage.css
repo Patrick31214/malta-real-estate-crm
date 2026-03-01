@@ -82,7 +82,7 @@
 }
 
 /* Category badges */
-.badge-cat-boat_tour { background: rgba(41, 128, 185, 0.12); color: #1a5276; border: 1px solid rgba(41,128,185,0.25); }
+.badge-cat-boat_tour { background: rgba(107, 80, 64, 0.12); color: #5C3D2E; border: 1px solid rgba(107,80,64,0.25); }
 .badge-cat-car_rental { background: rgba(192, 57, 43, 0.1); color: #922b21; border: 1px solid rgba(192,57,43,0.2); }
 .badge-cat-bike_rental { background: rgba(184, 115, 51, 0.12); color: #7A4A2A; border: 1px solid rgba(184,115,51,0.25); }
 .badge-cat-guided_tour { background: rgba(196, 135, 90, 0.15); color: #7A4A2A; border: 1px solid rgba(196,135,90,0.3); }

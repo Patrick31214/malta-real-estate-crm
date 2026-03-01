@@ -9,9 +9,9 @@
 
 /* ─── CSS Variables ─────────────────────────────────────────────── */
 :root {
-  --green-dark: #8A5A32;
-  --green-mid: #B8864E;
-  --green-light: #52B788;
+  --copper-dark: #8A5A32;
+  --copper-mid: #B8864E;
+  --copper-light: #D4956A;
   --gold: #C4875A;
   --gold-light: #D4A87A;
   --black-deep: #0A0A0A;
@@ -398,7 +398,7 @@
 }
 
 .hp-prop-img-1 { background: linear-gradient(135deg, #6B3D1E 0%, #B8864E 50%, #C4875A 100%); }
-.hp-prop-img-2 { background: linear-gradient(135deg, #1A1A2E 0%, #8A5A32 50%, #52B788 100%); }
+.hp-prop-img-2 { background: linear-gradient(135deg, #1A1A2E 0%, #8A5A32 50%, #D4956A 100%); }
 .hp-prop-img-3 { background: linear-gradient(135deg, #3D2010 0%, #8A5A32 40%, #D4A87A 100%); }
 
 .hp-prop-badge {
@@ -428,7 +428,7 @@
 
 .hp-prop-location {
   font-size: 0.82rem;
-  color: var(--green-light);
+  color: var(--copper-light);
   margin-bottom: 12px;
 }
 
@@ -586,7 +586,7 @@
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+  background: linear-gradient(135deg, var(--copper-dark), var(--copper-mid));
   border: 2px solid var(--gold);
   display: flex;
   align-items: center;
@@ -605,7 +605,7 @@
 
 .hp-testi-role {
   font-size: 0.78rem;
-  color: var(--green-light);
+  color: var(--copper-light);
 }
 
 /* ─── Contact ────────────────────────────────────────────────── */
@@ -749,7 +749,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--green-light);
+  color: var(--copper-light);
   text-decoration: none;
   font-size: 0.85rem;
   font-weight: 600;
@@ -765,7 +765,7 @@
 }
 
 .hp-footer-col-title {
-  color: var(--green-light);
+  color: var(--copper-light);
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -820,7 +820,7 @@
 }
 
 .hp-footer-social a:hover {
-  color: var(--green-light);
+  color: var(--copper-light);
   background: var(--glass-bg);
   box-shadow: 0 0 12px rgba(82, 183, 136, 0.35);
 }

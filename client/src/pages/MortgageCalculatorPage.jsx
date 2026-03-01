@@ -327,7 +327,7 @@ function MortgageCalculatorPage() {
                     {calc.schedule.map(row => (
                       <tr key={row.year}>
                         <td>{row.year}</td>
-                        <td style={{ color: 'var(--green-primary)' }}>{formatEuro(row.principal)}</td>
+                        <td style={{ color: 'var(--copper-primary)' }}>{formatEuro(row.principal)}</td>
                         <td style={{ color: 'var(--gold-primary)' }}>{formatEuro(row.interest)}</td>
                         <td>{formatEuro(row.balance)}</td>
                       </tr>

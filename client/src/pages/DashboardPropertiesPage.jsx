@@ -7,12 +7,12 @@ import {
 } from 'recharts';
 import { properties } from '../services/api';
 
-const COLORS = ['#8A5A32', '#B8864E', '#C4875A', '#c0392b', '#2980b9', '#8e44ad'];
+const COLORS = ['#8A5A32', '#B8864E', '#C4875A', '#c0392b', '#6B5040', '#7A5C3A'];
 const STATUS_COLORS = {
   available: '#B8864E',
   under_offer: '#C4875A',
   sold: '#c0392b',
-  rented: '#2980b9',
+  rented: '#6B5040',
 };
 
 const tooltipStyle = {
@@ -128,7 +128,7 @@ function DashboardPropertiesPage() {
         <StatBox label="Available" value={counts.available} color="#B8864E" />
         <StatBox label="Under Offer" value={counts.under_offer} color="#C4875A" />
         <StatBox label="Sold" value={counts.sold} color="#c0392b" />
-        <StatBox label="Rented" value={counts.rented} color="#2980b9" />
+        <StatBox label="Rented" value={counts.rented} color="#6B5040" />
       </div>
 
       {/* Line chart */}

@@ -100,7 +100,7 @@
 .vat-result-row.main-price { color: var(--text-primary); font-weight: 600; }
 .vat-result-row.total { color: var(--gold-primary); font-size: 16px; padding-top: 14px; margin-top: 4px; border-top: 2px solid var(--gold-primary); border-bottom: none; }
 
-.zero-cost { color: var(--green-primary); }
+.zero-cost { color: var(--copper-primary); }
 .cost { color: var(--gold-primary); }
 
 .compliance-note {
@@ -138,7 +138,7 @@
   border-radius: 20px;
 }
 
-.eira-badge.active { background: rgba(184,115,51,0.15); color: var(--green-primary); }
+.eira-badge.active { background: rgba(184,115,51,0.15); color: var(--copper-primary); }
 .eira-badge.expiring { background: rgba(230,126,34,0.15); color: #e67e22; }
 .eira-badge.expired { background: rgba(192,57,43,0.15); color: #e74c3c; }
 
@@ -166,7 +166,7 @@
 
 .aml-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--green-primary), var(--green-soft));
+  background: linear-gradient(90deg, var(--copper-primary), var(--copper-soft));
   border-radius: 4px;
   transition: width 0.4s ease;
 }

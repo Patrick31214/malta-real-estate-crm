@@ -154,7 +154,7 @@
 
 .alert-success {
   background: rgba(184, 115, 51, 0.08);
-  color: var(--green-primary);
+  color: var(--copper-primary);
   border: 1px solid rgba(184,115,51,0.25);
 }
 

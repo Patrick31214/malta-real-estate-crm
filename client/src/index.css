@@ -16,14 +16,14 @@
   --gold-bright: #D4A87A;
   --gold-deep: #8A5A32;
   --gold-soft: #C4956A;
-  --green-primary: #B87333;
-  --green-soft: #D4956A;
-  --green-dark: #3C2010;
-  --green-muted: #A0724A;
+  --copper-primary: #B87333;
+  --copper-soft: #D4956A;
+  --brown-dark: #3C2010;
+  --brown-muted: #A0724A;
   --glass-bg: rgba(255, 240, 220, 0.40);
   --glass-border: rgba(255, 255, 255, 0.50);
   --glass-shadow: rgba(0, 0, 0, 0.4);
-  --glass-green: rgba(184, 115, 51, 0.12);
+  --glass-copper: rgba(184, 115, 51, 0.12);
   --emerald-primary: #8A5A32;
   --emerald-light: #B8864E;
   --emerald-dark: #6B3D1E;
@@ -43,14 +43,14 @@
   --gold-bright: #D4A87A;
   --gold-deep: #8A5A32;
   --gold-soft: #C4956A;
-  --green-primary: #B87333;
-  --green-soft: #D4956A;
-  --green-dark: #fff5e6;
-  --green-muted: #A0724A;
+  --copper-primary: #B87333;
+  --copper-soft: #D4956A;
+  --brown-dark: #fff5e6;
+  --brown-muted: #A0724A;
   --glass-bg: rgba(255, 230, 200, 0.25);
   --glass-border: rgba(255, 255, 255, 0.35);
   --glass-shadow: rgba(0, 0, 0, 0.08);
-  --glass-green: rgba(184, 115, 51, 0.08);
+  --glass-copper: rgba(184, 115, 51, 0.08);
   --emerald-primary: #8A5A32;
   --emerald-light: #B8864E;
   --emerald-dark: #6B3D1E;
@@ -64,7 +64,7 @@
 }
 
 :root {
-  /* Emerald & Gold Brand Variables */
+  /* Brown Brand Variables */
   --emerald-primary: #8A5A32;
   --emerald-light: #B8864E;
   --emerald-dark: #6B3D1E;
@@ -90,7 +90,7 @@
   --accent: var(--gold-primary, #C4875A);
   --accent-light: var(--gold-soft, #F5E6B8);
   --accent-dark: var(--gold-deep, #8A5A32);
-  --success: var(--green-primary, #B87333);
+  --success: var(--copper-primary, #B87333);
   --danger: #c0392b;
   --warning: #e67e22;
   --info: #6B5040;
@@ -436,7 +436,7 @@ input, select, textarea {
   border-left: 4px solid var(--gold-primary);
 }
 
-.toast.success { background: var(--green-dark, #3C2010); border-left-color: var(--green-primary, #B87333); }
+.toast.success { background: var(--brown-dark, #3C2010); border-left-color: var(--copper-primary, #B87333); }
 .toast.error { background: #7b241c; border-left-color: var(--danger); }
 
 @keyframes slideUp {
@@ -449,9 +449,9 @@ input, select, textarea {
   :root { --sidebar-width: 0px; }
 }
 
-/* ===== EMERALD THEME UTILITIES (Section 2 & 11) ===== */
+/* ===== BROWN THEME UTILITIES ===== */
 
-/* Emerald button */
+/* Brown button */
 .btn-emerald {
   background: var(--emerald-gradient);
   color: white;
@@ -465,7 +465,7 @@ input, select, textarea {
   transform: translateY(-1px);
 }
 
-/* Emerald badge */
+/* Brown badge */
 .badge-emerald {
   background: var(--emerald-gradient);
   color: white;
@@ -475,7 +475,7 @@ input, select, textarea {
   font-weight: 600;
 }
 
-/* Form focus state – emerald instead of default blue */
+/* Form focus state – brown instead of default blue */
 .form-input:focus,
 .form-select:focus,
 textarea:focus {
@@ -484,7 +484,7 @@ textarea:focus {
   outline: none !important;
 }
 
-/* Primary buttons use emerald gradient */
+/* Primary buttons use brown gradient */
 .btn-primary {
   background: var(--emerald-gradient, linear-gradient(135deg, #8A5A32, #B8864E)) !important;
   color: white !important;
