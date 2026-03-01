@@ -6,57 +6,69 @@
 
 /* ===== THEME VARIABLES ===== */
 [data-theme="dark"] {
-  --bg-primary: #A97449;
-  --bg-secondary: #1A1A1D;
-  --bg-tertiary: #2B2B31;
-  --text-primary: #FFFFFF;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --text-muted: rgba(255, 255, 255, 0.5);
+  /* Backgrounds: near-black warm dark */
+  --bg-primary: #0F0D0A;
+  --bg-secondary: #1C1812;
+  --bg-tertiary: #2A2117;
+  /* Text: champagne / sandy beige tones */
+  --text-primary: #F7E4CE;
+  --text-secondary: rgba(247, 228, 206, 0.78);
+  --text-muted: rgba(247, 228, 206, 0.50);
+  /* Gold brand palette */
   --gold-primary: #D4AF37;
   --gold-bright: #F2C94C;
   --gold-deep: #A67C00;
   --gold-soft: #E6B65C;
-  --green-primary: #1DB954;
-  --green-soft: #34D67A;
+  /* Brown accent (replaces green) — caramel / sandy beige */
+  --green-primary: #C4954A;
+  --green-soft: #D4B08C;
   --green-dark: #3C2010;
-  --green-muted: #A0724A;
-  --glass-bg: rgba(255, 240, 220, 0.40);
-  --glass-border: rgba(255, 255, 255, 0.50);
-  --glass-shadow: rgba(0, 0, 0, 0.4);
-  --glass-green: rgba(29, 185, 84, 0.12);
+  --green-muted: #A07848;
+  /* Glass effects: warm translucent */
+  --glass-bg: rgba(255, 225, 175, 0.07);
+  --glass-border: rgba(196, 149, 74, 0.25);
+  --glass-shadow: rgba(0, 0, 0, 0.50);
+  --glass-green: rgba(196, 149, 74, 0.10);
+  /* Emerald → mahogany/caramel luxury brown */
   --emerald-primary: #8A5A32;
-  --emerald-light: #B8864E;
-  --emerald-dark: #6B3D1E;
-  --emerald-glow: rgba(138, 90, 50, 0.3);
-  --emerald-glass: rgba(138, 90, 50, 0.15);
-  --emerald-gradient: linear-gradient(135deg, #8A5A32, #B8864E);
+  --emerald-light: #C4954A;
+  --emerald-dark: #5C3519;
+  --emerald-glow: rgba(138, 90, 50, 0.35);
+  --emerald-glass: rgba(138, 90, 50, 0.18);
+  --emerald-gradient: linear-gradient(135deg, #8A5A32, #C4954A);
 }
 
 [data-theme="light"] {
-  --bg-primary: #8A5A32;
-  --bg-secondary: rgba(255,255,255,0.95);
-  --bg-tertiary: rgba(138, 90, 50, 0.07);
-  --text-primary: #0D0D0F;
-  --text-secondary: #2B2B31;
-  --text-muted: #6B6B75;
+  /* Backgrounds: warm cream / beige */
+  --bg-primary: #F5EADB;
+  --bg-secondary: #FFFBF5;
+  --bg-tertiary: rgba(139, 90, 43, 0.06);
+  /* Text: rich dark browns — espresso / chocolate */
+  --text-primary: #2C1A0E;
+  --text-secondary: #4A2C17;
+  --text-muted: #7A5C3C;
+  /* Gold brand palette */
   --gold-primary: #D4AF37;
   --gold-bright: #F2C94C;
   --gold-deep: #A67C00;
   --gold-soft: #E6B65C;
-  --green-primary: #1DB954;
-  --green-soft: #34D67A;
-  --green-dark: #fff5e6;
-  --green-muted: #A0724A;
-  --glass-bg: rgba(255, 230, 200, 0.25);
-  --glass-border: rgba(255, 255, 255, 0.35);
-  --glass-shadow: rgba(0, 0, 0, 0.08);
-  --glass-green: rgba(29, 185, 84, 0.08);
+  /* Brown accent (replaces green) — mahogany / espresso */
+  --green-primary: #6B3D1E;
+  --green-soft: #8A5A32;
+  --green-dark: #FEF5E4;
+  --green-muted: #7A5238;
+  /* Glass effects: warm semi-transparent cream */
+  --glass-bg: rgba(255, 248, 230, 0.65);
+  --glass-border: rgba(139, 90, 43, 0.15);
+  --glass-shadow: rgba(80, 40, 10, 0.10);
+  --glass-green: rgba(139, 90, 43, 0.08);
+  /* Emerald → mahogany luxury brown */
   --emerald-primary: #8A5A32;
   --emerald-light: #B8864E;
-  --emerald-dark: #6B3D1E;
-  --emerald-glow: rgba(138, 90, 50, 0.15);
+  --emerald-dark: #5C3519;
+  --emerald-glow: rgba(138, 90, 50, 0.18);
   --emerald-glass: rgba(138, 90, 50, 0.08);
-  --emerald-gradient: linear-gradient(135deg, #8A5A32, #B8864E);
+  --emerald-gradient: linear-gradient(135deg, #6B3D1E, #8A5A32);
 }
 
 * {
@@ -64,48 +76,47 @@
 }
 
 :root {
-  /* Emerald & Gold Brand Variables */
+  /* Luxury Brown & Gold Brand Variables */
   --emerald-primary: #8A5A32;
-  --emerald-light: #B8864E;
-  --emerald-dark: #6B3D1E;
+  --emerald-light: #C4954A;
+  --emerald-dark: #5C3519;
   --gold-primary: #D4AF37;
   --gold-light: #F0D060;
-  --black-primary: #0A0A0A;
-  --black-secondary: #1A1A2E;
-  --glass-bg: rgba(138, 90, 50, 0.08);
-  --glass-border: rgba(138, 90, 50, 0.15);
-  --glass-shadow: 0 4px 15px rgba(138, 90, 50, 0.3);
-  /* Golden Key Realty – Luxury Gold Glassmorphism Palette */
+  --black-primary: #0F0D0A;
+  --black-secondary: #1C1812;
+  --glass-bg: rgba(196, 149, 74, 0.08);
+  --glass-border: rgba(196, 149, 74, 0.20);
+  --glass-shadow: 0 4px 15px rgba(80, 40, 10, 0.25);
+  /* Golden Key Realty – Luxury Brown Glassmorphism Palette */
   --gold: var(--gold-primary, #D4AF37);
-  --gold-dark: var(--gold-deep, #a07830);
-  --charcoal: var(--text-primary, #1a1a2e);
-  --charcoal-mid: var(--bg-tertiary, #16213e);
-  --cream: var(--bg-primary, #FEFCF6);
-  --pearl: var(--bg-secondary, #F8F4ED);
-  --warm-honey: var(--bg-tertiary, #FFF8E7);
-  /* Legacy aliases for existing code */
-  --primary: var(--bg-secondary, #1a1a2e);
-  --primary-light: var(--bg-tertiary, #2d2d4e);
-  --primary-dark: var(--bg-primary, #0f0f1a);
+  --gold-dark: var(--gold-deep, #A67C00);
+  --charcoal: var(--text-primary, #2C1A0E);
+  --charcoal-mid: var(--bg-tertiary, #2A2117);
+  --cream: var(--bg-primary, #F5EADB);
+  --pearl: var(--bg-secondary, #FFFBF5);
+  --warm-honey: var(--bg-tertiary, #FEF5E4);
+  /* Legacy aliases */
+  --primary: var(--bg-secondary, #1C1812);
+  --primary-light: var(--bg-tertiary, #2A2117);
+  --primary-dark: var(--bg-primary, #0F0D0A);
   --accent: var(--gold-primary, #D4AF37);
-  --accent-light: var(--gold-soft, #F5E6B8);
-  --accent-dark: var(--gold-deep, #a07830);
-  --success: var(--green-primary, #27ae60);
+  --accent-light: var(--gold-soft, #E6B65C);
+  --accent-dark: var(--gold-deep, #A67C00);
+  --success: var(--green-primary, #C4954A);
   --danger: #c0392b;
   --warning: #e67e22;
   --info: #2980b9;
-  --text-dark: var(--text-primary, #1a1a2e);
-  --text-medium: var(--text-secondary, #3d3d5c);
-  --text-light: var(--text-muted, #8888aa);
-  --bg-page: var(--bg-primary, #FEFCF6);
-  --bg-gradient: var(--bg-primary, #FEFCF6);
-  --bg-card: var(--glass-bg, rgba(255, 255, 255, 0.65));
-  --bg-sidebar: var(--bg-secondary, #1a1a2e);
-  --border: var(--glass-border, rgba(212, 175, 55, 0.2));
+  --text-dark: var(--text-primary, #2C1A0E);
+  --text-medium: var(--text-secondary, #4A2C17);
+  --text-light: var(--text-muted, #7A5C3C);
+  --bg-page: var(--bg-primary, #F5EADB);
+  --bg-gradient: var(--bg-primary, #F5EADB);
+  --bg-card: var(--glass-bg, rgba(255, 248, 230, 0.65));
+  --bg-sidebar: var(--bg-secondary, #1C1812);
+  --border: var(--glass-border, rgba(196, 149, 74, 0.20));
   --border-gold: rgba(212, 175, 55, 0.35);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow: 0 2px 12px rgba(80, 40, 10, 0.08);
+  --shadow-lg: 0 8px 32px rgba(80, 40, 10, 0.12);
   --shadow-gold: 0 4px 20px rgba(212, 175, 55, 0.3);
   --radius: 16px;
   --radius-sm: 10px;
@@ -371,18 +382,18 @@ input, select, textarea {
   text-transform: capitalize;
 }
 
-.badge-available { background: rgba(39, 174, 96, 0.15); color: #1a6b3c; border: 1px solid rgba(39,174,96,0.3); }
+.badge-available { background: rgba(196, 149, 74, 0.18); color: #6B3D1E; border: 1px solid rgba(196,149,74,0.35); }
 .badge-under_offer { background: rgba(212, 175, 55, 0.15); color: #8a6700; border: 1px solid rgba(212,175,55,0.3); }
 .badge-sold { background: rgba(192, 57, 43, 0.12); color: #922b21; border: 1px solid rgba(192,57,43,0.25); }
 .badge-rented { background: rgba(41, 128, 185, 0.12); color: #1a5276; border: 1px solid rgba(41,128,185,0.25); }
 .badge-draft { background: rgba(120, 120, 120, 0.1); color: #555; border: 1px solid rgba(0,0,0,0.12); }
 .badge-withdrawn { background: rgba(100, 100, 100, 0.08); color: #6c757d; border: 1px solid rgba(0,0,0,0.1); }
 .badge-off_market { background: rgba(80, 80, 80, 0.12); color: #4a4a55; border: 1px solid rgba(0,0,0,0.15); }
-.badge-sale { background: rgba(39, 174, 96, 0.15); color: #1a6b3c; border: 1px solid rgba(39,174,96,0.3); }
+.badge-sale { background: rgba(196, 149, 74, 0.15); color: #6B3D1E; border: 1px solid rgba(196,149,74,0.30); }
 .badge-rent { background: rgba(41, 128, 185, 0.12); color: #1a5276; border: 1px solid rgba(41,128,185,0.25); }
 .badge-lease { background: rgba(113, 81, 192, 0.12); color: #5a2d8c; border: 1px solid rgba(113,81,192,0.25); }
 .badge-pending { background: rgba(212, 175, 55, 0.18); color: #8a6700; border: 1px solid rgba(212,175,55,0.35); }
-.badge-approved { background: rgba(39, 174, 96, 0.15); color: #1a6b3c; border: 1px solid rgba(39,174,96,0.3); }
+.badge-approved { background: rgba(196, 149, 74, 0.15); color: #6B3D1E; border: 1px solid rgba(196,149,74,0.30); }
 .badge-rejected { background: rgba(192, 57, 43, 0.12); color: #922b21; border: 1px solid rgba(192,57,43,0.25); }
 
 /* Spinner */
@@ -436,7 +447,7 @@ input, select, textarea {
   border-left: 4px solid var(--gold-primary);
 }
 
-.toast.success { background: var(--green-dark, #3C2010); border-left-color: var(--green-primary, #1DB954); }
+.toast.success { background: var(--green-dark, #3C2010); border-left-color: var(--green-primary, #C4954A); }
 .toast.error { background: #7b241c; border-left-color: var(--danger); }
 
 @keyframes slideUp {
@@ -449,9 +460,9 @@ input, select, textarea {
   :root { --sidebar-width: 0px; }
 }
 
-/* ===== EMERALD THEME UTILITIES (Section 2 & 11) ===== */
+/* ===== BROWN LUXURY THEME UTILITIES ===== */
 
-/* Emerald button */
+/* Brown button */
 .btn-emerald {
   background: var(--emerald-gradient);
   color: white;
@@ -465,7 +476,7 @@ input, select, textarea {
   transform: translateY(-1px);
 }
 
-/* Emerald badge */
+/* Brown badge */
 .badge-emerald {
   background: var(--emerald-gradient);
   color: white;
@@ -475,7 +486,7 @@ input, select, textarea {
   font-weight: 600;
 }
 
-/* Form focus state – emerald instead of default blue */
+/* Form focus state – warm brown */
 .form-input:focus,
 .form-select:focus,
 textarea:focus {
@@ -484,26 +495,26 @@ textarea:focus {
   outline: none !important;
 }
 
-/* Primary buttons use emerald gradient */
+/* Primary buttons use luxury brown gradient */
 .btn-primary {
-  background: var(--emerald-gradient, linear-gradient(135deg, #8A5A32, #B8864E)) !important;
+  background: var(--emerald-gradient, linear-gradient(135deg, #8A5A32, #C4954A)) !important;
   color: white !important;
   border: none;
 }
 .btn-primary:hover {
   opacity: 0.9;
-  box-shadow: 0 4px 16px var(--emerald-glow, rgba(138, 90, 50, 0.3));
+  box-shadow: 0 4px 16px var(--emerald-glow, rgba(138, 90, 50, 0.35));
   transform: translateY(-1px);
 }
 
-/* Available status badge – emerald */
+/* Available status badge – caramel gold */
 .status-available,
 .badge-available {
   background: var(--emerald-gradient) !important;
   color: white !important;
 }
 
-/* Dropdown backgrounds (Section 11.1) */
+/* Dropdown backgrounds */
 select.form-select,
 select.form-input {
   background: var(--bg-secondary) !important;
@@ -516,11 +527,11 @@ select option {
 
 /* Light mode glassmorphism cards */
 [data-theme="light"] .card {
-  background: rgba(255, 255, 255, 0.7) !important;
-  border: 1px solid rgba(138, 90, 50, 0.12) !important;
+  background: rgba(255, 251, 245, 0.75) !important;
+  border: 1px solid rgba(139, 90, 43, 0.12) !important;
 }
 
-/* Global button glassmorphism */
+/* Global button transitions */
 .btn, button:not(.modal-close):not(.nav-close):not([class*="sidebar"]) {
   transition: all 0.3s ease;
 }
@@ -530,9 +541,9 @@ select option {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #8A5A32, #B8864E) !important;
+  background: linear-gradient(135deg, #8A5A32, #C4954A) !important;
   box-shadow: 0 4px 15px rgba(138, 90, 50, 0.3);
-  border: 1px solid rgba(138, 90, 50, 0.4);
+  border: 1px solid rgba(196, 149, 74, 0.4);
   color: white !important;
   transition: all 0.3s ease;
 }
@@ -544,22 +555,22 @@ select option {
 
 /* Table row hover effect */
 tr:hover td {
-  background: rgba(138, 90, 50, 0.05) !important;
+  background: rgba(196, 149, 74, 0.05) !important;
 }
 
 /* Glass card utility */
 .glass-card {
-  background: rgba(138, 90, 50, 0.08);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(138, 90, 50, 0.2);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(138, 90, 50, 0.15);
+  box-shadow: 0 4px 20px var(--glass-shadow);
   transition: all 0.3s ease;
 }
 
 .glass-card:hover {
-  box-shadow: 0 8px 25px rgba(138, 90, 50, 0.3);
+  box-shadow: 0 8px 30px var(--glass-shadow);
   transform: translateY(-2px);
 }
 
@@ -568,6 +579,6 @@ tr:hover td {
 }
 
 .emerald-bg {
-  background: linear-gradient(135deg, #8A5A32, #B8864E);
+  background: linear-gradient(135deg, #8A5A32, #C4954A);
   color: white;
 }
