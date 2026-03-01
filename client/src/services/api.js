@@ -221,4 +221,15 @@ export const announcements = {
   delete: (id) => request(`/announcements/${id}`, { method: 'DELETE' }),
 };
 
-export default { auth, properties, owners, inquiries, agents, listings, activityLogs, services, upload, branches, announcements };
+// Owner Contact Views
+export const ownerContactViews = {
+  getSummary: () => request('/owner-contact-views/summary'),
+  logView: (data) => request('/owner-contact-views', { method: 'POST', body: JSON.stringify(data) }),
+};
+
+// Automated Contacts
+export const automatedContacts = {
+  getSummary: () => request('/automated-contacts/summary'),
+};
+
+export default { auth, properties, owners, inquiries, agents, listings, activityLogs, services, upload, branches, announcements, ownerContactViews, automatedContacts };

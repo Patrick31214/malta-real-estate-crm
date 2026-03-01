@@ -18,6 +18,8 @@ const uploadRoutes = require('./routes/upload');
 const ownerContactViewsRoutes = require('./routes/ownerContactViews');
 const branchRoutes = require('./routes/branches');
 
+const automatedContactsRoutes = require('./routes/automatedContacts');
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 const INACTIVITY_THRESHOLD_DAYS = parseInt(process.env.INACTIVITY_THRESHOLD_DAYS || '3', 10);
@@ -64,6 +66,7 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/owner-contact-views', ownerContactViewsRoutes);
 app.use('/api/branches', branchRoutes);
 app.use('/api/announcements', require('./routes/announcements'));
+app.use('/api/automated-contacts', automatedContactsRoutes);
 
 // Serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {
