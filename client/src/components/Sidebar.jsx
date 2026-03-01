@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Building2, Users, UserCheck, MessageSquare, Activity, Globe, LogOut, Key, Calculator, Scale, Waves, GitBranch, FolderOpen } from 'lucide-react';
-import { LayoutDashboard, Building2, Users, UserCheck, MessageSquare, Activity, Globe, LogOut, Key, Calculator, Scale, Waves, GitBranch, FileText, BookOpen, Camera, CalendarDays, Bell, Search, HelpCircle, Handshake } from 'lucide-react';
+import { LayoutDashboard, Building2, Users, UserCheck, MessageSquare, Activity, Globe, LogOut, Key, Calculator, Scale, Waves, GitBranch, FolderOpen, FileText, BookOpen, Camera, CalendarDays, Bell, Search, HelpCircle, Handshake } from 'lucide-react';
 import { auth, inquiries } from '../services/api';
 import './Sidebar.css';
 

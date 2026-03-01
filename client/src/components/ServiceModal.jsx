@@ -40,9 +40,6 @@ const defaultForm = {
   contractFile: '',
   // Partnership fields
   partnerType: 'company',
-  partnerCompanyName: '',
-  partnerContactEmail: '',
-  partnerContactPhone: '',
   listedBy: '',
 };
 
@@ -73,7 +70,6 @@ function ServiceModal({ service, onClose, onSaved }) {
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef(null);
   const [sections, setSections] = useState({ basic: true, details: false, contact: false, media: false, partnership: false });
-  const [sections, setSections] = useState({ basic: true, details: false, contact: false, partnership: false, media: false });
   const toggleSection = name => setSections(s => ({ ...s, [name]: !s[name] }));
 
   useEffect(() => {
@@ -113,9 +109,6 @@ function ServiceModal({ service, onClose, onSaved }) {
         commissionDetails: service.commissionDetails || '',
         contractFile: service.contractFile || '',
         partnerType: service.partnerType || 'company',
-        partnerCompanyName: service.partnerCompanyName || '',
-        partnerContactEmail: service.partnerContactEmail || '',
-        partnerContactPhone: service.partnerContactPhone || '',
         listedBy: service.listedBy || userName,
       });
     }
