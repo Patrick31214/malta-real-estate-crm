@@ -244,6 +244,26 @@ const Property = sequelize.define('Property', {
     allowNull: true,
     field: 'available_from'
   },
+  childrenFriendly: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    field: 'children_friendly'
+  },
+  postedToWebsite: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    field: 'posted_to_website'
+  },
+  postedToFacebook: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    field: 'posted_to_facebook'
+  },
+  postedToInstagram: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    field: 'posted_to_instagram'
+  },
 }, {
   tableName: 'properties',
   timestamps: true,

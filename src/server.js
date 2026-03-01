@@ -63,6 +63,7 @@ app.use('/api/services', servicesRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/owner-contact-views', ownerContactViewsRoutes);
 app.use('/api/branches', branchRoutes);
+app.use('/api/announcements', require('./routes/announcements'));
 
 // Serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {

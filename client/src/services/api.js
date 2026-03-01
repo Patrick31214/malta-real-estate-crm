@@ -206,4 +206,11 @@ export const branches = {
   delete: (id) => request(`/branches/${id}`, { method: 'DELETE' }),
 };
 
-export default { auth, properties, owners, inquiries, agents, listings, activityLogs, services, upload, branches };
+// Announcements
+export const announcements = {
+  getAll: () => request('/announcements'),
+  create: (data) => request('/announcements', { method: 'POST', body: JSON.stringify(data) }),
+  delete: (id) => request(`/announcements/${id}`, { method: 'DELETE' }),
+};
+
+export default { auth, properties, owners, inquiries, agents, listings, activityLogs, services, upload, branches, announcements };

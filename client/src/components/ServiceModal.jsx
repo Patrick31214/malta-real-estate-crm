@@ -38,7 +38,16 @@ const defaultForm = {
   partnerContactEmail: '',
   commissionDetails: '',
   contractFile: '',
+  // Partnership fields
+  partnerType: 'company',
+  partnerCompanyName: '',
+  partnerContactEmail: '',
+  partnerContactPhone: '',
+  listedBy: '',
 };
+
+// Full-screen modal dimensions
+const MODAL_FULL_STYLE = { width: '95vw', maxWidth: '1200px', height: '90vh', display: 'flex', flexDirection: 'column' };
 
 function SectionHeader({ title, open, onToggle }) {
   return (
@@ -50,7 +59,13 @@ function SectionHeader({ title, open, onToggle }) {
 }
 
 function ServiceModal({ service, onClose, onSaved }) {
-  const [form, setForm] = useState(defaultForm);
+  const [form, setForm] = useState(() => {
+    const currentUser = auth.getUser();
+    const userName = currentUser
+      ? `${currentUser.firstName || ''} ${currentUser.lastName || ''}`.trim() || currentUser.email || ''
+      : '';
+    return { ...defaultForm, listedBy: userName };
+  });
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
@@ -58,9 +73,14 @@ function ServiceModal({ service, onClose, onSaved }) {
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef(null);
   const [sections, setSections] = useState({ basic: true, details: false, contact: false, media: false, partnership: false });
+  const [sections, setSections] = useState({ basic: true, details: false, contact: false, partnership: false, media: false });
   const toggleSection = name => setSections(s => ({ ...s, [name]: !s[name] }));
 
   useEffect(() => {
+    const currentUser = auth.getUser();
+    const userName = currentUser
+      ? `${currentUser.firstName || ''} ${currentUser.lastName || ''}`.trim() || currentUser.email || ''
+      : '';
     if (service) {
       setForm({
         title: service.title || '',
@@ -92,6 +112,11 @@ function ServiceModal({ service, onClose, onSaved }) {
         partnerContactEmail: service.partnerContactEmail || '',
         commissionDetails: service.commissionDetails || '',
         contractFile: service.contractFile || '',
+        partnerType: service.partnerType || 'company',
+        partnerCompanyName: service.partnerCompanyName || '',
+        partnerContactEmail: service.partnerContactEmail || '',
+        partnerContactPhone: service.partnerContactPhone || '',
+        listedBy: service.listedBy || userName,
       });
     }
   }, [service]);
@@ -192,13 +217,13 @@ function ServiceModal({ service, onClose, onSaved }) {
 
   return (
     <div className="modal-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className="modal-box" style={{ maxWidth: 720 }}>
+      <div className="modal-box" style={MODAL_FULL_STYLE}>
         <div className="modal-header">
           <h2>{service ? 'Edit Service' : 'Add New Service'}</h2>
           <button className="modal-close" onClick={onClose}>✕</button>
         </div>
 
-        <form onSubmit={handleSubmit} className="modal-form">
+        <form onSubmit={handleSubmit} className="modal-form" style={{ flex: 1, overflowY: 'auto' }}>
           {error && <div className="alert alert-error">{error}</div>}
 
           {/* ── Basic Info ── */}
@@ -340,6 +365,52 @@ function ServiceModal({ service, onClose, onSaved }) {
                 <div className="form-group flex-2">
                   <label>Contact Info (public)</label>
                   <input name="contactInfo" className="form-input" value={form.contactInfo} onChange={handleChange} placeholder="+356 9999 0000 / info@example.com" />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── Partnership ── */}
+          <SectionHeader title="🤝 Partnership Details" open={sections.partnership} onToggle={() => toggleSection('partnership')} />
+          {sections.partnership && (
+            <div className="collapsible-section">
+              <div className="form-group">
+                <label>Partner Type</label>
+                <div className="form-row" style={{ gap: 12, marginTop: 4 }}>
+                  {['company', 'individual'].map(pt => (
+                    <label key={pt} style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer', textTransform: 'capitalize' }}>
+                      <input
+                        type="radio"
+                        name="partnerType"
+                        value={pt}
+                        checked={form.partnerType === pt}
+                        onChange={handleChange}
+                      />
+                      {pt === 'company' ? '🏢 Company' : '👤 Individual'}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group flex-2">
+                  <label>Partner Company / Individual Name</label>
+                  <input name="partnerCompanyName" className="form-input" value={form.partnerCompanyName} onChange={handleChange} placeholder="Company or person name" />
+                </div>
+                <div className="form-group flex-2">
+                  <label>Listed By</label>
+                  <input name="listedBy" className="form-input" value={form.listedBy} onChange={handleChange} placeholder="Agent or user who listed this" />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group flex-2">
+                  <label>Partner Contact Email</label>
+                  <input name="partnerContactEmail" type="email" className="form-input" value={form.partnerContactEmail} onChange={handleChange} placeholder="partner@example.com" />
+                </div>
+                <div className="form-group flex-2">
+                  <label>Partner Contact Phone</label>
+                  <input name="partnerContactPhone" className="form-input" value={form.partnerContactPhone} onChange={handleChange} placeholder="+356 9912 3456" />
                 </div>
               </div>
             </div>

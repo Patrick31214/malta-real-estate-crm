@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { CurrencyProvider } from './contexts/CurrencyContext';
 import LoginPage from './pages/LoginPage';
+import HomePage from './pages/HomePage';
 import DashboardPage from './pages/DashboardPage';
 import PropertiesPage from './pages/PropertiesPage';
 import PropertyDetailPage from './pages/PropertyDetailPage';
@@ -24,6 +25,9 @@ import DashboardAgentsPage from './pages/DashboardAgentsPage';
 import DashboardOwnersPage from './pages/DashboardOwnersPage';
 import DashboardBranchesPage from './pages/DashboardBranchesPage';
 import FileManagerPage from './pages/FileManagerPage';
+import FileManagerPage from './pages/FileManagerPage';
+import JoinUsPage from './pages/JoinUsPage';
+import PartnersPage from './pages/PartnersPage';
 import Layout from './components/Layout';
 import { auth } from './services/api';
 
@@ -65,6 +69,26 @@ function App() {
             <CookiesPage />
           </ThemeProvider>
         } />
+        <Route path="/join-us" element={
+          <ThemeProvider storageKey="gkr-web-theme" applyToDocument={true}>
+            <JoinUsPage />
+          </ThemeProvider>
+        } />
+        <Route path="/partners" element={
+          <ThemeProvider storageKey="gkr-web-theme" applyToDocument={true}>
+            <PartnersPage />
+          </ThemeProvider>
+        } />
+        <Route
+          path="/"
+          element={
+            auth.isAuthenticated()
+              ? <Navigate to="/dashboard" replace />
+              : <ThemeProvider storageKey="gkr-web-theme" applyToDocument={true}>
+                  <HomePage />
+                </ThemeProvider>
+          }
+        />
         <Route
           path="/"
           element={
@@ -83,6 +107,10 @@ function App() {
           <Route path="properties/:id" element={<PropertyDetailPage />} />
           <Route path="owners" element={<OwnersPage />} />
           <Route path="inquiries" element={<InquiriesPage />} />
+          <Route path="inquiries/property" element={<InquiriesPage />} />
+          <Route path="inquiries/general" element={<InquiriesPage />} />
+          <Route path="inquiries/affiliates" element={<InquiriesPage />} />
+          <Route path="inquiries/partnerships" element={<InquiriesPage />} />
           <Route path="agents" element={<AgentsPage />} />
           <Route path="services" element={<ServicesPage />} />
           <Route path="branches" element={<BranchesPage />} />
@@ -96,6 +124,11 @@ function App() {
           <Route path="dashboard/owners" element={<DashboardOwnersPage />} />
           <Route path="dashboard/branches" element={<DashboardBranchesPage />} />
           <Route path="file-manager" element={<FileManagerPage />} />
+          <Route path="files/contracts" element={<FileManagerPage category="contracts" />} />
+          <Route path="files/courses" element={<FileManagerPage category="courses" />} />
+          <Route path="files/team-pictures" element={<FileManagerPage category="team-pictures" />} />
+          <Route path="files/events" element={<FileManagerPage category="events" />} />
+          <Route path="files/announcements" element={<FileManagerPage category="announcements" />} />
         </Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
@@ -104,3 +137,4 @@ function App() {
 }
 
 export default App;
+

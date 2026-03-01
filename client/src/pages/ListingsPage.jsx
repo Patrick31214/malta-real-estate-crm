@@ -814,6 +814,8 @@ function ListingsPageInner() {
       if (filters.minPrice)    params.minPrice     = filters.minPrice;
       if (filters.maxPrice)    params.maxPrice     = filters.maxPrice;
       if (filters.bedrooms)    params.bedrooms     = filters.bedrooms;
+      // TODO: enable postedToWebsite filter when all existing properties have been migrated
+      // params.postedToWebsite = true;
 
       const res = await listings.getAll(params);
       if (res.success) {

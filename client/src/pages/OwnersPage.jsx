@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { owners } from '../services/api';
 import OwnerModal from '../components/OwnerModal';
 import './OwnersPage.css';
 
 function OwnersPage() {
+  const navigate = useNavigate();
   const [ownerList, setOwnerList] = useState([]);
   const [pagination, setPagination] = useState({ total: 0, page: 1, limit: 20, totalPages: 0 });
   const [loading, setLoading] = useState(true);
@@ -127,6 +129,9 @@ function OwnersPage() {
                           onClick={() => setRevealedContactId(revealedContactId === o.id ? null : o.id)}
                         >👁</button>
                         <button className="btn btn-outline btn-sm" title="Edit" onClick={() => { setEditOwner(o); setModalOpen(true); }}>✏️</button>
+                        <button className="btn btn-outline btn-sm" onClick={() => navigate(`/properties?ownerId=${o.id}`)}>🏠 Properties</button>
+                        <button className="btn btn-outline btn-sm" onClick={() => setViewOwner(o)}>👁 View</button>
+                        <button className="btn btn-outline btn-sm" onClick={() => { setEditOwner(o); setModalOpen(true); }}>Edit</button>
                         <button className="btn btn-danger btn-sm" onClick={() => handleDelete(o.id)}>Del</button>
                       </div>
                     </td>

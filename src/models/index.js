@@ -10,6 +10,7 @@ const AgentActivityLog = require('./AgentActivityLog');
 const Service = require('./Service');
 const OwnerContactView = require('./OwnerContactView');
 const Branch = require('./Branch');
+const Announcement = require('./Announcement');
 
 // Define relationships
 
@@ -199,5 +200,6 @@ module.exports = {
   AgentActivityLog,
   Service,
   OwnerContactView,
-  Branch
+  Branch,
+  Announcement
 };
