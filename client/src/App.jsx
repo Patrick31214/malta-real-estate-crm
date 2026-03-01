@@ -37,6 +37,29 @@ function ProtectedRoute({ children }) {
   return children;
 }
 
+function RootRoute() {
+  if (!auth.isAuthenticated()) {
+    return (
+      <ThemeProvider storageKey="gkr-web-theme" applyToDocument={true}>
+        <HomePage />
+      </ThemeProvider>
+    );
+  }
+  return (
+    <ProtectedRoute>
+      <ThemeProvider storageKey="gkr-crm-theme" applyToDocument={true}>
+        <CurrencyProvider>
+          <Layout />
+        </CurrencyProvider>
+      </ThemeProvider>
+    </ProtectedRoute>
+  );
+}
+
+function CatchAll() {
+  return <Navigate to={auth.isAuthenticated() ? '/dashboard' : '/login'} replace />;
+}
+
 function App() {
   return (
     <BrowserRouter>
@@ -80,17 +103,7 @@ function App() {
         } />
         <Route
           path="/"
-          element={
-            auth.isAuthenticated()
-              ? <ThemeProvider storageKey="gkr-crm-theme" applyToDocument={true}>
-                  <CurrencyProvider>
-                    <Layout />
-                  </CurrencyProvider>
-                </ThemeProvider>
-              : <ThemeProvider storageKey="gkr-web-theme" applyToDocument={true}>
-                  <HomePage />
-                </ThemeProvider>
-          }
+          element={<RootRoute />}
         >
           <Route index element={<Navigate to="/dashboard" replace />} />
           <Route path="dashboard" element={<DashboardPage />} />
@@ -121,7 +134,7 @@ function App() {
           <Route path="files/events" element={<FileManagerPage category="events" />} />
           <Route path="files/announcements" element={<FileManagerPage category="announcements" />} />
         </Route>
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="*" element={<CatchAll />} />
       </Routes>
     </BrowserRouter>
   );
