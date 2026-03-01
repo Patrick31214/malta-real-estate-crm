@@ -64,6 +64,17 @@
 }
 
 :root {
+  /* Emerald & Gold Brand Variables */
+  --emerald-primary: #2D6A4F;
+  --emerald-light: #40916C;
+  --emerald-dark: #1B4332;
+  --gold-primary: #D4AF37;
+  --gold-light: #F0D060;
+  --black-primary: #0A0A0A;
+  --black-secondary: #1A1A2E;
+  --glass-bg: rgba(45, 106, 79, 0.08);
+  --glass-border: rgba(45, 106, 79, 0.15);
+  --glass-shadow: 0 4px 15px rgba(45, 106, 79, 0.3);
   /* Golden Key Realty – Luxury Gold Glassmorphism Palette */
   --gold: var(--gold-primary, #D4AF37);
   --gold-dark: var(--gold-deep, #a07830);

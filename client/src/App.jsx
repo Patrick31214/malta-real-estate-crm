@@ -18,6 +18,9 @@ import MortgageCalculatorPage from './pages/MortgageCalculatorPage';
 import MaltaCompliancePage from './pages/MaltaCompliancePage';
 import ServicesPage from './pages/ServicesPage';
 import BranchesPage from './pages/BranchesPage';
+import FileManagerPage from './pages/FileManagerPage';
+import JoinUsPage from './pages/JoinUsPage';
+import PartnersPage from './pages/PartnersPage';
 import Layout from './components/Layout';
 import { auth } from './services/api';
 
@@ -59,6 +62,16 @@ function App() {
             <CookiesPage />
           </ThemeProvider>
         } />
+        <Route path="/join-us" element={
+          <ThemeProvider storageKey="gkr-web-theme" applyToDocument={true}>
+            <JoinUsPage />
+          </ThemeProvider>
+        } />
+        <Route path="/partners" element={
+          <ThemeProvider storageKey="gkr-web-theme" applyToDocument={true}>
+            <PartnersPage />
+          </ThemeProvider>
+        } />
         <Route
           path="/"
           element={
@@ -77,6 +90,10 @@ function App() {
           <Route path="properties/:id" element={<PropertyDetailPage />} />
           <Route path="owners" element={<OwnersPage />} />
           <Route path="inquiries" element={<InquiriesPage />} />
+          <Route path="inquiries/property" element={<InquiriesPage />} />
+          <Route path="inquiries/general" element={<InquiriesPage />} />
+          <Route path="inquiries/affiliates" element={<InquiriesPage />} />
+          <Route path="inquiries/partnerships" element={<InquiriesPage />} />
           <Route path="agents" element={<AgentsPage />} />
           <Route path="services" element={<ServicesPage />} />
           <Route path="branches" element={<BranchesPage />} />
@@ -84,6 +101,11 @@ function App() {
           <Route path="agents/:id/activity" element={<AgentActivityPage />} />
           <Route path="mortgage-calculator" element={<MortgageCalculatorPage />} />
           <Route path="compliance" element={<MaltaCompliancePage />} />
+          <Route path="files/contracts" element={<FileManagerPage category="contracts" />} />
+          <Route path="files/courses" element={<FileManagerPage category="courses" />} />
+          <Route path="files/team-pictures" element={<FileManagerPage category="team-pictures" />} />
+          <Route path="files/events" element={<FileManagerPage category="events" />} />
+          <Route path="files/announcements" element={<FileManagerPage category="announcements" />} />
         </Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
@@ -92,3 +114,4 @@ function App() {
 }
 
 export default App;
+
