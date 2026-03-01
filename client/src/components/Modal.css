@@ -7,16 +7,23 @@
   justify-content: center;
   z-index: 1000;
   padding: 16px;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+[data-theme="light"] .modal-overlay {
+  background: rgba(44, 26, 14, 0.45);
 }
 
 .modal-box {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(28, 22, 14, 0.92);
+  backdrop-filter: blur(28px) saturate(1.6);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
   border-radius: var(--radius);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 20px 60px var(--glass-shadow), 0 4px 20px rgba(212,175,55,0.1);
+  border: 1px solid rgba(196, 149, 74, 0.22);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55),
+              0 4px 20px rgba(212, 175, 55, 0.08),
+              inset 0 1px 0 rgba(255, 215, 120, 0.06);
   width: 100%;
   max-width: 1400px;
   max-height: 92vh;
@@ -24,6 +31,16 @@
   flex-direction: column;
   animation: modalIn 0.22s ease;
   overflow: hidden;
+}
+
+[data-theme="light"] .modal-box {
+  background: rgba(255, 251, 245, 0.94);
+  backdrop-filter: blur(28px) saturate(1.6);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  border: 1px solid rgba(139, 90, 43, 0.20);
+  box-shadow: 0 20px 60px rgba(80, 40, 10, 0.20),
+              0 4px 20px rgba(212, 175, 55, 0.12),
+              inset 0 1px 0 rgba(255, 248, 230, 0.80);
 }
 
 @keyframes modalIn {

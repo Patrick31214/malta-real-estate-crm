@@ -11,10 +11,27 @@ const pageTitles = {
   '/properties': 'Properties',
   '/owners': 'Owners',
   '/inquiries': 'Inquiries',
+  '/inquiries/property': 'Property Inquiries',
+  '/inquiries/general': 'General Inquiries',
+  '/inquiries/affiliates': 'Affiliate Applications',
+  '/inquiries/partnerships': 'Partnership Inquiries',
   '/agents': 'Agents',
+  '/services': 'Services',
+  '/branches': 'Branches',
   '/activity-log': 'Activity Log',
   '/mortgage-calculator': 'Mortgage Calculator',
-  '/compliance': 'Malta Compliance'
+  '/compliance': 'Malta Compliance',
+  '/file-manager': 'File Manager',
+  '/files/contracts': 'Contracts',
+  '/files/courses': 'Courses & Classes',
+  '/files/team-pictures': 'Team Pictures',
+  '/files/events': 'Company Events',
+  '/files/announcements': 'Announcements',
+  '/dashboard/properties': 'Properties Overview',
+  '/dashboard/inquiries': 'Inquiries Overview',
+  '/dashboard/agents': 'Agents Overview',
+  '/dashboard/owners': 'Owners Overview',
+  '/dashboard/branches': 'Branches Overview',
 };
 
 function Header({ onMenuClick }) {
