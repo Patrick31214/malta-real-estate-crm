@@ -13,7 +13,11 @@ const getInquiries = async (req, res) => {
       status,
       priority,
       propertyId,
-      search
+      search,
+      type,
+      source,
+      dateFrom,
+      dateTo
     } = req.query;
 
     const offset = (parseInt(page) - 1) * parseInt(limit);
@@ -22,6 +26,13 @@ const getInquiries = async (req, res) => {
     if (status) where.status = status;
     if (priority) where.priority = priority;
     if (propertyId) where.propertyId = propertyId;
+    if (type) where.inquiryType = type;
+    if (source) where.source = source;
+    if (dateFrom || dateTo) {
+      where.createdAt = {};
+      if (dateFrom) where.createdAt[Op.gte] = new Date(dateFrom);
+      if (dateTo) where.createdAt[Op.lte] = new Date(dateTo);
+    }
     if (search) {
       where[Op.or] = [
         { clientName: { [Op.iLike]: `%${search}%` } },
