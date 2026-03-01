@@ -1,12 +1,12 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.65);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 20px;
+  padding: 16px;
   backdrop-filter: blur(8px);
 }
 
@@ -18,11 +18,12 @@
   border: 1px solid var(--glass-border);
   box-shadow: 0 20px 60px var(--glass-shadow), 0 4px 20px rgba(212,175,55,0.1);
   width: 100%;
-  max-width: 700px;
-  max-height: 90vh;
+  max-width: 1400px;
+  max-height: 92vh;
   display: flex;
   flex-direction: column;
   animation: modalIn 0.22s ease;
+  overflow: hidden;
 }
 
 @keyframes modalIn {

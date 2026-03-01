@@ -104,6 +104,15 @@ function PropertiesPage() {
     showToast(editProperty ? 'Property updated.' : 'Property created.');
   };
 
+  const handleToggleWebsite = async (id, current) => {
+    const res = await properties.update(id, { postedToWebsite: !current });
+    if (res.success) {
+      setPropertyList(list => list.map(p => p.id === id ? { ...p, postedToWebsite: !current } : p));
+    } else {
+      showToast('Failed to update.', 'error');
+    }
+  };
+
   const handleStatusChange = async (id, newStatus) => {
     const res = await properties.update(id, { status: newStatus });
     if (res.success) {
@@ -284,6 +293,7 @@ function PropertiesPage() {
                   <th>Beds/Baths</th>
                   <th>Status</th>
                   <th>Approval</th>
+                  <th>Website</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -334,6 +344,16 @@ function PropertiesPage() {
                       <span className={`badge badge-${p.approvalStatus || 'pending'}`}>
                         {p.approvalStatus || 'pending'}
                       </span>
+                    </td>
+                    <td>
+                      <button
+                        className={`btn btn-sm${p.postedToWebsite ? ' btn-accent' : ' btn-outline'}`}
+                        title={p.postedToWebsite ? 'Posted to website — click to unpublish' : 'Not on website — click to publish'}
+                        onClick={() => handleToggleWebsite(p.id, p.postedToWebsite)}
+                        style={{ fontSize: 11, whiteSpace: 'nowrap' }}
+                      >
+                        {p.postedToWebsite ? '🌐 Live' : '🌐 Off'}
+                      </button>
                     </td>
                     <td>
                       <div className="action-btns">
