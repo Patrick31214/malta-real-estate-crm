@@ -1,4 +1,4 @@
-const { Agent, User, Property, sequelize } = require('../models');
+const { Agent, User, Property, Branch, sequelize } = require('../models');
 const { Op } = require('sequelize');
 const crypto = require('crypto');
 
@@ -38,6 +38,12 @@ const getAgents = async (req, res) => {
             },
             required: false
           } : {})
+        },
+        {
+          model: Branch,
+          as: 'branch',
+          required: false,
+          attributes: ['id', 'name', 'city']
         }
       ],
       attributes: {

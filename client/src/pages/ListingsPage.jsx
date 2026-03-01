@@ -350,7 +350,7 @@ function ListingCard({ p, onContactAgent, favorites, onToggleFavorite, t }) {
     ? `https://wa.me/${agentPhone.replace(/\D/g, '')}?text=${encodeURIComponent(waMsg)}`
     : null;
 
-  const rentalLabel = p.rentalType === 'short' ? 'Short Let' : p.rentalType === 'long' ? 'Long Let' : null;
+  const rentalLabel = p.rentalType === 'short_let' ? 'Short Let' : p.rentalType === 'long_let' ? 'Long Let' : null;
   const lastUpdated = timeSince(p.updatedAt || p.createdAt);
 
   return (
@@ -797,8 +797,8 @@ function ListingsPageInner() {
 
   const getTabParams = useCallback(() => {
     if (activeTab === 'sale')     return { listingType: 'sale' };
-    if (activeTab === 'long-let') return { listingType: 'rent', rentalType: 'long' };
-    if (activeTab === 'short-let') return { listingType: 'rent', rentalType: 'short' };
+    if (activeTab === 'long-let') return { listingType: 'rent', rentalType: 'long_let' };
+    if (activeTab === 'short-let') return { listingType: 'rent', rentalType: 'short_let' };
     return {};
   }, [activeTab]);
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { owners } from '../services/api';
 import OwnerModal from '../components/OwnerModal';
@@ -106,8 +106,8 @@ function OwnersPage() {
               </thead>
               <tbody>
                 {ownerList.map(o => (
-                  <>
-                  <tr key={o.id}>
+                  <React.Fragment key={o.id}>
+                  <tr>
                     <td>
                       <div className="owner-name-cell">
                         <div className="owner-avatar">
@@ -130,21 +130,19 @@ function OwnersPage() {
                         >👁</button>
                         <button className="btn btn-outline btn-sm" title="Edit" onClick={() => { setEditOwner(o); setModalOpen(true); }}>✏️</button>
                         <button className="btn btn-outline btn-sm" onClick={() => navigate(`/properties?ownerId=${o.id}`)}>🏠 Properties</button>
-                        <button className="btn btn-outline btn-sm" onClick={() => setViewOwner(o)}>👁 View</button>
-                        <button className="btn btn-outline btn-sm" onClick={() => { setEditOwner(o); setModalOpen(true); }}>Edit</button>
-                        <button className="btn btn-danger btn-sm" onClick={() => handleDelete(o.id)}>Del</button>
+                        <button className="btn btn-danger btn-sm" onClick={() => handleDelete(o.id)}>🗑</button>
                       </div>
                     </td>
                   </tr>
                   {revealedContactId === o.id && (
-                    <tr key={`${o.id}-contact`} className="owner-contact-row">
+                    <tr className="owner-contact-row">
                       <td colSpan={4}>
                         <span style={{marginRight:16}}>📞 {o.phone || '—'}</span>
                         <span>✉️ {o.email || '—'}</span>
                       </td>
                     </tr>
                   )}
-                  </>
+                  </React.Fragment>
                 ))}
               </tbody>
             </table>

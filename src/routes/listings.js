@@ -14,6 +14,7 @@ router.get('/', async (req, res) => {
       limit = 12,
       propertyType,
       listingType,
+      rentalType,
       city,
       minPrice,
       maxPrice,
@@ -26,8 +27,9 @@ router.get('/', async (req, res) => {
 
     if (propertyType) where.propertyType = propertyType;
     if (listingType) where.listingType = listingType;
+    if (rentalType) where.rentalType = rentalType;
     if (city) where.city = { [Op.iLike]: `%${city}%` };
-    if (bedrooms) where.bedrooms = parseInt(bedrooms);
+    if (bedrooms) where.bedrooms = { [Op.gte]: parseInt(bedrooms) };
     if (minPrice || maxPrice) {
       where.price = {};
       if (minPrice) where.price[Op.gte] = parseFloat(minPrice);

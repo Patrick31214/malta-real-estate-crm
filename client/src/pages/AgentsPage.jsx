@@ -158,9 +158,9 @@ function AgentsPage() {
                     <td>{a.licenseNumber || '—'}</td>
                     <td>
                       <div className="agent-branch-cell">
-                        {a.branchId && <div className="agent-branch">🏢 {a.branchId}</div>}
+                        {a.branch ? <div className="agent-branch">🏢 {a.branch.name}</div> : null}
                         {a.managerName && <div className="agent-manager">👤 {a.managerName}</div>}
-                        {!a.branchId && !a.managerName && <span className="text-muted-sm">—</span>}
+                        {!a.branch && !a.managerName && <span className="text-muted-sm">—</span>}
                       </div>
                     </td>
                     <td>
