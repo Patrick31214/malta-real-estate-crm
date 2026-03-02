@@ -428,6 +428,36 @@ textarea:focus {
   border: 1px solid rgba(107, 95, 82, 0.25);
 }
 
+.badge-priority-low {
+  background: rgba(136, 136, 136, 0.12);
+  color: #888888;
+  border: 1px solid rgba(136, 136, 136, 0.25);
+}
+
+.badge-priority-normal {
+  background: rgba(160, 120, 72, 0.12);
+  color: #A07848;
+  border: 1px solid rgba(160, 120, 72, 0.25);
+}
+
+.badge-priority-medium {
+  background: rgba(184, 165, 127, 0.15);
+  color: #B8A57F;
+  border: 1px solid rgba(184, 165, 127, 0.3);
+}
+
+.badge-priority-high {
+  background: rgba(230, 126, 34, 0.12);
+  color: #b7520a;
+  border: 1px solid rgba(230, 126, 34, 0.25);
+}
+
+.badge-priority-urgent {
+  background: rgba(192, 57, 43, 0.12);
+  color: #c0392b;
+  border: 1px solid rgba(192, 57, 43, 0.25);
+}
+
 /* Spinner */
 .spinner {
   width: 44px;
