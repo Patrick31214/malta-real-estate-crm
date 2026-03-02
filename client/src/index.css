@@ -23,37 +23,37 @@
 
 :root {
   /* Base Colors - Minimal Luxury Palette */
-  --color-primary-brown: #7A6B5F;      /* Primary Brown */
-  --color-secondary-brown: #6B5F52;    /* Secondary Brown */
-  --color-accent-brown: #8B7D6F;       /* Accent Brown */
-  --color-muted-gold: #B8A57F;         /* Muted Gold */
-  --color-text-dark: #3A3A3A;          /* Dark Text */
-  --color-text-light: #E8E8E8;         /* Light Text */
-
+  --color-primary-brown: #7A6B5F;
+  --color-secondary-brown: #6B5F52;
+  --color-accent-brown: #8B7D6F;
+  --color-muted-gold: #B8A57F;
+  --color-text-dark: #3A3A3A;
+  --color-text-light: #E8E8E8;
+  
   /* Glassmorphism Properties */
-  --glass-blur: 12px;                  /* Subtle blur effect */
-  --glass-border-opacity: 0.15;        /* Subtle border opacity */
-  --glass-shadow-opacity: 0.12;        /* Soft shadow opacity */
-
+  --glass-blur: 12px;
+  --glass-border-opacity: 0.15;
+  --glass-shadow-opacity: 0.12;
+  
   /* Light Theme Variables */
-  --bg-primary-light: #E8DFD5;         /* Light Warm Beige */
-  --bg-secondary-light: #F0E8E0;       /* Slightly darker beige */
+  --bg-primary-light: #E8DFD5;
+  --bg-secondary-light: #F0E8E0;
   --text-primary-light: var(--color-text-dark);
   --text-secondary-light: var(--color-primary-brown);
   --glass-bg-light: rgba(255, 255, 255, 0.15);
   --glass-border-light: rgba(122, 107, 95, var(--glass-border-opacity));
   --glass-shadow-light: rgba(122, 107, 95, var(--glass-shadow-opacity));
-
+  
   /* Dark Theme Variables */
-  --bg-primary-dark: #2A2420;          /* Dark Warm Taupe */
-  --bg-secondary-dark: #3A3530;        /* Slightly lighter taupe */
+  --bg-primary-dark: #2A2420;
+  --bg-secondary-dark: #3A3530;
   --text-primary-dark: var(--color-text-light);
   --text-secondary-dark: var(--color-muted-gold);
   --glass-bg-dark: rgba(0, 0, 0, 0.15);
   --glass-border-dark: rgba(184, 165, 127, var(--glass-border-opacity));
   --glass-shadow-dark: rgba(184, 165, 127, var(--glass-shadow-opacity));
-
-  /* Dynamic Theme Variables (controlled by data-theme attribute) */
+  
+  /* Dynamic Theme Variables */
   --bg-primary: var(--bg-primary-light);
   --bg-secondary: var(--bg-secondary-light);
   --text-primary: var(--text-primary-light);
@@ -61,16 +61,16 @@
   --glass-bg: var(--glass-bg-light);
   --glass-border: var(--glass-border-light);
   --glass-shadow: var(--glass-shadow-light);
-
+  
   /* Gradients */
   --luxury-gradient: linear-gradient(135deg, var(--color-primary-brown), var(--color-accent-brown));
   --luxury-gradient-hover: linear-gradient(135deg, var(--color-secondary-brown), var(--color-muted-gold));
-
+  
   /* Sidebar width and other layout variables */
   --sidebar-width: 280px;
   --radius: 8px;
   --radius-sm: 6px;
-
+  
   /* Semantic UI variables */
   --danger: #c0392b;
   --warning: #e67e22;
@@ -308,61 +308,125 @@ textarea:focus {
   overflow-x: auto;
 }
 
-table {
+.data-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-tbody tr {
+.data-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--color-muted-gold);
+  background: var(--bg-tertiary);
   border-bottom: 1px solid var(--glass-border);
+}
+
+.data-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.data-table tbody tr {
+  transition: background 0.18s;
+}
+.data-table tbody tr:hover {
+  background: rgba(212, 175, 55, 0.06);
+}
+.data-table tbody tr:last-child td { border-bottom: none; }
+
+/* ===== BADGE STYLES (Muted Luxury Palette) ===== */
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
   transition: all 0.2s ease-out;
 }
 
-tbody tr:hover {
-  background: rgba(122, 107, 95, 0.05);
+.badge-available {
+  background: rgba(184, 165, 127, 0.15);
+  color: var(--color-muted-gold);
+  border: 1px solid rgba(184, 165, 127, 0.3);
 }
 
-thead {
+.badge-pending {
+  background: rgba(122, 107, 95, 0.15);
+  color: var(--color-primary-brown);
+  border: 1px solid rgba(122, 107, 95, 0.3);
+}
+
+.badge-sold {
+  background: rgba(107, 95, 82, 0.15);
+  color: var(--color-secondary-brown);
+  border: 1px solid rgba(107, 95, 82, 0.3);
+}
+
+.badge-rent {
+  background: rgba(139, 125, 111, 0.15);
+  color: var(--color-accent-brown);
+  border: 1px solid rgba(139, 125, 111, 0.3);
+}
+
+.badge-under_offer {
+  background: rgba(184, 165, 127, 0.12);
+  color: var(--color-muted-gold);
+  border: 1px solid rgba(184, 165, 127, 0.25);
+}
+
+.badge-rented {
+  background: rgba(139, 125, 111, 0.12);
+  color: var(--color-accent-brown);
+  border: 1px solid rgba(139, 125, 111, 0.25);
+}
+
+.badge-draft {
   background: rgba(122, 107, 95, 0.08);
-  border-bottom: 1px solid var(--glass-border);
+  color: var(--color-primary-brown);
+  border: 1px solid rgba(122, 107, 95, 0.15);
 }
 
-th {
-  padding: 12px;
-  text-align: left;
-  font-weight: 600;
-  color: var(--text-secondary);
+.badge-withdrawn {
+  background: rgba(107, 95, 82, 0.08);
+  color: var(--color-secondary-brown);
+  border: 1px solid rgba(107, 95, 82, 0.15);
 }
 
-td {
-  padding: 12px;
-  color: var(--text-primary);
+.badge-off_market {
+  background: rgba(107, 95, 82, 0.10);
+  color: var(--color-secondary-brown);
+  border: 1px solid rgba(107, 95, 82, 0.20);
 }
 
-/* Badge */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: capitalize;
+.badge-sale {
+  background: rgba(184, 165, 127, 0.15);
+  color: var(--color-muted-gold);
+  border: 1px solid rgba(184, 165, 127, 0.3);
 }
 
-.badge-available { background: rgba(196, 149, 74, 0.18); color: #6B3D1E; border: 1px solid rgba(196,149,74,0.35); }
-.badge-under_offer { background: rgba(212, 175, 55, 0.15); color: #8a6700; border: 1px solid rgba(212,175,55,0.3); }
-.badge-sold { background: rgba(192, 57, 43, 0.12); color: #922b21; border: 1px solid rgba(192,57,43,0.25); }
-.badge-rented { background: rgba(92, 53, 25, 0.12); color: #5C3519; border: 1px solid rgba(92,53,25,0.25); }
-.badge-draft { background: rgba(120, 120, 120, 0.1); color: #555; border: 1px solid rgba(0,0,0,0.12); }
-.badge-withdrawn { background: rgba(100, 100, 100, 0.08); color: #6c757d; border: 1px solid rgba(0,0,0,0.1); }
-.badge-off_market { background: rgba(80, 80, 80, 0.12); color: #4a4a55; border: 1px solid rgba(0,0,0,0.15); }
-.badge-sale { background: rgba(196, 149, 74, 0.15); color: #6B3D1E; border: 1px solid rgba(196,149,74,0.30); }
-.badge-rent { background: rgba(92, 53, 25, 0.12); color: #5C3519; border: 1px solid rgba(92,53,25,0.25); }
-.badge-lease { background: rgba(138, 90, 50, 0.12); color: #5C3519; border: 1px solid rgba(138,90,50,0.25); }
-.badge-pending { background: rgba(212, 175, 55, 0.18); color: #8a6700; border: 1px solid rgba(212,175,55,0.35); }
-.badge-approved { background: rgba(196, 149, 74, 0.15); color: #6B3D1E; border: 1px solid rgba(196,149,74,0.30); }
-.badge-rejected { background: rgba(192, 57, 43, 0.12); color: #922b21; border: 1px solid rgba(192,57,43,0.25); }
+.badge-lease {
+  background: rgba(139, 125, 111, 0.12);
+  color: var(--color-accent-brown);
+  border: 1px solid rgba(139, 125, 111, 0.25);
+}
+
+.badge-approved {
+  background: rgba(184, 165, 127, 0.15);
+  color: var(--color-muted-gold);
+  border: 1px solid rgba(184, 165, 127, 0.3);
+}
+
+.badge-rejected {
+  background: rgba(107, 95, 82, 0.12);
+  color: var(--color-secondary-brown);
+  border: 1px solid rgba(107, 95, 82, 0.25);
+}
 
 /* Spinner */
 .spinner {
@@ -412,7 +476,6 @@ td {
   z-index: 9999;
   animation: slideUp 0.3s ease;
   box-shadow: 0 8px 32px var(--glass-shadow);
-  border-left: 4px solid var(--color-muted-gold);
 }
 
 .toast.success { background: #3C2010; border-left-color: var(--color-muted-gold); }
@@ -430,7 +493,6 @@ td {
 
 /* ===== NAVIGATION STYLES ===== */
 
-/* Navigation item */
 .nav-item {
   color: var(--text-secondary);
   padding: 10px 15px;
@@ -461,7 +523,6 @@ td {
   transform: translateX(0);
 }
 
-/* Navigation section title */
 .nav-section-title {
   color: var(--text-secondary);
   opacity: 0.6;
@@ -475,7 +536,6 @@ td {
 
 /* ===== BROWN LUXURY THEME UTILITIES ===== */
 
-/* Brown button */
 .btn-emerald {
   background: var(--luxury-gradient);
   color: white;
@@ -489,7 +549,6 @@ td {
   transform: translateY(-1px);
 }
 
-/* Brown badge */
 .badge-emerald {
   background: var(--luxury-gradient);
   color: white;
@@ -499,14 +558,6 @@ td {
   font-weight: 600;
 }
 
-/* Available status badge – caramel gold */
-.status-available,
-.badge-available {
-  background: var(--luxury-gradient) !important;
-  color: white !important;
-}
-
-/* Dropdown backgrounds */
 select.form-select,
 select.form-input {
   background: var(--bg-secondary) !important;
@@ -517,13 +568,11 @@ select option {
   color: var(--text-primary) !important;
 }
 
-/* Light mode glassmorphism cards */
 [data-theme="light"] .card {
   background: rgba(255, 251, 245, 0.75) !important;
   border: 1px solid rgba(139, 90, 43, 0.12) !important;
 }
 
-/* Global button transitions */
 .btn, button:not(.modal-close):not(.nav-close):not([class*="sidebar"]) {
   transition: all 0.3s ease;
 }
@@ -532,8 +581,10 @@ select option {
   transform: scale(1.02);
 }
 
+tr:hover td {
+  background: rgba(196, 149, 74, 0.05) !important;
+}
 
-/* Glass card utility */
 .glass-card {
   background: var(--glass-bg);
   backdrop-filter: blur(var(--glass-blur));
