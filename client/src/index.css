@@ -369,7 +369,7 @@ textarea:focus {
 }
 
 .badge-rent {
-  background: rgba(139, 125, 111, 0.15);
+  background:rgba(139, 125, 111, 0.15);
   color: var(--color-accent-brown);
   border: 1px solid rgba(139, 125, 111, 0.3);
 }
@@ -492,7 +492,6 @@ textarea:focus {
 }
 
 /* ===== NAVIGATION STYLES ===== */
-
 .nav-item {
   color: var(--text-secondary);
   padding: 10px 15px;
@@ -535,7 +534,6 @@ textarea:focus {
 }
 
 /* ===== BROWN LUXURY THEME UTILITIES ===== */
-
 .btn-emerald {
   background: var(--luxury-gradient);
   color: white;
