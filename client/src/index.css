@@ -308,37 +308,36 @@ textarea:focus {
   overflow-x: auto;
 }
 
-.data-table {
+table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.data-table th {
-  padding: 12px 16px;
-  text-align: left;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--color-muted-gold);
-  background: var(--bg-tertiary);
+tbody tr {
+  border-bottom: 1px solid var(--glass-border);
+  transition: all 0.2s ease-out;
+}
+
+tbody tr:hover {
+  background: rgba(122, 107, 95, 0.05);
+}
+
+thead {
+  background: rgba(122, 107, 95, 0.08);
   border-bottom: 1px solid var(--glass-border);
 }
 
-.data-table td {
-  padding: 14px 16px;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
   color: var(--text-secondary);
-  font-size: 14px;
 }
 
-.data-table tbody tr {
-  transition: background 0.18s;
+td {
+  padding: 12px;
+  color: var(--text-primary);
 }
-.data-table tbody tr:hover {
-  background: rgba(212, 175, 55, 0.06);
-}
-.data-table tbody tr:last-child td { border-bottom: none; }
 
 /* Badge */
 .badge {
@@ -533,10 +532,6 @@ select option {
   transform: scale(1.02);
 }
 
-/* Table row hover effect */
-tr:hover td {
-  background: rgba(196, 149, 74, 0.05) !important;
-}
 
 /* Glass card utility */
 .glass-card {
