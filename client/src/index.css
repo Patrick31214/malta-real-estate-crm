@@ -422,6 +422,51 @@ input, select, textarea {
   :root { --sidebar-width: 0px; }
 }
 
+/* ===== NAVIGATION STYLES ===== */
+
+/* Navigation item */
+.nav-item {
+  color: var(--text-secondary);
+  padding: 10px 15px;
+  border-radius: var(--radius);
+  transition: all 0.2s ease-out;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.nav-item:hover {
+  background: rgba(122, 107, 95, 0.08);
+  color: var(--color-muted-gold);
+  transform: translateX(2px);
+}
+
+.nav-item.active {
+  background: var(--luxury-gradient);
+  color: white;
+  box-shadow: 0 2px 8px rgba(122, 107, 95, 0.15);
+}
+
+.nav-item.active:hover {
+  background: var(--luxury-gradient-hover);
+  box-shadow: 0 4px 12px rgba(122, 107, 95, 0.2);
+  transform: translateX(0);
+}
+
+/* Navigation section title */
+.nav-section-title {
+  color: var(--text-secondary);
+  opacity: 0.6;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding-left: 15px;
+}
+
 /* ===== BROWN LUXURY THEME UTILITIES ===== */
 
 /* Brown button */
